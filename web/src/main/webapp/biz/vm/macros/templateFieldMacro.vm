@@ -1,0 +1,551 @@
+## 【客户自定义字段使用|贷款自定义字段使用】
+
+#macro(templateFieldForm $fieldList $data $fieldFlag $tableName $id)
+	#templateFieldFormType($fieldList $data $fieldFlag $tableName $id 'loan')
+#end
+	#macro(templateFieldFormType $fieldList $data $fieldFlag $tableName $id $type)				##fieldFlag 0新增编辑 1查询 2查看
+	#if($fieldList && $fieldList.size()>0)
+	<table #if($fieldFlag == 0) class="ui-form-fields" #else class="ui-form-fields" #end >
+        <input type="hidden" name="field.ID" value="$!dataReaderUtil.getValue($data,"ID")"  />
+		<tbody>
+	#end
+	#set($count = 0)
+	#set($index = 0)
+	#set($next = 0)
+	#set($col = 0)
+	#set($allCount = 0)
+	#foreach($field in $fieldList)
+		#if($field.isWebShow)
+			#set($allCount = $allCount + 1)
+			#set($colSpan = $field.getColSpan($fieldFlag))
+			#set($next = $colSpan + $count%4)
+			#if($!field.fieldIsNullable == 1)
+				#set($isRequired = 1)
+			#else
+				#set($isRequired = 0)
+			#end
+			#if($colSpan>1)
+				#set($col2 = $colSpan*2)
+				#if($field.type=="Quest")
+					#set($col = $col2)
+				#else
+					#set($col = $col2 - 1)
+				#end
+			#else
+				#set($col = $colSpan)
+			#end
+			#if($count % 4 == 0)
+				<tr>
+			#elseif($next > 4)
+				#set($lackColSpan=(4-$count % 4)*2)
+				#set($nextCount=(4-$count % 4))
+				<td colSpan="$!lackColSpan" next="$next"></td>
+				</tr><tr>
+				#set($count = $count+$nextCount)
+			#end
+			#if($field.type!="Quest")
+			<td class="field" width="7%">
+				<label #if($isRequired == 1 && $fieldFlag!=1) class="ui-star" isnull="$field.isEmpty($data)" #end >$!field.fieldName：</label>
+			</td>
+			#end
+			#if($colSpan>1)
+				#set($tdWidth = "auto")
+			#else
+				#set($tdWidth = "18%")
+			#end
+			<td #if($col>1) colSpan="$col" #end width="$tdWidth" >
+	##			#if($data)
+	##				#set($val=$field.getValue($data))
+	##			#else
+	##				#set($val="")
+	##			#end
+
+			#if($fieldFlag<2)
+				#ctrl($field,$field.getValue($data),$fieldFlag,$isRequired,$tableName, $id, $type)
+			#else
+				#detail($field,$field.getValue($data, true),$fieldFlag,$tableName, $id)
+			#end
+
+			</td>
+			#set($count = $count+$colSpan)
+			#set($index = $index+1)
+			#if($index == $fieldList.size())
+				#if($count % 4 != 0)
+					#set($lackColSpan=(4-$count % 4)*2)
+					<td colSpan="$!lackColSpan" >&nbsp;</td>
+					</tr>
+				#else
+					</tr>
+				#end
+			#end
+		#end
+
+    #end
+		#if($allCount < 4)
+			#if($count % 4 != 0)
+				#set($lackColSpan=(4-$count % 4)*2)
+            <td colSpan="$!lackColSpan" >&nbsp;</td>
+            </tr>
+			#else
+            </tr>
+			#end
+		#end
+	#if($fieldList && $fieldList.size()>0)
+	    </tbody>
+	</table>
+	#end
+#end
+
+
+#macro(ctrl $field $val $fieldFlag $isRequired $tableName $id $type)
+	#if ($id != '' && $tableName == 'LBIZ_PERSONAL_INFO' && ("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum'))
+		#detail($field,$field.getValue($data, true),$fieldFlag,$tableName, $id)
+    	<input type="hidden" name="field.$!field.propertyName" value="$!val" />
+	#else
+	##	#if($isRequired == 1 && $tableName != 'LBIZ_SURVEY_RESULT')
+		#if($isRequired == 1 && $fieldFlag == 0
+			&& ($type!='loan'
+				||  ($tableName == 'LBIZ_PERSONAL_INFO' &&
+						("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum')
+					)
+				|| $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'
+				)
+			)
+			#set($valid = "valid='required'")
+		#else
+			#set($valid = "")
+		#end
+		#if($field.fieldType == 'Text')
+			#if($isRequired == 1 && $fieldFlag == 0
+				&& ($type!='loan'
+					||  ($tableName == 'LBIZ_PERSONAL_INFO' &&
+							("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum')
+						)
+					|| $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'
+					)
+				)
+				#if($field.rule && $field.rule!="")
+					#set($valid = "valid='required $!field.rule'")
+				#else
+					#set($valid = "valid='required'")
+				#end
+			#else
+				#if($field.rule && $field.rule!="")
+					#set($valid = "valid='$!field.rule'")
+				#else
+					#set($valid = "")
+				#end
+			#end
+			#textbox($field,$val,$valid)
+		#elseif($field.fieldType == 'PageSelect')
+			#pageSelect($field,$val,$valid)
+		#elseif ($field.fieldType == 'Address')
+			#address($field,$val,$valid, $tableName,  $id)
+		#elseif ($field.fieldType == 'Date')
+			#if($fieldFlag>0)
+				#datespan($field,$val)
+			#else
+				#datebox($field,$val,$valid)
+			#end
+		#elseif ($field.fieldType == 'Number')
+			#if($isRequired == 1 && $fieldFlag == 0
+					&& ($type!='loan'
+						||  ($tableName == 'LBIZ_PERSONAL_INFO' &&
+								("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum')
+							)
+						|| $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'
+					)
+				)
+				#if($field.rule && $field.rule!="")
+					#set($valid = "valid='required $!field.rule maxlength'")
+				#else
+					#if($field.fieldNumberUnit == '岁' ||$field.fieldNumberUnit == '年' || $field.fieldNumberUnit == '月' || $field.fieldNumberUnit == '个月' || $field.fieldNumberUnit == '天' || $field.fieldNumberUnit == '日')
+						#set($valid = "valid='required nonNegaInteger maxlength'")
+					#elseif($field.fieldNumberUnit == '期')
+						#set($valid = "valid='required posiInteger maxlength'")
+					#else
+						#set($valid = "valid='required integer maxlength'")
+					#end
+				#end
+			#else
+				#if($field.rule && $field.rule!="")
+					#set($valid = "valid='$!field.rule maxlength'")
+				#else
+					#if($field.fieldNumberUnit == '岁' ||$field.fieldNumberUnit == '年' || $field.fieldNumberUnit == '月' || $field.fieldNumberUnit == '个月' || $field.fieldNumberUnit == '天' || $field.fieldNumberUnit == '日')
+						#set($valid = "valid='nonNegaInteger maxlength'")
+					#elseif($field.fieldNumberUnit == '期')
+						#set($valid = "valid='posiInteger maxlength'")
+					#else
+						#set($valid = "valid='integer maxlength'")
+					#end
+				#end
+			#end
+			#if($fieldFlag>0)
+				#numspan($field,$val,"")
+			#else
+				#numbox($field,$val,$valid)
+			#end
+		#elseif ($field.fieldType == 'Ratio')
+			#if($isRequired == 1 && $fieldFlag == 0
+					&& ($type!='loan'
+						||  ($tableName == 'LBIZ_PERSONAL_INFO' &&
+								("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum')
+							)
+						|| $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'
+					)
+				)
+				#set($valid = "valid='required ratioDecimal'")
+			#else
+				#set($valid = "valid='ratioDecimal'")
+			#end
+			#if($fieldFlag>0)
+				#numspan($field,$val,"")
+			#else
+				#ratiobox($field,$val,$valid)
+			#end
+##		#elseif ($field.fieldType == 'Decimal' || $field.fieldType == 'Float')
+##			#if($isRequired == 1 && ("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum' || $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'))
+##				#if($field.rule && $field.rule!="")
+##					#set($valid = "valid='required posiNumber $!field.rule'")
+##				#else
+##					#set($valid = "valid='required float'")
+##				#end
+##			#else
+##				#if($field.rule && $field.rule!="")
+##					#set($valid = "valid='posiNumber $!field.rule'")
+##				#else
+##					#set($valid = "valid='float '")
+##				#end
+##			#end
+##			#numbox($field,$val,$valid)
+		#elseif ($field.fieldType == 'Decimal' || $field.fieldType == 'Float')
+			#if($isRequired == 1 && $fieldFlag == 0
+					&& ($type!='loan'
+						||  ($tableName == 'LBIZ_PERSONAL_INFO' &&
+								("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum')
+							)
+						|| $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'
+					)
+				)
+				#if($field.rule && $field.rule!="")
+					#set($valid = "valid='required posiNumber $!field.rule'")
+				#else
+					#set($valid = "valid='required posiZeroDecimal'")
+				#end
+			#else
+				#if($field.rule && $field.rule!="")
+					#set($valid = "valid='posiNumber $!field.rule'")
+				#else
+					#set($valid = "valid='posiZeroDecimal'")
+				#end
+			#end
+			#numbox($field,$val,$valid)
+		#elseif ($field.fieldType == 'TextArea' || $field.fieldType == 'Quest')
+			#if($isRequired == 1 && $fieldFlag == 0
+					&& ($type!='loan'
+						||  ($tableName == 'LBIZ_PERSONAL_INFO' &&
+								("$!field.propertyName" == 'customerName' || "$!field.propertyName" == 'identifyType' || "$!field.propertyName" == 'identifyNum')
+							)
+						|| $tableName == 'LBIZ_LOAN_GRANT' || $tableName == 'LBIZ_APPROVAL_RESOLUTION'
+					)
+			)
+				#set($valid = "valid='required maxlength'")
+			#else
+				#set($valid = "valid='maxlength'")
+			#end
+			#if($fieldFlag>0)
+				#textbox($field,$val,$valid)
+			#else
+				#textarea($field,$val,$valid)
+			#end
+		#elseif ($field.fieldType == 'Select')
+			#combobox($field,$val,$valid)
+		#elseif ($field.fieldType == 'MultipleSelect')
+			#mutlcombobox($field,$val,$valid)
+		#elseif ($field.fieldType == 'DropPopup')
+			#droppopup($field,$val,$valid)
+		#elseif ($field.fieldType == 'YesNo')
+			#checkbox($field,$val)
+		#end
+	#end
+#end
+
+#macro(detail $field $val $fieldFlag $tableName $id)
+	#if ($field.fieldType == 'YesNo')
+		#set($valName="")
+		#if($val)
+			#if($val==1)
+				#set($valName="是")
+			#else
+				#set($valName="否")
+			#end
+		#end
+		#label($field,$valName,$tableName, $id)
+	#elseif($field.fieldType == 'Date')
+		#set($valName="")
+		#set($valName=$!formatUtil.formatDate($val,"yyyy-MM-dd"))
+		#label($field,$valName,$tableName, $id)
+	#elseif($field.fieldType == 'Select')
+		#set($valName="")
+		#set($valName=$field.getOptionTextByValue($val))
+		#label($field,$valName,$tableName, $id)
+	#elseif($field.fieldType == 'MultipleSelect')
+		#set($valName="")
+		#set($valName=$field.getOptionTextByValues($val))
+		#label($field,$valName,$tableName, $id)
+	#elseif ($field.fieldType == 'DropPopup')
+		#dropPopup($field $val $tableName $id)
+	#else
+		#label($field,$val,$tableName, $id)
+	#end
+#end
+
+##详情编辑弹出层
+#macro(dropPopup $field $val $tableName $id)
+	#if($val.length()>0)
+##		#set($va = $!val.substring($!val.lastIndexOf(",") ,$!val.length()))
+##		#set($va = $va.substring(1,$va.length()))
+		#set($va = $!val.replace(",","_"))
+    	<label class="ui-quest-text" >$va</label>
+	#else
+    	<label class="ui-quest-text" >$!val</label>
+	#end
+#end
+
+##文本
+#macro(label $field $val $tableName $id)
+	#*#if ($field.fieldType == 'Decimal')
+		#set($money = $field.getFieldNumberMoney("$!val"))
+    	<label class="fl">$!money</label>
+	#elseif($field.field == 'identifyNum')
+		#set($identifyNum = $field.getLoanIdentifyNumX("$!val"))
+    	<label class="fl">$!identifyNum</label>
+	#elseif($field.field == 'phoneNumber')
+		#set($phoneNumber = $field.getLoanTelNumX("$!val"))
+    	<label class="fl">$!phoneNumber</label>
+	#else
+	#end*#
+	#if($field.type=="Quest")
+	<div>
+	<label class="ui-quest-text" ><strong>$!field.fieldName ?</strong></label>
+	</div>
+	<div>
+	<label class="ui-quest-text" >$!val</label>
+	</div>
+	#elseif($field.type=="Address")
+    <div>
+        <label class="ui-quest-text" >$!val</label>
+        <span class="map-button $!field.column" onclick="showMap(this,'$!id','$!field.column', '$!tableName', '1')">查看定位</span>
+    </div>
+	#elseif($field.type=="TextArea")
+    <div>
+        <div style="    padding: 0 10px;"><label class=""  style="white-space: pre-wrap;">$!val</label></div>
+    </div>
+	#else
+		<label class="ui-quest-text"
+			#if ($tableName == 'LBIZ_SURVEY_RESULT' || $tableName == 'LBIZ_LOAN_GRANT')
+			id="repay-$!field.propertyName"
+			#end
+		>$!val</label>
+		#if($val)
+	    <label class="ml10">$!field.fieldNumberUnit</label>
+		#end
+	#end
+#end
+
+##文本框
+#macro(textbox $field $val $valid)
+<div class="ui-text">
+	#if($!field.propertyName=="counterpartyAccount")
+        <input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onchange="queryCustomerInfo(this)" maxlength="$!field.maxLength" $!valid/>
+	#elseif($!field.propertyName=="bizType")
+        <input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onmousedown="checkBizAndPrdType(this)" maxlength="$!field.maxLength" $!valid/>
+	#elseif($!field.propertyName=="businessLine")
+        <input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onmousedown="checkCrmPrdType(this)" maxlength="$!field.maxLength" $!valid/>
+	#elseif($!field.propertyName=="bizTypeName"||$!field.propertyName=="prdUserdfName"||$!field.propertyName=="prdName"||$!field.propertyName=="prdPk"
+	||$!field.propertyName=="accountClass"||$!field.propertyName=="bizTypeDetail"||$!field.propertyName=="accountClassName"
+	||$!field.propertyName=="businessLineName"||$!field.propertyName=="mainProType"||$!field.propertyName=="mainProTypeName")
+        <input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text"  maxlength="$!field.maxLength" readonly $!valid/>
+	#else
+	<input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" maxlength="$!field.maxLength" $!valid/>
+	#end
+</div>
+#end
+
+#macro(pageSelect $field $val $valid)
+<div class="ui-text">
+	#if($!field.propertyName=="counterpartyAccount")
+		<input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onchange="queryCustomerInfo(this)" maxlength="$!field.maxLength" $!valid/>
+	#elseif($!field.propertyName=="bizType")
+		<input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onmousedown="checkBizAndPrdType(this)" maxlength="$!field.maxLength" $!valid/>
+	#elseif($!field.propertyName=="businessLine")
+		<input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onmousedown="checkCrmPrdType(this)" maxlength="$!field.maxLength" $!valid/>
+	#elseif($!field.propertyName=="bizTypeName"||$!field.propertyName=="prdUserdfName"||$!field.propertyName=="prdName"||$!field.propertyName=="prdPk"
+	||$!field.propertyName=="accountClass"||$!field.propertyName=="bizTypeDetail"||$!field.propertyName=="accountClassName"
+	||$!field.propertyName=="businessLineName"||$!field.propertyName=="mainProType"||$!field.propertyName=="mainProTypeName")
+		<input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text"  maxlength="$!field.maxLength" readonly $!valid/>
+	#else
+		<input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" maxlength="$!field.maxLength" $!valid/>
+	#end
+</div>
+#end
+
+
+
+##文本框
+#macro(address $field $val $valid $tableName $id)
+<div class="ui-text" style="width: 80%; float: left;">
+    <input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" style="width:98%" maxlength="$!field.maxLength" $!valid/>
+</div>
+	#if ($id != '')
+		<div><span class="map-button $!field.column" onclick="showMap(this,'$!id','$!field.column', '$!tableName','')">标记定位</span></div>
+	#end
+#end
+
+##日期
+#macro(datebox $field $val $valid)
+<div class="ui-text" $!valid>
+    <input id="$!field.propertyName" name="field.$!field.propertyName" type="text" value="$!formatUtil.formatDate($val,"yyyy-MM-dd")" class="ui-text-text" dateFlag="true" $!valid/>
+##    <i class="ui-text-icon ui-text-date">&nbsp;</i>
+</div>
+#end
+
+##日期段
+#macro(datespan $field $val)
+<div class="ui-text fl" style="width:100px;">
+	<input type="text" name="field.$!field.propertyName" value="$!formatUtil.formatDate($val,"yyyy-MM-dd")"  id="date_$!field.propertyName" class="ui-text-text" dateFlag="true" myDate="true" />
+    <i class="ui-text-icon ui-text-date">&nbsp;</i>
+</div>
+<label class="dash fl">-</label>
+<div class="ui-text fl" style="width:100px;">
+	<input type="text" name="$vmHelper.conectStr('field.',$!field.propertyName,'End')"  value="$!formatUtil.formatDate($val,"yyyy-MM-dd")" id="enddate_$!field.propertyName" class="ui-text-text" dateFlag="true" myDate="true" />
+    <i class="ui-text-icon ui-text-date">&nbsp;</i>
+</div>
+#end
+
+##复选框
+#macro(checkbox $field $val)
+#if($val==1)
+	#set($checkedStr = "CHECKED")
+#else
+	#set($checkedStr = "")
+#end
+	<input type="checkbox" $checkedStr name="field.$!field.propertyName" value="1" id="$!field.propertyName" class="ui-checkbox"/>
+#end
+
+##百分比
+#macro(ratiobox $field $val $valid)
+##<div class="ui-text">
+<div class="ui-text w100 fl mr5">
+    <input type="text" name="field.$!field.propertyName" maxlength="15" value="$!val" id="$!field.propertyName" numFlag="true" class="ui-text-text" $!valid/>
+</div>
+<label class="dash fl">
+	$!field.fieldNumberUnit
+</label>
+#end
+
+##数字
+#macro(numbox $field $val $valid)
+##<div class="ui-text">
+<div class="ui-text w100 fl mr5">
+	#if($!field.propertyName=="currentValue"||$!field.propertyName=="pledgeAmount"||$!field.propertyName=="pledgeRate")
+        <input type="text" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" class="ui-text-text" onchange="changePlegeJe(this)" maxlength="$!field.maxLength" $!valid/>
+	#else
+    <input type="text" name="field.$!field.propertyName" maxlength="$!field.maxLength" value="$!val" id="$!field.propertyName" numFlag="true" class="ui-text-text" $!valid/>
+	#end
+</div>
+<label class="dash fl">
+    $!field.fieldNumberUnit
+</label>
+#end
+
+
+
+##数字段
+#macro(numspan $field $val $valid)
+<div class="ui-text fl" style="width:80px;">
+    <input type="text" name="field.$!field.propertyName" maxlength="13" class="ui-text-text" numFlag="true" id="start_$!field.propertyName" $!valid />
+</div>
+	<label class="dash fl">-</label>
+<div class="ui-text fl" style="width:80px;">
+    <input type="text" name="$vmHelper.conectStr('field.',$!field.propertyName,'End')" maxlength="13" class="ui-text-text" numFlag="true" id="end_$!field.propertyName" $!valid />
+</div>
+<label class="dash fl">
+	$!field.fieldNumberUnit
+</label>
+#end
+
+##长文本
+#macro(textarea $field $val $valid)
+	#if($field.type=="Quest")
+	<label class="ui-quest-text" >$!field.fieldName ?</label>
+    <div class="ui-textarea h80" style="margin-left: 10px;">
+        <textarea class="ui-textarea-text" name="field.$!field.propertyName" onpropertychange="if(value.length>$!field.maxLength) value=value.substr(0,$!field.maxLength)" id="$!field.propertyName" maxlength="$!field.maxLength" $!valid >$!val</textarea>
+    </div>
+	#else
+    <div class="ui-textarea h50" >
+        <textarea class="ui-textarea-text" name="field.$!field.propertyName" onpropertychange="if(value.length>$!field.maxLength) value=value.substr(0,$!field.maxLength)" id="$!field.propertyName" maxlength="$!field.maxLength" $!valid >$!val</textarea>
+    </div>
+	#end
+#end
+
+##单选下拉选项框
+#macro(combobox $field $val $valid)
+<input type="hidden" inputId="$!field.propertyName" $!valid />
+#if($field.onChange)
+	#set($onchange = "onchange='"+$field.onChange+"'")
+#else
+	#set($onchange = "")
+#end
+
+<select name="field.$!field.propertyName" id="$!field.propertyName" $!valid $!onchange $!field.properties >
+    <option></option>
+    #foreach($option in $field.options)
+    	#if($option.optionValue==$val)
+    		<option value ="$option.optionValue" SELECTED >$option.optionText</option>
+    	#else
+    		<option value ="$option.optionValue" >$option.optionText</option>
+		#end
+    #end
+</select>
+#end
+
+##多选下拉选项框
+#macro(mutlcombobox $field $val $valid)
+<div class="ui-text">
+	<input type="hidden" id="$!field.propertyName" name="field.$!field.propertyName" value="$!val" />
+	<input type="text" class="ui-text-text" multiselect="true" id="mutl$!field.propertyName" inputId="$!field.propertyName" options="cd$field.propertyName" $!valid/>
+    <i class="ui-text-icon ui-text-select"></i>
+	<div style="display: none;">
+		<select id="cd$field.propertyName" style="display:none;" >
+			<option></option>
+			#foreach($option in $field.options)
+				#if($option.optionValue==$val)
+					<option value ="$option.optionValue" SELECTED >$option.optionText</option>
+				#else
+					<option value ="$option.optionValue" >$option.optionText</option>
+				#end
+			#end
+		</select>
+    </div>
+</div>
+#end
+
+##弹出对话框
+#macro(droppopup $field $val)
+<div class="ui-text" >
+    <input readonly type="hidden" name="field.$!field.propertyName" value="$!val" id="$!field.propertyName" url="$!field.popupUrl" class="ui-text-text" />
+    #if($val.length()>0)
+##		#set($va = $!val.substring($!val.lastIndexOf(",") ,$!val.length()))
+##		#set($va = $va.substring(1,$va.length()))
+		#set($va = $!val.replace(",","_"))
+        <input readonly type="text"value="$va" id="display_$!field.propertyName" class="ui-text-text" />
+	#else
+        <input readonly type="text"value="$!val" id="display_$!field.propertyName" class="ui-text-text" />
+	#end
+    <i class="ui-text-icon ui-text-select" style="background: url(../../core/imgs/icon/editor.gif) no-repeat;
+    cursor: pointer;margin: -3px">&nbsp;</i>
+</div>
+#end
+
+

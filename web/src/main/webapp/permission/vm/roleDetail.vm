@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色管理-新建</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+	<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+    <style type="text/css">
+    	
+    </style>
+</head>
+
+<body>
+	<form id="form">
+		<input type="hidden" id="roleId"  name="roleId" value="$!role.roleId"/>
+        <table class="ui-form-fields">
+            <tbody>
+                <tr>
+                    <td class="field" width="5%">
+                        <label class="ui-star">角色名称：</label>
+                    </td>
+                    <td width="20%">
+                        <div class="ui-text">
+                            <input type="text" id="roleName" class="ui-text-text" name="roleName" value="$!role.roleName" maxlength="20" readonly="readonly"/>
+                        </div>
+                    </td>
+                    <td class="field" width="5%">
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;审批权限：</label>
+                    </td>
+                    <td width="20%">
+                    	#set($isCheck="")
+                    	#if($!role.roleCanApproval == 1)
+                        	#set($isCheck="checked")
+                        #end
+                    	<input type="checkbox" class="ui-check role" name="canApproval" disabled="disabled" readonly="readonly" $isCheck/>
+                    </td>
+                    <td class="field" width="5%">
+                        <label></label>
+                    </td>
+                    <td width="20%"></td>
+                    <td class="field" width="5%">
+                        <label></label>
+                    </td>
+                    <td width="20%"></td>
+                </tr>
+                <tr>
+                    <td class="field" width="5%">
+                        <label>角色描述：</label>
+                    </td>
+                    <td colspan="7">
+						<div id="tips" class="ui-textarea-tips">
+							您还可以输入<label>0</label>字
+						</div>
+                        <div class="ui-textarea">
+                            <textarea id="roleRemark" name="roleRemark" class="ui-textarea-text" maxlength="200" readonly="readonly">$!role.getRoleRemark()</textarea>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field top" width="5%">
+                        <label class="ui-star">角色配置：</label>
+                    </td>
+                    <td colspan="7">
+                        <div id="tabs" class="ui-tabs">
+                            <div class="ui-tabs-head">
+                                <div class="ui-tabs-items">
+                                    <ul ishead="1">
+                                        <li><h4>菜单权限</h4></li>
+                                        <li><h4>操作权限</h4></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div isbody="1" class="ui-tabs-iframes">
+                                <div class="ui-tabs-iframe">
+                                    <ul id="ulMenu" class="ztree"></ul>
+                                </div>
+                                <div class="ui-tabs-iframe">
+                                    <ul id="ulAction" class="ztree"></ul>
+                                </div>
+                                <div class="ui-tabs-iframe">
+                                    <ul id="ulData" class="ui-tabs-data">
+										#foreach($!dp in $dataPermits)
+											#set($pdpId = $!dp.pdpId + '')
+                                            <li>
+                                                <input id="$!dp.pdpId" type="checkbox" #if($vmHelper.isContains($!permitIds,$pdpId,',')) checked="checked" #end class="ui-check dataPermit" />
+                                                <label for="$!dp.pdpId">$dp.pdpName</label>
+                                            </li>
+										#end
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <hr class="ui-line" />
+    <div class="ui-layout-closure">
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+        </span>
+    </div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.tabs.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+    <script type="text/javascript">
+		//树节点数据
+        var menuzNodes = $!menuList;
+		var funczNodes = $!funcList;
+    </script>
+	<script type="text/javascript" src="../permission/js/roleDetail.js"></script>
+</body>
+</html>

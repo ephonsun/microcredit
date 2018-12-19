@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>编辑意向客户</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <input type="hidden" name="picId" value="$!intentCustomer.picId"/>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">客户姓名：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input type="text" id="picName" class="ui-text-text" name="picName" maxlength="10" value="$!intentCustomer.picName" />
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label class="ui-star">性别：</label>
+            </td>
+            <td width="20%">
+                <select id="picGender" name="picGender" value="$!intentCustomer.picGender">
+                    <option></option>
+                    <option value="1" #if($!intentCustomer.picGender == 1) selected
+                    #end>男</option>
+                    <option value="0" #if($!intentCustomer.picGender == 0) selected
+                    #end>女</option>
+##                    #datadict("","$!dataDictConst.CD_CUSTOMER_SEX")
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">证件类型：</label>
+            </td>
+            <td width="20%">
+                <select id="picCertificateType" name="picCertificateType">
+                    <option></option>
+                    #foreach($!col in $!sysDataDictCols)
+                        <option value="$!col.dictValue" #if($!intentCustomer.picCertificateType == $!col.dictValue) selected
+                        #end>$!col.dictName</option>
+                    #end
+                </select>
+            </td>
+            <td class="field" width="5%">
+                <label class="ui-star">证件号码：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input type="text" id="picCertificateNum" class="ui-text-text" name="picCertificateNum" maxlength="50" value="$!intentCustomer.picCertificateNum"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">联系电话：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input type="text" id="picPhone" class="ui-text-text" name="picPhone" maxlength="50" value="$!intentCustomer.picPhone"/>
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label class="ui-star">意向产品：</label>
+            </td>
+            <td width="20%">
+                <label>$!intentCustomer.picProductName</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>联系地址：</label>
+            </td>
+            <td width="40%" colspan="3">
+                <div class="ui-text">
+                    <input type="text" id="picAddress" class="ui-text-text" name="picAddress" maxlength="100" value="$!intentCustomer.picAddress"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>意向说明：</label>
+            </td>
+            <td colspan="7">
+                <div id="tips" class="ui-textarea-tips"> 您还可以输入<label>0</label>字</div>
+                <div class="ui-textarea">
+                    <textarea id="picRemark" name="picRemark" class="ui-textarea-text" maxlength="500">$!intentCustomer.picRemark</textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+    #if($funcPermit.hasFuncCode("intentionalCustomerAdd"))
+        <span id="btnSave" class="ui-closure-button">
+			<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+		</span>
+    #end
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../product/js/intentCustomerUpdate.js?v=$!webAppVersion"></script>
+</body>
+</html>

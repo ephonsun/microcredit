@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>其他日程列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<form id="form" action="" onsubmit="return false;">
+    <input type="hidden" id="userId" name="userId" value="$!userId" />
+    <input type="hidden" id="timess" name="timess" value="$!timess" />
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields" >
+                <tbody>
+                <tr>
+                    <td class="field" width="5%">
+                        <label>时间：</label>
+                    </td>
+                    <td width="20%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="startDate" value="$!time"/>
+                                        <i class="ui-text-icon ui-text-date" value="$!time"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="endDate" value="$!time"/>
+                                        <i class="ui-text-icon ui-text-date" value="$!time"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="5%">
+                        <label>完成情况：</label>
+                    </td>
+                    <td width="10%">
+                        <select id="state" name="state">
+                            <option></option>
+                            <option value="1">未完成</option>
+                            <option value="2">已完成</option>
+                        </select>
+                    </td>
+                    <td width="40%">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="ui-layout-search-foot">
+            <div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+                <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="ui-layout-statistics">
+    所有日程 (<label class="statistics" id="lblStatistics">0</label>)个
+</div>
+<div class="ui-layout-action">
+        <span id="btnAdd" class="ui-button fl">
+            <label class="ui-button-text">添加日程</label>
+        </span>
+        <span id="btnRefresh" class="ui-button fr">
+        	<label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+        </span>
+</div>
+<table id="scheduleGrid"></table>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../customer/js/schedule/otherScheduleList.js?v=$!webAppVersion"></script>
+<!--<script type="text/javascript">
+	    var cdCustomerLevel = $!codeTableUtil.getDataDictList("cdDictColByName","CD_CUSTOMER_LEVEL");
+		var cDPlanRate=$!codeTableUtil.getDataDictList("cdDictColByName","CD_SCHEDULE_PLAN_RATE");
+	</script>-->
+<script>
+    var selectMy = '0';
+    var selectFlag = '';
+        #if($!myTaskCheck)
+        selectFlag = '1';
+        selectMy = '1';
+        #end
+</script>
+</body>
+</html>

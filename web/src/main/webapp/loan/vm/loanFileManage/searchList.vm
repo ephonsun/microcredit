@@ -1,0 +1,54 @@
+
+
+<div>
+    <ul class="imglist" id="imglist">
+        #if($!thumbImageList)
+            #set($num = 0)
+            <input type="hidden" id="total" value="$thumbImageList.size()"/>
+            #foreach($thumbImage in $!thumbImageList)
+                <li id="imagePreview_$num" >
+                    <input type="hidden" id="loanId" value="$thumbImage.loanId"/>
+                    <input type="hidden" id="fileId_$num" value="$thumbImage.id"/>
+                    <input type="hidden" id="calssName" value="$thumbImage.className"/>
+                    #set($num = $num + 1)
+                    <label>$thumbImage.className</label>
+                </li>
+            #end
+        #end
+    </ul>
+</div>
+
+<script >
+    $(function () {
+        initImgDiv();
+        var options = {
+            'title': '',
+            'headToolbar':['maximize','close'],
+            'footToolbar':[
+                'zoomIn',
+                'zoomOut',
+                'prev',
+                'next',
+                'rotateLeft',
+                'rotateRight'
+            ],
+            'fixedContent': false
+        };
+        $('[data-magnify=galleryLoanFile]').magnify(options);
+
+    });
+
+    function initImgDiv() {
+        var total = $("#total").val();
+        var i = 0;
+        for (; i < total; i++) {
+            fileId = $("#fileId_" + i).val();
+            loanId = $("#loanId").val();
+            var url = '../loanFile/previewImage.html?fileId=' + fileId +'&loanId='+loanId;
+            var imgStr = "<a data-magnify='galleryLoanFile' href="+url+"> <img width='100%' height='80%' " +
+                    "src=" + url+ "/>"+"</a>";
+            $('#imagePreview_' + i).prepend(imgStr);
+        }
+    }
+
+</script>

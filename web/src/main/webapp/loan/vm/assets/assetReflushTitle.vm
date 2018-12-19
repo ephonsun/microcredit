@@ -1,0 +1,23 @@
+#*实现无刷界面*#
+#if($assetsTotalAmount)
+<div class="ui-layout-statistics">
+    资产情况(合计：<label id="lblStatistics" class="statistics">#if(!$assetsTotalAmount || $assetsTotalAmount=='0.00') -- #else
+    $!formatUtil.formatDecimal($!assetsTotalAmount)</label>)
+    #end
+</div>
+#elseif($debtsTotalAmount)
+<div class="ui-layout-statistics">
+    负债情况(合计：<label id="lblStatistics" class="statistics">#if(!$debtsTotalAmount || $debtsTotalAmount=='0.00') -- #else
+    $!formatUtil.formatDecimal($!debtsTotalAmount)</label>)
+    #end
+</div>
+#end
+
+
+
+
+
+
+
+
+

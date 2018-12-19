@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>调查报告</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css" />
+    <link rel="stylesheet" type="text/css" href="../system/WebUploader/webuploader.css">
+</head>
+<body>
+<input type="hidden" id="loanId" name="loanId" value="$!loanId"/>
+<input type="hidden" id="fieldFlag" name="fieldFlag" value="$!fieldFlag"/>
+<input type="hidden" id="module" name="module" value="$!module"/>
+<input type="hidden" id="ratioDate" name="ratioDate" value="$!ratioDate" />
+<style>
+    .plan-table{    border: solid 1px #1d1d1d; width: 100%;}
+    table.plan-table tr,table.plan-table td,table.plan-table th {
+        border: solid 1px #1d1d1d;
+        height: 20px;
+        text-align: center;
+    }
+    table.plan-table td input{width: 99%; border: 0; text-align: center;}
+    /*table.plan-table .td-input:hover{border: solid #ccc 1px; z-index: 99;}*/
+</style>
+<div style="margin-bottom: 65px;">
+    <p style="color: red;line-height: 30px;">修改计划要点保存哦！</p>
+#if ($!processType == 'Investigate' && $!module=='investigate')
+    <p style="color: red;line-height: 30px;">实际还款计划时间、计息天数、利息以最终放款为准！</p>
+#end
+
+##    <table border="0" cellpadding="0" cellspacing="0"  class="plan-table">
+##        <tr>
+##            <th width="50">期数</th>
+##            #if ($!module!='approval' && $!module!='investigate')
+####                #if ($!repaymentMode != '2' )
+####                    <th width="50">起息日</th>
+####                #end
+##                <th width="50">计划还款日期</th>
+##            #end
+##            #if ( $!repaymentMode == '2' )
+##                <th width="50">本期还款</th>
+##            #end
+##                <th width="50">还款本金</th>
+##            #if ($!repaymentMode == '2' )
+##                <th width="50">还款利息</th>
+##            #end
+##
+##        </tr>
+##        #foreach($plan in $plans)
+##        <tr class="tr-input">
+##            <td>
+##                <input type="hidden" name="repaymentMode" value="$!repaymentMode" />
+##                $velocityCount
+##            </td>
+##            #if ($!module!='approval' && $!module!='investigate')
+####                #if ($!repaymentMode != '2' )
+####                    <td> $!plan.ratioDateF</td>
+####                #end
+##                #if ($!repaymentMode == '4' || ($plans.size() == $velocityCount && $!repaymentMode != '2'))
+##                    <td>
+##                        <div class="ui-text">
+##                            <input type="text" class="txtDate ui-text-text" name="condition.createDate" name="loanRepayPlanDate"
+##                                   value="$!plan.loanRepayPlanDateF"  index="$velocityCount" id="txtDate$velocityCount" onchange="checkDate(this);" />
+##                            <i class="ui-text-icon ui-text-date"></i>
+##                        </div>
+##                    </td>
+##                #else
+##                    <td> <input type="hidden" name="loanRepayPlanDate" value="$!plan.loanRepayPlanDateF" />$!plan.loanRepayPlanDateF</td>
+##                #end
+##            #end
+##            #if ($!repaymentMode == '2' )
+##                <td> $!plan.repayment</td>
+##            #end
+##            #if (($!repaymentMode == '4' && (($!processType == 'Investigate' && $!module=='investigate') || $!module=='approval' || $!module=='loan')) || ( $!module=='loan' && $!repaymentMode != '2'))
+##                <td >
+##                    <input type="hidden" name="loanRepayPlanDate" value="$!plan.loanRepayPlanDateF"/>
+##                    <input type="hidden" name="id" value="$!plan.id"/>
+##                    #if ($plans.size() == $velocityCount)
+##                        <input type="hidden" name="loanPrincipalAmountLast" value="$!plan.loanPrincipalAmount" maxlength="8" />
+##                        <input type="hidden" name="loanPrincipalAmountAll" value="$!proposalAmount" maxlength="8" />
+##                        <span id="loanPrincipalAmount">$!plan.loanPrincipalAmount</span>
+##                    #else
+##                        #if ($!repaymentMode == '4' && (($!processType == 'Investigate' && $!module=='investigate') || $!module=='approval' || $!module=='loan'))
+##                            <input type="text" name="loanPrincipalAmount" value="$!plan.loanPrincipalAmount" maxlength="8" onblur="amountChange(this,$!plan.loanPrincipalAmount,this.value)" />
+##                        #else
+##                            <input type="hidden" name="loanPrincipalAmount" value="$!plan.loanPrincipalAmount" maxlength="8" />
+##                            <span id="loanPrincipalAmount">$!plan.loanPrincipalAmount</span>
+##                        #end
+##                    #end
+##                </td>
+##            #else
+##                <td><input type="hidden" name="loanPrincipalAmount" value="$!plan.loanPrincipalAmount" />$!plan.loanPrincipalAmount</td>
+##            #end
+##            #if ($!repaymentMode == '2' )
+##                <td> $!plan.loanAccrualAmount</td>
+##            #end
+##        </tr>
+##         #end
+##    </table>
+
+##                等额本金	1
+##                等额本息	2
+##                按月还息到期还本	3
+##                一次性还本付息	4
+##                灵活还款	5
+
+    <table border="0" cellpadding="0" cellspacing="0"  class="plan-table">
+        <tr>
+            <th width="50">期数</th>
+            <th width="50">计划还款日期</th>
+##            <th width="50">本期还款</th>
+            <th width="50">还款本金</th>
+            <th width="50">还款利息</th>
+            <th width="50">计息天数</th>
+
+        </tr>
+        #foreach($plan in $plans)
+            <tr class="tr-input">
+##              期数
+                <td>
+                    <input type="hidden" name="repaymentMode" value="$!repaymentMode" />
+                    $velocityCount
+                </td>
+
+##              计划还款日期
+                <td>
+                    <div class="ui-text">
+                        <input type="text" class="txtDate ui-text-text" name="condition.createDate" name="loanRepayPlanDate"
+                               value="$!plan.loanRepayPlanDateF"  index="$velocityCount" id="txtDate$velocityCount" onchange="checkDate(this);" />
+                        <i class="ui-text-icon ui-text-date"></i>
+                    </div>
+                </td>
+
+##              本期还款
+##                <td> <input type="text" name="repayment" value="$!plan.repayment" maxlength="8"  /></td>
+
+                <td >
+                    <input type="hidden" name="loanRepayPlanDate" value="$!plan.loanRepayPlanDateF"/>
+                    <input type="hidden" name="id" value="$!plan.id"/>
+                    <input type="hidden" name="loanPrincipalAmountAll" value="$!proposalAmount" maxlength="8" />
+
+                    <input type="text" name="loanPrincipalAmount" value="$!plan.loanPrincipalAmount" maxlength="8" onblur="amountChange(this,$!plan.loanPrincipalAmount,this.value)" />
+                </td>
+
+##              还款利息
+                <td>
+                    <input  type="text" name="loanAccrualAmount" value="$!plan.loanAccrualAmount" maxlength="8" />
+                </td>
+
+
+##              计息天数
+                <td>
+                    <input  type="text" name="loanAccrualDays" value="$!plan.loanAccrualDays" maxlength="8"  />
+                </td>
+
+
+            </tr>
+        #end
+    </table>
+
+</div>
+<div style="position: fixed;bottom: 0px;width: 100%;height:65px;background: #fff;    z-index: 9;">
+    <hr class="ui-line" />
+    <div class="ui-layout-closure sz">
+        #if ($!fieldFlag=="0")
+            <span id="btnConfirm" class="ui-closure-button">
+                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+            </span>
+            <span id="btnReset" class="ui-closure-button ml5">
+                <label class="ui-closure-button-text">重新生成</label>
+            </span>
+        #end
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+		</span>
+    </div>
+</div>
+<!--// script -->
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../loan/js/repayPlan/planPage.js"></script>
+</body>
+</html>

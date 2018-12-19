@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>组织机构 - 新建用户</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion"/>
+    <style type="text/css">
+        .roles {
+            border: 1px solid #b6c4d8;
+            background-color: #f2f7fe;
+            padding: 10px;
+        }
+
+        .roles .ui-form-fields .field {
+            padding-left: 0;
+            padding-right: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+    </script>
+</head>
+
+
+<body>
+<input type="hidden" id="userAccountLengthLimit" value="$!userAccountLengthLimit"/>
+<input type="hidden" id="userId_hid" value="$!user.userId" name="user.userId"/>
+<input type="hidden" id="userDeptId_hid" value="$!user.userDeptId" name="user.userDeptId"/>
+<input type="hidden" id="roleFlag_hid" value="$!roleNotExit" name="roleFlag_hid"/>
+<input type="hidden" id="pageFlag_hid" value="$!pageFlag" name="pageFlag_hid"/>
+
+<input type="hidden" id="userName_hid" value="$!user.userName" name="userName_hid"/>
+<input type="hidden" id="userStatus_hid" value="$!user.userStatus" name="userStatus_hid"/>
+<input type="hidden" id="userRemark_hid" value="$!user.userRemark" name="userRemark_hid"/>
+<input type="hidden" id="roleList_hid" value="$!roleList" name="roleList_hid"/>
+<input type="hidden" id="depId" value="$!depId" name="depId"/>
+
+<div class="ui-legend">
+    <label>用户信息</label>
+</div>
+<form>
+    <table class="ui-form-fields">
+        <tbody>
+
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">用户姓名：</label>
+            </td>
+            <td width="18%">
+                <div class="ui-text">
+                    <input type="text" id="userName" class="ui-text-text" value="$!user.userName" name="user.userName"
+                           maxlength="20" #if($!pageFlag=='1' ) disabled="true" #end/>
+                </div>
+            </td>
+
+            <td class="field" width="7%">
+                <label class="ui-star">归属机构：</label>
+            </td>
+            <td width="18%">
+                <div class="ui-text">
+                    <input type="text" id="userDeptId" class="ui-text-text" value="#if($!user) $!user.deptName #else $!dename #end "
+                           name="user.userDeptName" #if($!pageFlag=='1' ) disabled="true" #end />
+                    <i class="ui-text-icon ui-text-select"></i>
+                </div>
+            </td>
+            <td class="field" width="7%">
+                <label class="ui-star">用户账号：</label>
+            </td>
+            #if(!$!user.userId)
+                <td width="18%">
+                    <div class="ui-text">
+                        <input type="text" id="userAccount" class="ui-text-text" value="$!user.getUserAccount()"
+                               maxlength="120" name="user.userAccount"   #if($!pageFlag=='1' ) disabled="true" #end />
+                    </div>
+                </td>
+                <td colspan="2">
+                    <span class="c999">默认密码“111111”</span>
+                </td>
+            #else
+                <td width="18%">
+                    <div>
+                        <label>$!user.getUserAccount()</label>
+                    </div>
+                </td>
+                <td colspan="2"></td>
+            #end
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label >联系方式：</label>
+            </td>
+            <td width="18%">
+                <div class="ui-text">
+                    <input type="text" id="userPhoneNumber" class="ui-text-text" value="$!user.userPhoneNumber" name="user.userPhoneNumber" maxlength="20" #if($!pageFlag=='1' ) disabled="true" #end/>
+                </div>
+            </td>
+
+            <td class="field" width="7%">
+                <label>数据权限：</label>
+            </td>
+            <td width="18%">
+                <div class="ui-text">
+                    <input type="hidden" id="userGroupPermit" value="" name="user.userGroupPermit"/>
+                    <input type="text" id="txtDueGroup" class="ui-text-text" value="$!user.userGroupPermit" />
+                    <i class="ui-text-icon ui-text-select "></i>
+                </div>
+            </td>
+            <td class="field" width="7%">
+                <label>审批金额：</label>
+            </td>
+
+            <td width="18%">
+                <div class="ui-text">
+                    <input type="text" id="userPassAmount" class="ui-text-text" value="$!user.userPassAmount"
+                           maxlength="20" name="user.userPassAmount"   #if($!pageFlag=='1' ) disabled="true" #end />
+                </div>
+            </td>
+            <td colspan="2">
+                <span class="c999">不填默认为无上限</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>用户状态：</label>
+            </td>
+            <td width="18%">
+                #if(!$!user.userId)
+                    <input id="userStatus_enable" type="radio" name="user.userStatus" value="1" checked>启用
+                    <span style="margin-left: 20px;"></span>
+                    <input id="userStatus_disable" type="radio" name="user.userStatus" value="0">停用
+                #else
+                    <input id="userStatus_enable" type="radio" name="user.userStatus" value="1"  #if($!pageFlag=='1' )
+                           disabled="true" #end #if($user.getUserStatus()==1)
+                           checked #end>启用
+                    <span style="margin-left: 20px;"></span>
+                    <input id="userStatus_disable" type="radio" name="user.userStatus" value="0"  #if($!pageFlag=='1' )
+                           disabled="true" #end #if($user.getUserStatus()==0)
+                           checked #end>停用
+                #end
+            </td>
+            <td colspan="6"></td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">用户角色：</label>
+            </td>
+            <td colspan="7">
+                <ul class="roles">
+                    <table class="ui-form-fields">
+                        <tbody>
+                            #foreach($role in $!roleList)
+                                #set($isCheck="")
+                                #foreach($userRole in $!userRoles)
+                                    #if($role.roleId == $userRole.roleId)
+                                        #set($isCheck="checked")
+                                    #end
+                                #end
+                            <tr>
+                                <td>
+                                    #if($role.roleIsFixed==1)
+                                        <input type="radio" class="ui-check role" name="roleName" deptIds="$!deptIds"
+                                               value="$!role.roleId" $isCheck  #if($!pageFlag=='1' ) disabled="true" #end />
+                                        <label>$!role.roleName</label>
+                                        #if($role.roleRemark!="")
+                                            <label style="margin-left: 20px;">( $!role.roleRemark )</label>
+                                        #end
+                                    #else
+                                        <input type="checkbox" class="ui-check checkRole" name="roleName" deptIds="$!deptIds"
+                                               value="$!role.roleId" $isCheck  #if($!pageFlag=='1' ) disabled="true" #end />
+                                        <label>$!role.roleName</label>
+                                        #if($role.roleRemark!="")
+                                            <label style="margin-left: 20px;">( $!role.roleRemark )</label>
+                                        #end
+                                    #end
+                                </td>
+                                <td width="50%"></td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field" width="7%">
+                <label>审批角色：</label>
+            </td>
+            <td colspan="7">
+                <ul class="roles">
+                    <table class="ui-form-fields">
+                        <tbody>
+                            #foreach($role in $!checkRoleList)
+                                #set($isCheck="")
+                                #foreach($userRole in $!userRoles)
+                                    #if($role.roleId == $userRole.roleId)
+                                        #set($isCheck="checked")
+                                    #end
+                                #end
+                            <tr>
+                                <td>
+                                    #if($role.roleIsFixed==1)
+                                        <input type="radio" class="ui-check checkRole" name="checkRoleName"
+                                               deptIds="$!deptIds" value="$!role.roleId" $isCheck  #if($!pageFlag=='1' )
+                                               disabled="true" #end />
+                                        <label>$!role.roleName</label>
+                                        #if($role.roleRemark!="")
+                                            <label style="margin-left: 20px;">( $!role.roleRemark )</label>
+                                        #end
+                                    #else
+                                        <input type="checkbox" class="ui-check checkRole" name="checkRoleName"
+                                               deptIds="$!deptIds" value="$!role.roleId" $isCheck  #if($!pageFlag=='1' )
+                                               disabled="true" #end />
+                                        <label>$!role.roleName</label>
+                                        #if($role.roleRemark!="")
+                                            <label style="margin-left: 20px;">( $!role.roleRemark )</label>
+                                        #end
+                                    #end
+                                </td>
+                                <td width="50%"></td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field" width="7%">
+                <label>用户备注：</label>
+            </td>
+            <td colspan="7">
+                <div id="tips" class="ui-textarea-tips">
+                    您还可以输入<label id="text">0</label>字
+                </div>
+                <div class="ui-textarea">
+                    <textarea id="userRemark" class="ui-textarea-text" name="user.userRemark"
+                              maxlength="100"  #if($!pageFlag=='1' )
+                              disabled="true" #end >$!user.getUserRemark()</textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+##    #if($funcPermit.hasFuncCode("userAdd"))
+    #if(!$!pageFlag)    <span id="btnSave" class="ui-closure-button">
+                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+            </span>
+    #end
+    #if(!$!user.userId)
+        <span id="btnContinue" class="ui-closure-button ml5">
+                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE_CONTINUE</label>
+            </span>
+    #end
+##    #end
+
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+        	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../permission/js/userAdd.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js?v=$!webAppVersion"></script>
+<script>
+
+    $("#userDeptId_hid").val($!depId);
+
+</script>
+</body>
+</html>

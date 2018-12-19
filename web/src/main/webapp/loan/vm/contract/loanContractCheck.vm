@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>合同签订页面</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css" />
+    <link type="text/css" rel="stylesheet" href="../loan/css/jquery.slider.css" />
+    <style type="text/css">
+        #loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;opacity:0.6;z-index:15000;}
+        #loading img{position:absolute;top:50%;left:50%;margin-top:-30px;margin-left:-15px;}
+        #loading p{position:absolute;top:55%;left:48%;width:50px;height:33px;margin-top:-1px;margin-left:-6px;}
+    </style>
+
+
+</head>
+
+<body>
+<input type="hidden" value="$!loanId" id="loanId"/>
+<input type="hidden" value="" id="sliderVal"/>
+<div id="loginPage">
+<p align="center" style="color:#1b1b1b;font-size:large;margin:12px">请登录签订人账号!</p>
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields">
+                <tr>
+                     <td class="field" width="25%">
+                        <label>登录名：</label>
+                    </td>
+                    <td width="65%">
+                        <input type="text" id="user_name" class="ui-text-text" style="border: 1px solid #000000"/>
+                    </td>
+                    <td width="10%"></td>
+                </tr>
+                <tr>
+                    <td class="field" width="25%">
+                        <label>密码：</label>
+                    </td>
+                    <td width="65%">
+                        <input type="password" id="user_password" class="ui-text-text" style="border: 1px solid #000000"/>
+                    </td>
+                    <td width="10%"></td>
+                </tr>
+
+            </table>
+            <div id="slider" class="slider" style="margin-left: 40px;"></div>
+        </div>
+    </div>
+    <div class="ui-layout-closure mt10">
+         <span id="btnSubmitLogin" class="ui-closure-button">
+                <label class="ui-closure-button-text">确定</label>
+            </span>
+        <span id="btnCloseLogin" class="ui-closure-button ui-closure-button-cancel ml15">
+            <label class="ui-closure-button-text">取消</label>
+        </span>
+    </div>
+</div>
+    <div id="loading" style="display: none">
+        <img src='../images/loading1.gif' /><p style='line-height: 24px;'>签订中...</p>
+    </div>
+
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../loan/js/contract/jquery.slider.min.js"></script>
+	<!-- //页面业务逻辑脚本 -->
+##	<script type="text/javascript" src="../loan/js/loanContractCheck.js?v=$!webAppVersion"></script>
+
+    <script type="text/javascript">
+        var loanId = '$!loanId';
+        $(function() {
+            //登录
+            $('#btnSubmitLogin').click(function(){
+                var userName = jQuery.trim($('#user_name').val());
+                var userPassword = jQuery.trim($('#user_password').val());
+                if(userName==''||userPassword==''){
+                    showConfirm({
+                        icon: 'warning',
+                        content: '登录名和密码不能为空!'
+                    });
+                    return false;
+                }
+                var sliderVal = $('#sliderVal').val();
+                if(sliderVal != 'true'){
+                    showConfirm({
+                        icon: 'warning',
+                        content: '请拖动滑块通过验证!'
+                    });
+                    return false;
+                }
+                $("#loginPage").hide();
+                $('#loading').show();
+//                setTimeout(function(){
+//                    jQuery.ajax({
+//                        type: 'post',
+//                        dataType: 'json',
+//                        url: '../contract/loanContractSubmit.html',
+//                        data: {
+//                            "loanId": loanId,"userName":userName,"userPassword":userPassword
+//                        },
+//                        async: false,
+//                        success: function (result) {
+//                            $("#loading").hide();
+//                            $("#loginPage").show();
+//                            if (result.success) {
+//                                showConfirm({
+//                                    icon: 'succeed',
+//                                    content: result.cause
+//                                });
+//                                closeDialog();
+//                                closeApplyTab();
+//                            } else {
+//                                $('#sliderVal').val('');
+//                                $("#slider").slider("restore");
+//                                showConfirm({
+//                                    icon: 'warning',
+//                                    content: result.cause
+//                                });
+//                            }
+//                        }
+//                    });
+//                },50);
+                $.when(getData3(userName,userPassword)).done(function(result){
+                    $("#loading").hide();
+                    $("#loginPage").show();
+                    if (result.success) {
+                        showConfirm({
+                            icon: 'succeed',
+                            content: result.cause
+                        });
+                        closeDialog();
+                        closeApplyTab();
+                    } else {
+                        $('#sliderVal').val('');
+                        $("#slider").slider("restore");
+                        showConfirm({
+                            icon: 'warning',
+                            content: result.cause
+                        });
+                    }
+                });
+//                $("#loginPage").hide(function(){
+//                    jQuery.ajax({
+//                        type: 'post',
+//                        dataType: 'json',
+//                        url: '../contract/loanContractSubmit.html',
+//                        data: {
+//                            "loanId": loanId,"userName":userName,"userPassword":userPassword
+//                        },
+//                        async: false,
+//                        success: function (result) {
+//                            $("#loading").hide();
+//                            $("#loginPage").show();
+//                            if (result.success) {
+//                                showConfirm({
+//                                    icon: 'succeed',
+//                                    content: result.cause
+//                                });
+//                                closeDialog();
+//                                closeApplyTab();
+//                            } else {
+//                                $('#sliderVal').val('');
+//                                $("#slider").slider("restore");
+//                                showConfirm({
+//                                    icon: 'warning',
+//                                    content: result.cause
+//                                });
+//                            }
+//                        }
+//                    });
+//                });
+
+            });
+            //取消
+            $('#btnCloseLogin').click(function(){
+                closeDialog();
+            });
+        });
+
+        function getData3(userName,userPassword){
+            var defer = $.Deferred();
+            jQuery.ajax({
+                type:'post',
+                dataType: 'json',
+                url: '../contract/loanContractSubmit.html',
+                data: {
+                    "loanId": loanId,"userName":userName,"userPassword":userPassword
+                },
+                success: function (result) {
+                    defer.resolve(result);
+                }
+            });
+            return defer.promise();
+        }
+
+        //关闭dialog
+        function closeDialog(){
+            var dialog = getDialog('loanContractCheckPage'+loanId);
+            var win = tabs.getIframeWindow(dialog.config.tabId);
+            setTimeout(function() {
+                dialog.close();
+            }, 0);
+        }
+        //关闭页卡
+        function closeApplyTab() {
+            var dialog = getDialog('loanContractCheckPage'+loanId);
+            var win = tabs.getIframeWindow(dialog.config.tabId);
+            var pwin = tabs.getIframeWindow(dialog.config.pid);
+            if( pwin && pwin.refreshList){
+                pwin.refreshList();
+            }
+            if( pwin && pwin.refreshMarketCustomerGridList){
+                pwin.refreshMarketCustomerGridList();
+            }
+
+            tabs.close(dialog.config.tabId);
+        }
+    </script>
+<script>
+    $("#slider").slider({
+        width: 262,
+        callback: function(result) {
+            $('#sliderVal').val(result);
+        }
+    });
+
+//    $("#slider").slider({
+//        width: 340, // width
+//        height: 40, // height
+//        sliderBg: "rgb(134, 134, 131)", // 滑块背景颜色
+//        color: "#fff", // 文字颜色
+//        fontSize: 14, // 文字大小
+//        bgColor: "#33CC00", // 背景颜色
+//        textMsg: "按住滑块，拖拽验证", // 提示文字
+//        successMsg: "验证通过了哦", // 验证成功提示文字
+//        successColor: "red", // 滑块验证成功提示文字颜色
+//        time: 400, // 返回时间
+//        callback: function(result) { // 回调函数，true(成功),false(失败)
+//            $("#result2").text(result);
+//        }
+//    });
+//
+//    // 还原
+//    $("#reset1").click(function() {
+//        $("#slider1").slider("restore");
+//    });
+//
+//    $("#reset2").click(function() {
+//        $("#slider2").slider("restore");
+//    });
+</script>
+</body>
+</html>

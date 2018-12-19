@@ -1,0 +1,18 @@
+<table style="table-layout:fixed;width:100%;"> 	
+    ﻿<colgroup >
+    	<col width="200px"/>
+    	<col/>
+    	<col width="150px"/>
+    </colgroup>
+#foreach($file in $!fileList)
+	<tbody>
+	    <tr>
+    		<td class='unwrap'><div>$!file.filename</div></td>
+    		<td class='unwrap'><div>$!file.path</div></td>
+    		<td class='unwrap'><div>$!file.updateDateString</div></td>
+	    </tr>
+	</tbody>
+#end
+</table>
+<input id="saveFilename" type="hidden" value="$!saveFilename" >
+<input id="savePath" type="hidden" value="$!savePath" >

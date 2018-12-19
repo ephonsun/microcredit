@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+##    <title>$!sysInfoProvider.getSystemName() - 登录</title>
+    <title>$!webAppName - 登录</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/login.css" />
+</head>
+
+<body>
+	<div class="main login-main">
+		<div class="main-inner">
+			<h1 class="head"><a href="javascript:void(0);"><img src="../permission/imgs/login/setting.png" /></a></h1>
+			<div class="body login-form">
+				<div id="lblError" class="login-failed">
+					<!-- 输出登录错误提示 -->
+				</div>
+				<div class="login-text login-account">
+					<input type="text" id="txtAccount" value=""/>
+				</div>
+				<div class="login-text login-password" style="margin-bottom: 20px;">
+					<input type="password" id="txtPassword" value=""/>
+				</div>
+                <div class="" id = "checkCode" style="display: none">
+                    <input type="hidden" id="needRandNum" name="needRandNum" value=""/>
+                    <input type="text" id="randNum" name="randNum" style="widht:80px;height:30px;"/>
+                    <img id="check" onclick="changeValidateCode(this)"/>
+                    <a href="#" onclick="changeValidateCode(document.getElementById('check'))">换一张</a></li>
+				</div>
+				<button id="btnLogin" class="login-button" style="margin-top: 15px;">
+					登&nbsp;&nbsp;&nbsp;&nbsp;录
+				</button>
+			</div>
+			<p class="foot">
+				##<img src="../permission/imgs/login/foot.png" />
+			</p>
+		</div>
+	</div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.md5.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+	<script type="text/javascript" src="../permission/js/backLogin.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		// 登录按钮鼠标划过及按下样式
+    		$('#btnLogin').hover(function(){
+				$(this).addClass('login-button-hover');
+			}, function(){
+				$(this).removeClass('login-button-hover login-button-active');
+			}).mousedown(function(){
+				$(this).addClass('login-button-active');
+			}).mouseup(function(){
+				$(this).removeClass('login-button-active');
+			});
+            $("#txtAccount").focus();
+    	});
+        function changeValidateCode(obj) {
+            var currentTime= new Date().getTime();
+            obj.src = "../picture/randomPictureAction.html?d=" + currentTime;
+        }
+    </script>
+</body>
+</html>

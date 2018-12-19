@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+        .w100 { width:100px; }
+        .dash { line-height:24px; height:24px; }
+        .border {border:1px solid #d7d7d7};
+        .head { background: url(../../../core/imgs/bg.png) repeat-x 0 -10px; }
+    </style>
+</head>
+<body >
+<form action="" id="form">
+    <div class="map-search-box">
+
+        <input type="text" id="address" name="address" placeholder="输入地址进行搜索" class="ui-text-text">
+        <div id="btnClean" class="close-input">
+            <img src="../core/imgs/icon/close-input.png">
+        </div>
+        <span id="btnSearch" class="ui-search-button">
+            <label class="ui-search-button-text">搜索</label>
+        </span>
+        <div id="search-result"></div>
+
+    </div>
+</form>
+<input type="hidden" id="tagId" value="$!tagging.tagId" />
+<input type="hidden" id="locationw" value="$!tagging.tagLatitude" />
+<input type="hidden" id="locationj" value="$!tagging.tagLongitude" />
+<input type="hidden" id="defaultw" value="$!lat" />
+<input type="hidden" id="defaultj" value="$!lng" />
+<input type="hidden" id="zoom" value="$!zoom" />
+<input type="hidden" id="customerId" value="$!customerId" />
+<input type="hidden" id="loanId" value="$!loanId" />
+<input type="hidden" id="columnName" value="$!columnName" />
+<input type="hidden" id="tableName" value="$!tableName" />
+<input type="hidden" id="lbizId" value="$!lbizId" />
+<div id="allmap" style="width: 900px; height: 470px;"></div>
+</div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+    <span id="btnSubmit" class="ui-closure-button">
+			<label class="ui-closure-button-text">保存</label>
+		</span>
+    <span id="btnClose" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">取消</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" s3rc="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+
+<script type="text/javascript" src="http://$!mapjs"></script>
+<script type="text/javascript" src="../track/baidu/js/tagging/taggingMap.js"></script>
+
+</body>
+</html>

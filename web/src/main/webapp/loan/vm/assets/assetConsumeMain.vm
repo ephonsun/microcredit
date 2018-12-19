@@ -1,0 +1,75 @@
+#*消費類资产负债信息统计*#
+
+<input type="hidden" value="$!loanId" id="loanId">
+<input type="hidden" value="$!assetsInfo.loanClassId" id="loanClassId">
+<div class="border" style="padding:0px 15px 15px 15px">
+    <div id="assets">
+<div class="ui-layout-statistics">
+    资产情况 (合计：<label id="lblStatistics" class="statistics">#if(!$assetsInfo.assetsTotalAmount || $assetsInfo.assetsTotalAmount=='0.00' ) -- #else  $!formatUtil.formatDecimal($!assetsInfo.assetsTotalAmount) #end</label>)
+    </div>
+    </div>
+#*现金信息*#
+    <div id="ASSETS_CASH_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_CASH_AMOUNT","CD_ASSETS_CASH_ITEM",'现金',$!assetsInfo.assetsCashAmount,$!showApply)
+    </div>
+
+    #*投资性资产*#
+    <div id="ASSETS_INVEST_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_INVEST_AMOUNT","CD_ASSETS_INVEST_ITEM",'投资性资产',$!assetsInfo.assetsInvestAmount,$!showApply)
+    </div>
+
+    #*对外债权*#
+    <div id="ASSETS_EXTERNAL_CLAIMS">
+        #assetsAmount($assetsOperMap,"ASSETS_EXTERNAL_CLAIMS",false,'对外债权',$!assetsInfo.assetsExternalClaims,$!showApply)
+    </div>
+
+    #*预付款*#
+    <div id="ASSETS_ADVANCE_PAYMENT_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_ADVANCE_PAYMENT_AMOUNT",false,'预付款',$!assetsInfo.assetsAdvancePaymentAmount,$!showApply)
+    </div>
+
+    #*固定资产*#
+    <div id="ASSETS_FIXED_AMOUNT">
+        #assetsFixed($assetsOperMap,"ASSETS_FIXED_AMOUNT","CD_ASSETS_CONSUM_FIXED_TYPE","固定资产",$!assetsInfo.assetsFixedAmount,$!showApply)
+    </div>
+
+    #*其他资产*#
+    <div id="ASSETS_OTHER_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_OTHER_AMOUNT",false,'其他资产',$!assetsInfo.assetsOtherAmount,$!showApply)
+    </div>
+</div>
+
+#*负债情况*#
+<div class="border" style="margin-top:10px;padding:0px 15px 15px 15px">
+    <div id="debts">
+    <div class="ui-layout-statistics">
+        负债情况 (合计：<label id="lblStatistics" class="statistics">#if(!$assetsInfo.debtsTotalAmount || $assetsInfo.debtsTotalAmount=='0.00') -- #else $!formatUtil.formatDecimal($!assetsInfo.debtsTotalAmount) #end</label>)
+    </div>
+    </div>
+    #*消费性负债*#
+    <div id="DEBTS_CONSUME_AMOUNT">
+        #assetsDebts($assetsOperMap,"DEBTS_CONSUME_AMOUNT",'CD_DEBTS_CONSUME_SOURCE','消费性负债',$!assetsInfo.debtsConsumeAmount,$!showApply)
+    </div>
+
+    #*自用性负债*#
+    <div id="DEBTS_SELF_USER_AMOUNT">
+        #assetsDebts($assetsOperMap,"DEBTS_SELF_USER_AMOUNT",false,'自用性负债',$!assetsInfo.debtsSelfUserAmount,$!showApply)
+    </div>
+
+    #*投资性负债*#
+    <div id="DEBTS_INVEST_AMOUNT">
+        #assetsDebts($assetsOperMap,"DEBTS_INVEST_AMOUNT",false,'投资性负债',$!assetsInfo.debtsInvestAmount,$!showApply)
+    </div>
+
+    #*其他负债*#
+    <div id="DEBTS_OTHER_AMOUNT">
+        #assetsDebts($assetsOperMap,"DEBTS_OTHER_AMOUNT",false,'其他负债',$!assetsInfo.debtsOtherAmount,$!showApply)
+    </div>
+
+</div>
+
+<div class="border" style="margin-top:10px;padding:0px 15px 15px 15px">
+    <div id="offAssets">
+        #offAssets($!assetsInfo.offAssetsAmount,$!assetsInfo.offDebtsAmount,$!assetsInfo.offRemark,$!assetsInfo.id,$!showApply)
+    </div>
+</div>

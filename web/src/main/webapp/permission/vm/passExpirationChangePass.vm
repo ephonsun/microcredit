@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+##    <title>$!sysInfoProvider.getSystemName() - 登录</title>
+    <title>移动微贷管理平台 - 登录</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/login.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+<div class="main login-main">
+    <div class="main-inner">
+        <h1 class="head"><a href="javascript:void(0);"><img src="../permission/imgs/login/logo.png" /></a></h1>
+        <div class="pointsTip""><span style="color:red">$!userAccount</span>
+        ,您的密码已过期，请设置新密码后再使用系统
+    </div>
+    <div class="body password-form">
+        <div class="p-text">
+            <span style="padding-left: 21px;height:36px;vertical-align:middle;">新密码:</span>
+            <input type="password" id="txtNewPassword" name="password" maxlength="20" style="vertical-align: middle;"/>
+        </div>
+        <span id="warningNewPwd" class="">6～16个字符，区分大小写！</span>
+        <div style="width:290px;margin-bottom: 15px;margin-top:8px;line-height: 20px">
+            <table class="pwd-strength-box">
+                <tbody>
+                <tr align="center">
+                    <td id="strengthWeak">弱</td>
+                    <td id="strengthMedium">中</td>
+                    <td id="strengthForced">强</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="p-text">
+            <span style="padding-left: 10px;height:36px;vertical-align: middle;" >确认密码:</span>
+            <input type="password" id="txtConfirmPassword" style="vertical-align: middle;" />
+        </div>
+        <span id="warningConfirmPwd" class=""></span>
+        <button id="btnUpdate" class="login-button" style="width:295px;margin-top:30px;">
+            修&nbsp;&nbsp;&nbsp;&nbsp;改
+        </button>
+    </div>
+    <p class="foot">
+    </p>
+</div>
+</div>
+<input type="hidden" value="$!userAccount" name="userId" id="userId">
+<input type="hidden" name="passwordStr" value="111111" id="passwordStr" >
+<input type="password" style="display:none" value="111111" id="txtOldPassword" class="ui-text-text" name="oldPassword"/>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.autotips.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../permission/js/passExpirationChangePass.js"></script>
+<script type="text/javascript">
+    $(function(){
+        // 登录按钮鼠标划过及按下样式
+        $('#btnLogin').hover(function(){
+            $(this).addClass('login-button-hover');
+        }, function(){
+            $(this).removeClass('login-button-hover login-button-active');
+        }).mousedown(function(){
+            $(this).addClass('login-button-active');
+        }).mouseup(function(){
+            $(this).removeClass('login-button-active');
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+.graph-box-frameStyle-normal {background:#efeff2;border:#999999 1px solid;position:absolute;display:table;overflow:hidden;}
+.graph-box-frameStyle-over {background:#effff2;border:#9ebadf 1px solid;position:absolute;display:table;overflow:hidden;}
+.graph-box-frameStyle-select {background:#efeff2;border:#017acc 1px solid;position:absolute;display:table;overflow:hidden;}
+.graph-box-textStyle {text-align:center;vertical-align:middle;display:table-cell;}
+
+.graph-lineStyle-normal {background:#017acc;position:absolute;text-align:center;}
+.graph-lineStyle-over {background:#017acc;position:absolute;text-align:center;}
+.graph-lineStyle-select {background:#017acc;position:absolute;text-align:center;}
+.graph-line-triangleStyle {border:0;padding-top:0px;margin:0px;height:0;cursor:pointer;position:absolute;}
+.graph-line-triangleStyle .icon{overflow:hidden;display:block;}
+.graph-line-textStyle-vertical {font-size:13px;position:absolute;right:0;left:0;margin-top:-15px;}
+.graph-line-textStyle-horizon {font-size:13px;position:absolute;top}

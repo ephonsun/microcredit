@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+	<data key="webAppVersion" value="2.0.0.0"/>
+	<data key="webAppName" value="移动微贷营销系统"/>
+	<tool>
+		<key>date</key>
+		<scope>application</scope>
+		<class>
+			org.apache.velocity.tools.generic.ComparisonDateTool
+		</class>
+		<parameter name="format" value="yyyy-MM-dd" />
+		<parameter name="depth" value="2" />
+		<parameter name="skip" value="month" />
+	</tool>
+	
+	<tool>
+		<key>format</key>
+		<scope>application</scope>
+		<class>banger.framework.util.FormatUtil</class>
+	</tool>
+
+	<!--反射工具类，vm页面使用-->
+	<tool>
+		<key>refUtil</key>
+		<scope>application</scope>
+		<class>banger.framework.util.ReflectorUtil</class>
+	</tool>
+	<!--格式化工具类-->
+	<tool>
+		<key>formatUtil</key>
+		<scope>application</scope>
+		<class>banger.framework.util.FormatUtil</class>
+	</tool>
+	<!--时间帮助类-->
+	<tool>
+		<key>dateUtil</key>
+		<scope>application</scope>
+		<class>banger.framework.util.DateUtil</class>
+	</tool>
+	<tool>
+		<key>vmHelper</key>
+		<scope>application</scope>
+		<class>banger.framework.util.VmHelper</class>
+	</tool>
+	<tool>
+		<key>fileUtil</key>
+		<scope>application</scope>
+		<class>banger.framework.util.FileUtil</class>
+	</tool>
+	<tool>
+		<key>codeTableUtil</key>
+		<scope>application</scope>
+		<class>banger.framework.codetable.CodeTableUtil</class>
+	</tool>
+	<tool>
+		<key>constantCodeUtil</key>
+		<scope>application</scope>
+		<class>banger.common.tools.ConstantCodeUtil</class>
+	</tool>
+	<tool>
+		<key>pageConst</key>
+		<scope>application</scope>
+		<class>banger.common.constant.PageConst</class>
+	</tool>
+	<tool>
+		<key>funcPermit</key>
+		<scope>application</scope>
+		<class>banger.common.tools.FuncPermit</class>
+	</tool>
+	<tool>
+		<key>dataDictConst</key>
+		<scope>application</scope>
+		<class>banger.common.constant.DataDictConst</class>
+	</tool>
+	<tool>
+		<key>dataReaderUtil</key>
+		<scope>application</scope>
+		<class>banger.framework.util.DataReaderUtil</class>
+	</tool>
+	<tool>
+		<key>loanUtil</key>
+		<scope>application</scope>
+		<class>banger.controller.LoanUtil</class>
+	</tool>
+
+
+
+
+</toolbox>
+

@@ -1,0 +1,38 @@
+<div class='mb10' style="float: left;width: 100%">
+	<div style="float: left">
+		<label>查询结果共 $table.rowSize() 条</label>
+	</div>
+    <div style="float: right">
+		<span id="btnChooseProduct" onclick="printTable();"  class="ui-button pl20 pr20" style="text-align: right ">
+			<label class="ui-button-text">打印</label>
+		</span>
+    </div>
+</div>
+<div class="flexgrid-box" style="float: left">
+	<div class="flexgrid">
+        <table>
+			<thead>
+			<tr>
+				#set($colIndex = 0)
+				#foreach($col in $table.getColumns())
+					<th>
+						<label title="$!table.getRow(1).get($col.name)">
+							$col.name
+						</label>
+					</th>
+					#set($colIndex = $colIndex + 1)
+				#end
+			</tr>
+			</thead>
+			<tbody>
+				#foreach($row in $table.getRows())
+				<tr #if($velocityCount%2 ==1) class="odd" #end>
+					#foreach($col in $table.getColumns())
+						<td ><xmp>$!row.get($col.name)</xmp></td>
+					#end
+				</tr>
+				#end
+			</tbody>
+		</table>
+	</div>
+</div>

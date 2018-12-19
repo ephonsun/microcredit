@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>导入行业指引</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+        .mask {
+            display: none;
+            position: absolute;
+            top: 0px;
+            filter: alpha(opacity=60);
+            background-color: whitesmoke;
+            z-index: 1002;
+            left: 0px;
+            opacity: 0.5;
+            -moz-opacity: 0.5;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="mask" class="mask">
+    <div class="progress" style=" width: 500px;margin-top: 10%;
+            height: 192px;
+            display: inline-block;
+            z-index: 1008;">
+        <span style="font-size: 18px;">当前进度：</span>
+        <div style="display: inline-block;width: 80%">
+            <div id="progress-bar" class="progress-bar" role="progressbar"
+                 aria-valuenow="0"
+                 aria-valuemin="0"
+                 aria-valuemax="100" style="min-width: 2em; margin-top: 8%;
+             border-radius: 6px;
+            line-height: 20px;
+            font-size: 16px;;background-color: #50b3e2">
+                0%
+            </div>
+        </div>
+    </div>
+</div>
+<table class="ui-step" cellspacing="1" cellpadding="1">
+    <tr>
+        <td id="step1" class="on"><label title="第 1 步">第 1 步</label></td>
+        <td id="step2"><label title="第 2 步">第 2 步</label></td>
+##        <td id="step3"><label title="第 3 步">第 3 步</label></td>
+##        <td id="step4"><label title="完 成">完 成</label></td>
+        <td id="step4"><label title="完 成">第 3 步</label></td>
+    </tr>
+</table>
+<br/>
+<div id="page1" class="ui-form-fields">
+    <div class="ui-progress">
+        <div class="ui-progress-bar" id="process"  style="width:25%" ></div>
+    </div>
+    <h4 class="ui-legend">第1步，请选择导入文件</h4>
+    <div class="divcss5" width="100%" style="padding: 20px;" >
+    <table class="ui-field-table" >
+        <tr>
+            <td width="7%" class="field" class=".ffyh">
+                <label>文件路径：</label>
+            </td>
+            <td colspan="7">
+                <div class="ui-div-file" id="uploadSpan"  >
+                    <div class="ui-text ui-text-disabled fl" style=" width:697px;" >
+                        <input class="ui-text-text" type="text" disabled/>
+                    </div>
+                    <span class="ui-button fl"><label class="ui-button-text">浏 览</label></span>
+                    <input type="file" id="file" name="uplodeFile" class="file" style=" width:750px; height:24px; top:0px;left:0px;line-height:22px;" onchange="checkFileType(this);"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="7"><div><span class=".ffyh">目前支持导入的文件格式：Excel</span></div></td>
+        </tr>
+        <tr>
+            <td colspan="7"><div><span class=".ffyh">为了更好的导入信息，请下载行业指引导入的模板</span></div></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <span class="ui-closure-button mr5" id="downloads">
+                  <label class="ui-closure-button-text">Excel模板下载</label>
+			   </span>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <hr class="ui-line"/>
+    <div class='ui-layout-closure'>
+            <span class="ui-closure-button mr5" id="nextUpload">
+                <label class="ui-closure-button-text">下一步</label>
+			</span>
+			<span class="ui-closure-button ui-closure-button-cancel" id="uploadSelectCannel">
+                <label class="ui-closure-button-text" >取消</label>
+			</span>
+    </div>
+</div>
+<div id="page2" class="ui-layout-upload hide">
+    <div class="ui-progress">
+        <div class="ui-progress-bar"  style="width:50%" ></div>
+    </div>
+    <h4 class="ui-legend">第2步，导入基本设置</h4>
+    <div class="divcss6" style="padding:20px;"  >
+     <table>
+         <tr><td ><div style="margin-right: 20px;"><img src='../core/imgs/u167.png'></div></td>
+             <td>
+             <table>
+                 <tr><td >说明：</td></tr>
+                 <tr><td ><div style="margin-top: 10px;"><label >1.系统将按照从【被导入的数据表】到【系统的数据表】，自左而右的列对应关系，导入数据</label></div></td></tr>
+                 <tr><td ><div style="margin-top: 10px;"><label>2.如果【系统的数据表】中的列，在【被导入的数据表】中没有列对应，则显示为空</label></div></td></tr>
+                 <tr><td ><div style="margin-top: 10px;"><label>3.您可以在【系统的数据表】中设置与【被导入的数据表】中列的对应关系</label></div></td></tr>
+             </table>
+             </td>
+         </tr>
+     </table>
+    </div>
+    <div id="columnDiv" class="divcss7" style="margin-top: 10px;text-align:center;padding:20px">
+
+    </div>
+    <hr class="ui-line"/>
+    <div class='ui-layout-closure'>
+        	<span class="ui-closure-button ml5" id="importIndustry">
+                <label class="ui-closure-button-text">导入</label>
+			</span>
+        	<span class="ui-closure-button ui-closure-button-cancel ml5" id="importCannel">
+                <label class="ui-closure-button-text">取消</label>
+			</span>
+    </div>
+</div>
+<div id="page3" class="ui-layout-upload hide">
+   <div class="ui-progress">
+        <div class="ui-progress-bar"  style="width:75%" ></div>
+    </div>
+   <h4 class="ui-legend">第3步，确认导入信息</h4>
+    <dl class="mt50 mb50 p10" id="infoMessage">
+    </dl>
+    <hr class="ui-line"/>
+    <div class='ui-layout-closure '>
+			<span class="ui-closure-button ml5" id="setupCancel">
+                <label class="ui-closure-button-text">取消</label>
+			</span>
+    </div>
+</div>
+<div id="page4" class="ui-layout-upload hide">
+    <div class="ui-progress">
+        <div class="ui-progress-bar"  style="width:100%" ></div>
+    </div>
+    <h4 class="ui-legend">第3步：完成</h4>
+    <div class="divcss8"  style="padding: 20px">
+        <h2 style="font-weight:bold;">行业指引导入情况</h2></br>
+        <div style="font-weight:bold;margin-top:10px">导入<label id="total">$nbsp;$nbsp 0 $nbsp;$nbsp</label>条信息</div>
+        <div style="font-weight:bold;margin-top:10px">导入成功<label id="successImport" style="color: green">$nbsp 0 $nbsp</label>条,
+        </span>其中新增<label id="newMessage" style="color: green">$nbsp 0 $nbsp</label>条</span>,更新<label id="updateMessage" style="color: green">$nbsp 0 $nbsp</label>条</span>
+        <div style="font-weight:bold;margin-top:10px">导入失败<label id="importFailure" style="color: #ff0000">$nbsp 0 $nbsp</label>条</div></br></br>
+        <div style="font-weight:bold" id="failMessageDiv" class="ui-closure-button ui-closure-button-cancel" style="width:92px;">
+           <label class="ui-closure-button-text" id="failMessage" style="width:85px;">导出失败信息</label>
+		</div>
+    </div>
+    <div class='ui-layout-closure'>
+			<span class="ui-closure-button ui-closure-button-cancel">
+                <label class="ui-closure-button-text" id="setupClose">关闭</label>
+			</span>
+    </div>
+</div>
+</div>
+<input id="saveFilename" type="hidden" value="" />
+<input type="hidden" id="filename" value="filename" />
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+<script type="text/javascript" src="../system/WebUploader/webuploader.min.js"></script>
+<script type="text/javascript" src="../loan/js/industryGuide/importIndustryGuide.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>申请贷款</title>
+    <style>
+      	
+        body{font-size: 0.14rem;/*实际相当于14px*/}
+        body,*{
+            padding:0;
+            margin:0;
+        }
+        .headDiv{
+			width:100%;
+			height:1.6rem;
+			background:#109add;
+			text-align:center;
+			line-height:1.6rem;
+			vertical-align:middle;
+			}
+			
+		
+		.headDiv label{
+			font-size:0.5rem;
+			font-family:FZLTHJW--GB1-0;
+			text-align:center;
+			color:#FFF;
+			margin-right:1.2rem;
+			}
+			
+		.bodyDiv{
+			width:100%;
+			height:15.8rem;
+			background:#fff;
+			}
+		.bodyDiv form{
+			width:100%;
+			height:100%;		
+			}
+			
+		.bodyDiv ul{
+			margin-top:1.2rem;
+			margin-left:0.35rem;
+			
+			}
+			
+		.bodyDiv ul li{
+			list-style-type:none;
+			height:1.2rem;
+			line-height:1.2rem;
+			width:100%;
+		
+			}
+		
+			
+		.vaileLi{
+			margin-top:0.54rem;
+			
+			
+			}
+      	 .phoneDiv{
+			  display: inline-block;
+			   margin-left:0.2rem;
+			  width:7.8rem;
+			  height:1.2rem;
+			 text-align:center;
+			}
+			
+		  .vaileDiv{
+			  display: inline-block;
+			  margin-left:0.2rem;
+			  width:4.25rem;
+			  height:1.2rem;
+	 		  margin-left:0.7rem;
+			  text-align:center;
+			}
+			 
+		 .phoneLab{
+			  display: inline-block;
+			  margin-left:0.1rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+           
+			 }
+		  .vaileLab{
+			  display: inline-block;
+			  margin-left:0.1rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+             
+			 }			 
+			 
+		 .phoneI{
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#f02b2b; 
+			  float:left;
+			  height:100%;
+			  line-height:100%;
+			  margin-top:0.46rem;
+			 }
+	 
+			 
+		 .vaileI{
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#f02b2b; 
+			  float:left;
+			  height:100%;
+			  line-height:100%;
+			  margin-top:0.5rem;
+			 }
+			 
+		 .numCla{
+			 font-family:FZLTH--GB1-4;
+			 width:95%;
+			 height:95%;
+			 line-height:98%;
+			 font-size:0.42rem;
+			 -webkit-box-sizing: border-box;
+           	 -moz-box-sizing: border-box;
+          	 box-sizing: border-box;
+			 border:2px solid #a6a6a6;
+           	 border-radius:0.2rem;
+			 padding-left:0.2rem;
+			 }
+		 .codeCla{
+			 width:95%;
+			 height:95%;
+			 line-height:98%;
+			 font-size:0.42rem;
+			 font-family:FZLTH--GB1-4;
+			 -webkit-box-sizing: border-box;
+           	 -moz-box-sizing: border-box;
+          	 box-sizing: border-box;
+			 border:2px solid #a6a6a6;
+			 border-radius:0.2rem;
+			 padding-left:0.2rem;
+			 }
+			 
+		 .vaileBtn{
+			 text-align:center;
+			 width:3rem;
+			 height:1.2rem;
+			 margin-left:0.3rem;
+			 font-size:0.42rem;
+			 color:#109add;
+			 border-radius:0.2rem;
+			 border:1px solid #109add;
+			 background:#FFF;
+			 font-family:FZLTH--GB1-4;
+			 }
+			 
+		.vaileBtn_1{
+			 text-align:center;
+			 width:3rem;
+			 height:1.2rem;
+			 margin-left:0.3rem;
+			 font-size:0.42rem;
+			 color:#b2b2b2;
+			 border-radius:0.2rem;
+			 border:1px solid #dfdfdf;
+			 background:#dfdfdf;
+			 font-family:FZLTH--GB1-4; 
+			}
+			
+		   .nextDiv{
+			   width:100%;
+			   text-align:center;
+			   margin-top:10.1rem;
+			 
+			   }
+		  .nextStep{
+			  width:9.96rem;
+			  height:1.44rem;
+			  text-align:center;
+			  line-height:1.44rem;
+			  font-family:FZLTHJW--GB1-0;
+			  font-size:0.54rem;
+			  -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+			  border-radius:0.2rem;
+			  background:#dfdfdf;
+			  color:#b3b3b3;
+			  border:0px ;
+			  }
+			 .headSpan{
+				 float:left;
+			     display:-moz-inline-box;
+				 height:1.6rem;
+				 display:inline-block;
+				 background: url(../html5/intoApply/backIcon.png)  no-repeat 0.1rem 0.45rem;
+				 width:1.6rem;
+				 line-height:1.6rem;
+				
+				 }
+			
+    </style>
+    <link rel="stylesheet" href="../html5/layer/need/layer.css">
+</head>
+<body>
+	<div class="headDiv"><label>贷款申请</label></div>
+    <div class="bodyDiv">
+    	<form>
+        	<ul>
+            	<li class="phoneLi"><i class="phoneI">*</i><label class="phoneLab">联系方式</label><div class="phoneDiv"><input type="text" name="phoneNum" id="phoneNum" class="numCla" placeholder="请输入手机号" ></div></li>
+				#if($isOpen)
+                <li class="vaileLi"><i class="vaileI">*</i><label class="vaileLab">验证码</label><div class="vaileDiv"><input type="text" name="vaileCode" id="vaileCode" class="codeCla" placeholder="请输入验证码"></div><button id="vaileBtn" class="vaileBtn_1" type="button"  disabled="true" >获取验证码</button></li>
+				#end
+                <input type="text" name="userAccount" id="userAccount" value="$!userAccount" style="display: none">
+				</ul>
+ 			<div class="nextDiv"><button id="nextStep" class="nextStep" disabled="true" type="button">下一步</button></div>
+    	</form>
+    
+    </div>
+
+    
+</body>
+
+<script type="text/javascript" charset="UTF-8" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/layer/layer.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/adaptive.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/index.js"></script>
+
+<script>
+    //页面自适应使用
+    adpative(document, window);
+    var isOpen=$isOpen;
+
+</script>
+</html>

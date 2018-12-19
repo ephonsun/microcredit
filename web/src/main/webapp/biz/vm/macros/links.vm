@@ -1,0 +1,36 @@
+#macro(styleLink $group)
+	#if($group=="base")
+	<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+	#elseif($group=="nff")
+	<link type="text/css" rel="stylesheet" href="../core/js/webui/skin/css/nff.blue.css"" />
+	#end
+#end
+
+#macro(scriptLink $groups)
+	#foreach($group in $action.getLinkGroups($groups))
+		#if($group=="base")
+<script type="text/javascript" src="../core/js/webui/js/core.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/ctrl.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/widget.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/ctrl.setting.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/dao.js" ></script>
+		#elseif($group=="webui")
+<script type="text/javascript" src="../core/js/webui/js/textbox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/treebox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/textarea.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/listbox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/combobox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/numspin.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/button.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/checkbox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/radio.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/datebox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/forms.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/gridbox.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/pagesize.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/gridview.js" ></script>
+	<script type="text/javascript" src="../core/js/webui/js/dialog.js" ></script>
+		#end
+	#end
+#end

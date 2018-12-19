@@ -1,0 +1,9 @@
+
+<div class="ui-layout-statistics">
+    所有贷款 (<label class="statistics" id="lblStatisticsCredit">0</label>)
+</div>
+<input type="hidden" id="id" name="id" value="$!id"/>
+<table id="creditGrid"></table>
+
+##<script type="text/javascript" src="../customer/js/customerReditList.js"></script>
+

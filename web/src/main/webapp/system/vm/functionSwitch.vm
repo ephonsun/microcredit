@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>功能开关</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .ttd{
+            text-align: right;
+        }
+        .gnspan{
+            font-size: 14px
+        }
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <span class="gnspan" ><strong>功能开关</strong></span>
+    <table class="ui-form-fields">
+##        <input type="hidden" id="jcdc_id" value="$!jcdc.basicConfigId">
+##        <input type="hidden" id="cfsz_id" value="$!cfsz.basicConfigId">
+##        <input type="hidden" id="scjk_id" value="$!scjk.basicConfigId">
+##        <input type="hidden" id="cgjkzc_id" value="$!cgjkzc.basicConfigId">
+##        <input type="hidden" id="cgjkgz_id" value="$!cgjkgz.basicConfigId">
+        <tbody>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr>
+
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;进件自动分配</strong></label>
+            </td>
+        </tr>
+        <tr>
+
+            <td width="10%" class="ttd">
+                <label>功能开启：</label>
+            </td>
+            <td width="15%">
+                <div>
+                <select id="jjzdfp">
+
+                </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">设置进件是否自动分配到客户经理，直接进入调查阶段</span>
+            </td>
+        </tr>
+##
+
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;身份认证</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>短信验证：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="dxyz">
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999"> 开启后需通过短信验证码进行验证 </span>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>身份证OCR：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="ocr">
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后启用身份证OCR功能，包括预进件、新增贷款申请中的OCR功能</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>人脸识别：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="rlsb">
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后启用人脸功能，包括预进件、新增贷款申请中的人脸识别功能，必须先开启身份证OCR</span>
+            </td>
+        </tr>
+
+##
+
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;信息脱敏</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>列表脱敏：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="lbtm">
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后列表上的证件号码、联系电话会进行脱敏处理，默认开启</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>详情脱敏：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="xqtm" >
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后详情中的证件号码、联系电话会进行脱敏处理，默认关闭</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;还款方式</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>还款方式：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="hkfs" >
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">如果有对接银行数据，手动还款关闭，否则开启，默认开启手动</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;潜在客户导入</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>是否重复：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="qzkhdr" >
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">如果关闭,则不允许导入重复的潜在客户名称和联系电话，默认关闭（不允许）</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;贷款分配</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>分配控制：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="dkfpkz" >
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后，如果客户经理有首次监控过期还未完成的，则贷款分配时不能被分配到</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;贷款申请</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>三要素校验：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="sysjy" >
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后，客户经理新建贷款申请时，做三要素校验，如果客户不属于当前客户经理，不让保存</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;用户绑定</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>用户绑定：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="yhbd" >
+
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后，APP端用户第一次（或解绑后第一次）登录的用户默认与设备绑定，绑定后只有绑定用户才能使有该设备登录</span>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+
+   <table id="functionSwitch"></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../system/js/functionSwitch.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../system/js/sysBasicConfigUpdate.js?v=$!webAppVersion"></script>
+</body>
+</html>

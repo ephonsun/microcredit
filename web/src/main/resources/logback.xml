@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+       <!--<include resource="org/springframework/boot/logging/logback/defaults.xml" />-->
+       <!--<conversionRule conversionWord="ip" converterClass="com.banger.ubip.common.logback.IpConvert" />-->
+       <!--<define name="HostName" class="com.banger.ubip.common.logback.HostName" />-->
+       <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n"/>
+       <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n"/>
+       <!--<property file="@filter.logback.location@"/>-->
+
+       <property name="LOG_ROOT_PATH" value="/weidai/micro/logs/"/>
+       <property name="LOG_LEVEL" value="debug"/>
+
+       <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+              <encoder>
+                     <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+                     <!--<charset>utf8</charset>-->
+              </encoder>
+       </appender>
+
+       <!-- 所有日志信息的输出 -->
+       <appender name="banger-default" class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <!--<Encoding>UTF-8</Encoding>-->
+              <File>${LOG_ROOT_PATH}/default.log</File>
+              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                     <FileNamePattern>${LOG_ROOT_PATH}/default-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+                     <!--最多保存MaxHistory天日志-->
+                     <MaxHistory>365</MaxHistory>
+                     <!--单个文件超过MaxFileSize时多生成一个log文件-->
+                     <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                            <MaxFileSize>50MB</MaxFileSize>
+                     </TimeBasedFileNamingAndTriggeringPolicy>
+              </rollingPolicy>
+              <layout class="ch.qos.logback.classic.PatternLayout">
+                     <pattern>${FILE_LOG_PATTERN}</pattern>
+              </layout>
+       </appender>
+
+       <!-- 所有日志信息的输出 -->
+       <appender name="banger-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <!--<Encoding>UTF-8</Encoding>-->
+              <File>${LOG_ROOT_PATH}/error.log</File>
+              <param name="threshold" value="ERROR" />
+              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                     <FileNamePattern>${LOG_ROOT_PATH}/error-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+                     <!--最多保存MaxHistory天日志-->
+                     <MaxHistory>365</MaxHistory>
+                     <!--单个文件超过MaxFileSize时多生成一个log文件-->
+                     <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                            <MaxFileSize>50MB</MaxFileSize>
+                     </TimeBasedFileNamingAndTriggeringPolicy>
+              </rollingPolicy>
+              <layout class="ch.qos.logback.classic.PatternLayout">
+                     <pattern>${FILE_LOG_PATTERN}</pattern>
+              </layout>
+              <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+                     <level>ERROR</level>
+                     <onMatch>ACCEPT</onMatch>
+                     <onMismatch>DENY</onMismatch>
+              </filter>
+       </appender>
+
+       <logger name="banger.controller">						<!-- controller -->
+              <level value="${log.level}" />
+              <appender-ref ref="banger-default" />
+              <appender-ref ref="banger-error" />
+       </logger>
+
+       <logger name="banger.service">						<!-- controller -->
+              <level value="${log.level}" />
+              <appender-ref ref="banger-default" />
+              <appender-ref ref="banger-error" />
+       </logger>
+
+       <logger name="banger.dao">						<!-- controller -->
+              <level value="${log.level}" />
+              <appender-ref ref="banger-default" />
+              <appender-ref ref="banger-error" />
+       </logger>
+
+       <logger name="banger.moduleImpl">						<!-- module -->
+              <level value="${log.level}" />
+              <appender-ref ref="banger-default" />
+              <appender-ref ref="banger-error" />
+       </logger>
+
+       <logger name="banger.framework.sql">							<!-- sql -->
+              <level value="${dao.level}" />
+              <appender-ref ref="banger-sql" />
+              <appender-ref ref="banger-error" />
+       </logger>
+
+       <!-- show sql -->
+       <logger name="com.banger.ubip.webapp.module.dao" level="${log.level}"/>
+
+       <root level="${log.level}">
+              <appender-ref ref="CONSOLE" />
+              <appender-ref ref="banger-default" />
+       </root>
+</configuration>

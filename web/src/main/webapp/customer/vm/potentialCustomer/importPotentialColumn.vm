@@ -1,0 +1,178 @@
+<form id="form" action="" onsubmit="return false;">
+    <input type="hidden" id="groupPermit" name="groupPermit" value="$!groupPermit" />
+    <input type="hidden" id="loginUserId" name="loginUserId" value="$!userId" />
+    <input type="hidden" id="teamGroupID" name="teamGroupID" value="$!teamGroupID" />
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            #*<table class="ui-form-fields">
+                <tr>
+                    <td class="field" width="85px">
+                        <label>归属对象：</label>
+                    </td>
+                    <td width="131px">
+                        <select id="taskObj" name="taskObj">
+                            <option value="1">客户经理</option>
+                            <option value="2">团队</option>
+                        </select>
+
+                    </td>
+                    <td width="131px">
+                        <div id="hh">
+                            <select id="teamGroupId" name="teamGroupId" >
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td rowspan="10" ><div  width="100px"></div></td>
+                    <td width="131px" >
+                        <div id="gg">
+                            <select id="userIdSelect" name="userId">
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="50%" >
+
+                    </td>
+                </tr>
+            </table>*#
+            <table style="margin-left: 95px;">
+                <tr>
+                    <td class="field">
+                        <label>归属对象：</label>
+                    </td>
+                    <td>
+                        <div  width="400px">
+                            <select id="taskObj" name="taskObj">
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td id="centerTd" style="display: none;">
+                        <div  width="400px">
+
+                        </div>
+                    </td>
+
+                    <td>
+                        <div  width="400px" id="hh">
+                            <select id="teamGroupId" name="teamGroupId" >
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div  width="400px" id="gg">
+                            <select id="userIdSelect" name="userId">
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                #foreach($col in $columnInfos)
+                    <tr>
+                        #set($index = ${velocityCount} - 1)
+                        <td>
+                            <div  width="400px">
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <div  width="400px">
+                                <select name="leftColumns" disabled >
+                                    #foreach($head in $headList)
+                                        #if($col.columnName==$head)
+                                            <option value="$!head" selected >$!head</option>
+                                        #else
+                                            <option value="$!head" >$!head</option>
+                                        #end
+                                    #end
+                                </select>
+                            </div>
+                        </td>
+                        #if($index==0)
+                            #*<td rowspan="$!columnInfos.size()" ><div  width="100px"></div></td>*#
+                            <td rowspan="$!columnInfos.size()" ><div  width="100px"><img src='../core/imgs/daohang.png'></div></td>
+                            #*<td rowspan="$!columnInfos.size()" ><div  width="100px"></div></td>*#
+                        #end
+                        <td>
+                            <div width="400px" >
+                                <select name="rightFields" id="FieldName"
+##                                    #if($col.fieldName=="customerSex" || $col.fieldName=="customerSex"||
+##                                    $col.fieldName=="age" ||$col.fieldName=="productCode" || $col.fieldName=="intentionDate" ) disabled #end
+                                >
+                                    <option></option>
+                                    <option value ="customerName" #if($col.fieldName=="customerName") selected #end >客户姓名(必填)</option>
+                                    <option value ="telephoneNumber" #if($col.fieldName=="telephoneNumber") selected #end >联系电话(必填)</option>
+                                    <option value ="cardType" #if($col.fieldName=="cardType") selected #end >证件类型</option>
+                                    <option value ="cardNumber" #if($col.fieldName=="cardNumber") selected #end >证件号码</option>
+                                    <option value ="customerSex" #if($col.fieldName=="customerSex") selected #end >性别</option>
+                                    <option value ="age" #if($col.fieldName=="age") selected #end >年龄</option>
+                                    <option value ="address" #if($col.fieldName=="address") selected #end >居住地址</option>
+                                    <option value ="productCode" #if($col.fieldName=="productCode") selected #end >产品编号</option>
+                                    <option value ="loanUse" #if($col.fieldName=="loanUse") selected #end >贷款用途</option>
+                                    <option value ="remark" #if($col.fieldName=="remark") selected #end >备注</option>
+                                </select>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div  width="400px">
+
+                            </div>
+                        </td>
+                    </tr>
+                #end
+            </table>
+        </div>
+</form>
+
+<input id="importTotal" type="hidden" value="$!total">
+<script type="application/javascript">
+    $(function(){
+        $('select').selectbox({});
+        //一级下拉选change事件
+        $('#taskObj').change(
+                function () {
+                    var roleId = $(this).val();
+                    if (roleId == 3) {
+                    } else if (roleId == 2) {
+                        //团队
+                        $('#hh,#centerTd').show();
+                        $('#gg').hide();
+                        $('#teamGroupId').val('');
+                        $('#userIdSelect').val('');
+                        $('select').selectbox({});
+                    } else if (roleId == 1) {
+                        //客户经理
+                        $("#centerTd").hide();
+                        $("#hh,#gg").show();
+                        $('#teamGroupId').val('');
+                        $('#userIdSelect').val('');
+                        $('select').selectbox({});
+                    }
+                });
+        //二级下拉选change事件
+        $('#teamGroupId').change(
+                function () {
+                    var groupId = $('#teamGroupId').val();
+                    $('#userIdSelect').val('')
+                    $('select').selectbox({});
+                    $.getJSON("../taskStat/queryMemberByTeamGroupId.html", {teamGroupId: groupId}, function (data) {
+                        $('#userIdSelect').empty();
+                        $('#userIdSelect').append("<option></option>");
+                        if($('#gp').val()==""){
+                            // $('#userIdSelect').append("<option value=" + $("#loginUserId").val() + ">" + $("#userName").val() + "</option>");
+                        }else{
+                            for (var index in data.data) {
+                                $('#userIdSelect').append("<option value=" + data.data[index].userId + ">" + data.data[index].userName + "</option>");
+                            }}
+                    });
+                });
+    })
+</script>

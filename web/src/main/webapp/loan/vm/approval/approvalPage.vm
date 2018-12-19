@@ -1,0 +1,67 @@
+<div id="applyTemplate_$!module$!precType">
+</div>
+<div class="ui-layout-closure">
+#if($!module == 'approval' && $!precType == 'approval' && $!forPrint != '1')
+    <span id="approvalPass" class="ui-closure-button">
+        <label class="ui-closure-button-text">审批通过</label>
+    </span>
+    <span id="approvalBack" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">审批驳回</label>
+    </span>
+    <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">关闭</label>
+    </span>
+    <span id="btnRefuseApply" class="ui-button ml5">
+        <label class="ui-closure-button-text">拒绝</label>
+    </span>
+#end
+</div>
+
+<script type="text/javascript" >
+    var loanTypeId = '$!loanTypeId';
+    var deleteIds = {};
+    $(function () {
+        refreshLoanApprovalInfo('applyTemplate_$!module$!precType', '$!loanId', '$!loanTypeId', '$!module', '$!precType', '$!showApply');
+
+        // 回退贷款信息
+        $('#approvalPass').click(function() {
+            approvalPass('$!loanId');
+        });
+        // 回退贷款信息
+        $('#approvalBack').click(function() {
+            approvalBack('$!loanId', '$!module');
+        });
+        // 拒绝
+        $('#btnRefuseApply').click(function() {
+            refuseApply('$!loanId', '$!module');
+        });
+        //关闭
+        $('#btnCloseApply').click(function() {
+            showCancelConfirmForEdit(function(){
+                closeApplyTab();
+            })
+        });
+    });
+
+    //加载模板表
+    function refreshLoanApprovalInfo(divId, loanId, loanTypeId, processType, precType, showApply) {
+        $('#'+divId).empty();
+        var url = '../loanApproval/getApprovalInfo.html';
+        jQuery.ajax({
+            type: 'post',
+            url: url,
+            async:false,
+            data: {"loanId":loanId,"loanTypeId":loanTypeId, "module" : processType, "precType" :precType, "showApply" : showApply },
+            success: function (data) {
+                $('#'+divId).append(data);
+                layout.initForms();
+            }
+        });
+    }
+
+
+
+
+</script>
+
+

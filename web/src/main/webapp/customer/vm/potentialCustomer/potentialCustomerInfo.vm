@@ -1,0 +1,155 @@
+##    传递潜在客户id
+<input type="hidden" id="potentialId" value="$!custPotentialCustomerQuery.id"/>
+<form id="baseForm">
+    <input type="hidden" id="id" name="id" value="$!id"/>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label>客户归属：</label>
+            </td>
+            <td width="10%" colspan="1">
+                $!custPotentialCustomerQuery.belongUserName
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">客户姓名：</label>
+            </td>
+            <td width="5%">
+
+                   $!custPotentialCustomerQuery.customerName
+
+            </td>
+            <td class="field" width="5%">
+                <label >证件类型：</label>
+            </td>
+            <td width="20%">
+
+                    $!custPotentialCustomerQuery.identifyTypeName
+
+            </td>
+            <td class="field" width="5%">
+                <label >证件号码：</label>
+            </td>
+            <td width="20%">
+
+                    $!custPotentialCustomerQuery.cardNumber
+
+            </td>
+            <td class="field" width="5%">
+                <label>年龄：</label>
+            </td>
+            <td width="10%">
+
+                #if($!custPotentialCustomerQuery.age==0)
+
+                #else
+                   $!custPotentialCustomerQuery.age
+                #end
+
+            </td>
+        </tr>
+
+
+        <tr>
+
+            <td class="field" width="5%">
+                <label>性别：</label>
+            </td>
+            <td  width="5%">
+
+                   $!custPotentialCustomerQuery.customerSex
+
+            </td>
+
+            <td class="field" width="5%">
+                <label class="ui-star">联系电话：</label>
+            </td>
+            <td width="20%">
+
+                    $!custPotentialCustomerQuery.telephoneNumber
+
+            </td>
+            <td class="field" width="5%">
+                <label>居住地址：</label>
+            </td>
+            <td width="40%" colspan="2">
+
+                $!custPotentialCustomerQuery.address
+
+            </td>
+
+
+        </tr>
+        <tr>
+
+            <td class="field" width="5%">
+                <label>产品意向：</label>
+            </td>
+            <td width="200px" >
+                <div>
+                    <span class="" onclick="queryProduct($!custPotentialCustomerQuery.productId)">$!custPotentialCustomerQuery.productName</span>
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label>意向时间：</label>
+            </td>
+            <td width="20%">
+
+                    $!df1
+
+
+            </td>
+            <td class="field" width="5%">
+                <label>贷款用途：</label>
+            </td>
+            <td width="20%" colspan="1">
+
+                $!custPotentialCustomerQuery.loanUse
+
+            </td>
+        </tr>
+        <tr >
+            <td class="field" width="5%">
+                <label>备注：</label>
+            </td>
+            <td colspan="7"  >
+                   $!custPotentialCustomerQuery.remark
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+
+             </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>营销成功：</label>
+            </td>
+            <td width="20%">
+                $!mks
+            </td>
+            <td class="field" width="5%">
+                <label>新建时间：</label>
+            </td>
+            <td width="200px" >
+                $!df2
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+    #if($!flag=="1")
+        <span id="toApplyLoan" class="ui-closure-button" style="margin:0 14px">
+            <label class="ui-closure-button-text">申请贷款</label>
+        </span>
+    #end
+
+    <span id="btnCancelBase" class="ui-closure-button ui-closure-button-cancel ml5">
+    <label class="ui-closure-button-text">关闭</label>
+</span>
+</div>

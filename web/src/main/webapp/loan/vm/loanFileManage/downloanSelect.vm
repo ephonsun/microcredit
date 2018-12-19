@@ -1,0 +1,69 @@
+#*资产负债金额项目明细表，现金，其他经营资产，其他非经营资产，其他资产，其他负债，投资性资产，对外债权，预付款， 编辑界面*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>下载选择界面</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css"/>
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css"/>
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion"/>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<form id="form">
+            <input type="hidden" value="$!loanId" id="loanId">
+    <div style="text-align: center;margin: 60px 38px 70px 38px;">
+        <table class="ui-form-fields">
+            <tbody>
+            <tr>
+                <td>
+                    <input type="checkbox" class="ui-check checkRole" name="checkFileType" deptids="" checked="true"  value="Image">&nbsp;
+                    <label>图 片</label>
+                </td>
+                <td>
+                    <input type="checkbox" class="ui-check checkRole" name="checkFileType" deptids="" checked="true" value="Video">&nbsp;
+                    <label>视 频</label>
+                </td>
+                <td>
+                    <input type="checkbox" class="ui-check checkRole" name="checkFileType" deptids="" checked="true" value="Audio">&nbsp;
+                    <label>录 音</label>
+                </td><td>
+                <input type="checkbox" class="ui-check checkRole" name="checkFileType" deptids=""  checked="true" value="Other">&nbsp;
+                <label>其 他</label>
+            </td></tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<hr class="ui-line" style="margin-top: 5%"/>
+<div class="ui-layout-closure ">
+                 <span id="btnSure" class="ui-closure-button">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+			    </span>$nbsp;$nbsp;
+                <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+                    <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+                </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //附件上传相关脚本 -->
+<script type="text/javascript" src="../uploadify/swfobject.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/loanFileShow.js"></script>
+
+</body>
+</html>

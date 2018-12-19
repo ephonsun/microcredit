@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+    </style>
+</head>
+
+<body>
+<form id="form" >
+<input type="hidden" id="flowId" name="flowId" value="$!flowStepItem.flowId"/>
+<input type="hidden" id="stepId" name="stepId" value="$!flowStepItem.id">
+<table class="ui-form-fields" >
+    <tr style="80%">
+##        style="width: 10%;text-align: left"
+        <td class="field" width="10%" >
+            <label class="ui-star" style="margin-left: 20px">步骤名称：</label>
+        </td>
+        <td style="width: 90%" >
+            <div class="ui-text" style="width: 35%">
+                <input type="text" id="stepName" class="ui-text-text" name="stepName" value="$!flowStepItem.stepName" maxlength="8"/>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="field" width="10%">
+            <span id="AddSubStance" class="ui-button fl" style="margin:5px 0px 0px 20px">
+        	<label class="ui-button-text">添加内容</label>
+            </span>
+        </td>
+    </tr>
+</table>
+
+<div class="ui-flexigrid" style="width: 92%;margin:4px 24px 0px 24px">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr style="width: 100%">
+                    <th align="center" col="field" style="width: 75%;text-align: center;"><div>调查内容</div></th>
+                    <th align="center" col="field" style="width: 25%;text-align: center;"><div >操作</div></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+       <div class="ui-flexigrid-body-inner" style="height: auto;">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout" id="subStanceTable">
+                <tbody>
+                #if($stepContent)
+                    #foreach($stepSub in $stepContent)
+                    <tr>
+                        <td style="width: 75%; text-align: center;"><div style="width: 100%;height: 30px;padding:0px"><input type="hidden" value="$!stepSub.id" name="subId">
+                            <input type="text" name="subStance" class="subStanceCla" value="$!stepSub.substance" style="width: 100%;height:30px;display:block;border:none;line-height:30px;text-align: center" required="true"></div></td>
+                        <td style="width: 25%; text-align: center;" class="tdoverflow"><div  mark="action">
+                            <label class="ui-link mr5" mark="action" data="0" button="0" onclick="removeSub(this)">删除</label>
+                            <label class="ui-link mr5" mark="action" data="0" button="1" onclick="upSub(this)">上移</label>
+                            <label class="ui-link mr5" mark="action" data="0" button="2" onclick="downSub(this)">下移</label>
+                        </div></td>
+                    </tr>
+                    #end
+                #end
+            </tbody>
+            </table>
+       </div>
+    </div>
+</div>
+</form>
+<div style="margin-top: 30px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+
+        <span id="btnSave" class="ui-closure-button" onclick="addFlowStep()">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+        </span>
+        <span id="btnClose" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+        </span>
+
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../loan/js/surveyFlow/flowStepSave.js?v=$!webAppVersion"></script>
+<script language="javascript" type="text/javascript">
+    //禁用Enter键表单自动提交
+    document.onkeydown = function(event) {
+        var target, code, tag;
+        if (!event) {
+            event = window.event; //针对ie浏览器
+            target = event.srcElement;
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "TEXTAREA") { return true; }
+                else { return false; }
+            }
+        }
+        else {
+            target = event.target; //针对遵循w3c标准的浏览器，如Firefox
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "INPUT") { return false; }
+                else { return true; }
+            }
+        }
+    };
+
+</script>
+</body>
+</html>

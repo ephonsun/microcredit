@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$!page.pageTitle</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+	<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+	<link type="text/css" rel="stylesheet" href="../core/js/webui/skin/css/blue.css" ></link>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+	#scriptLink("base")
+	
+	<script>
+		
+		var pageId = "$!queryPage.id";
+		jQuery.json.attach("DS",{"Query":{}});
+		jQuery.json.attach("DS",{"PageSize":{"page":1,"size":25,"count":0}});
+		jQuery.json.attach("DV",{"RecordList":[]});
+		
+		function operClick(args){
+			switch(args.id){
+				#foreach($item in $queryPage.grid.option.items)
+				case "$!item.id":
+					#set($funName = $item.function+"(args);")$!funName
+					break;
+				#end
+			}
+		}
+		
+		#foreach($item in $queryPage.grid.option.items)
+			$!item.scriptString
+		#end
+
+		#foreach($button in $queryPage.buttons)
+			$!button.scriptString
+		#end
+		
+		$(function(){
+			queryList();
+		});
+	</script>
+</head>
+<body>
+	
+	<!-- // 操作栏 -->
+	<form id="form" >
+        <div class="ui-layout-search">
+            <div class="ui-layout-search-body">
+				<forms id="query" name="query" columns="4" layout="query" data="DS.Query" >
+					#foreach($cell in $queryPage.forms.cells)
+                    <cell title="$!cell.title" field="$!cell.property" editor="$!cell.control" cols="$!cell.cols" ></cell>
+					#end
+                </forms>
+            </div>
+            <div class="ui-layout-search-foot">
+				<div class="buttons">
+					<button id="btnClear" onclick="clearQuery" value="重置" ></button>
+					<button id="btnQuery" onclick="queryList" skin="green" value="查询" ></button>
+                </div>
+            </div>
+        </div>
+    </form>
+	
+    <!-- // 统计栏 -->
+    <div class="ui-layout-statistics">
+    	所有记录<label class="statistics" id="recordCount">0</label>个
+    </div>
+	
+	<!-- // 操作栏 -->
+	<div class="ui-layout-action" >
+		#foreach($button in $queryPage.buttons)
+			<button id="$!button.id" style="float:left;" onclick="$!button.function" skin="$!button.skin" value="$!button.title" ></button>
+		#end
+		<button id="btnRefresh" onclick="gotoPage" skin="blur" value="刷新" ></button>
+	</div>
+	
+	<!-- // 列表 -->
+    <gridview id="grid" name="grid" style="height:350px;" data="DV.RecordList" check="$!queryPage.grid.check" >
+    	#foreach($column in $queryPage.grid.columns)
+			#if(!$column.hide)
+			<column field="$!column.property" title="$!column.title" width="$!column.width" align="$!column.align" ></column>
+			#end
+		#end
+		#if(!$queryPage.grid.option.hide)
+			<column title="$!queryPage.grid.option.title" width="$!queryPage.grid.option.width" onclick="operClick" align="center" >
+				<div class="gridview-options" >
+					#foreach($item in $queryPage.grid.option.items)
+						<span id="$!item.id" >$!item.title</span>
+					#end
+				</div>
+			</column>
+		#end
+		<pagesize data="DS.PageSize" ongotopage="gotoPage" ></pagesize>
+    </gridview>
+	#scriptLink("webui")
+	#include($!queryPage.extraView)
+	
+	
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+	<script type="text/javascript" src="../biz/js/queryPageList.js" ></script>
+	<script>jQuery.ctrl.render();</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新增</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">行业分类：</label>
+            </td>
+            <td width="50">
+                <div>
+                    <select id="dictNameSelect" name="dictNameSelect" >
+                        <option></option>
+                        #options("cdIndustryGuidelinesName","${dictColId}","${dictName}")
+                    </select>
+                </div>
+            </td>
+         </tr>
+        <tr>
+            <td class="field" width="1">
+                <label class="ui-star">标题：</label>
+            </td>
+            <td width="100">
+                <div class="ui-text">
+                    <input type="text" id="title" class="ui-text-text" value=""  maxlength="50"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="1">
+                <label class="ui-star">内容：</label>
+            </td>
+            <td colspan="3" width="100">
+                <div id="tips" class="ui-textarea-tips"> 您还可以输入<label>0</label>字</div>
+                <div class="ui-textarea">
+                    <textarea id="content" name="content" class="ui-textarea-text" style="height:240px;" maxlength="500"></textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+		<span id="btnSave" class="ui-closure-button">
+			<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+		</span>
+        <span id="btnSaveContine" class="ui-closure-button ml5">
+                    <label class="ui-closure-button-text">保存并新建</label>
+                </span>
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+</div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../system/js/industryGuidelinesAdd.js?v=$!webAppVersion"></script>
+</body>
+</html>

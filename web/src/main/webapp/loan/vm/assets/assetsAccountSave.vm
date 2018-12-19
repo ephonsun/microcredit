@@ -1,0 +1,135 @@
+
+#*资产负责账款项明细，应收账款，预付账款，应付账款，预收账款*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资产负债账款项详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<form id="form">
+    #if($entity)
+        <input type="hidden" value="$!entity.loanId" name="loanId" id="loanId">
+        <input type="hidden" value="$!entity.loanClassId" name="loanClassId" id="loanClassId">
+    #else
+        <input type="hidden" value="$!loanId" name="loanId" id="loanId">
+        <input type="hidden" value="$!loanClassId" name="loanClassId" id="loanClassId">
+    #end
+    <table class="ui-form-fields">
+        <tbody>
+        <input type="hidden" value="$!entity.id" name="id">
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">客户姓名：</label>
+            </td>
+            <td width="20%">
+                    <div class="ui-text">
+                        <input type="text" id="customerName" class="ui-text-text" name="customerName" value="$!entity.customerName"  maxlength="30"/>
+                    </div>
+            </td>
+            <td class="field" width="5%">
+                <label >金额：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9">
+                    <input type="text" id="amount" class="ui-text-text" name="amount" value="$!entity.amount"  maxlength="13" />
+                </div>&nbsp;元
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>结算方式：</label>
+            </td>
+            <td width="20%">
+                <select id="settlementMode" name="settlementMode">
+                    #datadict("$!entity.settlementMode","CD_SETTLEMENT_MODE")
+                </select>
+            </td>
+            <td class="field" width="5%">
+                <label>账龄：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9">
+                    <input type="text" id="accountAge" class="ui-text-text" name="accountAge" value="$!entity.accountAge" maxlength="4"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>业务关系缓存：</label>
+            </td>
+            <td width="20%">
+                <select id="renewDeposit" name="renewDeposit" value="$!entity.renewDeposit">
+                    <option value="1" #if($!entity.renewDeposit == 1) selected
+                    #end>是</option>
+                    <option value="0" #if($!entity.renewDeposit == 0) selected
+                    #end>否</option>
+                </select>
+            </td>
+            <td class="field" width="5%">
+                <label>付款方式：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9">
+                    <input type="text" id="paymentMode" class="ui-text-text" name="paymentMode" value="$!entity.paymentMode" maxlength="30" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>备注：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-textarea" style="float: left;width: 92%">
+                    <textarea id="remark" name="remark" class="ui-textarea-text" maxlength="100">$!entity.remark</textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 75px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure divcss10">
+    #if($entity)
+        <span id="btnUpdate" class="ui-closure-button" onclick="updateAcountAssets('$!entity.columnName')">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+			</span>
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		    </span>
+    #else
+        <span id="btnAdd" class="ui-closure-button" onclick="addAccountAssets('$!columnName')">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+			    </span>
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+                    <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+                </span>
+    #end
+
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //附件上传相关脚本 -->
+<script type="text/javascript" src="../uploadify/swfobject.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/assets/assetsAccountSave.js"></script>
+</body>
+</html>

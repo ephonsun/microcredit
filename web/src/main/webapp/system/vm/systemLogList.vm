@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系统日志</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+	<!-- // 搜索栏 -->
+    <input type="hidden" id="hidBelongTo" value="" name="opUserName"/>
+    <input type="hidden" id="hidOpModule" value="" name="opAction"/>
+    <form id="form">
+        <div class="ui-layout-search">
+            <div class="ui-layout-search-body">
+                <table class="ui-form-fields">
+                    <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>操作时间：</label>
+                            </td>
+                            <td width="18%">
+                                <table class="ui-form-fields-cell">
+                                    <tbody>
+                                        <tr>
+                                            <td width="150">
+                                                <div class="ui-text">
+                                                    <input type="text" id="txtStartDate" class="ui-text-text" name="logDateBegin" />
+                                                    <i class="ui-text-icon ui-text-date"></i>
+                                                </div>
+                                            </td>
+                                            <td width="20">-</td>
+                                            <td width="150">
+                                                <div class="ui-text">
+                                                    <input type="text" id="txtEndDate" class="ui-text-text" name="logDateEnd"/>
+                                                    <i class="ui-text-icon ui-text-date"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="field" width="7%">
+                                <label>操作名称：</label>
+                            </td>
+                            <td width="18%">
+                                <table class="ui-form-fields">
+                                    <tbody>
+                                    <tr>
+                                        <td width="200">
+                                            <div >
+                                                <div class="ui-text">
+                                                    <input type="text" id="opeventModule" class="ui-text-text" value="" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="field" width="7%">
+                                <label>操作者：</label>
+                            </td>
+                            <td width="18%">
+                                <table class="ui-form-fields">
+                                    <tbody>
+                                    <tr>
+                                        <td width="200">
+                                            <div class="ui-text">
+                                                <input type="text" id="txtBelongTo" class="ui-text-text" value="" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ui-layout-search-foot">
+                <div class="buttons">
+                    <span id="btnSearch" class="ui-search-button">
+                        <label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+                    </span>
+                    <span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- // 统计栏 -->
+    <div id="logGridShow">
+    <div class="ui-layout-statistics">
+    	所有日志<label class="statistics" id="lblStatistics">0</label>个
+    </div>
+    <!-- // 操作栏 -->
+    <div class="ui-layout-action">
+        #if($funcPermit.hasFuncCode("exportLog"))
+            <span id="btnExport" onclick="exportLog();" class="ui-button fl" >
+                <label class="ui-button-text">导出日志</label>
+            </span>
+        #end
+        <span id="btnRefresh" class="ui-button fr">
+        	<label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+        </span>
+    </div>
+    <table id="logGrid"></table>
+    </div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+	<script type="text/javascript" src="../system/js/systemLogList.js"></script>
+    <script>
+//        记录搜索后的关键字
+        var _logDateBegin = "";
+        var _opeventModule ="";
+        var _txtBelongTo ="";
+        var _logDateEnd ="";
+    </script>
+</body>
+</html>

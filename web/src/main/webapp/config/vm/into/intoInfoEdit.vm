@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+    </style>
+</head>
+
+<body>
+<input id="id" type="hidden" name="id" value="$!formSettingsEdit.id"/>
+<input id="firstValueShow" type="hidden" value="firstValueShow" />
+<form id="form" style="height:200px;">
+    <tbody>
+    <table class="ui-form-fields">
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">所属模板：</label>
+            </td>
+            <td width="43%">
+                <input type="hidden" id="tableName1" value="$!intoAutoTableColumn.tableName"/>
+##                <input type="hidden" id="controlFormName" name="controlFormName" value="">
+                <select id="tableName" name="tableName">
+                    <option></option>
+                    #foreach($!til in $!tableInfoList)
+                        <option value="$!til.tableDbName" #if($!til.tableDbName == $!formSettingsEdit.controlForm)  selected  #end>$!til.tableDisplayName</option>
+                    #end
+                </select>
+            </td>
+            <td class="field" width="7%">
+                <label class="ui-star">字段：</label>
+            </td>
+##            <td width="43%">
+##                <input type="hidden" id="fieldColumn1" value="$!formSettingsEdit.fieldColumn"/>
+####                <input type="hidden" id="controlItemName" name="controlItemName" value="$!formSettingsEdit.controlItemName">
+####                <input type="hidden" id="controlItemColumn" name="controlItemColumn" value="$!formSettingsEdit.controlItemColumn">
+##                <select id="fieldColumn" name="fieldColumn">
+##                    <option value="$!formSettingsEdit.fieldColumn">$!formSettingsEdit.controlItemName</option>
+##                </select>
+##            </td>
+        </tr>
+##        <tr>
+##            <td class="field" width="7%">
+##                <label class="ui-star">是否必填：</label>
+##            </td>
+##            <td width="43%">
+##                <div class="ui-text" id="multipleContainer">
+####                    <input type="hidden" id="defaultValue" name="controlValue" value="$!formSettingsEdit.controlValue"/>
+####                    <input type="text" class="ui-text-text" multiselect="true" id="mutlDefaultValue" name="controlValueName" value="$!formSettingsEdit.controlValueName"/>
+####                    <i class="ui-text-icon ui-text-select"></i>
+##                    <div id="ctrlValDiv" style="display: none;">
+##                        <select id="controlValue" style="display:none;" >
+##                            <option></option>
+##                            #options("cdDictColByName","",$!formSettingsEdit.controlItem)
+##                        </select>
+##                    </div>
+##                </div>
+##            </td>
+####            <td class="field" width="7%">
+####                <label class="ui-star">隐藏表单：</label>
+####            </td>
+####            <td >
+####                <input type="hidden" id="hiddenFormName" name="hiddenFormName" value="$!formSettingsEdit.hiddenFormName">
+####                <select name="hiddenForm" id="hiddenForm">
+####                    <option value="$!formSettingsEdit.hiddenForm" selected>$!formSettingsEdit.hiddenFormName</option>
+####                </select>
+####            </td>
+##        </tr>
+    </table>
+    </tbody>
+</form>
+<div style="margin-top: 25px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnEditSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnEditCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../config/js/into/intoInfoEdit.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>征信调查</title>
+<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+<link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/viewer.min.css" />
+
+<style type="text/css">
+</style>
+</head>
+
+<body>
+	<form id="form">
+        <input type="hidden" id="customerCreditCheckId" name="customerCreditCheckId" value="$!customerCreditCheck.customerCreditCheckId" />
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="9%">
+						<label><strong style="font-size: larger">申请调查信息：</strong></label>
+					</td>
+					<td colspan="3">
+					</td>
+				</tr>	
+				<tr>
+					<td class="field" width="5%">
+						<label>客户姓名：</label>
+					</td>
+					<td>$!customerName</td>
+					<td class="field" width="5%">
+						<label>类型：</label>
+					</td>
+					<td>$!cutomerType</td>
+					<td class="field" width="5%">
+						<label>证件号码：</label>
+					</td>
+					<td>$!identifyNum</td>
+
+				</tr>
+				<tr>
+                    <td class="field" width="5%">
+                        <label>申请人：</label>
+                    </td>
+                    <td>$!userName</td>
+                    <td class="field" width="5%">
+                        <label>申请提交时间：</label>
+                    </td>
+                    <td>$!applyTime</td>
+                    <td class="field" width="5%">
+                        <label>调查提交时间：</label>
+                    </td>
+                    <td>$!checkDate</td>
+				</tr>
+
+			</tbody>
+		</table>
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="9%">
+						<label><strong style="font-size: larger">申请资料：</strong></label>
+					</td>
+					<td colspan="3">
+					</td>
+				</tr>
+				#set($appFileSize=$!appFileList.size())
+				#if($appFileSize==0)
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+				#else
+				#foreach($file in $!appFileList)
+    				<tr>
+						<td width="9%"></td>
+						<td>
+    					<div class="uploadifyQueueItem">
+                               <span class="fileName">
+								<a href="#" onclick="downLoadFile($file.creditCheckFileId)" class="attrFile">$!file.fileViewName</a>
+							    <a href="#" onclick="lookPhoto('$file.fileName','$file.filePath')">查看</a>
+##								<img data-original="$file.filePath/$file.fileName" src="../" />
+							   <label class="gray"></label></span><span class="percentage"></span>
+                        </div>
+						</td>
+						<td colspan="2"></td>
+    				</tr>	
+				#end
+				#end	
+			</tbody>
+		</table>
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="9%">
+						<label><strong style="font-size: larger">征信调查请求内容：</strong></label>
+					</td>
+					<td colspan="3"></td>
+				</tr>
+			#if($funcPermit.hasFuncCode("loanCreditSelectAttachment"))
+				<tr>
+					<td class="field" width="9%"></td>
+                    <td width="9%">
+                        <input type="file" name="fileInput" id="fileInput" />
+                        <label class="gray" title="添加附件"></label>
+                    </td>
+                    <td>
+                        <label >(单个文件不能超过50M)</label>
+                    </td>
+                    <td colspan="2">
+                    </td>
+                </tr>
+			#end
+                <tr>
+                    <td class="field" width="9%">
+                    </td>
+                    <td colspan="3">
+                        <div id="fileQueue"></div>
+                    </td>                    
+                </tr>
+			</tbody>
+		</table>
+		<table class="ui-form-fields">
+			<tbody>	
+				#set($creditFileSize=$!creditFileList.size())
+				#if($creditFileSize==0)
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+				#else
+				#foreach($file in $!creditFileList)
+    				<tr>
+                        <td width="9%"></td>
+						<td>
+    					<div id="attrCheck_$velocityCount" class="uploadifyQueueItem">
+						#if($funcPermit.hasFuncCode("loanCreditSelectAttachment"))
+                            <div class="cancel">
+                                <a href="#" onclick="delAttachFile($!file.creditCheckFileId,'attrCheck_'+$velocityCount,'确定移除附件:'+'$!file.fileNameOld')">
+									<img src="../uploadify/cancel.png" border="0"/></a>
+                            </div>
+						#end
+                               <span class="fileName" addedFlag="true" >
+								<a href="#" onclick="downLoadFile($file.creditCheckFileId)" class="attrFile">$!file.fileNameOld</a>
+							   <label class="gray"></label></span><span class="percentage"></span>
+                        </div>
+						</td>
+						<td colspan="2"></td>
+    				</tr>	
+				#end
+				#end	
+			</tbody>
+		</table>
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="9%">
+						<label >备注：</label>
+					</td>
+					<td colspan="2">
+##					#if($funcPermit.hasFuncCode("loanCreditSave"))
+						<div id="tips" class="ui-textarea-tips"> 您还可以输入<label>0</label>字</div>
+##					#end
+						<div class="ui-textarea">
+							<textarea id="checkRemark" name="checkRemark" class="ui-textarea-text" style="height:150px;" maxlength="500">$!customerCreditCheck.checkRemark</textarea>
+						</div>
+					</td>
+					<td colspan="2"></td>
+				</tr>					
+			</tbody>
+		</table>		
+	</form>
+	<hr class="ui-line" />
+	<div class="ui-layout-closure">
+		#if($funcPermit.hasFuncCode("loanCreditRefuse"))
+			<span id="btnRefuse" class="ui-closure-button">
+				<label class="ui-closure-button-text">$!pageConst.BTN_REFUSE</label>
+			</span>
+		#end
+		#if($funcPermit.hasFuncCode("loanCreditSave"))
+			<span id="btnSave" class="ui-closure-button ml5">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+			</span>
+			#end
+	#if($funcPermit.hasFuncCode("loanCreditSubmit"))
+			<span id="btnSubmit" class="ui-closure-button ml5">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SUBMIT</label>
+			</span>
+	#end
+	#if($funcPermit.hasFuncCode("loanCreditCancel"))
+			<span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+				<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+			</span>
+	#end
+	</div>
+	
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+	<!-- //附件上传相关脚本 -->
+    <script type="text/javascript" src="../uploadify/swfobject.js"></script>
+    <script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+    <script type="text/javascript" src="../customer/js/credit/uploadCreditFile.js"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../customer/js/credit/customerCreditCheck.js?v=$!webAppVersion"></script>
+
+</body>
+</html>

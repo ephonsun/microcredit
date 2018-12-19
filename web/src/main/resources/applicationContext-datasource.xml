@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd"
+	default-autowire="autodetect">
+	
+	<!-- 将属性值放在另一个单独的标准java Properties文件中去 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:globalConfig.properties</value>
+				<value>classpath:dbconfig.properties</value>
+				<value>classpath:modules.properties</value>
+				<value>classpath:function.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!--
+	<jee:jndi-lookup id="basicDataSource" jndi-name="java:comp/env/jdbc/microdb"/>
+-->
+	<!---->
+	<bean id="basicDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+		<property name="maxActive" value="${jdbc.maxActive}"></property>
+		<property name="maxIdle" value="${jdbc.maxIdle}"></property>
+		<property name="minIdle" value="${jdbc.minIdle}"></property>
+		<property name="maxWait" value="${jdbc.maxWait}"></property>
+		<property name="removeAbandoned" value="${jdbc.removeAbandoned}"></property>
+		<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}"></property>
+		<property name="logAbandoned" value="${jdbc.logAbandoned}"></property>
+	</bean>
+
+</beans>

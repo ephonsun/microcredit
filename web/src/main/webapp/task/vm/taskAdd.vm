@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>新建任务</title>
+<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+
+<style type="text/css">
+    #taskMoldSelect div{
+		width: 250px;
+	}
+</style>
+</head>
+
+<body>
+<input type="hidden" id="taskType" value="$!taskType"/>
+	<form id="form">
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="5%">
+						<label class="ui-star">任务名称：</label>
+					</td>
+					<td  colspan="2">
+							<div class="ui-text">
+								<input type="text" id="taskTitle" class="ui-text-text" name="taskTitle" value="$!task.taskTitle" maxlength="50" />
+							</div> 						
+					</td>
+				</tr>
+				<tr>	
+					<td class="field" width="5%">
+						<label class="ui-star">任务期限：</label>
+					</td>
+					<td colspan="2">
+                    	<table class="ui-form-fields-cell">
+                            <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtStartDate" class="ui-text-text" name="startDate" value="$!task.startDate"/>
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtEndDate" class="ui-text-text" name="endDate" value="$!task.endDate"/>
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+					</td>
+				</tr>
+                <tr>
+                    <td class="field" width="5%">
+                        <label class="ui-star">任务类型：</label>
+                    </td>
+                    <td id="taskMoldSelect">
+						<select id="taskMold" name="taskMold" value="$!task.taskMold" onchange="taskMoldShow(this.value)" style="width: 250px;" >
+							<option value="0">贷款任务</option>
+							<option value="1">营销任务</option>
+						</select>
+                    </td>
+                </tr>
+				<tr>
+					<td class="field" width="5%">
+						<label class="ui-star">任务目标：</label>
+					</td>
+					<td width="42%" id="taskMoldShow">
+						<label><input type="radio" id="taskTypeMoney" name="taskType" checked="checked" value="1" onclick="showUnit()"/>贷款金额</label>
+						<label><input type="radio" id="taskTypeNum"  name="taskType" value="2" onclick="showUnit()"/>贷款数量</label>
+					</td>
+					<td align="left">
+						<div class="ui-text" style="float:left; width: 250px;">
+							<input type="text" id="taskTarget" class="ui-text-text" name="taskTarget" maxlength="10" value="$!task.taskTarget"/>
+    					</div>
+                        <span style="margin-left:5px;" id="targetUnit">元</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="field" width="5%">
+						<label>任务简介：</label>
+					</td>
+					<td colspan="2">
+						<div id="tips" class="ui-textarea-tips"> 您还可以输入<label>0</label>字</div>
+						<div class="ui-textarea">
+							<textarea id="remark" name="remark" class="ui-textarea-text" style="height:240px;" maxlength="300">$!task.remark</textarea>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<hr class="ui-line" />
+	<div class="ui-layout-closure">
+			<span id="btnSave" class="ui-closure-button">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+			</span> 
+			<span id="btnContinue" class="ui-closure-button ml5"> 
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE_CONTINUE</label>
+			</span> 
+		<span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+	</div>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../task/js/taskAdd.js?v=$!webAppVersion"></script>
+</body>
+</html>

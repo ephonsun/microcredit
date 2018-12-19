@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+        .w100 { width:100px; }
+        .dash { line-height:24px; height:24px; }
+        .border {border:1px solid #d7d7d7};
+        .head { background: url(../../../core/imgs/bg.png) repeat-x 0 -10px; }
+    </style>
+</head>
+
+<body>
+<div id="tabs" class="ui-tabs" style="height: 100%;">
+    <div class="ui-tabs-head">
+        <div class="ui-tabs-items">
+            <ul >
+            </ul>
+        </div>
+    </div>
+
+    <input type="hidden" id="requestId" value="$!intefaceRecordQuery.requestId"/>
+    <div isbody="1" class="ui-tabs-iframes">
+
+        <form id="baseForm" ondragstart="return false;">
+            <input type="hidden" id="id" name="id" value="$!id"/>
+            <table class="ui-form-fields">
+                <tbody >
+                <tr>
+                    <td class="field" width="5%">
+                        <label>接口类别：</label>
+                    </td>
+                    <td width="20%" colspan="1">
+                        $!intefaceRecordQuery.faceIntoType
+                    </td>
+                    <td class="field" width="5%">
+                        <label>调用结果：</label>
+                    </td>
+                    <td width="20%" >
+                        $!intefaceRecordQuery.isSuccessed
+                    </td>
+                    <td class="field" width="5%">
+                        <label>调用时间：</label>
+                    </td>
+                    <td width="20%">
+                        $!intefaceRecordQuery.time
+                    </td>
+
+                </tr>
+                #if($!intefaceRecordQuery.isSuccessed=="失败")
+                    <tr>
+                        <td class="field" width="5%">
+                            <label>错误码：</label>
+                        </td>
+                        <td width="20%" colspan="1">
+                            $!intefaceRecordQuery.errorMessage
+                        </td>
+                    </tr>
+                    <tr >
+                        <td class="field"  width="5%">
+                            <label>错误码信息：</label>
+                        </td>
+                        <td colspan="7">
+                            <div class="ui-textarea">
+                                <textarea id="remark" readonly="readonly" name="remark" class="ui-textarea-text"  maxlength="150">$!errorsMessages</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                #end
+                <tr>
+                    <td></td>
+                </tr>
+            #if($!intefaceRecordQuery.faceIntoType=="ocr")
+                <tr >
+                    <td>身份证图片:</td>
+                    <td colspan="2"><img src="../faceContrast/downPicture?requestId=$!intefaceRecordQuery.requestId&imageType=1" style="height: 200px;width: 320px"
+                                         onError="this.src='../html5/intoApply/s1_2.png'" alt=""/></td>
+                    <td colspan="2"><img src="../faceContrast/downPicture?requestId=$!intefaceRecordQuery.requestId&imageType=2" style="height: 200px;width: 320px" onError="this.src='../html5/intoApply/s1_3.png'" alt=""/></td>
+                </tr>
+            #end
+            #if($!intefaceRecordQuery.faceIntoType!="ocr")
+                <tr>
+                    <td>拍摄图片:</td>
+                    <td colspan="2"><img src="../faceContrast/downPicture?requestId=$!intefaceRecordQuery.requestId&imageType=3"
+                                         onError="this.src='../html5/intoApply/s1_2.png'"
+                                         style="height: 320px;width: 250px" alt=""/></td>
+                </tr>
+            #end
+                </tbody>
+            </table>
+        </form>
+        <hr class="ui-line"/>
+        <div class="ui-layout-closure">
+
+            <span id="btnCancelBase" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">关闭</label>
+        </span>
+        </div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.tabs.js"></script>
+<script type="text/javascript" src="../config/js/faceContrastInfo.js"></script>
+
+</body>
+</html>

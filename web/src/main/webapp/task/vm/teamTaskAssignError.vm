@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分配任务</title>
+<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+
+<style type="text/css">
+</style>
+</head>
+<body>
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td>
+						<label style="font-size:14px;font-weight:800;">$!msg</label>
+					</td>					
+				</tr>
+			</tbody>
+		</table>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+
+</body>
+</html>

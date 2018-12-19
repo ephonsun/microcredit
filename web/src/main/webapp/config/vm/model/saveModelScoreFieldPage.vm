@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        #paramsTable th ,#paramsTable tr {
+            height:25px;
+        }
+        #paramsTable tr td ,#paramsTable th {
+            border:1px solid #b6c4d8;
+        }
+        #paramsTable tr td input{
+            text-align: center;
+            width:100%;
+            border:none;
+        }
+        .number{
+            width: 42% !important;
+            padding: 4px 0px;
+            /*border-right: 0.5px solid #b6c4d8 !important;*/
+            border-left: 0.5px solid #b6c4d8 !important;
+            margin-left: 10px
+        }
+        #paramsTable,#fieldCounts {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<input type="hidden" id="isEdit" value="$!isEdit"/>
+<input type="hidden" id="editType" value="$!editType"/>
+<input type="hidden" id="modeId" value="$!modeId"/>
+<input type="hidden" id="optionId" value="$!modeScoreField.optionId"/>
+<input type="hidden" id="passed" value="false"/>
+
+<form id="form" >
+    <tbody>
+    <table class="ui-form-fields">
+        <tr>
+            <td class="field" width="14%">
+                <label class="ui-star">表单模板：</label>
+            </td>
+            <td width="36%" class="validateTd">
+                <select name="templateId" id="templateId" onchange="queryModelScoreFieldByPid(this.value)">
+                    <option></option>
+                    #foreach($option in $modeTemplateInfos)
+                        #if($option.templateId == $!modeScoreField.templateId)
+                            <option value ="$option.templateId" SELECTED >$option.tableName</option>
+                        #else
+                            <option value ="$option.templateId" >$option.tableName</option>
+                        #end
+                     #end
+                </select>
+            </td>
+            <td class="field" width="14%">
+                <label class="ui-star">评分项名称：</label>
+            </td>
+            <td width="36%" class="validateTd">
+                <select name="fieldId" id="fieldId" onchange="fieldOnchange(this.value,this.fieldType)">
+                    <option id="option"></option>
+                    #foreach($option in $modeTemplateFields)
+                        #if($option.fieldId == $!modeScoreField.fieldId)
+                            <option fieldType="$option.fieldType" value ="$option.fieldId" SELECTED >$option.fieldDisplay</option>
+                        #else
+                            <option fieldType="$option.fieldType" value ="$option.fieldId" >$option.fieldDisplay</option>
+                        #end
+                    #end
+                </select>
+            </td>
+        </tr>
+        <tr id="fieldCounts">
+            <td class="field" width="14%">
+                <label class="ui-star">数值分段：</label>
+            </td>
+            <td width="36%">
+                <select name="fieldCount" id="fieldCount" onchange="fieldCountOnchange(this.value)">
+                    <option></option>
+                    <option value ="2" #if("$!size" == "2") SELECTED #end >2</option>
+                    <option value ="3" #if("$!size" == "3") SELECTED #end >3</option>
+                    <option value ="4" #if("$!size" == "4") SELECTED #end >4</option>
+                    <option value ="5" #if("$!size" == "5") SELECTED #end >5</option>
+                    <option value ="6" #if("$!size" == "6") SELECTED #end >6</option>
+                    <option value ="7" #if("$!size" == "7") SELECTED #end >7</option>
+                    <option value ="8" #if("$!size" == "8") SELECTED #end >8</option>
+                    <option value ="9" #if("$!size" == "9") SELECTED #end >9</option>
+                    <option value ="10" #if("$!size" == "10") SELECTED #end >10</option>
+                </select>
+            </td>
+        </tr>
+       </tbody>
+    </table>
+    <table id="paramsTable" width="80%" style="margin-left: 10%; margin-top: 30px;">
+        <thead>
+            <tr>
+                <th width="50%" align="center">选项
+                    #if("$!modeScoreField.fieldNumberUnit" != "")
+                        <label id="paramsUnit">（单位：$!modeScoreField.fieldNumberUnit）</label>
+                    #else
+                        <label id="paramsUnit"></label>
+                    #end
+                </th>
+                <th width="50%" align="center">分值</th>
+            </tr>
+        </thead>
+        <tbody id="paramTable">
+
+            #foreach($params in $modeScoreFieldParamses)
+            <tr>
+                #if("$!editType" == "number")
+                    <td class="field" width="50%" align="center">
+                        <input readonly style="width: 42%; type="text" value="$!params.optionParam1" maxlength="9"/>
+                        —
+                        <input type="text" style="width:42%; ime-mode:Disabled" class="number" maxlength="9" value="$!params.optionParam2" #if("$!params.optionParam2"=="+∞（含）") readonly #end onkeydown="displayResult()" onkeyup="displayNext(this,this.value)" />
+                    </td>
+                    <td class="field" width="50%" align="center">
+                        <input class="doubleToInt" type="text" value="$!params.paramScore"/>
+                    </td>
+                #elseif("$!editType" == "text")
+                    <td class="field" width="50%" align="center">
+                        <input readonly type="text" class="" value="$!params.name"/>
+                        <input type="hidden" class="" value="$!params.value"/>
+                    </td>
+                    <td class="field" width="50%" align="center">
+                        #if("$!params.paramScore" == "")
+                            <input class="doubleToInt" type="text" value="0" style="text-align: center"/>
+                        #else
+                            <input class="doubleToInt" type="text" value="$!params.paramScore" style="text-align: center"/>
+                        #end
+                    </td>
+                #end
+            </tr>
+            #end
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../config/js/model/saveModelScoreField.js?v=$!webAppVersion"></script>
+
+</body>
+</html>

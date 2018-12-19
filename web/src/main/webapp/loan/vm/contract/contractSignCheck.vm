@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>合同签订loding页面</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css" />
+    <link type="text/css" rel="stylesheet" href="../loan/css/jquery.slider.css" />
+    <link type="text/css" rel="stylesheet" href="../core/js/third/artDialog/dialog.css"/>
+    <style type="text/css">
+        #loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;opacity:0.6;z-index:15000;}
+        #loading img{position:absolute;top:50%;left:50%;margin-top:-30px;margin-left:-15px;}
+        #loading p{position:absolute;top:55%;left:48%;width:50px;height:33px;margin-top:-1px;margin-left:-6px;}
+    </style>
+
+
+</head>
+
+<body>
+<input type="hidden" value="$!loanId" id="loanId"/>
+    <div id="loading">
+        <img src='../images/loading1.gif' /><p style='line-height: 24px;'>签订中...</p>
+    </div>
+
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../loan/js/contract/jquery.slider.min.js"></script>
+    <script type="text/javascript" src="../core/js/third/artDialog/jquery.artDialog.min.js"></script>
+	<!-- //页面业务逻辑脚本 -->
+##	<script type="text/javascript" src="../loan/js/loanContractCheck.js?v=$!webAppVersion"></script>
+
+    <script type="text/javascript">
+        var loanId = '$!loanId';
+        $(function() {
+            $.when(doSign()).done(function(result){
+                if (result.success) {
+                    showConfirm({
+                        icon: 'succeed',
+                        content: result.cause
+                    });
+//                    closeDialog();
+                    closeApplyTab();
+                } else {
+                    showConfirm({
+                        icon: 'warning',
+                        content: result.cause,
+                        ok:function(){
+                            closeDialog();
+                        },
+                        cancel:function(){
+                            closeDialog();
+                        }
+                    });
+
+                }
+            });
+            });
+
+        function doSign(){
+            var defer = $.Deferred();
+            jQuery.ajax({
+                type:'post',
+                dataType: 'json',
+                url: '../contract/contractSignSubmit.html',
+                data: {
+                    "loanId": loanId
+                },
+                success: function (result) {
+                    defer.resolve(result);
+                }
+            });
+            return defer.promise();
+        }
+
+        //关闭dialog
+        function closeDialog(){
+            var dialog = getDialog('contractSignCheckPage'+loanId);
+            dialog.close();
+        }
+        //关闭页卡
+        function closeApplyTab() {
+            var dialog = getDialog('contractSignCheckPage'+loanId);
+            var win = tabs.getIframeWindow(dialog.config.tabId);
+            if( win && win.closeApplyTab){
+                win.closeApplyTab();
+            }
+            if( win && win.refreshList){
+                win.refreshList();
+            }
+            setTimeout(function() {
+                dialog.close();
+            }, 0);
+        }
+    </script>
+</body>
+</html>

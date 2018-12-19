@@ -1,0 +1,92 @@
+#*经营类资产负债信息统计*#
+
+<input type="hidden" value="$!loanId" id="loanId">
+<input type="hidden" value="$!assetsInfo.loanClassId" id="loanClassId">
+<div class="border" style="padding:0px 15px 15px 15px">
+    <div id="assets">
+    <div class="ui-layout-statistics">
+        资产情况 (合计：<label id="lblStatistics" class="statistics">#if(!$assetsInfo.assetsTotalAmount || $assetsInfo.assetsTotalAmount=='0.00' ) -- #else $!formatUtil.formatDecimal($!assetsInfo.assetsTotalAmount) #end</label>)
+    </div>
+    </div>
+    #*现金信息*#
+    <div id="ASSETS_CASH_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_CASH_AMOUNT","CD_ASSETS_CASH_ITEM",'现金',$!assetsInfo.assetsCashAmount,$!showApply)
+    </div>
+
+#*存货信息*#
+    <div id="ASSETS_STOCK_AMOUNT">
+        #assetsStock($assetsOperMap,"ASSETS_STOCK_AMOUNT","CD_ASSETS_STOCK_TYPE",'存货',$!assetsInfo.assetsStockAmount,$!showApply)
+    </div>
+
+#*应收账款*#
+    <div id="ASSETS_RECEIVABLE_AMOUNT">
+        #assetsAccount($assetsOperMap,"ASSETS_RECEIVABLE_AMOUNT","CD_SETTLEMENT_MODE",'应收账款',$!assetsInfo.assetsReceivableAmount,$!showApply)
+    </div>
+
+#*预付账款*#
+    <div id="ASSETS_PAYMENT_AMOUNT">
+        #assetsAccount($assetsOperMap,"ASSETS_PAYMENT_AMOUNT","CD_SETTLEMENT_MODE",'预付账款',$!assetsInfo.assetsPaymentAmount,$!showApply)
+    </div>
+
+#*其他经营资产*#
+    <div id="ASSETS_OPERATING_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_OPERATING_AMOUNT","CD_OTHER_OPERATING_ITEM",'其他经营资产',$!assetsInfo.assetsOperatingAmount,$!showApply)
+    </div>
+
+
+#*其他非经营资产*#
+    <div id="ASSETS_NON_OPERATING_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_NON_OPERATING_AMOUNT","CD_NON_OPERATING_ITEM",'其他非经营资产',$!assetsInfo.assetsNonOperatingAmount,$!showApply)
+    </div>
+
+#*固定资产*#
+    <div id="ASSETS_FIXED_AMOUNT">
+        #assetsFixed($assetsOperMap,"ASSETS_FIXED_AMOUNT","CD_ASSETS_BIZ_FIXED_TYPE","固定资产",$!assetsInfo.assetsFixedAmount,$!showApply)
+    </div>
+
+#*其他资产*#
+    <div id="ASSETS_OTHER_AMOUNT">
+        #assetsAmount($assetsOperMap,"ASSETS_OTHER_AMOUNT",false,'其他资产',$!assetsInfo.assetsOtherAmount,$!showApply)
+    </div>
+</div>
+#*负债情况*#
+<div class="border" style="margin-top:10px; padding:0px 15px 15px 15px"">
+    <div id="debts">
+    <div class="ui-layout-statistics">
+        负债情况 (合计：<label id="lblStatistics" class="statistics">#if(!$assetsInfo.debtsTotalAmount || $assetsInfo.debtsTotalAmount=='0.00') -- #else $!formatUtil.formatDecimal($!assetsInfo.debtsTotalAmount) #end</label>)
+    </div>
+    </div>
+#*应付账款*#
+    <div id="DEBTS_PAYABLE_AMOUNT">
+        #assetsAccount($assetsOperMap,"DEBTS_PAYABLE_AMOUNT","CD_SETTLEMENT_MODE",'应付账款',$!assetsInfo.debtsPayableAmount,$!showApply)
+    </div>
+
+#*预收账款*#
+    <div id="DEBTS_RECEIVED_AMOUNT">
+        #assetsAccount($assetsOperMap,"DEBTS_RECEIVED_AMOUNT","CD_SETTLEMENT_MODE",'预收账款',$!assetsInfo.debtsReceivedAmount,$!showApply)
+    </div>
+
+#*短期负债*#
+    <div id="DEBTS_SHORT_AMOUNT">
+        #assetsDebts($assetsOperMap,"DEBTS_SHORT_AMOUNT",false,'短期负债',$!assetsInfo.debtsShortAmount,$!showApply)
+    </div>
+
+#*长期负债*#
+    <div id="DEBTS_LONG_AMOUNT">
+        #assetsDebts($assetsOperMap,"DEBTS_LONG_AMOUNT",false,'长期负债',$!assetsInfo.debtsLongAmount,$!showApply)
+    </div>
+
+#*其他负债*#
+    <div id="DEBTS_BIZ_OTHER_AMOUNT">
+        #assetsAmount($assetsOperMap,"DEBTS_BIZ_OTHER_AMOUNT",false,'其他负债',$!assetsInfo.debtsBizOtherAmount,$!showApply)
+    </div>
+
+</div>
+
+#*表外情况*#
+<div class="border" style="margin-top:10px;padding:0px 15px 15px 15px">
+    <div id="offAssets">
+        #offAssets($!assetsInfo.offAssetsAmount,$!assetsInfo.offDebtsAmount,$!assetsInfo.offRemark,$!assetsInfo.id,$!showApply)
+    </div>
+</div>
+

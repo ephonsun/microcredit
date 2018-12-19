@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>数据源-编辑</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles { border:1px solid #b6c4d8; background-color:#f2f7fe; padding:10px; }
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+    </style>
+</head>
+
+<body>
+<form>
+<input type="hidden" id="dataDictId" name="dataDictId" value="$!dataDict.dataDictId"/>
+<input type="hidden" id="dictCnNameOld" name="dictCnNameOld" value="$!dataDict.dictCnName"/>
+<table class="ui-form-fields" >
+<tbody>
+<tr>
+    <td class="field" width="7%">
+        <label class="ui-star">名称：</label>
+    </td>
+    <td >
+        <div class="ui-text">
+            <input type="text" id="dictCnName" class="ui-text-text" name="dictCnName" value="$!dataDict.dictCnName" maxlength="20"/>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="field" width="7%">
+        <label class="ui-star">业务平台显示：</label>
+    </td>
+    <td >
+    	<select id="sysFlag" name="sysFlag">
+			<option value ="1" #if($!dataDict.sysFlag == 1) selected="selected" #end>否</option>
+			<option value ="0" #if($!dataDict.sysFlag == 0) selected="selected" #end>是</option>
+		</select>
+    </td>
+</tr> 
+</tbody>
+</table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnUpdate" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../system/js/dataDictAdd.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+</body>
+</html>

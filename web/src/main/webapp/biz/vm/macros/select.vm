@@ -1,0 +1,65 @@
+#macro(options $codetable $value $params)
+
+	#foreach($item in $codeTableUtil.getCodeTable($codetable,$params))
+		#if($item.value && $item.value == $value)
+			<option value="$item.value" selected="selected">$item.name</option>
+		#else
+			<option value="$item.value" >$item.name</option>
+		#end
+	#end
+
+#end
+
+
+#macro(datadict $value $params)
+
+#foreach($item in $constantCodeUtil.getCodeTable("cdDictColByName",$params))
+	#if($item.value && $item.value == $value)
+		<option value="$item.value" selected="selected">$item.name</option>
+	#else
+		<option value="$item.value" >$item.name</option>
+	#end
+#end
+
+#end
+##h5option
+#macro(h5datadict $value $params)
+
+	#foreach($item in $constantCodeUtil.getCodeTable("cdDictColByName",$params))
+		#if($item.value && $item.value == $value)
+        <option value="$item.value" selected="selected"> <lable class="option_1">$item.name</lable> </option>
+		#else
+        <option class="option_1" value="$item.value" ><lable class="option_1">$item.name</lable></option>
+		#end
+	#end
+
+#end
+###macro(CodecheckBox $v1 $params)
+##	#set ($values = $v1.split(","))
+##	#foreach($item in $constantCodeUtil.getCodeTable("cdDictColByName",$params))
+##		#set ($ischecked =0)
+##		#foreach($word in $!{values})
+##			#if($item.value && $item.value == $word )
+##				#set ($ischecked =1)
+##			#end
+##		#end
+##		#if($!ischecked==1 )
+##        <input value="$item.value" type="checkbox" checked/> $item.name<br />
+##		#else
+##        <input value="$item.value" type="checkbox" /> $item.name<br />
+##		#end
+##	#end
+##
+###end
+
+#macro(enumOptions $enumModule $value)
+
+	#foreach($item in $constantCodeUtil.getOptionItems($enumModule))
+		#if($item.value && $item.value == $value)
+        <option value="$item.value" selected="selected">$item.name</option>
+		#else
+        <option value="$item.value" >$item.name</option>
+		#end
+	#end
+
+#end

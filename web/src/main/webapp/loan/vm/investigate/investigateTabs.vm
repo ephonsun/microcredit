@@ -1,0 +1,105 @@
+<div id="investigateTabs" class="ui-tabs" style="height: 100%;">
+    <div class="ui-tabs-head">
+        <div class="ui-tabs-items">
+            <ul >
+            </ul>
+        </div>
+    </div>
+    <div isbody="1" class="ui-tabs-iframes">
+        <div class="ui-tabs-iframe">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var investigateItems = [];
+            var threeConfig = '$!threeConfig';
+            var investigate2 = {
+                display: '基本信息',
+                url:'../loan/getLoanTab.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=investigate&module=$!module',
+                loadType: 'tab.click',
+                loadReady: function (item, page) {
+                    if ('$!showApply' != '1') {
+                        includeJs("../loan/js/investigate/loanTab.js");
+                    }
+                }
+            };
+            var loanAssets = {
+                display: '资产负债',
+                url:'../assets/getAssetsMain.html?loanId=$!loanId&loanClassId=$!loanClassId&showApply=$!showApply&random='+Math.random()*10000,
+                loadType: 'tab.click',
+                refreshOnClick:true,
+                loadReady: function (item, page) {
+                    includeJs("../loan/js/assets/assetsMain.js");
+                }
+            };
+            var crossCheck = {
+                display: '交叉检验',
+                url:'../crossCheck/getCrossCheckPage.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=investigate&module=$!module',
+                loadType: 'tab.click',
+                refreshOnClick:true,
+                loadReady: function (item, page) {
+                    includeJs("../loan/js/investigate/crossCheck.js");
+                }
+            };
+            var loanAnalysis = {
+                display: '财务分析',
+                url:'../loanAnalysis/financeAnalysisPage.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=investigate&module=$!module',
+                loadType: 'tab.click',
+                refreshOnClick:true,
+                loadReady: function (item, page) {
+                    includeJs("../loan/js/investigate/loanAssetsInfo.js");
+                }
+            };
+            var profitLoss = {
+                display: '损益情况',
+                url:'../loanInvestigate/getProfitLossPage.html?loanId=$!loanId&showApply=$!showApply',
+                loadType: 'tab.click',
+                refreshOnClick:true,
+                loadReady: function (item, page) {
+                    includeJs("../loan/js/investigate/ProfitLoss.js");
+                }
+            };
+
+
+            var investigateReport = {
+                display: '调查报告',
+                url:'../loanInvestigate/getInvestigateReport.html?loanId=$!loanId&loanTypeId=$!loanTypeId',
+                loadType: 'tab.click',
+                loadReady: function (item, page) {
+//                includeJs("../loan/js/investigate/loanTab.js");
+                }
+            };
+
+
+            investigateItems.push(investigate2);
+            if ('true' === threeConfig) {
+                investigateItems.push(loanAssets);
+                investigateItems.push(profitLoss);
+                investigateItems.push(crossCheck);
+                investigateItems.push(loanAnalysis);
+            }
+            investigateItems.push(investigateReport);
+            $('#investigateTabs').tabs({
+                items: investigateItems
+            });
+
+        });
+        function investigateReload(url) {
+            $('#investigateTabs .ui-tabs-iframe').each(function () {
+                var _tab = $(this);
+                if ($(this).css("display") == 'block') {
+                    $.get(url, function(html){
+                        _tab.html(html);
+                    });
+                }
+            });
+        }
+
+    </script>
+
+
+
+
+
+

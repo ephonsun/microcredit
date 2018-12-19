@@ -1,0 +1,396 @@
+#macro(forms $forms $data)
+	<table class="ui-form-fields">
+    	<tbody>
+		#foreach($row in $forms.getRows())
+			<tr>
+			#foreach($cell in $row.getCells())
+				#if($cell.colspan>1)
+					#set($colspan="colspan='"+$cell.colspan+"'")
+				#else
+					#set($colspan="")
+				#end
+				#if($cell.rowspan>1)
+					#set($rowspan="rowspan='"+$cell.rowspan+"'")
+				#else
+					#set($rowspan="")
+				#end
+				#if($cell.type=="head")
+				<td class="field" width="$cell.width%" $!colspan $!rowspan >
+					$!cell.field.display：
+				</td>
+				#elseif($cell.type=="content")
+				<td width="$cell.width%" $!colspan $!rowspan >
+					#set($val="")
+					#set($val2="")
+					#ctrls($forms $cell.field $data)
+					#foreach($merge in $cell.merges)
+						#ctrls($forms $merge $data)
+					#end
+				</td>
+				#else
+				<td width="$cell.width%" $!colspan $!rowspan ></td>
+				#end
+			#end
+			</tr>
+		#end
+		</tbody>
+	</table>
+#end
+
+#macro(ctrls $forms $field $data)
+	#if($forms.readonly || $field.readonly)
+		#detail($forms,$field,$data)
+	#else
+		#if($field.control == "TextBox")
+			#textbox($forms,$field,$data)
+		#elseif($field.control == "ComboBox")
+			#combobox($forms,$field,$data)		
+		#elseif($field.control == "DateBox")
+			#datebox($forms,$field,$data)
+		#elseif($field.control == "DateSpan")
+			#datespan($forms,$field,$data)
+		#elseif($field.control == "TimeBox")
+			#timebox($forms,$field,$data)
+		#elseif($field.control == "TimeSpan")
+			#timespan($forms,$field,$data)
+		#elseif($field.control == "NumSpin")
+			#numspin($forms,$field,$data)
+		#elseif($field.control == "NumSpan")
+			#numspan($forms,$field,$data)
+		#elseif($field.control == "TextArea")
+			#textarea($forms,$field,$data)
+		#elseif($field.control == "CheckBox")
+			#checkbox($forms,$field,$data)
+		#elseif($field.control == "RadioBox")
+			#radiobox($forms,$field,$data)
+		#elseif($field.control == "TreeBox")
+			#treebox($forms,$field,$data)
+		#end
+	#end
+#end
+
+##文本框
+#macro(textbox $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.maxlength)
+		#set($maxLen="maxlength='$field.maxlength'")
+	#else
+		#set($maxLen="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	<div class="ui-text">
+		<input type="text" id="$field.name" name="$name" value="$!val" class="ui-text-text" $!maxLen $valid />
+	</div>
+#end
+
+##下拉选项框
+#macro(combobox $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	#if($field.multi)
+		<div class="ui-text">
+			<input type="hidden" id="$field.name" name="$name" value="$!val" $!valid >
+			<input type="text" class="ui-text-text" multiselect="true" inputId="$field.name" options="cd$field.name" />
+       		<i class="ui-text-icon ui-text-select"></i>
+       		#if($field.codeTable)
+       			<script>var cd$field.name = $!action.getCodeTableJson($field.codeTable,$field.codeTableParams);</script>
+       		#end
+       	</div>
+	#else
+		<select id="$field.name" name="$name" $!valid >
+			<option value="" ></option>
+			#if($field.codeTable)
+				#options($field.codeTable,$val,$field.codeTableParams)
+			#end
+		</select>
+	#end
+#end
+
+##日期
+#macro(datebox $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	<div class="ui-text">
+        <input type="text" id="$field.name" name="$!name" class="ui-text-text" value="$!formatUtil.formatDate($val,"yyyy-MM-dd")" $!valid />
+        <i class="ui-text-icon ui-text-date"></i>
+    </div>
+#end
+
+##时间
+#macro(timebox $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	<input type="hidden" id="$field.name" name="$name" value="$!formatUtil.formatTime($val,"HH:mm:ss")" $!valid >
+    <table inputId="$field.name" class="ui-timepicker" value="$!formatUtil.formatTime($val,"HH:mm:ss")" timeFlag="true" hour="$field.hour" minute="$field.minute" second="$field.second" ></table>
+#end
+
+##日期段
+#macro(datespan $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#set($end="End")
+	#set($endFieldName=$field.name+$end)
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+		#set($val2=$reader.getValue($data,$endFieldName))
+	#else
+		#set($val1="")
+		#set($val2="")
+	#end
+	<table class="ui-form-fields-cell" width="100%">
+        <tbody>
+            <tr>
+                <td width="150">
+                    <div class="ui-text">
+                        <input type="text" id="$field.name" name="$!name" class="ui-text-text" value="$!formatUtil.formatDate($val,"yyyy-MM-dd")" dateFlag="true" />
+                        <i class="ui-text-icon ui-text-date"></i>
+                    </div>
+                </td>
+                <td width="20">~</td>
+                <td width="150">
+                    <div class="ui-text">
+                        <input type="text" id="$field.name$end" name="$!name$end" class="ui-text-text" value="$!formatUtil.formatDate($val2,"yyyy-MM-dd")" dateFlag="true" />
+                        <i class="ui-text-icon ui-text-date"></i>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+#end
+
+##时间段
+#macro(timespan $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#set($end="End")
+	#set($endFieldName=$field.name+$end)
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+		#set($val2=$reader.getValue($data,$endFieldName))
+	#else
+		#set($val="")
+		#set($val2="")
+	#end
+	<table class="ui-form-fields-cell" width="100%" >
+        <tbody>
+            <tr>
+                <td width="106" >
+                    <input type="hidden" id="$field.name" name="$name" value="$!formatUtil.formatTime($val,"HH:mm:ss")" >
+                    <table inputId="$field.name" class="ui-timepicker" value="$!formatUtil.formatTime($val,"HH:mm:ss")" timeFlag="true" hour="$field.hour" minute="$field.minute" second="$field.second" ></table>
+                </td>
+                <td width="20" text-align='center'>
+                    <label for="">~</label>
+                </td>
+                <td width="106" >
+                    <input type="hidden" id="$field.name$end" name="$!name$end" value="$!formatUtil.formatTime($val2,"HH:mm:ss")" >
+                    <table inputId="$field.name$end" class="ui-timepicker" value="$!formatUtil.formatTime($val2,"HH:mm:ss")" timeFlag="true" hour="$field.hour" minute="$field.minute" second="$field.second" ></table>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+#end
+
+##数字
+#macro(numspin $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.maxlength)
+		#set($maxLen="maxlength='$field.maxlength'")
+	#else
+		#set($maxLen="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	<div class="ui-text">
+		<input type="text" id="$field.name" name="$name" value="$!val" numFlag="true" class="ui-text-text" $!maxLen $!valid />
+	</div>
+#end
+
+##数字段
+#macro(numspan $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#set($end="End")
+	#set($endFieldName=$field.name+$end)
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+		#set($val2=$reader.getValue($data,$endFieldName))
+	#else
+		#set($val="")
+		#set($val2="")
+	#end
+	#if($field.maxlength)
+		#set($maxLen="maxlength='$field.maxlength'")
+	#else
+		#set($maxLen="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	<table class="ui-form-fields-cell" width="100%">
+        <tbody>
+            <tr>
+                <td width="120">
+                    <div class="ui-text">
+                        <input type="text" id="$field.name" name="$!name" class="ui-text-text" numFlag="true" value="$!val" $!maxLen $!valid />
+                    </div>
+                </td>
+                <td width="20">~</td>
+                <td width="120">
+                    <div class="ui-text">
+                        <input type="text" id="$field.name$end" name="$!name$end" class="ui-text-text" numFlag="true" value="$!val2" $!maxLen $!valid />
+                    </div>
+                </td>
+                <td class="left" style="padding-left:5px" >$!field.measure</td>
+            </tr>
+        </tbody>
+    </table>
+#end
+
+##长文本
+#macro(textarea $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.valids)
+		#set($valid="valid='$field.valids'")
+	#else
+		#set($valid="")
+	#end
+	<div class="ui-textarea" >
+        <textarea id="$field.name" name="$name" class="ui-textarea-text" $!maxLen $!valid >$!val</textarea>
+    </div>
+#end
+
+##树型下拉选项框
+#macro(treebox $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#set($textId=$field.name+"Text")
+	<div class="ui-text">
+		<input type="hidden" id="$field.name" name="$name" value="$!val" >
+		<input type="text" id="$textId" value="$!val" class="ui-text-text" inputId="$field.name" value="$!val" />
+       	<i class="ui-text-icon ui-text-select"></i>
+    </div>
+#end
+
+##复选框
+#macro(checkbox $forms $field $data)
+	<div class="ui-text"></div>
+#end
+
+##单选框
+#macro(radiobox $forms $field $data)
+	<div class="ui-text"></div>
+#end
+
+##只读
+#macro(detail $forms $field $data)
+	#if($forms.name=="")
+		#set($name=$field.name)
+	#else
+		#set($name=$forms.name+"."+$field.name)
+	#end
+	#if($data)
+		#set($val=$reader.getValue($data,$field.name))
+	#else
+		#set($val="")
+	#end
+	#if($field.codeTable)
+		<input id="$field.name" name="$!name" type="hidden" value="$!val" />
+		<label>$!action.getCodeTableValue($field.codeTable,$field.codeTableParams,$val)</label>
+	#else
+		<label>$!val</label>
+	#end
+#end

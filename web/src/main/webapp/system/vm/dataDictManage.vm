@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>数据字典维护</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+    	.column2-left-body { border:1px solid #b6c4d8;overflow:hidden; height: 563px}
+    </style>
+</head>
+
+<body>
+	<div class="ui-layout-column2 clearfix">
+		<div class="column2-left">
+			<div class="column2-left-body">
+				<div class="body-inner">
+					<ul id="ulDataDicts" class="ztree"></ul>
+				</div>
+			</div>
+		</div>
+		<div class="column2-right">
+			#if($!dataDictTreeJson)
+				<!-- // 操作栏 -->
+			    <div class="ui-layout-action">
+			    	<span id="btnAdd" class="ui-button fl">
+			        	<label class="ui-button-text">$!pageConst.BTN_NEW</label>
+			        </span>
+			        <span id="btnRefresh" class="ui-button fr">
+			        	<label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+			        </span>
+			    </div>
+			    <table id="dataDictColGrid"></table>
+			#end
+		</div>
+	</div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../system/js/dataDictManage.js?v=$!webAppVersion"></script>
+	<script type="text/javascript">
+		var dataDictTreeJson = '$!dataDictTreeJson';
+    </script>
+</body>
+</html>

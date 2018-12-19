@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>产品详情</title>
+<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+<link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion" />
+<style type="text/css">
+</style>
+</head>
+
+<body>
+	<form id="form">
+		<input type="hidden" id="productId" name="productId" value="$!product.productId" />
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="5%">
+						<label class="ui-star">产品代码：</label>
+					</td>
+					<td width="20%">
+						#if(!$!product.productId)
+							<div class="ui-text">
+								<input type="text" id="productCode" class="ui-text-text" name="productCode" value="$!product.productCode" maxlength="50"/>
+							</div> 
+						#else 
+							<label>$!product.productCode</label> 
+							<input type="hidden" name="productCode" value="$!product.productCode" /> 
+						#end
+					</td>
+					<td class="field" width="5%">
+						<label class="ui-star">产品名称：</label>
+					</td>
+					<td width="20%">
+						<div class="ui-text">
+							<input type="text" id="productName" class="ui-text-text" name="productName" value="$!product.productName" maxlength="40" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="field" width="5%">
+						<label class="ui-star">产品类型：</label>
+					</td>
+					<td width="20%">
+						<select id="productType" name="productType">
+							<option></option>
+							#datadict("$!product.productType","$!dataDictConst.CD_PRODUCT_TYPE")
+						</select>
+					</td>
+
+                    <td class="field" width="5%">
+                        <label >贷款类型：</label>
+                    </td>
+
+                    <td width="20%">
+                        <select id="loanType" name="loanType">
+                            <option></option>
+							#options("cdLoanType","","")
+                        </select>
+                    </td>
+
+				</tr>
+				<tr>
+					<td class="field" width="5%">
+						<label>产品描述：</label>
+					</td>
+					<td colspan="4">
+						<div id="tips" class="ui-textarea-tips"> 您还可以输入<label>0</label>字</div>
+						<div class="ui-textarea">
+							<textarea id="productInfo" name="productInfo" class="ui-textarea-text" maxlength="500">$!product.productInfo</textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="field" width="7%">
+						<label>视频介绍：</label>
+					</td>
+					<td width="5%">
+						<input type="file" name="fileVideoInput" id="fileVideoInput"/>
+						<label class="gray" title="添加附件"></label>
+					</td>
+				</tr>
+				#if($!videoFiles)
+					<tr>
+	    				<td class="field" width="7%"></td>
+	    				<td colspan="4">
+	                        #foreach($videoFile in $!videoFiles)
+	                            <div #if($!videoFile.ppfId) id="$!videoFile.ppfId" #end class="videoFileClass">
+	                                <label><a class="stateColor" href="#" onclick="javascript:downloadFile($!videoFile.ppfId);">$!videoFile.ppfFileNameOld</a></label>
+	    							<strong><a style="color: #000000" href="javascript:deleteFile($!videoFile.ppfId);">×</a></strong>
+	                            </div>
+	                        #end
+						</td>
+					</tr>
+				#end
+				<tr>
+					<td class="field" width="7%"></td>
+					<td width="25%" colspan="3">
+						<div id="fileVideoQueue"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="field" width="7%">
+						<label>图片介绍：</label>
+					</td>
+					<td width="5%">
+                        <label class="gray" title="添加附件"></label>
+                        <input type="file" name="fileImageInput" id="fileImageInput"/>
+					</td>
+				</tr>
+				#if($!imageFiles)
+					<tr>
+	    				<td class="field" width="7%"></td>
+	    				<td colspan="4">
+	    					<input type="hidden" id="total" value="$imageFiles.size()"/>
+							#set($num = 0)
+	                        #foreach($imageFile in $!imageFiles)
+	                            <div #if($!imageFile.ppfId) id="$!imageFile.ppfId" #end>
+	                            	<input type="hidden" id="fileId_$num" value="$imageFile.ppfId"/>
+	                            	<div id="imagePreview_$num">
+	                                	<label><a class="stateColor" href="#" onclick="javascript:downloadFile($!imageFile.ppfId);">$!imageFile.ppfFileNameOld</a></label>
+	    								<strong><a style="color: #000000" href="javascript:deleteFile($!imageFile.ppfId);">×</a></strong>
+	    							</div>
+	    							#set($num = $num + 1)
+	                            </div>
+                                <div style="margin-top: 2px"></div>
+							#end
+						</td>
+					</tr>
+				#end
+				<tr>
+					<td class="field" width="7%"></td>
+					<td width="25%" colspan="2">
+						<div id="fileImageQueue"></div>
+					</td>
+					<td>
+						##remove()失效，添加一个flag 获取所有子元素 保存并删除时用于删除子元素
+                        <div id="uploadImagePreview"><input type="hidden" id="flag"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="deleteFileInfo"></div>
+	</form>
+	<hr class="ui-line" />
+	<div class="ui-layout-closure">
+		#if(!$!product.productId)
+			#if($funcPermit.hasFuncCode("productSaleAdd"))
+			<span id="btnSave" class="ui-closure-button">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+			</span>
+			#end
+			<span id="btnContinue" class="ui-closure-button ml5"> 
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE_CONTINUE</label>
+			</span> 
+		#end 
+		#if($!product.productId)
+			#if($funcPermit.hasFuncCode("productSaleEdit"))
+			<span id="btnUpdate" class="ui-closure-button">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+			</span>
+			#end
+		#end 
+		<span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+	</div>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<!-- //附件上传相关脚本 -->
+	<script type="text/javascript" src="../uploadify/swfobject.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../product/js/imageUpload.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../product/js/videoUpload.js?v=$!webAppVersion"></script>
+	<!-- //初始化脚本 -->
+	<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../product/js/productSave.js?v=$!webAppVersion"></script>
+	<script >
+
+		$('#loanType').val($!product.loanType);
+	</script>
+</body>
+</html>

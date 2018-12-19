@@ -1,0 +1,89 @@
+#*资产负债金额项目明细表，现金，其他经营资产，其他非经营资产，其他资产，其他负债，投资性资产，对外债权，预付款， 编辑界面*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>金额项目编辑界面</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css"/>
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css"/>
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion"/>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<form id="form">
+#if($loanAssetsInfo)
+    <input type="hidden" value="$!loanAssetsInfo.loanId" name="loanId" id="loanId">
+    <input type="hidden" value="$!loanAssetsInfo.loanClassId" name="loanClassId" id="loanClassId">
+#end
+    <table class="ui-form-fields">
+        <input type="hidden" value="$!loanAssetsInfo.id" name="id">
+
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label>表外资产：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9">
+                    <input type="text" id="offAssetsAmount" class="ui-text-text" name="offAssetsAmount"
+                           value="$!loanAssetsInfo.offAssetsAmount" maxlength="13"/>
+                </div>&nbsp;元
+            </td>
+            <td class="field" width="5%">
+                <label>表外负债：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9" >
+                    <input type="text" id="offDebtsAmount" class="ui-text-text" name="offDebtsAmount"
+                           value="$!loanAssetsInfo.offDebtsAmount" maxlength="13"/>
+                </div>&nbsp;元
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field" width="5%">
+                <label style="margin-top: 10px">说明：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-textarea" style="width: 91.8%;margin-top: 10px">
+                    <textarea id="offRemark" name="offRemark" class="ui-textarea-text"
+                              maxlength="100">$!loanAssetsInfo.offRemark</textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 118px">
+<hr class="ui-line"/>
+<div class="ui-layout-closure divcss10">
+            <span id="btnUpdate" class="ui-closure-button" onclick="updateOffAssets('offAssets')">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+			</span>
+            <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		    </span>
+
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //附件上传相关脚本 -->
+<script type="text/javascript" src="../uploadify/swfobject.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/assets/offAssetsSave.js"></script>
+
+</body>
+</html>

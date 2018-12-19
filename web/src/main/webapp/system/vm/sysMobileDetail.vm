@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>设备详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <input type="hidden" id="serialNo" name="serialNo" value="$!mobileInfo.serialNo" />
+    <input type="hidden" id="isActived" name="isActived" value="$!mobileInfo.isActived" />
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">序列号：</label>
+            </td>
+            <td width="5%">
+                $!mobileInfo.serialNo
+            </td>
+            <td class="field" width="5%">
+                <label class="ui-star">品牌：</label>
+            </td>
+            <td width="5%">
+                $!mobileInfo.mobileBrand
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">型号：</label>
+            </td>
+            <td width="5%">
+                $!mobileInfo.mobileModel
+            </td>
+            <td class="field" width="5%">
+                <label class="ui-star">系统版本：</label>
+            </td>
+            <td width="5%">
+                $!mobileInfo.systemVersion
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">使用人员：</label>
+            </td>
+            <td width="5%">
+                $!mobileInfo.userName
+            </td>
+            <td class="field" width="5%">
+                <label class="ui-star">状态：</label>
+            </td>
+            <td width="5%">
+                #if($!mobileInfo.isActived==2)
+                    禁用
+                #else
+                    启用
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">APP版本号：</label>
+            </td>
+            <td width="5%">
+                $!mobileInfo.appVersion
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">经纬度：</label>
+            </td>
+            <td width="18%">
+                $!mobileInfo.loginLongitude,$!mobileInfo.loginLatitude
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">最近登录时间：</label>
+            </td>
+            <td width="8%">
+                $!mobileInfo.lastLoginTime
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+			<span id="btnSave" class="ui-closure-button">
+                #if($!mobileInfo.isActived==2)
+                        <label class="ui-closure-button-text">启用</label>
+                    #else
+                        <label class="ui-closure-button-text">禁用</label>
+                #end
+			</span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	 		<label class="ui-closure-button-text">解绑</label>
+    		</span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../system/js/sysMobileDetail.js?v=$!webAppVersion"></script>
+</body>
+</html>

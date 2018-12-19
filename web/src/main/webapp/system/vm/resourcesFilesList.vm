@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资源下载</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+        /*产品字段样式*/
+		.w100{ width:100px; }
+        .w150{ width:150px; }
+        .dash{ line-height:24px; height:24px; margin:0px 5px; }
+        .h100{ height:100px; }
+    </style>
+</head>
+
+<body>
+	<div class="ui-layout-action">
+			<span id="btnAdd" class="ui-button fl">
+				<label class="ui-button-text">资源上传</label>
+			</span>
+	</div>
+	<div class="ui-flexigrid" style="width: auto;">
+		<div class="ui-flexigrid-head clearfix">
+			<div class="ui-flexigrid-head-inner">
+				<table border="0" cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th width="200" align="center" col="field" axis="0">
+								<div style="width: 200px; text-align: center;">资源名称</div>
+							</th>
+							<th width="200" align="center" col="action">
+								<div style="width: 200px; text-align: center;">操作</div>
+							</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div class="ui-flexigrid-body">
+			<div class="ui-flexigrid-body-inner" style="height: 312px;">
+				<table id="staffGrid" border="0" cellpadding="0" cellspacing="0">
+					<tbody>
+                        <tr data="0" id="flex142">
+                            <td align="center">
+                                <div title="帮助手册" style="width: 200px; text-align: center;">帮助手册</div>
+                            </td>
+                            <td align="center" mark="action">
+                                <div mark="action" style="width: 200px; text-align: center;">
+                                    <label class="ui-link mr5" mark="action" data="0" button="0">
+                                        <a href="javascript:downHelp();" class="logout">下载</a></label>
+                                </div>
+                            </td>
+                        </tr>
+						#foreach($param in ${resourcesFileMap.keySet()})
+                            <tr data="0" id="flex142">
+                                <td align="center">
+                                    <div title="$param" style="width: 200px; text-align: center;">$param</div>
+                                </td>
+                                <td align="center" mark="action">
+                                    <div mark="action" style="width: 200px; text-align: center;">
+                                        <label class="ui-link mr5" mark="action" data="0" button="0">
+                                            <a href="javascript:downResourceFile('$param')"class="logout">下载</a></label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="0">
+                                            <a href="javascript:delResourceFile('$param');"   class="logout">删除</a></label>
+                                    </div>
+                                </td>
+                            </tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+    <table id="productInfoGrid"></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.tabs.js"></script>
+    <script type="text/javascript" src="../system/js/resourcesFilesList.js"></script>
+	<script type="text/javascript">
+        function downHelp() {
+            window.location="../desktop/downloadHelpFile.html?random="+Math.random()*100000;
+        }
+
+        function downTray(){
+            window.location="../upgrade/downloadSetupFile.html?random="+Math.random()*100000;
+        }
+		function delResourcesFile(){
+
+		}
+	</script>
+</body>
+</html>

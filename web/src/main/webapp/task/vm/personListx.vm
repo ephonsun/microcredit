@@ -1,0 +1,59 @@
+
+<p align="center" style="color:#1b1b1b;font-size:large;margin:12px">客户经理贷款任务完成统计表($!startDate~$!endDate)</p>
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                <tr>
+                    <th align="center" col="field"><div style="width: 150px; text-align: center;">团队名称</div></th>
+                    <th align="center" col="field"><div style="width: 150px; text-align: center;">客户经理</div></th>
+                    <th align="center" col="field"><div style="width: 150px; text-align: center;">任务数量</div></th>
+                    <th align="center" col="field"><div style="width: 150px; text-align: center;">执行中的任务</div></th>
+                    <th align="center" col="field"><div style="width: 150px; text-align: center;">已完成数</div></th>
+                    <th align="center" col="field"><div style="width: 150px; text-align: center;">未完成数</div></th>
+                    <th align="center" col="field"><div style="width: 100px; text-align: center;">操作</div></th>
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+            <table border="0" cellpadding="0" cellspacing="0" >
+                <body>
+                #if($null.isNull($list)||$list.size()==0)
+                <table></table>
+                <p style="color:#4d4d4d;font-size:12px;margin:20px;text-align: center">当前时间范围无数据</p>
+                    #else
+                    #foreach($m in $list)
+                    <tr>
+                        <td><div style="width: 150px; text-align: center;">$!m.groupName</div></td>
+                        <td><div style="width: 150px; text-align: center;">$!m.userName</div></td>
+                        <td><div style="width: 150px; text-align: center;">$!m.taskSum</div></td>
+                        <td><div style="width: 150px; text-align: center;">$!m.taskIng</div></td>
+                        <td><div style="width: 150px; text-align: center;">$!m.taskFinished</div></td>
+                        <td><div style="width: 150px; text-align: center;">$!m.taskNoFinished</div></td>
+                        <td><div style="width: 100px; text-align: center;"><a id="tak" style="color:#3F86C9" onclick="show($!m.userId)">明细</a "></div></td>
+
+                    </tr>
+                    #end
+                #end
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
+<p align="center"style="color:#1b1b1b;font-size:small;margin:25px">制表人：$!name &nbsp;&nbsp;&nbsp; 制表时间：$!d</p>
+<script>
+
+  function show(id) {
+        showDialog({
+            id: 'seeMx',
+            title: '明细',
+            url: '../taskStat/getPersonListMxPage.html?startDate='+'$!startDate'+'&endDate='+'$!endDate'+'&userId='+id,
+            width: 900,
+            height: 400,
+            tabId: tabs.getSelfId(window)
+        })
+    }
+</script>

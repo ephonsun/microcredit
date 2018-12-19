@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+##    <title>$!sysInfoProvider.getSystemName() - 登录</title>
+    <title>$!webAppName - 登录</title>
+##    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+##    <link type="text/css" rel="stylesheet" href="../permission/css/login.css" />
+    <link type="text/css" href="../css/login.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="container">
+        <h1 class="logo" title="移动贷款平台">
+            <div>&nbsp;</div>
+			<label>v2.0.0</label>
+        </h1>
+        <div class="m1 m-position m-login-skin">&nbsp;</div>
+        <div class="m1 m-position m-login">
+            <div class="m-login-html">
+                <p id="lblError" class="failed"></p>
+                <div class="field-item">
+                    <label class="field">用户名</label>
+                    <input type="text" id="txtAccount" style="width:200px;height:30px;line-height: 30px;font-size: 15px;vertical-align:middle;"/>
+                </div>
+##                <p id="ptips" class="failed"></p>
+                <div class="field-item" style="margin-top:20px;">
+                    <label class="field">密&nbsp;&nbsp;码</label>
+                    <input type="password" id="txtPassword" style="width:200px;height:30px;line-height: 30px;font-size: 15px;vertical-align:middle;"/>
+                </div>
+                <div class="" id = "checkCode" style="display: none;margin-top:20px;">
+                    <div class="field-item" style="float: left">
+                        <label class="field">验证码</label>
+                        <input type="hidden" id="needRandNum" name="needRandNum" />
+                        <input type="text" id="randNum" name="randNum"value="" style="width:100px;height:30px;line-height: 30px;font-size: 15px;vertical-align:middle;"/>
+                    </div>
+					 <div >
+                         &nbsp;&nbsp;
+                         <img id="check" style=" -ms-interpolation-mode:bicubic; border:0; vertical-align:middle;" onclick="changeValidateCode(this)"/>
+                         <a href="#" onclick="changeValidateCode(document.getElementById('check'))">换一张</a></li>
+					 </div>
+                </div>
+                <div class="field-item" style="margin-top:30px; height:36px;">
+                    <input type="button" id="btnLogin" class="button" value="登 录" />
+                </div>
+            </div>
+        </div>
+	</div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.md5.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+	<script type="text/javascript" src="../permission/js/login.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		// 登录按钮鼠标划过及按下样式
+    		$('#btnLogin').hover(function(){
+                $(this).addClass('button-hover');
+			}, function(){
+                $(this).removeClass('button-hover');
+            }).mousedown(function(){
+                $(this).removeClass('button-mousedown');
+                $(this).addClass('button-mousedown');
+			}).mouseup(function(){
+                $(this).removeClass('button-mousedown');
+			});
+            $("#txtAccount").focus();
+    	});
+        function changeValidateCode(obj) {
+            var currentTime= new Date().getTime();
+            obj.src = "../picture/randomPictureAction.html?d=" + currentTime;
+        }
+    </script>
+</body>
+</html>

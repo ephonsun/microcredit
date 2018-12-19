@@ -1,0 +1,19 @@
+/* 组织机构 */
+.ui-layout-column2 .column2-left .head-editor { float:right; width:90px; height:24px; overflow:hidden; }
+.ui-layout-column2 .column2-left .head-editor b { float:left; cursor:pointer; display:inline; width:14px; height:14px; margin:5px 0 0 4px; overflow:hidden; }
+.ui-layout-column2 .column2-left .head-editor b.editor-add { background:url('../../core/imgs/icon/editor.gif') no-repeat -3px -7px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-add-disabled { cursor:default; background-position:-3px -35px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-up { background:url('../../core/imgs/icon/editor.gif') no-repeat -23px -7px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-up-disabled { cursor:default; background-position:-23px -35px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-down { background:url('../../core/imgs/icon/editor.gif') no-repeat -43px -7px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-down-disabled { cursor:default; background-position:-43px -35px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-delete { background:url('../../core/imgs/icon/editor.gif') no-repeat -63px -7px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-delete-disabled { cursor:default; background-position:-63px -35px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-edit { background:url('../../core/imgs/icon/editor.gif') no-repeat -83px -7px; }
+.ui-layout-column2 .column2-left .head-editor b.editor-edit-disabled { cursor:default; background-position:-83px -35px; }
+
+/* 人员 - 新建 - 角色列表 */
+.roles { border:1px solid #b6c4d8; background-color:#f2f7fe; padding:5px 10px; }
+.roles li { padding:2px 0; }
+.ui-tabs-data li{ color:#333;}
+.divcss5{ border:1px solid #ffee39; width:200px; height:100px}

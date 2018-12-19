@@ -1,0 +1,148 @@
+<form id="baseForm">
+    <input type="hidden" id="id" name="id" value="$!id"/>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label>客户归属：</label>
+            </td>
+            <td width="20%" colspan="1">
+                $!belongName
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">客户姓名：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input  type="text" valid="required" id="customerName" class="ui-text-text" value="$!custPotentialCustomerQuery.customerName" name="customerName" maxlength="20" />
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label >证件类型：</label>
+            </td>
+            <td width="20%">
+                <select id="cardType" name="cardType"  >
+                    <option></option>
+                    #datadict("$!custPotentialCustomerQuery.cardType","$!dataDictConst.CD_IDENTIFY_TYPE")
+                </select>
+            </td>
+            <td class="field" width="5%">
+                <label >证件号码：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input type="text"  id="cardNumber" value="$!custPotentialCustomerQuery.cardNumber" class="ui-text-text" name="cardNumber" maxlength="50" valid="cardNumber" />
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label>年龄：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text w100 fl mr5" >
+                    <input width="50%" type="text" id="age" #if($!custPotentialCustomerQuery.age==0)
+                                                    value=""
+                                                #else
+                                                   value="$!custPotentialCustomerQuery.age"
+                                                #end
+                           class="ui-text-text" name="age" valid="nonNegaInteger"  maxlength="10" />
+                </div>
+                <label class="dash fl">
+                    岁
+                </label>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td class="field" width="5%">
+                <label>性别：</label>
+            </td>
+            <td  width="5%">
+                <select  id="customerSex" name="customerSex">
+                    <option></option>
+                    #datadict("$!custPotentialCustomerQuery.customerSex","CD_SEX")
+                </select>
+            </td>
+
+            <td class="field" width="5%">
+                <label class="ui-star">联系电话：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input type="text" valid="required" id="telephoneNumber" value="$!custPotentialCustomerQuery.telephoneNumber" class="ui-text-text" name="telephoneNumber" maxlength="20"/>
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label>居住地址：</label>
+            </td>
+            <td width="40%" colspan="3">
+                <div class="ui-text">
+                    <input type="text" id="address" class="ui-text-text" name="address" value="$!custPotentialCustomerQuery.address" maxlength="100"/>
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+
+            <td class="field" width="5%">
+                <label>意向产品：</label>
+            </td>
+            <td width="20%">
+                <div>
+                    <input type="hidden" id="productCode" class="ui-text-text" value="$!productCode" name="productCode"/>
+                    <label id="productName" name="productName" >$!productName</label>
+                    <span class="product-button" onclick="selectProductForCust()" id="selectProductForCust">选择产品</span>
+                </div>
+            </td>
+
+            <td class="field" width="5%">
+                <label>意向时间：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text">
+                    <input type="text" id="litStartDate" class="ui-text-text" value="$!intentionDate" name="intentionDate"/>
+                    <i class="ui-text-icon ui-text-date"></i>
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label>贷款用途：</label>
+            </td>
+            <td width="20%" colspan="1">
+                <div class="ui-text">
+                    <input type="text" id="loanUse" class="ui-text-text" name="loanUse" value="$!custPotentialCustomerQuery.loanUse" maxlength="75"/>
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>备注：</label>
+            </td>
+            <td colspan="7">
+                <div class="ui-textarea">
+                    <textarea id="remark" name="remark" class="ui-textarea-text"  maxlength="150">$!custPotentialCustomerQuery.remark</textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+
+    #if($fieldFlag!=2  )
+        <span id="btnSaveBase" class="ui-closure-button">
+        <label class="ui-closure-button-text">保存</label>
+    </span>
+        #if(!$id)
+            <span id="btnSaveContine" class="ui-closure-button ml5">
+            <label class="ui-closure-button-text">保存并新建</label>
+        </span>
+        #end
+    #end
+    <span id="btnCancelBase" class="ui-closure-button ui-closure-button-cancel ml5">
+    <label class="ui-closure-button-text">关闭</label>
+</span>
+</div>

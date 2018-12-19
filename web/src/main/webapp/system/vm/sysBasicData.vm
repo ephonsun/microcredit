@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>基础数据</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<div class="ui-flexigrid" style="width: auto;">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                <tr>
+                    <th width="500" align="center" col="field" axis="0">
+                        <div style="width: 500px; text-align: center;">名称</div>
+                    </th>
+                    <th width="200" align="center" col="action">
+                        <div style="width: 200px; text-align: center;">操作</div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="ui-flexigrid-body" style="_margin-top:14px;">
+        <div class="ui-flexigrid-body-inner" style="height: 312px;">
+            <table id="staffGrid" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr data="0" id="flex142">
+                        <td align="center">
+                            <div title="合同分类" style="width: 500px; text-align: center;">合同分类</div>
+                        </td>
+                        <td align="center" mark="action">
+                            <div mark="action" style="width: 200px; text-align: center;">
+                                <label class="ui-link mr5" mark="action" data="0" button="0">
+                                    <a href="javascript:getContractTypeListPage();" id="" class="logout">详情</a>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js"></script>
+<script type="text/javascript">
+    function getContractTypeListPage(){
+//        tabs.close("getContractTypeListPage");
+//        var url = '../contract/getContractTypeListPage.html';
+//        tabs.add({
+//            id: 'getContractTypeListPage',
+//            name: 'getContractTypeListPage',
+//            pid: tabs.getSelfId(window),
+//            title : '合同分类',
+//            url : url,
+//            lock : false
+//        });
+        showDialog({
+            id: 'contractTypeList',
+            title : '合同分类',
+            url : '../contract/getContractTypeListPage.html',
+            width : 400,
+            height : 350,
+            tabId: tabs.getSelfId(window)
+        });
+
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../js/core.js" type="text/javascript" ></script>
+<script src="../js/ctrl.js" type="text/javascript" ></script>
+<script src="../js/widget.js" type="text/javascript" ></script>
+<script src="../js/dao.js" type="text/javascript" ></script>
+<script src="../js/menu.js" type="text/javascript" ></script>
+<script src="../js/ctrl.setting.js" type="text/javascript" ></script>
+<link href="../skin/css/blue.css" rel="stylesheet" type="text/css" ></link>
+</head>
+<script>
+$.json.attach("DS",{"Customer":[{"id":123,"name":"张三","sex":"男","mobile":"13356715358"},{"id":456,"name":"李田","sex":"女","mobile":"13383294738"},{"id":333,"name":"明楞","sex":"男","mobile":"1402393023"},{"id":8732,"name":"导要三","sex":"男","mobile":"183933333232"},{"id":7223,"name":"张三丰","sex":"男","mobile":"13939239333"}]});
+$.json.attach("TV",{"System":[{"id":2,"pid":1,"name":"我的文档","group":1},{"id":3,"pid":2,"name":"图片"},{"id":4,"pid":2,"name":"音乐"},{"id":5,"pid":1,"name":"桌面","group":1},{"id":6,"pid":1,"name":"计算机","group":1},{"id":7,"pid":6,"name":"本地磁盘(C:)"},{"id":8,"pid":6,"name":"本地磁盘(D:)"},{"id":9,"pid":6,"name":"本地磁盘(E:)"},{"id":10,"pid":1,"name":"自定义1","group":2},{"id":11,"pid":1,"name":"自定义2","group":2},{"id":12,"pid":1,"name":"自定义3","group":2},{"id":13,"pid":1,"name":"选项一","group":3},{"id":14,"pid":1,"name":"选项二","group":3},{"id":15,"pid":1,"name":"选项三","group":3},{"id":16,"pid":4,"name":"2002年的第一场雪"},{"id":17,"pid":4,"name":"月亮代表我的心"},{"id":18,"pid":4,"name":"都是中国人"}]});
+$.json.attach("CD",{"Items":[{"value":1,"text":"选择项一"},{"value":2,"text":"选择项二"},{"value":3,"text":"选择项三"},{"value":4,"text":"选择项四"}]});
+
+function test1()
+{
+	alert($("#tx123").val());
+}
+
+</script>
+<body>
+<menu id="tx123" name="tx123" width="200" multiselect="false" data="table:TV.System;" ></menu>
+<input type=button id=btnEmergency value="获取控件的值" onClick="javascript:test1()" />
+<span  id="tx" ></span>
+<script>$.ctrl.render()</script>
+</body>
+</html>

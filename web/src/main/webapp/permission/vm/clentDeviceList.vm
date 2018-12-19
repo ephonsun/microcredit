@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../css/public.css" />
+</head>
+
+<body>
+<form id="form">
+<div class="ui-layout-search" >
+    <div class="ui-layout-search-body"  >
+        <table class="ui-form-fields">
+            <tbody>
+            <tr>
+                <td class="field" width="7%">
+                    <label>IP地址：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text">
+                        <input type="text" class="ui-text-text" name="localIp"/>
+                    </div>
+                </td>
+
+                <td class="field" width="7%">
+                    <label>设备ID：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text">
+                        <input type="text" class="ui-text-text" name="deviceId"/>
+                    </div>
+                </td>
+
+                <td class="field" width="7%">
+                    <label>客户端版本：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text">
+                        <input type="text" class="ui-text-text" name="version"/>
+                    </div>
+                </td>
+
+                <td class="field" width="7%"></td>
+                <td width="18%"></td>
+                <td class="field" width="7%"></td>
+                <td width="18%"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="ui-layout-search-foot" >
+        <div class="buttons" >
+				<span id="btnResetSR" class="ui-search-button ui-search-button-clean" >
+					<label class="ui-search-button-text" >重置</label>
+				</span>
+				<span id="btnSearchSR" class="ui-search-button" >
+					<label class="ui-search-button-text" >搜索</label>
+				</span>
+        </div>
+    </div>
+</div>
+</form>
+<div class="ui-layout-statistics" >
+    (所有设备<label id="lblStatisticsSR" class="statistics" >0</label>)个
+</div>
+<div class="ui-layout-action" >
+		<span id="btnRefreshSR" class="ui-button fr" >
+			<label class="ui-button-text" >刷新</label>
+		</span>
+</div>
+<table id="gridServiceRecord" ></table>
+
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+
+<script type="text/javascript" >
+    $(function(){
+
+        //初始化下拉单选框
+        $('select').selectbox();
+
+        $('#gridServiceRecord').flexigrid({
+            height: 300,
+            url: '../permission/queryClentDeviceListData.html',
+            dataType: 'json',
+            //multiSelect: true,
+            fields: [
+                { display: '帐号', field: 'account', width: 280 ,align: 'center' },
+                { display: '设备id', field: 'deviceId', width: 200 ,align: 'center' },
+                { display: 'ip地址', field: 'localIp', width: 100 ,align: 'center' },
+                { display: '客户端版本', field: 'version', width: 100 ,align: 'center' },
+                { display: '最后联机时间', field: 'lastTime', width: 80 ,align: 'center' },
+            ],
+            /*action: {
+                display: '操作',
+                width: 150,
+                align: 'center',
+                buttons: [
+                    {
+                        display: '详情',
+                        onClick: function(tr, data){
+                            alert(tr);
+                        }
+                    },
+                    {
+                        display: '删除',
+                        onClick: function(tr, data){
+                            alert(data.id);
+                        }
+                    },
+                ]
+            },*/
+            rowIdProperty: 'id',
+            onComplete : function(data) {
+                $('#lblStatisticsSR').text(data.total);
+            },
+            usePage: true
+        });
+
+
+
+        //
+        $('#btnSearchSR').click(function(){
+            var postFields = getPostFields();
+            $('#gridServiceRecord').flexSearch(postFields);
+        });
+
+        //
+        $('#btnRefreshSR').click(function(){
+            $('#gridServiceRecord').flexReload();
+            // $('#smartphoneGridInfo').flexReload();
+        });
+
+        //
+        $('#btnResetSR').click(function(){
+            toCleanForm('#form');
+        });
+    })
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<style>
+    .approval-box{width: 100%;  border: 1px #B6C4D8 solid; margin-bottom: 20px; padding-top: 20px;}
+    .approval-box .head-title{font-size: 14px; font-weight: 600;}
+    .approval-box .line-box {    padding: 0 20px 20px 20px;}
+    .approval-info-box {background-color: #E9EDF5;}
+    .approval-form-box {background-color: #FFFFCC;}
+</style>
+#if ($!auditStatuses.size() > 0 )
+<div class="approval-box approval-info-box">
+    <div class="head-title line-box">※当前审批信息</div>
+    <div class="line-box">待审批人：
+        #foreach($!auditStatus in $!auditStatuses)
+            $!auditStatus.auditUserName
+        #end
+    </div>
+</div>
+#end
+#foreach($passMap in $!passMaps)
+    #if ($!passMap.templates.size()>0)
+    <div class="approval-box approval-info-box">
+        <div class="head-title line-box">※$!passMap.processName审信息</div>
+        #foreach($template in $passMap.templates)
+            <div class="line-box">审批人：$!template.attributeMap.userName 【审批通过】$!template.attributeMap.date
+                #if ($!template.attributeMap.noData != '1')
+                    #foreach($data in $template.data)
+                        <div id="co_$template.tableName" >
+                            #templateFieldForm($template.fields,$data,2, $template.tableName,'')
+                        </div>
+                    #end
+                #end
+            </div>
+        #end
+    </div>
+    #end
+#end
+#if ($!moreReview != '1' && $!showApply != '1')
+<div class="approval-box approval-form-box">
+    <div class="head-title line-box">
+        <span>※当前审批信息</span>
+        <a class="" style="color: blue;margin: 10px;" onclick="showPlanInfo('approval','0');"><strong>还款计划</strong></a>
+    </div>
+    <div class="line-box">
+        <form id="approvalBaseFormApproval">
+            <div class="border" style="    border: 0;">
+                #templateFieldForm($template.fields,$template.data[0],0, $template.tableName,'')
+            </div>
+        </form>
+    </div>
+</div>
+#end
+
+
+<script type="text/javascript" >
+    $(function(){
+        layout.initValid();
+        layout.initForms();
+    });
+</script>

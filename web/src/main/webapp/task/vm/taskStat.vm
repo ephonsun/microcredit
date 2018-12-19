@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>任务情况统计</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+<body>
+	<form id="form" action="" onsubmit="return false;">
+		<input type="hidden" id="loginUserId" name="loginUserId" value="$!userId" />
+		<input type="hidden" id="role" name="role" value="$!role" />
+        <input type="hidden" id="groupPermit" name="groupPermit" value="$!groupPermit" />
+        <input type="hidden" id="gp" name="gp" value="$!gp" />
+        <input type="hidden" id="userName" name="userName" value="$!userName" />
+        <input type="hidden" id="teamGroupID" name="teamGroupID" value="$!teamGroupID" />
+		<div class="ui-layout-search">
+        	<div class="ui-layout-search-body">
+        		<table class="ui-form-fields" >
+
+                       <tr>
+						    <td class="field" width="7%">
+                            <label>统计对象：</label>
+                            </td>
+
+							<td width="20%">
+                       <div>
+                           #if(!$teamGroupID&&$role==1&&$gp.length()==0)
+                             <select id="userIdSelect" name="userId">
+                               <option value="$userId">自己</option>
+                              </select>
+                               <td width="73%"></td>
+                           #else
+                        		<select id="taskObj" name="taskObj">
+                                    #if($!role==1&&$gp.length()==0)
+                                        <option value="1">客户经理</option>
+                                    #elseif($!role==1)
+                                        <option value="1">客户经理</option>
+                                        <option value="2">团队</option>
+                                    #elseif($!role==2)
+                                        <option value="1">客户经理</option>
+									    <option value="2">团队</option>
+                                        #elseif($!role==3&&$gp.length()==0)
+                                        <option value="3"></option>
+                                        #elseif($!role==3&&$gp.length()>0)
+                                        <option value="1">客户经理</option>
+                                        <option value="2">团队</option>
+                                        #end
+                        		</select>
+                                </div>
+                            </td>
+
+							<td width="20%">
+##                                <div id="hh">
+##                                    <select id="teamGroupId" name="teamGroupId" >
+##                                        <option></option>
+##                                    </select>
+##                                </div>
+                                <div id="hh" class="ui-text">
+                                    <input type="hidden" id="teamGroupId" value="" name="ruleId"/>
+                                    <input type="text" id="teamGroupId1" class="ui-text-text"  />
+                                    <i class="ui-text-icon ui-text-select "></i>
+                                </div>
+
+                            </td>
+
+							<td width="20%"  >
+##                                <div id="gg">
+##                                    <select id="userIdSelect" name="userId">
+##                                        <option></option>
+##                                    </select>
+##                                </div>
+                                <div id="gg" class="ui-text">
+                                    <input type="hidden" id="userIdSelect" value="" name="ruleId"/>
+                                    <input type="text" id="userIdSelect1" class="ui-text-text"  />
+                                    <i class="ui-text-icon ui-text-select "></i>
+                                </div>
+
+                            </td>
+
+                           <td width="33%" >
+
+                           </td>
+
+					    </tr>
+    #end
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>时间范围：</label>
+                        </td>
+                        <td width="18%">
+                            <table class="ui-form-fields-cell">
+                                <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtStartDate" class="ui-text-text" name="startDate" value=""/>
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtEndDate" class="ui-text-text" name="endDate" value=""/>
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                       <tr>
+                           <td class="field" width="7%">
+                           <td width="20%"></td>
+                           <td width="20%"></td>
+                           <td width="20%"></td>
+                           <td width="20%"></td>
+                       </tr>
+                </table>
+        	</div>
+
+
+		<!-- 搜索刷新按钮-->
+        	<div class="ui-layout-search-foot">
+        		<div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+    	            <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+        		</div>
+        	</div>
+        </div>
+
+	</form>
+    <div class="ui-layout-statistics">
+
+    </div>
+    <div class="ui-layout-action">
+            <span id="btnExport" style="display: none" class="ui-button fl" >
+                <label class="ui-button-text">导出</label>
+            </span>
+
+    </div>
+    <div id="taskGrid" ></div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<script type="text/javascript">
+	var r= $('#role').val();
+	if(r==1){
+        $("#taskObj").val(1);
+    }else{
+        $("#taskObj").val(2);
+    }
+
+    </script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../task/js/taskStat.js?v=$!webAppVersion"></script>
+</body>
+</html>

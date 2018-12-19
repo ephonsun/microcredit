@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>资料分类</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css"/>
+    <link type="text/css" rel="stylesheet" href="../loan/css/public.css"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css"/>
+</head>
+<body>
+<div class="hide" id="saveSearchBox" style="left: 44px; top: 186px; position: absolute; visibility: visible; z-index: 2022;">
+    <div class="d-outer d-state-lock d-state-visible d-state-focus">
+        <table class="d-border">
+            <tbody>
+            <tr>
+                <td class="d-nw"></td>
+                <td class="d-n"></td>
+                <td class="d-ne"></td>
+            </tr>
+            <tr>
+                <td class="d-w"></td>
+                <td class="d-c">
+                    <div class="d-inner">
+                        <table class="d-dialog">
+                            <tr>
+                                <td class="d-header">
+                                    <div class="d-header-inner">
+                                        <div class="d-title">新建子类</div>
+##                                        <a class="d-close" href="javascript:/*artDialog*/;" title="关闭">×</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="d-main" style="width: 330px; height: 100px;">
+                                    <div class="d-content" style="padding: 10px;">
+                                        <table class="ui-form-fields">
+                                            <tr>
+                                                <td class="field" width="7%">
+                                                    <label class="ui-star">子类名称：</label>
+                                                </td>
+                                                <td >
+                                                    <div class="ui-text" id="classNameLaber">
+                                                        <input type="text" id="className" class="ui-text-text" name="className"  maxlength="10"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <hr class="ui-line" />
+                                        <div class="ui-layout-closure">
+                                            <span id="btnSaveClass" class="ui-closure-button ">
+                                                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+                                            </span>
+                                            <span id="btnCancelClass" class="ui-closure-button ui-closure-button-cancel ml5">
+                                                <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="d-footer">
+                                    <div class="d-buttons" style="display: none;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="d-e"></td>
+            </tr>
+            <tr>
+                <td class="d-sw"></td>
+                <td class="d-s"></td>
+                <td class="d-se"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="hide" id="editBox" style="left: 44px; top: 186px; position: absolute; visibility: visible; z-index: 2022;">
+    <div class="d-outer d-state-lock d-state-visible d-state-focus">
+        <table class="d-border">
+            <tbody>
+            <tr>
+                <td class="d-nw"></td>
+                <td class="d-n"></td>
+                <td class="d-ne"></td>
+            </tr>
+            <tr>
+                <td class="d-w"></td>
+                <td class="d-c">
+                    <div class="d-inner">
+                        <table class="d-dialog">
+                            <tr>
+                                <td class="d-header">
+                                    <div class="d-header-inner">
+                                        <div class="d-title">编辑子类</div>
+##                                        <a class="d-close" href="javascript:/*artDialog*/;" title="关闭">×</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="d-main" style="width: 330px; height: 100px;">
+                                    <div class="d-content" style="padding: 10px;">
+                                        <table class="ui-form-fields">
+                                            <tr>
+                                                <td class="field" width="7%">
+                                                    <label class="ui-star">子类名称：</label>
+                                                </td>
+                                                <td >
+                                                    <div class="ui-text" id="editNameLaber">
+                                                        <input type="text" id="editName" class="ui-text-text" name="className"  maxlength="10"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <hr class="ui-line" />
+                                        <div class="ui-layout-closure">
+                                            <span id="btnEditClass" class="ui-closure-button ">
+                                                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+                                            </span>
+                                            <span id="btnEditCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+                                                <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="d-footer">
+                                    <div class="d-buttons" style="display: none;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="d-e"></td>
+            </tr>
+            <tr>
+                <td class="d-sw"></td>
+                <td class="d-s"></td>
+                <td class="d-se"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <form id="form">
+        <div class="ui-layout-search">
+            <div class="ui-layout-search-body">
+                 <table class="ui-form-fields" id="form1">
+                <tr>
+                    <td class="field" width="7%">
+                        <label class="ui-star">名称：</label>
+                    </td>
+                    <td width="18%">
+                        <label class="ui-text">
+                            <input type="text" id="ownerName" class="ui-text-text" name="ownerName" maxlength="10"/>
+                        </label>
+                    </td>
+                    <td class="field" width="7%">
+                        <label class="ui-star">状态：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="isActived">
+                            <option value="0">禁用</option>
+                            <option value="1" selected>启用</option>
+                        </select>
+                    </td>
+                    <td width="50%"></td>
+                </tr>
+                 </table>
+            </div>
+        </div>
+        <br>
+        <div class="ui-layout-action">
+        <span id="btnNew" class="ui-button fl">
+            <label class="ui-button-text">添加</label>
+        </span>
+        </div>
+        <table id="loanInfoAddedClassList"></table>
+
+##        <div class="save-search-box hide" id="saveSearchBox">
+##            <div class="d-header-inner">
+##                <div class="d-title">新建子类</div>
+##            </div>
+##            <br/><br/>
+##            <table class="ui-form-fields" width="50%" id="form2">
+##                <tr>
+##                    <td class="field" width="20%">
+##                        <label class="ui-star">子类名称：</label>
+##                    </td>
+##                    <td width="75%">
+##                        <label class="ui-text" id="classNameLaber">
+##                            <input type="text" id="className" class="ui-text-text" name="className" maxlength="10"/>
+##                        </label>
+##                    </td>
+##                    <td width="5%"></td>
+##                </tr>
+##            </table>
+##            <br/><br/><br/><br/><br/><br/>
+##            <div class="ui-layout-closure">
+##                 <span id="btnSaveClass" class="ui-closure-button ">
+##                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+##             </span>
+##                <span id="btnCancelClass" class="ui-closure-button ui-closure-button-cancel ml5">
+##                <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+##             </span>
+##            </div>
+##        </div>
+
+##        <div class="save-search-box hide" id="editBox">
+##            <div class="d-header-inner">
+##                <div class="d-title">编辑子类</div>
+##            </div>
+##            <table class="ui-form-fields" width="50%" id="form3">
+##                <tr>
+##                    <td class="field" width="20%">
+##                        <label class="ui-star">子类名称：</label>
+##                    </td>
+##                    <td width="75%">
+##                        <label class="ui-text" id="editNameLaber">
+##                            <input type="text" id="editName" class="ui-text-text" name="className" maxlength="10"/>
+##                        </label>
+##                    </td>
+##                    <td width="5%"></td>
+##                </tr>
+##            </table>
+##            <div class="ui-layout-closure">
+##                 <span id="btnEditClass" class="ui-closure-button ">
+##                <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+##             </span>
+##                <span id="btnEditCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+##                <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+##             </span>
+##            </div>
+##        </div>
+
+
+        <br>
+        <div class="ui-layout-closure">
+        <span id="btnSaveAll" class="ui-closure-button">
+            <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+        </span>
+            <span id="btnCancelAll" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+        </span>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    var classNames = {
+        "total": 1,
+        "pageSize": 1,
+        "page": 1,
+        "rows": []
+    }
+    //{"id":1,cols:{"className":"123"}}
+    var id;
+
+    var editName;
+
+    var dataId;
+</script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datagrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../loan/js/loanInfoAddedOwnerSave.js?v=$!webAppVersion"></script>
+</html>

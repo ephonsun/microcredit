@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+    </style>
+</head>
+
+<body>
+<form id="form" >
+<input type="hidden" id="typeId" name="typeId" value="$!LoanType.typeId"/>
+<tbody>
+<table class="ui-form-fields">
+    <tr>
+
+        <td class="field" width="7%">
+            <label class="ui-star">贷款类型：</label>
+        </td>
+        <td width="43%">
+            <div class="ui-text">
+                <input type="text" id="loanTypeName" class="ui-text-text" name="loanTypeName" value="$!LoanType.loanTypeName" maxlength="10"/>
+            </div>
+        </td>
+        #if($!threeTable == 'true')
+            <td class="field" width="7%">
+                <label >三表类型：</label>
+            </td>
+            <td width="43%">
+                <select id="loanClassId" name="loanClassId">
+                    <option value="0"></option>
+                    <option value="1">经营类</option>
+                    <option value="2">消费类</option>
+                </select>
+            </td>
+        #end
+    </tr>
+    <tr>
+        #if($!sourceMode == 'true')
+            <td class="field" width="7%">
+                <label >评分模型：</label>
+            </td>
+            <td width="43%">
+                <select id="modeId" name="modeId">
+                    <option value="0"></option>
+                    #foreach($!m in $!modeScoreInfos)
+                        <option value="$!m.modeId">$!m.modeName</option>
+                    #end
+                </select>
+            </td>
+        #end
+        <td class="field" width="7%">
+            <label>调查流程：</label>
+        </td>
+        <td >
+            <select name="flowId" id="flowId">
+                <option></option>
+                #foreach($surveryFlow in $surveyFlows)
+                    <option value="$!surveryFlow.id">$!surveryFlow.flowName</option>
+                #end
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="field" width="7%">
+            <label class="ui-star">分配目标：</label>
+        </td>
+        <td width="43%">
+            <select name="allotTarget" id="allotTarget" >
+                <option value="0">团队成员</option>
+                <option value="1">申请人</option>
+                <option value="2">非申请人</option>
+            </select>
+        </td>
+        <td class="field" width="7%">
+            <label>自动分配：</label>
+        </td>
+        <td width="43%">
+            <select name="isAutoAllot" id="isAutoAllot">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </td>
+    </tr>
+</table>
+</tbody>
+</form>
+<div style="margin-top: 25px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnContinue" class="ui-closure-button ml5">
+        <label class="ui-closure-button-text">$!pageConst.BTN_SAVE_CONTINUE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../loan/js/loanTypeSave.js?v=$!webAppVersion"></script>
+<script language="javascript" type="text/javascript">
+    //禁用Enter键表单自动提交
+    document.onkeydown = function(event) {
+        var target, code, tag;
+        if (!event) {
+            event = window.event; //针对ie浏览器
+            target = event.srcElement;
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "TEXTAREA") { return true; }
+                else { return false; }
+            }
+        }
+        else {
+            target = event.target; //针对遵循w3c标准的浏览器，如Firefox
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "INPUT") { return false; }
+                else { return true; }
+            }
+        }
+    };
+    $('#allotTarget').change(function () {
+        var i=$(this).val()
+        if(i==1){
+            $('#isAutoAllot').val(1);
+            $('#nisAutoAllot').val('是')
+            $('#isAutoAllot').attr("disabled",true);
+            $('#nisAutoAllot').css("color", "#B3B3B3");
+        }else{
+            $('#isAutoAllot').removeAttr("disabled",true);
+            $('#nisAutoAllot').removeAttr("style");
+            $('#isAutoAllot').val(0)
+            $('#nisAutoAllot').val('否')
+        }
+    });
+    $(window).load(function () {
+        if($('#allotTarget').val()==0){
+            $('#isAutoAllot').val(0);
+            $('#nisAutoAllot').val('否');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+#*资产负债现金项目*#
+#macro(assetsAmount $assetsOperMap $column $cdparam,$itemTitle,$itemCount,$showApply)
+<div class="ui-layout-statistics">
+    $!itemTitle (合计：<label id="lblStatistics" class="statistics">#if(!$itemCount || $itemCount == '0.00') -- #else $!formatUtil.formatDecimal($!itemCount) #end</label>)
+    #if($showApply ne '1')
+    <span class="ui-button fr" onclick="addNewAsset('$!column','$loanUtil.getItemNameByCol($!column)')">
+    <label class="ui-button-text">添加</label>
+    #end
+    </span>
+</div>
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr style="width: 100%">
+                    <th align="center" col="field" style="width: 20%;text-align: center;"><div>项目</div></th>
+                    <th align="center" col="field" style="width: 20%;text-align: center;"><div >金额(元)</div></th>
+                    <th align="center" col="field" style="width: 30%;text-align: center;"><div >备注</div></th>
+                    #if($showApply ne '1')
+                    <th align="center" col="field" style="width: 30%;text-align: center;"><div >操作</div></th>
+                    #end
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <tbody>
+                        #foreach($!aomlist in $!assetsOperMap.entrySet())
+                            #if($!aomlist.key.equals($!column))
+                                #if($null.isNull($!aomlist.value)|| $!aomlist.value.size()==0)
+                                <table></table>
+                                <p style="color:#4d4d4d;font-size:12px;margin:10px;text-align: center">当前时间范围无数据</p>
+                                #else
+                                #foreach($!aom in $!aomlist.value)
+                                <tr>
+                                    #if($cdparam)
+                                    <td style="width:20%; text-align: center;" title="$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.itemName)"><div>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.itemName)</div></td>
+                                   #else
+                                       <td style="width: 20%; text-align: center;" title="$!aom.itemName"><div>$!aom.itemName</div></td>
+                                    #end
+                                    <td style="width: 20%;text-align: center;" title="#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end"><div>#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end</div></td>
+                                    <td style="width: 30%; text-align: center;" class="tdoverflow" title="$!aom.remark">$!aom.remark</td>
+                                    #if($showApply ne '1')
+                                    <td style="width: 30%;text-align: center;"><div  mark="action">
+                                        <label class="ui-link mr5" mark="action" data="0" button="0" onclick="updateAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')" >编辑</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="1" onclick="detailAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">查看</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="2" onclick="deleteAssets('$!column',$!aom.id)">删除</label>
+                                    </div></td>
+                                    #end
+                                </tr>
+                                #end
+                                #end
+                            #end
+                        #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+#end
+
+#*存货*#
+#macro(assetsStock $assetsOperMap $column $cdparam,$itemTitle,$itemCount,$showApply)
+<div class="ui-layout-statistics">
+    $!itemTitle (合计：<label id="lblStatistics" class="statistics">#if(!$itemCount || $itemCount == '0.00') -- #else $!formatUtil.formatDecimal($!itemCount) #end</label>)
+    #if($showApply ne '1')
+    <span id="btnAdd" class="ui-button fr" onclick="addNewAsset('$!column','$loanUtil.getItemNameByCol($!column)')">
+        <label class="ui-button-text">添加</label>
+        </span>
+    #end
+</div>
+
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>类别</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>名称</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>数量</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>单价(元)</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>金额(元)</div></th>
+                    <th align="center" col="field" style="width: 30%; text-align: center;"><div>备注</div></th>
+                    #if($showApply ne '1')
+                    <th align="center" col="field" style="width: 20%; text-align: center;"><div>操作</div></th>
+                    #end
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <body>
+                        #foreach($!aomlist in $!assetsOperMap.entrySet())
+                            #if($!aomlist.key.equals($!column))
+                                #if($null.isNull($!aomlist.value)|| $!aomlist.value.size()==0)
+                                <table></table>
+                                <p style="color:#4d4d4d;font-size:12px;margin:10px;text-align: center">当前时间范围无数据</p>
+                                #else
+                                #foreach($!aom in $!aomlist.value)
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" title="$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.itemType)"><div>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.itemType)</div></td>
+                                    <td style="width: 10%; text-align: center;" title="$!aom.itemName"><div>$!aom.itemName</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.itemCount) $!aom.itemCount #else -- #end"><div>#if($aom.itemCount) $!aom.itemCount #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.itemPrice) $!formatUtil.formatDecimal($!aom.itemPrice) #else -- #end"><div>#if($aom.itemPrice) $!formatUtil.formatDecimal($!aom.itemPrice) #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end"><div>#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end</div></td>
+                                    <td style="width: 30%; text-align: center;" class="tdoverflow" title="$!aom.remark"><div>$!aom.remark</div></td>
+                                    #if($showApply ne '1')
+                                    <td style="width: 20%; text-align: center;"><div  mark="action">
+                                        <label class="ui-link mr5" mark="action" data="0" button="0" onclick="updateAssets('$column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">编辑</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="1" onclick="detailAssets('$column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">查看</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="2" onclick="deleteAssets('$column',$!aom.id)">删除</label>
+                                    </div></td>
+                                    #end
+                                </tr>
+                                #end
+                                #end
+                            #end
+                        #end
+
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
+#end
+
+#*账款*#
+#macro(assetsAccount $assetsOperMap $column $cdparam,$itemTitle,$itemCount,$showApply)
+<div class="ui-layout-statistics">
+    $!itemTitle (合计：<label id="lblStatistics" class="statistics">#if(!$itemCount || $itemCount == '0.00') -- #else $!formatUtil.formatDecimal($!itemCount) #end</label>)
+    #if($showApply ne '1')
+    <span id="btnAdd" class="ui-button fr" onclick="addNewAsset('$!column','$loanUtil.getItemNameByCol($!column)')">
+        <label class="ui-button-text">添加</label>
+        </span>
+    #end
+</div>
+
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%" >
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>客户姓名</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>金额(元)</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>结算方式</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>账龄</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>业务关系续存</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>付款方式</div></th>
+                    <th align="center" col="field" style="width: 25%; text-align: center;"><div>备注</div></th>
+                    #if($showApply ne '1')
+                    <th align="center" col="field" style="width: 15%; text-align: center;"><div>操作</div></th>
+                    #end
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <body>
+                        #foreach($!aomlist in $!assetsOperMap.entrySet())
+                            #if($!aomlist.key.equals($!column))
+                                #if($null.isNull($!aomlist.value)|| $!aomlist.value.size()==0)
+                                <table></table>
+                                <p style="color:#4d4d4d;font-size:12px;margin:10px;text-align: center">当前时间范围无数据</p>
+                                #else
+                                #foreach($!aom in $!aomlist.value)
+                                <tr>
+                                    <td style="width: 10%; text-align: center;" title="$!aom.customerName"><div >$!aom.customerName</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end"><div>#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.settlementMode)"><div>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.settlementMode)</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.accountAge) $!aom.accountAge #else -- #end"><div>#if($aom.accountAge) $!aom.accountAge #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.renewDeposit==1)是 #elseif($aom.renewDeposit==0)否#end"><div>#if($aom.renewDeposit==1)是 #elseif($aom.renewDeposit==0)否#end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="$!aom.paymentMode"><div>$!aom.paymentMode</div></td>
+                                    <td style="width: 25%; text-align: center;" title="$!aom.remark" class="tdoverflow"><div>$!aom.remark</div></td>
+                                    #if($showApply ne '1')
+                                    <td style="width: 15%; text-align: center;"><div mark="action">
+                                        <label class="ui-link mr5" mark="action" data="0" button="0" onclick="updateAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">编辑</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="1" onclick="detailAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">查看</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="2" onclick="deleteAssets('$!column',$!aom.id)">删除</label>
+                                    </div></td>
+                                    #end
+                                </tr>
+                                #end
+                                #end
+                            #end
+                        #end
+
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
+#end
+
+#*固定资产*#
+#macro(assetsFixed $assetsOperMap $column $cdparam,$itemTitle,$itemCount,$showApply)
+<div class="ui-layout-statistics">
+    $!itemTitle (合计：<label id="lblStatistics" class="statistics">#if(!$itemCount || $itemCount == '0.00') -- #else $!formatUtil.formatDecimal($!itemCount) #end</label>)
+    #if($showApply ne '1')
+    <span id="btnAdd" class="ui-button fr" onclick="addNewAsset('$!column','$loanUtil.getItemNameByCol($!column)')">
+        <label class="ui-button-text">添加</label>
+        </span>
+     #end
+</div>
+
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>类别</div></th>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>名称</div></th>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>数量</div></th>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>原值(元)</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>折旧金额(元)</div></th>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>现值(元)</div></th>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>金额(元)</div></th>
+                    <th align="center" col="field" style="width: 8%; text-align: center;"><div>折旧率(%)</div></th>
+                    <th align="center" col="field" style="width: 18%; text-align: center;"><div>备注</div></th>
+                    #if($showApply ne '1')
+                    <th align="center" col="field" style="width: 16%; text-align: center;"><div>操作</div></th>
+                    #end
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <body>
+                        #foreach($!aomlist in $!assetsOperMap.entrySet())
+                            #if($!aomlist.key.equals($!column))
+                                #if($null.isNull($!aomlist.value)|| $!aomlist.value.size()==0)
+                                <table></table>
+                                <p style="color:#4d4d4d;font-size:12px;margin:10px;text-align: center">当前时间范围无数据</p>
+                                #else
+                                #foreach($!aom in $!aomlist.value)
+                                <tr>
+                                    <td style="width: 8%; text-align: center;" title="$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.itemType)"><div>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.itemType)</div></td>
+                                    <td style="width: 8%; text-align: center;" title="$!aom.itemName"><div>$!aom.itemName</div></td>
+                                    <td style="width: 8%; text-align: center;" title="#if($aom.itemAccount) $!aom.itemAccount #else -- #end"><div>#if($aom.itemAccount) $!aom.itemAccount #else -- #end</div></td>
+                                    <td style="width: 8%; text-align: center;" title="#if($aom.oldAmount) $!formatUtil.formatDecimal($!aom.oldAmount) #else -- #end"><div>#if($aom.oldAmount) $!formatUtil.formatDecimal($!aom.oldAmount) #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.depreciationAmount) $!formatUtil.formatDecimal($!aom.depreciationAmount) #else -- #end"><div>#if($aom.depreciationAmount) $!formatUtil.formatDecimal($!aom.depreciationAmount) #else -- #end</div></td>
+                                    <td style="width: 8%; text-align: center;" title="#if($aom.newAmount) $!formatUtil.formatDecimal($!aom.newAmount) #else -- #end"><div>#if($aom.newAmount) $!formatUtil.formatDecimal($!aom.newAmount) #else -- #end</div></td>
+                                    <td style="width: 8%; text-align: center;" title="#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end"><div>#if($aom.amount) $!formatUtil.formatDecimal($!aom.amount) #else -- #end</div></td>
+                                    <td style="width: 8%; text-align: center;" title="#if($aom.depreciationRatio) $!aom.depreciationRatio #else -- #end"><div>#if($aom.depreciationRatio) $!aom.depreciationRatio #else -- #end</div></td>
+                                    <td style="width: 18%;text-align: center;" class="tdoverflow" title="$!aom.itemRemark"><div>$!aom.itemRemark</div></td>
+                                    #if($showApply ne '1')
+                                    <td style="width: 16%; text-align: center;"><div mark="action">
+                                        <label class="ui-link mr5" mark="action" data="0" button="0" onclick="updateAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">编辑</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="1" onclick="detailAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">查看</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="2" onclick="deleteAssets('$!column',$!aom.id)">删除</label>
+                                    </div></td>
+                                     #end
+                                </tr>
+                                #end
+                                #end
+                            #end
+                        #end
+
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
+#end
+
+#macro(assetsDebts $assetsOperMap $column $cdparam,$itemTitle,$itemCount,$showApply)
+<div class="ui-layout-statistics">
+    $!itemTitle (合计：<label id="lblStatistics" class="statistics">#if(!$itemCount || $itemCount == '0.00') -- #else $!formatUtil.formatDecimal($!itemCount) #end </label>)
+    #if($showApply ne '1')
+    <span id="btnAdd" class="ui-button fr" onclick="addNewAsset('$!column','$loanUtil.getItemNameByCol($!column)')">
+        <label class="ui-button-text">添加</label>
+        </span>
+    #end
+</div>
+
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>来源</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>金额(元)</div></th>
+                    #if($!column=='DEBTS_LONG_AMOUNT')
+                        <th align="center" col="field" style="width: 10%; text-align: center;"><div>期限(年)</div></th>
+                        #else
+                         <th align="center" col="field" style="width: 10%; text-align: center;"><div>期限(月)</div></th>
+                    #end
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>用途</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>发放日期</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>余额(元)</div></th>
+                    <th align="center" col="field" style="width: 10%; text-align: center;"><div>保证方式</div></th>
+                    <th align="center" col="field" style="width: 15%; text-align: center;"><div>备注</div></th>
+                    #if($showApply ne '1')
+                    <th align="center" col="field" style="width: 15%; text-align: center;"><div>操作</div></th>
+                     #end
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <body>
+                        #foreach($!aomlist in $!assetsOperMap.entrySet())
+                            #if($!aomlist.key.equals($column))
+                                #if($null.isNull($!aomlist.value)|| $!aomlist.value.size()==0)
+                                <table></table>
+                                <p style="color:#4d4d4d;font-size:12px;margin:10px;text-align: center">当前时间范围无数据</p>
+                                #else
+                                #foreach($!aom in $!aomlist.value)
+                                <tr>
+                                    #if($cdparam)
+                                    <td style="width: 10%; text-align: center;" title="$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.debtsSource)"><div>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!cdparam,$!aom.debtsSource)</div></td>
+                                    #else
+                                    <td style="width: 10%; text-align: center;" title="$!aom.debtsSource"><div>$!aom.debtsSource</div></td>
+                                    #end
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.bebtsAmount) $!formatUtil.formatDecimal($!aom.bebtsAmount) #else -- #end"><div>#if($aom.bebtsAmount) $!formatUtil.formatDecimal($!aom.bebtsAmount) #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.termLimit) $!aom.termLimit #else -- #end"><div>#if($aom.termLimit) $!aom.termLimit #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="$!aom.debtsUsed"><div>$!aom.debtsUsed</div></td>
+                                    <td style="width: 10%; text-align: center;" title="$!loanUtil.format($!aom.issueDate)"><div>$!loanUtil.format($!aom.issueDate)</div></td>
+                                    <td style="width: 10%; text-align: center;" title="#if($aom.balanceAmount) $!formatUtil.formatDecimal($!aom.balanceAmount) #else -- #end"><div>#if($aom.balanceAmount) $!formatUtil.formatDecimal($!aom.balanceAmount) #else -- #end</div></td>
+                                    <td style="width: 10%; text-align: center;" title="$!aom.ensureMode"><div>$!aom.ensureMode</div></td>
+                                    <td style="width: 15%;text-align: center;" class="tdoverflow" title="$!aom.remark">$!aom.remark</td>
+                                    #if($showApply ne '1')
+                                    <td style="width: 15%; text-align: center;"><div mark="action">
+                                        <label class="ui-link mr5" mark="action" data="0" button="0" onclick="updateAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">编辑</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="1" onclick="detailAssets('$!column',$!aom.id,'$loanUtil.getItemNameByCol($!column)')">查看</label>
+                                        <label class="ui-link mr5" mark="action" data="0" button="2" onclick="deleteAssets('$!column',$!aom.id)">删除</label>
+                                    </div></td>
+                                    #end
+                                </tr>
+                                #end
+                                #end
+                            #end
+                        #end
+
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
+#end
+
+#macro(offAssets $offAssetsAmount,$offDebtsAmount,$offRemark,$id,$showApply)
+<div class="ui-layout-statistics">
+    表外情况
+</div>
+<div class="ui-flexigrid" style="width: auto;text-align: center">
+    <div class="ui-flexigrid-head clearfix">
+        <div class="ui-flexigrid-head-inner" style="width: 100%">
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <thead>
+                <tr>
+                    <th align="center" col="field" style="width: 20%; text-align: center;"><div>表外资产(元)</div></th>
+                    <th align="center" col="field" style="width: 20%; text-align: center;"><div>表外负债(元)</div></th>
+                    <th align="center" col="field" style="width: 40%; text-align: center;"><div>说明</div></th>
+                    #if($showApply ne '1')
+                    <th align="center" col="field" style="width: 20%; text-align: center;"><div>操作</div></th>
+                    #end
+                </tr>
+                </thead>
+            </table>
+        </div></div>
+    <div class="ui-flexigrid-body" style="width:auto;text-align: center">
+        <div class="ui-flexigrid-body-inner" style="height: auto;">
+
+            <table border="0" cellpadding="0" cellspacing="0" class="tableLayout">
+                <body>
+                    <tr>
+                        <td style="width: 20%; text-align: center;" title="#if($offAssetsAmount) $!formatUtil.formatDecimal($!offAssetsAmount) #else -- #end"><div>#if($offAssetsAmount) $!formatUtil.formatDecimal($!offAssetsAmount) #else -- #end</div></td>
+                        <td style="width: 20%; text-align: center;" title="#if($offDebtsAmount) $!formatUtil.formatDecimal($!offDebtsAmount) #else -- #end"><div >#if($offDebtsAmount) $!formatUtil.formatDecimal($!offDebtsAmount) #else -- #end</div></td>
+                        <td style="width: 40%; text-align: center;" class="tdoverflow" title="$!offRemark"><div >$!offRemark</div></td>
+                        #if($showApply ne '1')
+                        <td style="width: 20%; text-align: center;"><div mark="action">
+                            <label class="ui-link mr5" mark="action" data="0" button="0" onclick="updateAssets('offAssets',$!id,'表外情况')">编辑</label>
+                            <label class="ui-link mr5" mark="action" data="0" button="1" onclick="detailAssets('offAssets',$!id,'表外情况')">查看</label>
+                        </div></td>
+                         #end
+                    </tr>
+
+                </body>
+            </table>
+        </div>
+    </div>
+</div>
+#end
+
+

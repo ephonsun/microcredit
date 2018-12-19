@@ -1,0 +1,2 @@
+<input type="hidden" id="potentialId" value="$!potentialId"/>
+<table id="files-grid"></table>

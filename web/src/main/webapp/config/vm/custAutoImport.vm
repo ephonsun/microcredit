@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>客户表单导入</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css"/>
+    <style type="text/css">
+        .instruction {
+            border: 1px dashed #ff0000;
+            width: 1150px;
+            height: auto;
+            background-color: #fffacd
+        }
+
+        #divvlaue{
+            margin: 8px;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="page2" class="ui-layout-upload">
+    <div class="instruction" style="padding:20px;">
+        <table>
+            <tr>
+                <td>
+                    <div style="margin-right: 20px;"><img src='../core/imgs/u167.png'></div>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>说明：</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="margin-top: 10px;"><label>1.系统将按照从【被导入的数据表】到【系统的数据表】，自左而右的列对应关系，导入数据</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class='ui-layout-action'>
+     <span class="fl" style="margin: 6px">
+         <input type="checkbox" class="ui-flexigrid-checkbox" checked>&nbsp;
+         <label>启用</label>
+    </span>
+    <span class="fl" style="margin-top: 6px;margin-right: 8px;margin-left: 16px;">
+         <label>匹配模式：</label>
+    </span>
+    <span class="fl" style="margin-right: 10px">
+        <select id="matchMode">
+            <option value="1" #if($!matchMode == 1) selected
+            #end>三要素匹配</option>
+            <option value="2" #if($!matchMode == 2) selected
+            #end>客户内码匹配</option>
+        </select>
+    </span>
+    <span class="fl ui-button" style="margin-right: 10px" id="generateData">
+         <label class="ui-button-text">生成数据：</label>
+    </span>
+    <span class="fl" >
+        <input type="text" id="dataValue" value="1000"/>
+    </span>
+    #*<span class="ui-button fr" id="genProcedure" style="margin-right: 10px">
+        <label class="ui-button-text">存储过程</label>
+    </span>*#
+    <span class="ui-button fr" id="resetImport" style="margin-right: 10px">
+        <label class="ui-button-text">重置</label>
+    </span>
+</div>
+<!--从表中查询到数据-->
+#if($!isFromTable)
+<table >
+    #set($num = 0)
+    #foreach($item in $itemLists)
+    <tr>
+        #set($index = ${velocityCount} - 1)
+        <td>
+            <div width="300px" id="divvlaue">
+                <input id="value_$num"  value="$!item.sourceColumnDisplay" disabled/> <!--来源数据表列名描述-->
+            </div>
+        </td>
+        #if($index==0)
+            <td rowspan="$!itemLists.size()">
+                <div width="100px"></div>
+            </td>
+            <td rowspan="$!itemLists.size()">
+                <div width="100px"><img src='../core/imgs/daohang.png'></div>
+            </td>
+            <td rowspan="$!itemLists.size()">
+                <div width="100px"></div>
+            </td>
+        #end
+        <td>
+            <div width="600px" id="divvlaue">
+                <select name="" class="targetTab">
+                    <option value=""></option>
+                    #foreach($taritem in $itemLists)
+                        <option  #if($item.itemId == $taritem.itemId) selected #end
+                               fieldId="$taritem.targetColumnId" name ="$taritem.targetColumnDisplay" class="tarcolname_$num" >$taritem.targetColumnDisplay</option>
+                    #end
+                </select>
+            </div>
+        </td>
+        <td >
+            <div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="ui-flexigrid-checkbox" id="isCover_$num" #if($item.isCovered == 1) checked #end>&nbsp;
+                <label>覆盖</label>
+                &nbsp;&nbsp;
+                <input type="checkbox" class="ui-flexigrid-checkbox" id="isReqWrite_$num" #if($item.isRequired == 1) checked #end>&nbsp;
+                <label>必填</label>
+            </div>
+        </td>
+    </tr>
+        <input type="hidden" id="order_$num" value="$num"/><!--来源数据列序号-->
+        <input type="hidden" id="soucolname_$num" value="$item.sourceTableColumn"/><!--来源数据表列名-->
+        #set($num = $num + 1)
+    #end
+</table>
+#end
+
+<!--临时表导入数据-->
+#if($!isFromSource)
+<table >
+    #set($num = 0)
+    #foreach($soucol in $columnList)
+        <tr>
+            #set($index = ${velocityCount} - 1)
+            <td>
+                <div width="300px" id="divvlaue">
+                    <input id="value_$num"  value="$!soucol.comment" disabled/> <!--来源数据表列名描述-->
+                </div>
+            </td>
+            #if($index==0)
+                <td rowspan="$!columnList.size()">
+                    <div width="100px"></div>
+                </td>
+                <td rowspan="$!columnList.size()">
+                    <div width="100px"><img src='../core/imgs/daohang.png'></div>
+                </td>
+                <td rowspan="$!columnList.size()">
+                    <div width="100px"></div>
+                </td>
+            #end
+            <td>
+                <div width="600px" id="divvlaue">
+                    <select name="" class="targetTab">
+                        <option value=""></option>
+                        #foreach($tarcol in $atcList)
+                            <option  #if($soucol.name == $tarcol.fieldColumn) selected #end
+                                                                              fieldId="$tarcol.fieldId" name ="$tarcol.fieldName" class="tarcolname_$num" >$tarcol.fieldName</option>
+                        #end
+                    </select>
+                </div>
+            </td>
+            <td >
+                <div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="ui-flexigrid-checkbox" id="isCover_$num" checked>&nbsp;
+                    <label>覆盖</label>
+                    &nbsp;&nbsp;
+                    <input type="checkbox" class="ui-flexigrid-checkbox" id="isReqWrite_$num">&nbsp;
+                    <label>必填</label>
+                </div>
+            </td>
+        </tr>
+        <input type="hidden" id="total" value="$!columnList.size()"/>
+        <input type="hidden" id="order_$num" value="$num"/><!--来源数据列序号-->
+        <input type="hidden" id="soucolname_$num" value="$soucol.name"/><!--来源数据表列名-->
+        #set($num = $num + 1)
+    #end
+</table>
+#end
+
+<hr class="ui-line"/>
+<div class='ui-layout-closure'>
+    <span class="ui-closure-button ml5" id="btnSave">
+        <label class="ui-closure-button-text">保存</label>
+    </span>
+    <span class="ui-closure-button ui-closure-button-cancel ml5" id="btnCancel">
+        <label class="ui-closure-button-text">取消</label>
+    </span>
+</div>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+<script type="text/javascript" src="../system/WebUploader/webuploader.min.js"></script>
+<script type="text/javascript" src="../config/js/custAutoImport.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+
+</body>
+</html>

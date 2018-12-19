@@ -1,0 +1,10 @@
+<script>
+    function downloadSetupFile(){
+        window.location="../upgrade/downloadSetupFile.html?random="+Math.random()*100000;
+    }
+</script>
+<div class='ui-model-install'>
+    <h4 style='' >请安装视频程序，以保证录像功能正常使用！</h4>
+    <p style=''><label>控件安装完成后，请重启浏览器！</label></p>
+    <div style=''><span style="cursor:pointer;color:#3333ff" onclick="downloadSetupFile()" >立即安装</span></div>
+</div>

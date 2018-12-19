@@ -1,0 +1,52 @@
+<p align="center" style="color:#1b1b1b;font-size:large;margin:12px">贷款量统计表($!sd~$!ed)</p>
+<p align="center"style="color:#1b1b1b;font-size:small;margin:25px">制表人：$!name &nbsp;&nbsp;&nbsp; 制表时间：$!d</p>
+<div class="flexgrid-box" style="height: auto">
+    <div class="flexgrid">
+        <table>
+            <thead>
+            <tr>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">时间段</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">团队名称</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">贷款总数(笔)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">成功放贷(笔)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">贷款通过率(%)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">贷款总金额(万元)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">贷款平均金额(万元)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">累计平均利率(%)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">本周放款笔数(笔)</div></th>
+                <th align="center" col="field"><div style="width: 100px; text-align: center;">本周放款金额(万元)</div></th>
+                <th align="center" col="field"><div style="width: 80px; text-align: center;">已结清(笔)</div></th>
+                <th align="center" col="field"><div style="width: 70px; text-align: center;">审批拒绝(笔)</div></th>
+                <th align="center" col="field"><div style="width: 70px; text-align: center;">其他拒绝(笔)</div></th>
+            </tr>
+            </thead>
+            <tbody>
+                #if($list.size()==0)
+                <tr>
+                    <td colspan="100%">
+                        <p style="color:#4d4d4d;font-size:12px;margin:20px;text-align: center">查询无数据</p>
+                    </td>
+                </tr>
+                #else
+                    #foreach($m in $list)
+                    <tr>
+                        <td><div style="width: 100px; text-align: center;">$m.time</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.groupName</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanTotalNum</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanSuccessNum</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanPercent</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanTotalMoneyW</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanAvgW</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanAvgRatio</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanWeekNum</div></td>
+                        <td><div style="width: 100px; text-align: center;">$m.loanWeekSum</div></td>
+                        <td><div style="width: 80px; text-align: center;">$m.loanHasClearance</div></td>
+                        <td><div style="width: 70px; text-align: center;">$m.approvalRefuse</div></td>
+                        <td><div style="width: 70px; text-align: center;">$m.otherRefuse</div></td>
+                    </tr>
+                    #end
+                #end
+            </tbody>
+        </table>
+    </div>
+</div>

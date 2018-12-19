@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+##    <title>$!sysInfoProvider.getSystemName() - $!sysInfoProvider.getSystemVersion()</title>
+    <title>$!webAppName $!webAppVersion</title>
+
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../desktop/css/main.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+		.hand { cursor: pointer; }		
+		ul.ul-role { 
+		        position: absolute;         		 
+        		width: 150px; 
+        		border: 1px solid #9b9b9b; 
+        		background-color: #fff; 
+        		padding: 5px; margin: 32px 0px 0px 0px;
+        		z-index:90000; 
+        		}
+        ul.ul-role li { overflow: hidden; line-height: 20px;z-index:90000; }
+        ul.ul-role li.hover { background-color: #378fcf; color: #fff; }
+		.rolelist{   
+            padding:1px;
+            z-index:99999;
+        }
+		
+		
+        .wechat{
+            width:60px;
+            height:60px;
+            padding:5px;
+            position: absolute;
+            float:right;
+            right:85px;
+        }
+        .wechat img{
+            width:50px;
+            height:50px;
+        }
+        .wechat-ul{
+            position: absolute;
+            top: 34px;
+            width: 85px;
+            color: #fff;
+            right:10px;
+        }
+        .floatWeChatDiv{
+            position: absolute;
+            width:258px;
+            height:258px;
+            padding:1px;
+            z-index:90000;
+        }
+        .floatWeChatDiv img{
+            width:258px;
+            height:258px;
+        }
+		.logodivAdmin{
+            width:265px;
+            height:35px;
+            background-image: url(../desktop/imgs/logo.png)!important;/* FF IE7 */
+            background-repeat: no-repeat;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../desktop/imgs/logo.png'); /* IE6 */
+            _background-image: none; /* IE6 */
+        }
+        .logodiv{
+            width:265px;
+            height:35px;
+            background-image: url(../desktop/imgs/bizlogo.png)!important;/* FF IE7 */
+            background-repeat: no-repeat;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../desktop/imgs/bizlogo.png'); /* IE6 */
+            _background-image: none; /* IE6 */
+        }
+        .logodivConfig{
+            width:265px;
+            height:35px;
+            background-image: url(../desktop/imgs/configlogo.png)!important;/* FF IE7 */
+            background-repeat: no-repeat;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../desktop/imgs/configlogo.png'); /* IE6 */
+            _background-image: none; /* IE6 */
+        }		
+    </style>
+</head>
+
+<body>
+    <input type="hidden" id="userId" value="$!loginInfo.userId" />
+    <input type="hidden" id="hidUserAccount" value="$!userAccount"/>
+	<input type="hidden" id="isTrayInstalled" value="$!isTrayInstalled"/>
+    <input type="hidden" id="loginAccount" value="$!userAccount"/>
+    <div id="head" class="head">
+        <h1 class="logo">
+            <div #if($!cofigPlatForm) class="logodivConfig" #elseif($!loginInfo.userId==1) class="logodivAdmin" #else class="logodiv" #end>
+            </div>
+        ##			<span>$!sysInfoProvider.getSystemVersion()</span>
+        </h1>
+        <ul class="nav" id="nav" style="width:600px;">
+            <li>$!loginInfo.userName</li>
+            <li class="separator">&nbsp;</li>
+            <li>$!loginInfo.deptName</li>
+            <li class="separator">&nbsp;</li>
+            <li>
+				<span id="role" class="hand role">
+					<lable>$!loginInfo.roleNames.get(0)</lable>
+					#if($!loginInfo.roleNames.size()>1)
+                    <i class="ddl">&nbsp;</i>
+					#end
+				</span>
+			</li>
+            <li class="separator">&nbsp;</li>
+            <li><a href="javascript:void(0);" id="btnLogout" class="logout">退出</a></li>
+            #if($!certificateCount)
+                <li class="separator">&nbsp;</li>
+                <li><a href="javascript:void(0);" id="btnAudit" >资质未审核($!certificateCount)</a></li>
+            #end
+            <li class="separator">&nbsp;</li>
+			<li><a href="javascript:downRes();" class="logout">资源下载</a></li>
+        </ul>
+		<!--role-->
+##        <div>
+##
+##        </div>
+##        <ul class="wechat-ul" >
+##            <li><a href="javascript:industryGuidelines();" class="logout">行业指引</a></li>
+##        </ul>
+    </div>
+    <div id="body" class="body">
+        <div id="body-side" class="body-side">
+            <b id="menu-toggle" class="menu-toggle">&nbsp;</b>
+            #*<div id="dial" class="dial">
+                <input type="text" id="telNum" class="text middle" maxLength="20" />
+                <input type="button" id="call" class="button bg1 ml middle" title="拨号" />
+                <input type="button" id="hup" class="button bg2 ml middle" title="挂断" />
+            </div>*#
+            <h2 id="add" class="menu-head"><span>应用菜单</span></h2>
+            <div id="menu-body" class="menu-body">
+                <dl id="menu">
+
+                </dl>
+            </div>
+        </div>
+        <div id="body-main" class="body-main">
+            <div class="tabs">
+                <div class="tabs-head">
+                    <div class="tabs-items">
+                        <ul id="tabs-head">
+                        	
+                        </ul>
+                    </div>
+                    <div class="tabs-action">
+                        <b id="tabs-scroll-right" class="tabs-btn-right">&nbsp;</b>
+                        <b id="tabs-scroll-left" class="tabs-btn-left">&nbsp;</b>
+                        <b id="tabs-open-fav" class="tabs-btn-fav">&nbsp;</b>
+                        <b id="tabs-close-all" class="tabs-btn-close">&nbsp;</b>
+                    </div>
+                    <div class="tabs-fav">
+	                    <ul id="tabs-fav">
+	                    	
+	                    </ul>
+                    </div>
+                </div>
+                <div class="tabs-line">&nbsp;</div>
+                <div id="tabs-body" class="tabs-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="floatWeChatDiv" id="floatWeChatDiv" style="display:none;">
+        <img src="../desktop/imgs/wechat.png"></img>
+    </div>
+	 <!--role-->
+	  <div class="rolelist" id="rolelist" style="display:none;">
+        <ul class="ul-role">
+			#foreach($item in $!loginInfo.roleNames)
+				#if($velocityCount>1)
+				<li><label>$!item</label></li>
+				#end
+			#end
+        </ul>
+	 </div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.tabs.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.md5.js"></script>
+    <script type="text/javascript">
+    	var menuJson = $!menuJson;
+        var srceenWidth = window.screen.width;
+        var isShowAddMune = '$!isAddUserFunc';
+        var urlRef = (window.location.href).replace('http://', '');
+		var urlStr = urlRef.substring(urlRef.indexOf('/'), urlRef.indexOf('/login'));
+        var workBenchUrl = "../desktop/getWorkbench.html";
+//        如果是admin
+##        if($!isManasger == false){
+##            workBenchUrl =  "../user/initPmsUserInfoPage.html";
+##        }
+        if(srceenWidth == 1024){
+            $("#head").removeClass('head');
+            $("#head").addClass('head1024');
+            $("#nav").css("left","360px");
+        }
+        function getUrl(){
+            var mapUrl="";
+            if(urlStr){
+				mapUrl=urlStr;
+			}else{
+				mapUrl="";
+			}
+			return mapUrl;
+        }
+        function industryGuidelines(){
+            var url = '../industryGuidelines/getIndustryGuidelinesGloblePage.html'
+            showDialog({
+                id: 'industryGuidelinesGloblePage',
+                title: '行业指引',
+                url: url,
+                width: 465,
+                height: 480,
+                tabId: tabs.getSelfId(window)
+            });
+        }
+
+	</script>
+    #if($su)
+        <script type="text/javascript" src="../desktop/js/back.js"></script>
+    #else
+        <script type="text/javascript" src="../desktop/js/main.js"></script>
+    #end
+    <!--[if IE 6]>
+	<script type="text/javascript" src="../desktop/js/main.ie6.js"></script>
+    <![endif]-->
+</body>
+</html>

@@ -1,0 +1,34 @@
+#if ($customers.size()>0)
+<style>
+    .search-list-box { padding: 10px; }
+    .search-list-box .search-list-row { cursor: pointer; border-bottom: solid #ccc 1px; padding: 0px 5px 5px 5px;}
+    .search-list-box .search-list-row .list-left { float: left; width: 25px; height: 40px; margin-right: 10px;}
+    .search-list-box .search-list-row .list-left span { display: block; width: 20px; height: 25px; background: url(../core/imgs/icon/search-list.png) no-repeat;
+        color: #fff; line-height: 22px; text-align: center; margin-top: 10px; }
+    .search-list-box .search-list-row .list-right { color: #6b6b6b;}
+    .search-list-box .search-list-row .list-right p { line-height: 25px; font-size: 12px; height: 20px; white-space: nowrap; overflow: hidden;}
+</style>
+<div class="search-list-box">
+    #foreach($customer in $customers)
+        <div class="search-list-row" onclick="customerClick('$!customer.tagLongitude','$!customer.tagLatitude','$!customer.customerName');">
+            <div class="list-left">
+                <span>$velocityCount</span>
+            </div>
+            <div class="list-right">
+                <p>$!customer.customerName $!customer.phoneNumber</p>
+                #if ($!customer.columnName == 'LIVE_ADDRESS')
+                <p title="$!customer.liveAddress">$!customer.liveAddress</p>
+                #else
+                <p title="$!customer.homeAddress">$!customer.homeAddress</p>
+                #end
+            </div>
+        </div>
+    #end
+</div>
+<script type="application/javascript">
+    var points = [];
+    points = $points;
+    setTraject(points);
+</script>
+#end
+

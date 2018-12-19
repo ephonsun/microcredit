@@ -1,0 +1,98 @@
+
+#*资产负责账款项明细，应收账款，预付账款，应付账款，预收账款*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>账款详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">客户姓名：</label>
+            </td>
+            <td width="20%">
+                <label>$!entity.customerName</label>
+            </td>
+            <td class="field" width="5%">
+                <label>金额：</label>
+            </td>
+            <td width="20%">
+                <label>#if($entity.amount) $!formatUtil.formatDecimal($!entity.amount) 元#else -- 元 #end </label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>结算方式：</label>
+            </td>
+            <td width="20%">
+                <label>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName','CD_SETTLEMENT_MODE',$!entity.settlementMode)</label>
+            </td>
+            <td class="field" width="5%">
+                <label>账龄：</label>
+            </td>
+            <td width="20%">
+                <label>#if($entity.accountAge) $!entity.accountAge #else -- #end </label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>业务关系缓存：</label>
+            </td>
+            <td width="20%">
+                <label>#if($entity.renewDeposit == 1)是 #elseif($entity.renewDeposit == 0) 否#end</label>
+            </td>
+            <td class="field" width="5%">
+                <label>付款方式：</label>
+            </td>
+            <td width="20%">
+                <label>$!entity.paymentMode</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>备注：</label>
+            </td>
+            <td width="20%" colspan="3">
+                <label>
+                    $!entity.remark
+                </label>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 120px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure divcss10">
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+        </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/assets/assetsDetail.js"></script>
+</body>
+</html>

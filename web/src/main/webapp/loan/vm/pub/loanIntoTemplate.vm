@@ -1,0 +1,67 @@
+###if($!showApply=="1")##查看
+##    #set($fieldFlag=2)
+###else
+##    #set($fieldFlag=0)
+###end
+###foreach($template in $templateList)
+##    #if($template.type!="List")
+##    <div class="template" id="$template.tableName" >
+##        <label class="head-name">
+##            <strong>$template.name</strong>
+##            #if($template.tableName == 'LBIZ_SURVEY_RESULT' && ($!module=='approval' || $!module=='investigate'))
+##                <a class="" style="color: blue;margin: 10px;" onclick="showPlanInfo('$!module','$fieldFlag');"><strong>还款计划</strong></a>
+##            #end
+##            #if($template.tableName == 'LBIZ_LOAN_GRANT' && $!module=='loan' )
+##                <a class="" style="color: blue;margin: 10px;" onclick="showPlanInfo('$!module','$fieldFlag');"><strong>还款计划</strong></a>
+##            #end
+##        </label>
+##        <div id="co_$template.tableName" >
+##            #templateFieldForm($template.fields,$template.data[0],$fieldFlag,$template.tableName, $!loanId)
+##        </div>
+##    </div>
+##    <br/><br/>
+##    #end
+##    #if($template.type=="List")
+##    <div id="co_$template.tableName" style="display:none" >
+##        <hr class="ui-line-dotted" />
+##        <label class="head-reduce-icon fr" ></label>
+##        #templateFieldForm($template.fields,"",$fieldFlag,$template.tableName, $!loanId)
+##    </div>
+##    <div class="template" id="$template.tableName" >
+##        <label class="head-name"><strong>$template.name</strong></label>
+##        #if($template.id == 0)
+##            <div>
+##                #if($fieldFlag != 2)
+##                    <label class="head-add-icon fr" tablename="$template.tableName" ></label>
+##                    <label class="head-reduce-icon fr" style="display: none;" ></label>
+##                #end
+##                #templateFieldForm($template.fields,$template.data[0],$fieldFlag,$template.tableName, $!loanId)
+##            </div>
+##        #end
+##        #foreach($data in $template.data)
+##            <div>
+##                #if($!velocityCount == 1 && $fieldFlag != 2)
+##                    <hr class="ui-line-dotted" style="display: none" />
+##                    #if($fieldFlag != 2)
+##                        <label class="head-add-icon fr" tablename="$template.tableName" ></label>
+##                        <label class="head-reduce-icon fr" style="display: none;" ></label>
+##                    #end
+##                #end
+##                #if($!velocityCount > 1)
+##                    <hr class="ui-line-dotted" style="display: block" />
+##                    #if($fieldFlag != 2)
+##                        <label class="head-add-icon fr" tablename="$template.tableName" style="display: none;"></label>
+##                        <label class="head-reduce-icon fr head-reduce-icon-ready"  ></label>
+##                    #end
+##                #end
+##                #templateFieldForm($template.fields,$data,$fieldFlag,$template.tableName, $!loanId)
+##            </div>
+##        #end
+##    </div>
+##    <br/><br/>
+##    #end
+##
+###end
+##
+##
+##
