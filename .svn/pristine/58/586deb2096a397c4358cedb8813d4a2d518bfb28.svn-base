@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanProcessType" table="LOAN_PROCESS_TYPE" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="precType" type="java.lang.String" >
+			<column name="PREC_TYPE" length="32" />
+		</property>
+		<property name="precTypeName" type="java.lang.String" >
+			<column name="PREC_TYPE_NAME" length="64" />
+		</property>
+		<property name="orderNo" type="java.lang.Integer" >
+			<column name="ORDER_NO" length="4" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" length="4" />
+		</property>
+	</class>
+</mapping>
+

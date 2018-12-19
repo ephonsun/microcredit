@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>调查报告</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css" />
+    <link rel="stylesheet" type="text/css" href="../system/WebUploader/webuploader.css">
+    <style media=print>
+        .Noprint{display:none;}
+        .PageNext{page-break-after: always;}
+    </style>
+    <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+        <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0 pluginspage="../loan/vm/loan/install_lodop32.exe"></embed>
+        <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0 pluginspage="../loan/vm/loan/install_lodop64.exe"></embed>
+    </object>
+</head>
+<body>
+<div style="margin-bottom: 65px;">
+    <div class="recenter" id="reportBody" >
+        <div id="s1"></div>
+        <div id="s2"></div>
+    </div>
+    <center class="Noprint" >
+        <OBJECT  id=WebBrowser  classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2  height=0  width=0>
+        </OBJECT>
+    </center>
+</div>
+<div style="position: fixed;bottom: 0px;width: 100%;height:65px;background: #fff;z-index: 9;">
+    <hr class="ui-line" />
+    <div class="ui-layout-closure sz">
+        <span id="btnConfirm" class="ui-closure-button">
+			<label id="print"  class="ui-closure-button-text btn1">开始打印</label>
+		</span>
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+    </div>
+</div>
+<!--// script -->
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../uploadify/swfobject.js"></script>
+<!-- //页面JS -->
+<script type="text/javascript">
+    var loadDivByUrl = {
+        load : function (divId, url) {
+            $.get(url, function(html){
+                $('#' + divId).html(html);
+            });
+        }
+    }
+    $(function(){
+
+        $('#btnCancel').click(function() {
+            var dialog = getDialog('getPrintPageinfo');
+            dialog.close();
+        });
+        var url1 = '../loanInvestigate/getInvestigateReport.html?loanId=$!loanId&loanTypeId=$!loanTypeId';
+        var url2 = '../loan/getLoanTab.html?loanId=$!loanId&showApply=1&loanTypeId=$!loanTypeId&precType=approval&module=approval&forPrint=1';
+        loadDivByUrl.load('s1', url1);
+        loadDivByUrl.load('s2', url2);
+        $('#print').click(function(){
+            printInfo.openPrintPage();
+        });
+    });
+    //打印预览支持控件路径
+    var path = '';
+    var printInfo = {
+        CreateOneFormPage:function(){
+
+            LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+            var strFormHtml = '<body>' + document.getElementById('reportBody').innerHTML + '</body>';
+
+            LODOP.PRINT_INIT('');
+            LODOP.SET_PRINT_PAGESIZE(1, 0, 0, 'A4');
+            LODOP.ADD_PRINT_HTM(20, 0, '100%', '100%', strFormHtml);
+        },
+        CheckIsInstall:function(){
+            var bool = true;
+            try{
+                var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+                if((LODOP==null) || (typeof(LODOP.VERSION) == 'undefined') || (typeof(LODOP.VERSION) == 'unknown')){
+                    bool = false;
+                }
+            }catch(err){
+                bool = false;
+            }
+            return bool;
+        },
+        prn1_preview:function(){
+            printInfo.CreateOneFormPage();
+            LODOP.PREVIEW();
+        },
+        loadPrintActiveX:function(){
+            var installHTML = '<div class=\'ui-model-install\'>'
+                    + '<h4 style=\'\'>请安装安全报表打印控件，已保证打印预览正常使用！</h4>'
+                    + '<p style=\'\'><label>控件安装完成后，请重启浏览器！</label></p>'
+                    + '<div style=\'\'><a href=\'' + path + '\' target=\'_self\'>立即下载</a></div>'
+                    + '</div>';
+
+            showDialog({
+                id: 'getPrintPage',
+                name: 'getPrintPage',
+                pid: tabs.getSelfId(window),
+                title : '打印调查报告',
+                width : 400,
+                height : 220,
+                content : installHTML
+            });
+        },
+        openPrintPage:function(){
+            if(printInfo.CheckIsInstall()){
+                printInfo.prn1_preview();
+            }else{
+                //动态生成一个div 下载框
+                if (navigator.userAgent.indexOf('Win64') >= 0){
+                    path = '../loan/vm/loan/install_lodop64.exe';
+                }else{
+                    path = '../loan/vm/loan/install_lodop32.exe';
+                }
+                printInfo.loadPrintActiveX();
+            }
+        }
+    };
+    function getLodop(oOBJECT,oEMBED){
+        /**************************
+         本函数根据浏览器类型决定采用哪个对象作为控件实例：
+         IE系列、IE内核系列的浏览器采用oOBJECT，
+         其它浏览器(Firefox系列、Chrome系列、Opera系列、Safari系列等)采用oEMBED,
+         对于64位浏览器指向64位的安装程序install_lodop64.exe。
+         **************************/
+        var LODOP=oEMBED;
+        try{
+            /*用于浏览器类型及版本判断*/
+            var n = {}, u = navigator.userAgent.toLowerCase(), s;
+            (s = u.match(/msie ([\d.]+)/)) ? n.ie = s[1] :
+                    (s = u.match(/firefox\/([\d.]+)/)) ? n.firefox = s[1] :
+                            (s = u.match(/chrome\/([\d.]+)/)) ? n.chrome = s[1] :
+                                    (s = u.match(/opera.([\d.]+)/)) ? n.opera = s[1] :
+                                            (s = u.match(/version\/([\d.]+).*safari/)) ? n.safari = s[1] : 0;
+            /*用于浏览器类型及版本判断*/
+            if(s==null && n.ie==null){
+                if (!!window.ActiveXObject || "ActiveXObject" in window){
+                    n.ie = 11.0;
+                }
+            }
+
+            if (n.ie != null || n.firefox != null || n.chrome != null || n.opera != null || n.safari !=null )
+                LODOP=oOBJECT;
+            return LODOP;
+        }catch(err){
+            return LODOP;
+        }
+    }
+</script>
+</body>
+</html>

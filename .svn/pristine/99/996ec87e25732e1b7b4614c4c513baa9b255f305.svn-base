@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css" />
+    <link rel="stylesheet" type="text/css" href="../system/WebUploader/webuploader.css">
+    <style type="text/css">
+		.w100 { width:100px; }
+		.dash { line-height:24px; height:24px; }
+        .border {border:1px solid #d7d7d7};
+        .head { background: url(../../core/imgs/bg.png) repeat-x 0 -10px; }
+    </style>
+</head>
+
+<body>
+<div class="border">
+    <label class="head-name"><strong>贷款类型</strong></label>
+    <input style="display: none" id="potentialId" value="$!potentialId">
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td width="7%" class="field">
+                <input type="hidden" value="$!potentialId" id="potentialId"/>
+                <input type="hidden" value="$!loanId" id="loanId"/>
+##                <input type="hidden" value="$!"/>
+
+                <label class="ui-star">贷款类型：</label>
+            </td>
+            <td width="18%" id="loanTypeName">
+                <select id="loanTypeId" name="loanTypeId">
+                    <option></option>
+                    #options("cdLoanType","$!loanTypeId","")
+                </select>
+            </td>
+            <td  width="55%" >
+                <span id="btnLoanType" class="ui-button">
+                    <label class="ui-button-text">确定</label>
+                </span>
+            </td>
+            <td  width="20%" style="text-align: right; padding: 0 20px 0 0;">
+            #if ( $!showDownBtn=='true')
+                #if ($!threeConfig=='true')
+                    #*<a href="#" id="print_a" style="color: blue;">打印三表资料</a></br>*#
+                #end
+                #*<a href="#" id="print_b" style="color: blue;">打印调查报告</a></br>*#
+                <a href="../loanLoanMoney/downloadFiles.html?loanId=$!loanId" target="_blank;" style="color: blue;">下载调查报告</a>
+                <label >&nbsp;|&nbsp;</label>
+                <a href="javascript:void(0)" onclick="exportContract($!loanId,$!loanTypeId)" style="color: blue;">下载合同/表格</a>
+            #end
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<br/><br/>
+
+<div id="tabs" class="ui-tabs" style="height: 100%;">
+    <div class="ui-tabs-head">
+        <div class="ui-tabs-items">
+            <ul >
+            </ul>
+        </div>
+    </div>
+    <div isbody="1" class="ui-tabs-iframes">
+        <div class="ui-tabs-iframe">
+    </div>
+</div>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+    <script type="text/javascript" src="../uploadify/swfobject.js"></script>
+    <script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.tabs.js"></script>
+    <script type="text/javascript" src="../loan/js/pub/loanTabs.js"></script>
+    <script type="text/javascript" src="../system/WebUploader/webuploader.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.media.js"></script>
+    <!-- 图表 -->
+    <script type="text/javascript" src="../core/js/third/highCharts/js/highcharts.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/third/ueditor1_4_3/third-party/highcharts/modules/no-data-to-display.src.js?v=$!webAppVersion"></script>
+
+
+    <script type="text/javascript">
+        var cdLoanType = $!constantCodeUtil.cdLoanType();
+        var cdFileType = $!constantCodeUtil.cdFileType();
+        var cdTypeName = $!constantCodeUtil.cdTypeName();
+        var cdMonitorState = $!constantCodeUtil.cdMonitorState();
+        var cdMonitorType = $!constantCodeUtil.cdMonitorType();
+        var threeTable = '$!threeTable';
+        var defaultShowPage = 0;
+        var items = [];
+        var apply = {
+            display: '申请信息',
+            url:'../loan/getLoanTab.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=apply&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                if ('$!showApply' != '1') {
+                    includeJs("../loan/js/apply/loanTab.js");
+                }
+            }
+        };
+        var investigate = {};
+        if ('true' === threeTable) {
+            investigate = {
+                display: '调查信息',
+                url:'../loan/getInvestigateTabs.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=investigate&module=$!module',
+                loadType: 'tab.click',
+                loadReady: function (item, page) {
+                }
+            };
+        } else {
+            investigate = {
+                display: '调查信息',
+                url:'../loan/getLoanTab.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=investigate&module=$!module',
+                loadType: 'tab.click',
+                loadReady: function (item, page) {
+                    if ('$!showApply' != '1') {
+                        includeJs("../loan/js/investigate/loanTab.js");
+                    }
+                }
+            };
+        }
+        var approval = {
+            display: '审批信息',
+            url:'../loan/getLoanTab.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=approval&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                includeJs("../loan/js/approval/approval.js");
+            }
+        };
+        var contract = {
+            display: '贷款合同',
+            url:'../loan/getLoanTab.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=contract&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                includeJs("../loan/js/loan/loanTab.js");
+            }
+        };
+        var loan = {
+            display: '放款信息',
+            url:'../loan/getLoanTab.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=loan&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                includeJs("../loan/js/loan/loanTab.js");
+            }
+        };
+        var monitor = {
+            display: '贷后监控',
+            url:'../loanMonitorInfo/getMonitorInfoPage.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=afterLoan&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                includeJs("../loan/js/loanMonitorInfo.js?v=$!webAppVersion");
+            }
+        };
+        var collection = {
+            display: '还款信息',
+            url:'../loanRepayPlanInfo/getRepayPlanTabs.html?loanId=$!loanId&showApply=$!showApply&loanTypeId=$!loanTypeId&precType=investigate&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+##                includeJs("../loan/js/repayPlan/loanRepayPlanInfo.js?v=$!webAppVersion");
+            }
+        };
+        var loanFile = {
+            display: '贷款资料',
+            url:'../loanFile/getLoanFilePage.html?loanId=$!loanId&loanTypeId=$!loanTypeId&showApply=$!showApply&precType=$!processType&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                includeJs("../loan/js/loanFileShow.js");
+            }
+        };
+
+        var historyLog = {
+            display: '历史操作',
+            url:'../loanActionHistory/getLoanActionHistoryPage.html?loanId=$!loanId&loanTypeId=$!loanTypeId&showApply=$!showApply&precType=apply&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+##                includeJs("../loan/js/loanActionHistory.js?v=$!webAppVersion");
+            }
+        };
+
+        var loanAuditManage = {
+            display: '审计信息',
+            url:'../loanAuditManage/getDetailPage.html?loanId=$!loanId&loanTypeId=$!loanTypeId&showApply=$!showApply&precType=apply&module=$!module',
+            loadType: 'tab.click',
+            loadReady: function (item, page) {
+                includeJs("../loan/js/audit/auditDetail.js?v=$!webAppVersion");
+            }
+        };
+        if('$!module' == 'audit') {
+            items.push(loanAuditManage);
+        }
+
+
+        if('$!processType' == 'apply' || '$!module' == 'apply' ) {
+            if('$!loanId' != '') {
+                items.push(apply);
+            }
+        } else if('$!processType' == 'allot') {
+            items.push(apply);
+        } else if('$!processType' == 'investigate') {
+            items.push(investigate);
+            items.push(apply);
+        } else if('$!processType' == 'approval') {
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }else if('$!processType' == 'contract') {
+            items.push(contract);
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }else if('$!processType' == 'sign') {
+            items.push(contract);
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }else if('$!processType' == 'loan' || '$!processType' == 'authorized'||'$!processType' == 'undisclosed') {
+            items.push(loan);
+            items.push(contract);
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }else if('$!processType' == 'contractCancel'){
+            items.push(loan);
+            items.push(contract);
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }else if('$!processType' == 'refuse'){
+            items.push(loan);
+            items.push(contract);
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }
+        else if('$!processType' == 'afterLoan' || '$!processType' == 'clearance' ) {
+            if('$!module' == 'all' ) {
+                items.push(monitor);
+                items.push(collection);
+            } else if('$!module' == 'monitor' ) {
+                items.push(monitor);
+            }  else if('$!module' == 'collection' ) {
+                items.push(collection);
+            } else {
+                items.push(monitor);
+                items.push(collection);
+            }
+            items.push(loan);
+            items.push(contract);
+            items.push(approval);
+            items.push(investigate);
+            items.push(apply);
+        }
+
+        if ('$!loanId' != '') {
+            items.push(loanFile);
+            items.push(historyLog);
+        }
+
+
+        $(function () {
+            $('select').selectbox();
+            if('$!loanId' != ''){
+
+                btnLoanTypeHide();
+
+            }else{
+                $('#tabs').hide();
+            }
+
+            //新增申请时确认按钮
+            $('#btnLoanType').click(function() {
+                var nloanType = $("#loanTypeId").val();
+                if (nloanType == '') {
+                    showConfirm({
+                        icon: 'succeed',
+                        content: '请选择贷款类型'
+                    });
+                    return false;
+                }
+                var addApply = {
+                    display: '申请信息',
+                    url:'../loan/getLoanTab.html?applyId=$!applyId&potentialId=$!potentialId&customerId=$!customerId&loanId=$!loanId&showApply=$!showApply&loanTypeId='+nloanType+'&precType=apply&module=$!module',
+                    loadType: 'tab.click',
+                    loadReady: function (item, page) {
+                        includeJs("../loan/js/apply/loanTab.js");
+                    }
+                };
+                items.push(addApply);
+                btnLoanTypeHide(nloanType);
+            });
+
+        });
+
+
+
+
+
+
+        //申请隐藏确认按钮，并加装自定义模板表单
+        function btnLoanTypeHide () {
+            iniTabsForApply();
+            var loanTypeName = $("#loanTypeId").find("option:selected").text();
+            $("#loanTypeName").html(loanTypeName);
+            $('#btnLoanType').hide();
+            $('#tabs').show();
+        }
+        //初始化tab页
+        function iniTabsForApply(){
+            $('#tabs').tabs({
+                defaultShowPage: defaultShowPage,
+                items: items
+            });
+        }
+        var monitorEdit= $funcPermit.hasFuncCode("monitorEdit");
+        var collectionEdit=$funcPermit.hasFuncCode("collectionEdit");
+        var collectionDel=$funcPermit.hasFuncCode("collectionDel");
+    </script>
+</body>
+</html>

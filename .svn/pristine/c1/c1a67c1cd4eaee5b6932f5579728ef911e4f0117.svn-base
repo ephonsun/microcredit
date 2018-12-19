@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="SmsConfig" type="OSCACHE" >
+		<flushInterval hours="24" />
+	</cache>
+
+	<sql id="getSmsConfig" cache="SmsConfig" >
+		SELECT * FROM SMS_SETTING
+	</sql>
+
+</banger>

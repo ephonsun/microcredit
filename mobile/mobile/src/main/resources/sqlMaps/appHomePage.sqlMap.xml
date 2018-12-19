@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="AppHomePageCount" name="banger.domain.app.AppHomePageCount">
+		<property name="expect" column="EXPECT"></property>
+		<property name="apply" column="APPLY"></property>
+		<property name="invest" column="INVEST"></property>
+		<property name="collectReminder" column="COLLECT_REMINDER"></property>
+		<property name="collectBad" column="COLLECT_BAD"></property>
+		<property name="monitor" column="MONITOR"></property>
+		<property name="totalCount" column="TOTAL_COUNT"></property>
+		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
+		<property name="monthCount" column="MONTH_COUNT"></property>
+		<property name="monthAmount" column="MONTH_AMOUNT"></property>
+		<property name="task" column="TASK"></property>
+		<property name="schedule" column="SCHEDULE"></property>
+		<property name="audit" column="AUDIT"></property>
+		<property name="allot" column="ALLOT"></property>
+		<property name="contract" column="CONTRACT"></property>
+		<property name="sign" column="SIGN"></property>
+		<property name="authorized" column="AUTHORIZED"></property>
+		<property name="loanloan" column="LOANLOAN"></property>
+	</class>
+
+	<!-- 查询客户经理贷款申请表 -->
+	<sql id="getAppHomePageCount" result="AppHomePageCount" >
+		SELECT SUM(F1) AS EXPECT,SUM(F2) AS APPLY,SUM(F3) AS INVEST,SUM(F4) AS COLLECT_REMINDER,SUM(F41) AS COLLECT_BAD,SUM(F5) AS MONITOR,SUM(F6) AS TOTAL_COUNT
+		,SUM(F7) AS TOTAL_AMOUNT,SUM(F8) AS MONTH_COUNT,SUM(F9) AS MONTH_AMOUNT,SUM(F10) AS TASK,SUM(F11) AS SCHEDULE,SUM(F12) AS AUDIT,SUM(F13) AS ALLOT,SUM(F14) AS CONTRACT,SUM(F15) AS SIGN,SUM(F16) AS AUTHORIZED FROM (
+
+		<!-- 预申请
+			SELECT COUNT(*) AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13 FROM CUST_MARKET_CUSTOMER MC INNER JOIN MARKET_CUSTOMER_MEMBER CM ON MC.MARKET_CUSTOMER_ID =CM.CUSTOMER_ID
+			WHERE MC.IS_DEL = 0 AND MC.SIGN_SATE = 3 AND CM.IS_DEL = 0 AND CM.APPLY_SATE = 1 AND MC.LOAN_ID = 0 AND CM.TEAM_MEMBER_ID = [userId]
+		-->
+		<!--进件预申请-->
+			SELECT COUNT(*) AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM INTO_CUST_APPLY_INFO ICAI INNER JOIN INTO_CUSTOMER_MEMBER ICM ON ICAI.APPLY_ID =ICM.CUSTOMER_ID
+			WHERE ICAI.IS_DEL = 0 AND ICAI.SIGN_SATE = 3 AND ICM.IS_DEL = 0 AND ICM.APPLY_SATE = 1 AND ICAI.LOAN_ID = 0 AND ICM.TEAM_MEMBER_ID = [userId]
+		<!-- 贷款申请 -->
+			UNION ALL
+			SELECT 0 AS F1,COUNT(*) AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Apply') and  LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0
+		<!-- 贷款调查 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,COUNT(*) AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Investigate') and  LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0
+
+		<!-- 贷后催收-还款提醒 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,COUNT(*) AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan') and LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0
+		<!-- 贷后催收-不良贷款
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,COUNT(*) AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan') and LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0 and LOAN_COLLECTION_STATE = 'Collection'
+			<clause prepend="and" assert="!isNull([collectionDate])" >
+				LOAN_REPAY_DATE  <![CDATA[<=]]> <method name="toDate">[collectionDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([nowDate])" > LOAN_REPAY_DATE <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause> -->
+		<!-- 贷后监控 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,COUNT(*) AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan') and  LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0 and LOAN_MONITOR_STATE = 'Monitor'
+		<!-- 历史贷款数据和金额 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,COUNT(*) AS F6,SUM(LOAN_CREDIT_AMOUNT) AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan','Clearance') and LOAN_BELONG_ID = [userId]
+		    <!-- and LOAN_APPLY_DATE <![CDATA[<]]><method name="toDate">[monthFirstDay]</method> -->
+		<!-- 本月贷款数据和金额 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,COUNT(*) AS F8,SUM(LOAN_CREDIT_AMOUNT) AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan','Clearance') and LOAN_BELONG_ID = [userId]
+			and LOAN_APPLY_DATE <![CDATA[>=]]><method name="toDate">[monthFirstDay]</method>
+		<!-- 任务 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,COUNT(*) AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM (
+				SELECT DISTINCT TS.TASK_ID FROM TSK_TASK_INFO TS
+				LEFT JOIN TSK_GROUP_TASK_ASSIGN TGTA ON TGTA.TASK_ID=TS.TASK_ID
+				LEFT JOIN TSK_TEAM_MEMBER_TASK_ASSIGN TMTA ON TMTA.TASK_ID=TS.TASK_ID
+				WHERE TS.IS_DEL = 0 AND (
+					TS.CREATE_USER = [userId] OR TMTA.MEMBER_USER_ID = [userId]
+					<!--
+					OR TGTA.TEAM_GROUP_ID IN (SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId])
+					-->
+				) AND TS.END_DATE <![CDATA[>=]]><method name="toDate">[today]</method>
+			)
+		<!-- 日程
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,COUNT(*) AS F11,0 AS F12,0 AS F13 FROM CUST_SCHEDULE SC
+			INNER JOIN CUST_BASIC_INFO CUST ON CUST.ID=SC.CUSTOMER_ID
+			WHERE SC.DEL_FLAG = 0 AND SC.CREATE_USER = [userId] AND
+			PLAN_TIME <![CDATA[>=]]><method name="beginDate">[today]</method> AND
+			PLAN_TIME <![CDATA[<]]><method name="endDate">[today]</method>-->
+		<!--所有日程-->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,COUNT(*) AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM CUST_SCHEDULE SC
+			WHERE SC.DEL_FLAG = 0 AND SC.CREATE_USER = [userId] AND
+			PLAN_TIME <![CDATA[>=]]><method name="beginDate">[today]</method> AND
+			PLAN_TIME <![CDATA[<]]><method name="endDate">[today]</method>
+		<!--审批-->
+			UNION ALL
+			SELECT  0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,COUNT(*) AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16
+			FROM (
+			SELECT lai.*
+			FROM LOAN_APPLY_INFO lai
+			LEFT JOIN LOAN_CURRENT_AUDIT_STATUS l on l.LOAN_ID = lai.LOAN_ID
+			WHERE lai.IS_DEL = 0
+			AND  lai.LOAN_PROCESS_TYPE = 'Approval' AND  l.audit_user_id = [userId] AND l.is_valid=1 AND l.AUDIT_RESULT=0
+			AND  lai.LOAN_REFUSE_USER  = 0
+			)
+		<!-- 贷款合同 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,COUNT(*) AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Contract') and  LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0
+		<!--授权-->
+			UNION ALL
+			SELECT  0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,COUNT(*) AS F16
+			FROM
+			(
+			SELECT
+			lai.*
+			FROM
+			LOAN_APPLY_INFO lai
+			WHERE
+			lai.IS_DEL = 0
+			AND lai.LOAN_PROCESS_TYPE = 'Authorized'
+			AND lai.LOAN_REFUSE_USER = 0
+			)
+		<!-- 合同签订 -->
+			UNION ALL
+			SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,COUNT(*) AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Sign') and  CONTRACT_CHECK_USER = [userId] and LOAN_REFUSE_USER = 0
+		)
+	</sql>
+
+	<!-- 查询贷款团队主管申请表 -->
+	<sql id="getAppHomePageChargeCount" result="AppHomePageCount" >
+		SELECT SUM(F1) AS EXPECT,SUM(F2) AS APPLY,SUM(F3) AS INVEST,SUM(F4) AS COLLECT_REMINDER,SUM(F41) AS COLLECT_BAD,SUM(F5) AS MONITOR,SUM(F6) AS TOTAL_COUNT
+		,SUM(F7) AS TOTAL_AMOUNT,SUM(F8) AS MONTH_COUNT,SUM(F9) AS MONTH_AMOUNT,SUM(F10) AS TASK,SUM(F11) AS SCHEDULE,
+		SUM(F12) AS AUDIT,SUM(F13) AS ALLOT,SUM(F14) AS SIGN,SUM(F15) AS AUTHORIZED,SUM(F16) AS LOANLOAN
+
+		FROM (
+		<!-- 预申请 -->
+		SELECT COUNT(*) AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM CUST_MARKET_CUSTOMER MC INNER JOIN MARKET_CUSTOMER_MEMBER CM ON MC.MARKET_CUSTOMER_ID =CM.CUSTOMER_ID
+		WHERE MC.IS_DEL = 0 AND MC.SIGN_SATE = 3 AND CM.IS_DEL = 0 AND CM.APPLY_SATE = 1 AND MC.LOAN_ID = 0 AND CM.TEAM_MEMBER_ID = [userId]
+		<!-- 贷款申请 -->
+		UNION ALL
+		SELECT 0 AS F1,COUNT(*) AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16  FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Apply') and  LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0
+		<!-- 贷款调查 -->
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,COUNT(*) AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16  FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Investigate') and  LOAN_BELONG_ID = [userId] and LOAN_REFUSE_USER = 0
+		<!-- 贷后催收-还款提醒 -->
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,0 AS F3,COUNT(*) AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16  FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan') and LOAN_REFUSE_USER = 0
+		<clause prepend="and" assert="isAllNotEmpty([userId],[roleIds])" >
+			<clause assert="hasValue([roleIds],4)" ><!-- 客户经理 -->
+				LOAN_BELONG_ID = [userId]
+			</clause>
+			<clause assert="!hasValue([roleIds],4)" ><!-- 除了客户经理其他角色 -->
+				(
+					LOAN_BELONG_ID = [userId] or
+						LOAN_BELONG_ID IN (
+							SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+							SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId]
+						) or TEAM_GROUP_ID IN (<method name="getSqlValue" >getUserGroupIdsByUserId,[userId]</method>)
+					)
+				)
+			</clause>
+		</clause>
+		<!-- 贷后催收-不良贷款
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,COUNT(*) AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16  FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan') and LOAN_REFUSE_USER = 0 and LOAN_COLLECTION_STATE = 'Collection'
+		<clause prepend="and" assert="!isNull([collectionDate])" >
+			LOAN_REPAY_DATE  <![CDATA[<=]]> <method name="toDate">[collectionDate]</method>
+		</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([nowDate])" > LOAN_REPAY_DATE <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause>
+		<clause prepend="and" assert="isAllNotEmpty([userId],[roleIds])" >
+			<clause assert="hasValue([roleIds],4)" > 客户经理
+				LOAN_BELONG_ID = [userId]
+			</clause>
+			<clause assert="!hasValue([roleIds],4)" > 除了客户经理其他角色
+				(
+				LOAN_BELONG_ID = [userId] or
+				LOAN_BELONG_ID IN (
+				SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+				SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId]
+				) or TEAM_GROUP_ID IN (<method name="getSqlValue" >getUserGroupIdsByUserId,[userId]</method>)
+				)
+				)
+			</clause>
+		</clause>
+		 -->
+		<!-- 贷后监控 -->
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,COUNT(*) AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan') and LOAN_REFUSE_USER = 0 and LOAN_MONITOR_STATE = 'Monitor'
+		<clause prepend="and" assert="isAllNotEmpty([userId],[roleIds])" >
+			<clause assert="hasValue([roleIds],4)" ><!-- 客户经理 -->
+				LOAN_BELONG_ID = [userId]
+			</clause>
+			<clause assert="!hasValue([roleIds],4)" ><!-- 除了客户经理其他角色 -->
+				(
+					LOAN_BELONG_ID = [userId] or
+						LOAN_BELONG_ID IN (
+							SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+							SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId]
+						) or TEAM_GROUP_ID IN (<method name="getSqlValue" >getUserGroupIdsByUserId,[userId]</method>)
+					)
+				)
+			</clause>
+		</clause>
+		<!--审批-->
+		UNION ALL
+		SELECT  0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,COUNT(*) AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16
+		FROM (
+		SELECT lai.*
+		FROM LOAN_APPLY_INFO lai
+		LEFT JOIN LOAN_CURRENT_AUDIT_STATUS l on l.LOAN_ID = lai.LOAN_ID
+		WHERE lai.IS_DEL = 0
+		AND  lai.LOAN_PROCESS_TYPE = 'Approval' AND  l.audit_user_id = [userId] AND l.is_valid=1 AND l.AUDIT_RESULT=0
+		AND  lai.LOAN_REFUSE_USER  = 0
+		)
+		<clause assert="hasValue([roleIds],3)" > <!--是否为团队主管 -->
+		<!-- 历史贷款数据和金额 -->
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,COUNT(*) AS F6,SUM(LOAN_CREDIT_AMOUNT) AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16  FROM LOAN_APPLY_INFO I
+		inner join SYS_TEAM_MEMBER S ON I.LOAN_BELONG_ID = S.USER_ID
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan','Clearance')
+		and S.TEAM_GROUP_ID = (select team_group_id from SYS_TEAM_MEMBER where USER_ID = [userId])
+		<!-- and LOAN_APPLY_DATE <![CDATA[<]]><method name="toDate">[monthFirstDay]</method> -->
+		<!-- 本月贷款数据和金额 -->
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,COUNT(*) AS F8,SUM(LOAN_CREDIT_AMOUNT) AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,0 AS F16  FROM  LOAN_APPLY_INFO I
+		inner join SYS_TEAM_MEMBER S ON I.LOAN_BELONG_ID = S.USER_ID
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('AfterLoan','Clearance')
+		and S.TEAM_GROUP_ID = (select team_group_id from SYS_TEAM_MEMBER where USER_ID = [userId])
+		and LOAN_APPLY_DATE <![CDATA[>=]]><method name="toDate">[monthFirstDay]</method>
+		<!--分配-->
+		UNION ALL
+		SELECT  0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,COUNT(*) AS F13,0 AS F14,0 AS F15,0 AS F16
+		   FROM    LOAN_APPLY_INFO lai
+		   WHERE lai.LOAN_PROCESS_TYPE = 'Allot' and lai.LOAN_REFUSE_USER = 0
+			and lai.LOAN_BELONG_ID IN (
+				SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE
+					TEAM_GROUP_ID IN (SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId])
+					or TEAM_GROUP_ID IN (<method name="getSqlValue" >getUserGroupIdsByUserId,[userId]</method>)
+			)
+		</clause>
+		<!--授权-->
+		UNION ALL
+		SELECT  0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,COUNT(*) AS F15,0 AS F16
+		FROM
+		(
+		SELECT
+		lai.*
+		FROM
+		LOAN_APPLY_INFO lai
+		WHERE
+		lai.IS_DEL = 0
+		AND lai.LOAN_PROCESS_TYPE = 'Authorized'
+		AND lai.LOAN_REFUSE_USER = 0)
+		UNION ALL
+		SELECT 0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,COUNT(*) AS F14,0 AS F15,0 AS F16 FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 and  LOAN_PROCESS_TYPE in ('Sign') and  CONTRACT_CHECK_USER = [userId] and LOAN_REFUSE_USER = 0
+		<!--放款-->
+		UNION ALL
+		SELECT  0 AS F1,0 AS F2,0 AS F3,0 AS F4,0 AS F41,0 AS F5,0 AS F6,0 AS F7,0 AS F8,0 AS F9,0 AS F10,0 AS F11,0 AS F12,0 AS F13,0 AS F14,0 AS F15,COUNT(*) AS F16
+		FROM
+		(
+		SELECT
+		lai.*
+		FROM
+		LOAN_APPLY_INFO lai
+		WHERE
+		lai.IS_DEL = 0
+		AND lai.LOAN_PROCESS_TYPE = 'Loan'
+		AND lai.LOAN_REFUSE_USER = 0)
+		)
+	</sql>
+
+	<sql id = "getRoleByUserId">
+		SELECT * FROM PMS_ROLE WHERE ROLE_ID in (
+		SELECT PUR_ROLE_ID FROM PMS_USER u,PMS_USER_ROLES r
+		WHERE u.USER_ID = r.PUR_USER_ID AND u.USER_ID = [0] )  AND ROLE_ISDEL = 0
+	</sql>
+
+</banger>

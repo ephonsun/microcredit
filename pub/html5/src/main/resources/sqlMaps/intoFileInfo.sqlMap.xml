@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件附件信息 -->
+	<sql id="insertFileInfo" >
+		INSERT INTO INTO_FILE_INFO (ID,FILE_NAME,FILE_PATH,FILE_SIZE,FILE_SRC_NAME,APPLY_ID,REQUEST_ID,FILE_THUMB_IMAGE_NAME,FILE_THUMB_IMAGE_PATH,CREATE_TIME,IMAGE_TYPE) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$fileName]</clause>
+		<clause prepend="," nvl="''" >[$filePath]</clause>
+		<clause prepend="," nvl="0" >[$fileSize]</clause>
+		<clause prepend="," nvl="''" >[$fileSrcName]</clause>
+		<clause prepend="," nvl="0" >[$applyId]</clause>
+		<clause prepend="," nvl="0" >[$requestId]</clause>
+		<clause prepend="," nvl="''" >[$fileThumbImageName]</clause>
+		<clause prepend="," nvl="''" >[$fileThumbImagePath]</clause>
+		<clause prepend="," nvl="NULL" >[$createTime]</clause>
+		<clause prepend="," nvl="0" >[$imageType]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件附件信息 -->
+	<sql id="updateFileInfo" >
+		UPDATE INTO_FILE_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([fileName])" >FILE_NAME = [$fileName]</clause>
+			<clause prepend="," assert="!isNull([filePath])" >FILE_PATH = [$filePath]</clause>
+			<clause prepend="," assert="!isNull([fileSize])" >FILE_SIZE = [$fileSize]</clause>
+			<clause prepend="," assert="!isNull([fileSrcName])" >FILE_SRC_NAME = [$fileSrcName]</clause>
+			<clause prepend="," assert="!isNull([applyId])" >APPLY_ID = [$applyId]</clause>
+			<clause prepend="," assert="!isNull([requestId])" >REQUEST_ID = [$requestId]</clause>
+			<clause prepend="," assert="!isNull([fileThumbImageName])" >FILE_THUMB_IMAGE_NAME = [$fileThumbImageName]</clause>
+			<clause prepend="," assert="!isNull([fileThumbImagePath])" >FILE_THUMB_IMAGE_PATH = [$fileThumbImagePath]</clause>
+			<clause prepend="," assert="!isNull([createTime])" >CREATE_TIME = [$createTime]</clause>
+			<clause prepend="," assert="!isNull([imageType])" >IMAGE_TYPE = [$imageType]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件附件信息 -->
+	<sql id="getFileInfoById" >
+		SELECT * FROM INTO_FILE_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除进件附件信息 -->
+	<sql id="deleteFileInfoById" >
+		DELETE FROM INTO_FILE_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 查询进件附件信息 -->
+	<sql id="queryFileInfoList" >
+		SELECT * FROM INTO_FILE_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([fileName])" > FILE_NAME = '[fileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > FILE_PATH = '[filePath]' </clause>
+			<clause prepend="and" assert="!isNull([fileSize])" > FILE_SIZE = [fileSize] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileSrcName])" > FILE_SRC_NAME = '[fileSrcName]' </clause>
+			<clause prepend="and" assert="!isNull([applyId])" > APPLY_ID = [applyId] </clause>
+			<clause prepend="and" assert="!isNull([requestId])" > REQUEST_ID = [requestId] </clause>
+			<clause prepend="and" assert="!isNull([imageType])" >IMAGE_TYPE = [$imageType]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImageName])" > FILE_THUMB_IMAGE_NAME = '[fileThumbImageName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImagePath])" > FILE_THUMB_IMAGE_PATH = '[fileThumbImagePath]' </clause>
+			<clause parent="DateSpan" params="CREATE_TIME,createTime,createTimeEnd" ></clause>
+		</where>
+	</sql>
+
+</banger>

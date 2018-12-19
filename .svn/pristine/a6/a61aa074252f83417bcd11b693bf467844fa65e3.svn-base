@@ -1,0 +1,220 @@
+package banger.service.intf;
+
+import banger.domain.loan.DepositBank;
+import banger.domain.loan.LoanApplyInfo;
+import banger.domain.loan.LoanApplyInfo_Web_Query;
+import banger.domain.loan.PledgInfo;
+import banger.framework.collection.DataTable;
+import banger.framework.pagesize.IPageList;
+import banger.framework.pagesize.IPageSize;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 贷款申请表业务访问接口
+ */
+public interface IApplyInfoService {
+
+	/**
+	 * 新增贷款申请表
+	 * @param applyInfo 实体对像
+	 * @param loginUserId 登入用户Id
+	 */
+	void insertApplyInfo(LoanApplyInfo applyInfo,Integer loginUserId);
+
+	/**
+	 *修改贷款申请表
+	 * @param applyInfo 实体对像
+	 * @param loginUserId 登入用户Id
+	 */
+	void updateApplyInfo(LoanApplyInfo applyInfo,Integer loginUserId);
+
+	/**
+	 * 通过主键删除贷款申请表
+	 * @param loanId 主键Id
+	 */
+	void deleteApplyInfoById(Integer loanId);
+
+	/**
+	 * 通过主键得到贷款申请表
+	 * @param loanId 主键Id
+	 */
+	LoanApplyInfo getApplyInfoById(Integer loanId);
+
+	/**
+	 * 查询贷款申请表
+	 * @param condition 查询条件
+	 * @return
+	 */
+	List<LoanApplyInfo> queryApplyInfoList(Map<String,Object> condition);
+
+	/**
+	 * 分页查询贷款申请表
+	 * @param condition 查询条件
+	 * @param page 分页对像
+	 * @return
+	 */
+	IPageList<LoanApplyInfo> queryApplyInfoList(Map<String,Object> condition,IPageSize page);
+
+	/**
+	 * 根据主键查询子类，别名，主要包括归属客户经理，团队名称
+	 * @param loanId
+	 * @return
+	 */
+	LoanApplyInfo_Web_Query queryOneSubInfo(Integer loanId);
+	/**
+	 * 查询审批列表
+	 * @param condition
+	 * @param page
+	 * @return
+	 */
+//	IPageList<LoanApplyInfo> queryApprovalList(Map<String,Object> condition,IPageSize page);
+
+	/**
+	 * web申请信息保存
+	 * @param map
+	 * @param id
+	 * @param processType 申请流程【Apply | Allot】
+	 *@param loanTypeId
+	 * @param loginerId  @return
+	 */
+	Map<String, Object> saveLoanApplyInfo(Map<String, Object> map, String id, String processType, Integer loanTypeId, Integer loginerId, Integer teamGroupId, Integer customerId, Integer marketCustomerId,Integer potentialId);
+
+//	/**
+//	 * web申请信息保存
+//	 * @param map
+//	 * @param id
+//	 * @param processType 申请流程【Apply | Allot】
+//	 *@param loanTypeId
+//	 * @param loginerId  @return
+//	 */
+//	Map<String, Object> saveLoanIntoApplyInfo(Map<String, Object> map, String id, String processType, Integer loanTypeId, Integer loginerId, Integer teamGroupId, Integer customerId, Integer applyId,Integer potentialId);
+
+    String sendLoanMsg(LoanApplyInfo loanApplyInfo, String process);
+
+    /**
+	 * web批量分配保存
+	 * @param ids
+	 * @param memberUserId
+	 * @param loginerId
+	 * @return
+	 */
+	Map<String, Object> loanAllotSignSave(String ids, Integer memberUserId, Integer loginerId);
+
+	/**
+	 * 根据自定义表名和主键获取数据
+	 * @param tableName
+	 * @param id
+	 * @return
+	 */
+	DataTable getDataTableById(String tableName, Integer id);
+
+
+	/**
+	 * 根据贷款id 查出审批决议主记录
+	 * @param loanId
+	 * @return
+	 */
+	DataTable getApprovalDataTableByLoanId(Integer loanId);
+
+	DataTable selectApprovalDataTableByLoanId(Integer loanId);
+
+	/**
+	 * 根据自定义表单信息和贷款信息ID获取表数据
+	 * @param tableName
+	 * @param id
+	 * @return
+	 */
+	DataTable getDataTableByLoanId(String tableName, String presType, Integer id);
+
+	/**
+	 * 根据自定义表单信息,贷款信息ID和创建用户ID获取表数据
+	 * @param tableName
+	 * @param loanId
+	 * @return
+	 */
+	DataTable getDataTableByLoanIdAndUserId(String tableName, String presType, Integer loanId, Integer loginUserId);
+
+
+	/**
+	 * 拒绝贷款信息保存
+	 * @param refuseType
+	 * @param refuseReason
+	 * @param refuseRemark
+	 * @param joinBlack
+	 * @param loanId
+	 * @param loginerId
+	 * @return
+	 */
+	boolean saveRefuseInfo(String refuseType, String refuseReason, String refuseRemark, String joinBlack, String loanId, Integer loginerId);
+
+	/**
+	 * 回退保存
+	 * @param loanId
+	 * @param loginerId
+	 * @return
+	 */
+    boolean backApplyInfo(String loanId, Integer loginerId, String note);
+
+	/**
+	 * web调查信息保存
+	 * @param map
+	 * @param id
+	 * @param loginUserId  @return
+	 */
+    String saveLoanInvestigateInfo(Map<String, Object> map, String id, Integer loginUserId);
+
+	/**
+	 * 根据删除的idMap删除模板数据
+	 * @param deleteIdsMap
+	 */
+	void deleteLoanTemplateByMap(Map<String, Object> deleteIdsMap);
+
+	/**
+	 * 保存放贷信息
+	 * @param map
+	 * @param id
+	 * @param loginUserId
+	 * @return
+	 */
+    String saveLoanLoanMoneyInfo(Map<String, Object> map, String id, Integer loginUserId, boolean isLoanMoney);
+
+	List<LoanApplyInfo> queryHandOverLoanIds(Map<String, Object> condition);
+
+	List <LoanApplyInfo_Web_Query>queryMinInGroup(Integer teamGroupId);
+
+//	String loanMoneySave(Map<String, Object> map, String id, Integer loginUserId);
+
+	/**
+	 * 是否使用分配受限表
+	 * @return
+	 */
+	String queryLoanAllotConfigStatus();
+
+    void syncPotentialFiles(Integer potentialId, Integer loanId, Integer userId);
+
+	DataTable getPledgeDataTableByLoanId(String presType, Integer loanId, Integer mortgageOrPledge);
+
+	DataTable getPledgeDataTableById(Integer id);
+
+	void updatePledgeStatusById(Integer id,String status);
+
+	void updatePledgeById(PledgInfo pledgInfo);
+	//开户行
+	List<DepositBank> getDepositBankListByCondition(Map<String,Object> condition);
+
+	String getLoanOrientationJson();
+
+	String getBizAndPrdTypeJson(Map<String,Object> condition);
+
+	String queryCrmPrdTypeJson(Map<String, Object> condition);
+
+	DataTable getTrustedDataTableByLoanId(String presType, Integer loanId, Integer paymentStatus);
+
+	void updateTrustedDataTableById(String presType, String id, Integer paymentStatus);
+
+	String refreshLoanAccount(Integer userId);
+
+	String refreshLoanAccountTab(Integer loanId);
+}

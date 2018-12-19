@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.ModeScoreFieldParams" table="MODE_SCORE_FIELD_PARAMS" >
+		<id name="paramId" type="java.lang.Integer" >
+			<column name="PARAM_ID" length="4" />
+		</id>
+		<property name="modeId" type="java.lang.Integer" >
+			<column name="MODE_ID" length="4" />
+		</property>
+		<property name="templateId" type="java.lang.Integer" >
+			<column name="TEMPLATE_ID" length="4" />
+		</property>
+		<property name="fieldId" type="java.lang.Integer" >
+			<column name="FIELD_ID" length="4" />
+		</property>
+		<property name="optionId" type="java.lang.Integer" >
+			<column name="OPTION_ID" length="4" />
+		</property>
+		<property name="optionParam1" type="java.lang.String" >
+			<column name="OPTION_PARAM1" length="60" />
+		</property>
+		<property name="optionParam2" type="java.lang.String" >
+			<column name="OPTION_PARAM2" length="60" />
+		</property>
+		<property name="optionParam3" type="java.lang.String" >
+			<column name="OPTION_PARAM3" length="60" />
+		</property>
+		<property name="optionParam4" type="java.lang.String" >
+			<column name="OPTION_PARAM4" length="60" />
+		</property>
+		<property name="paramScore" type="java.math.BigDecimal" >
+			<column name="PARAM_SCORE" length="6" scale="2" />
+		</property>
+	</class>
+</mapping>
+

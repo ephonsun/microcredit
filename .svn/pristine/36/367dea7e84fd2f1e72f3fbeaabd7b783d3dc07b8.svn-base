@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="depositBank" name="banger.domain.loan.DepositBank"></class>
+	<sql id="getDepositBankListByCondition" result="depositBank">
+		SELECT * FROM DEPOSIT_BANK_DATA WHERE BANK_COFFER LIKE '%[coffer]%' order by id fetch first 10 rows only
+	</sql>
+</banger>

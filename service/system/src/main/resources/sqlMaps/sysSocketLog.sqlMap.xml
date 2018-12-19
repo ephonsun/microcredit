@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertSocketLog" >
+		INSERT INTO SYS_SOCKET_LOG (ID,LOAN_ID,SOCKET_CODE,SEND_XML,RETURN_MASSAGE,REMARK,CODE_NUM,CODE_NUM_TWO) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$socketCode]</clause>
+		<clause prepend="," nvl="''">[$sendXml]</clause>
+		<clause prepend="," nvl="''" >[$returnMassage]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="''" >[$codeNum]</clause>
+		<clause prepend="," nvl="''" >[$codeNumTwo]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateSocketLog" >
+		UPDATE SYS_SOCKET_LOG 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([socketCode])" >SOCKET_CODE = [$socketCode]</clause>
+			<clause prepend="," assert="!isNull([sendXml])" >SEND_XML = [$sendXml]</clause>
+			<clause prepend="," assert="!isNull([returnMassage])" >RETURN_MASSAGE = [$returnMassage]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([codeNum])" >CODE_NUM = [$codeNum]</clause>
+			<clause prepend="," assert="!isNull([codeNumTwo])" >CODE_NUM_TWO = [$codeNumTwo]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getSocketLogById" >
+		SELECT * FROM SYS_SOCKET_LOG WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteSocketLogById" >
+		DELETE FROM SYS_SOCKET_LOG WHERE ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="querySocketLogList" >
+		SELECT * FROM SYS_SOCKET_LOG 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([socketCode])" > SOCKET_CODE = '[socketCode]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([returnMassage])" > RETURN_MASSAGE = '[returnMassage]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > REMARK = '[remark]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([codeNum])" > CODE_NUM = '[codeNum]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([codeNumTwo])" > CODE_NUM_TWO = '[codeNumTwo]' </clause>
+		</where>
+		ORDER BY LOG_TIME DESC
+	</sql>
+
+</banger>

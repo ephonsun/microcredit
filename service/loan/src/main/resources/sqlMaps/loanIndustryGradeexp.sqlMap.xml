@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款行业指引等级说明表 -->
+	<sql id="insertIndustryGradeexp" >
+		INSERT INTO LOAN_INDUSTRY_GRADEEXP (ID,LOAN_ID,ITEM_NAME,ITEM_COLUMN,ITEM_GRADECN,ITEM_GRADEEN,ITEM_GRADEEXP,CREATE_DATE,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$itemName]</clause>
+		<clause prepend="," nvl="''" >[$itemColumn]</clause>
+		<clause prepend="," nvl="''" >[$itemGradecn]</clause>
+		<clause prepend="," nvl="''" >[$itemGradeen]</clause>
+		<clause prepend="," nvl="''" >[$itemGradeexp]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款行业指引等级说明表 -->
+	<sql id="updateIndustryGradeexp" >
+		UPDATE LOAN_INDUSTRY_GRADEEXP 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([itemName])" >ITEM_NAME = [$itemName]</clause>
+			<clause prepend="," assert="!isNull([itemColumn])" >ITEM_COLUMN = [$itemColumn]</clause>
+			<clause prepend="," assert="!isNull([itemGradecn])" >ITEM_GRADECN = [$itemGradecn]</clause>
+			<clause prepend="," assert="!isNull([itemGradeen])" >ITEM_GRADEEN = [$itemGradeen]</clause>
+			<clause prepend="," assert="!isNull([itemGradeexp])" >ITEM_GRADEEXP = [$itemGradeexp]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款行业指引等级说明表 -->
+	<sql id="getIndustryGradeexpById" >
+		SELECT * FROM LOAN_INDUSTRY_GRADEEXP WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款行业指引等级说明表 -->
+	<sql id="deleteIndustryGradeexpById" >
+		DELETE FROM LOAN_INDUSTRY_GRADEEXP WHERE ID = [0]
+	</sql>
+
+	<!-- 通过loanId主键删除贷款行业指引等级说明表 -->
+	<sql id="deleteIndustryGradeexpByLoanId" >
+		DELETE FROM LOAN_INDUSTRY_GRADEEXP WHERE LOAN_ID = [0]
+	</sql>
+
+	<!-- 查询贷款行业指引等级说明表 -->
+	<sql id="queryIndustryGradeexpList" >
+		SELECT * FROM LOAN_INDUSTRY_GRADEEXP 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemName])" > ITEM_NAME = '[itemName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemColumn])" > ITEM_COLUMN = '[itemColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemGradecn])" > ITEM_GRADECN = '[itemGradecn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemGradeen])" > ITEM_GRADEEN = '[itemGradeen]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemGradeexp])" > ITEM_GRADEEXP = '[itemGradeexp]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="custMarketCustomerQueryResult" name="banger.domain.customer.CustMarketCustomerQuery" >
+		<property name="signDates" column="SIGN_DATES"></property>
+    </class>
+
+	<!-- 新增营销客户表 -->
+	<sql id="insertMarketCustomer" >
+		INSERT INTO CUST_MARKET_CUSTOMER (MARKET_CUSTOMER_ID,LOAN_ID,CUSTOMER_NAME,CUSTOMER_SEX,AGE,CARD_TYPE,CARD_NUMBER,CUSTOMER_TYPE,LOAN_MONEY,LOAN_USE,PHONE_NUMBER,IS_DEL,SIGN_SATE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$marketCustomerId]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," nvl="''" >[$customerSex]</clause>
+		<clause prepend="," nvl="0" >[$age]</clause>
+		<clause prepend="," nvl="''" >[$cardType]</clause>
+		<clause prepend="," nvl="''" >[$cardNumber]</clause>
+		<clause prepend="," nvl="0" >[$customerType]</clause>
+		<clause prepend="," nvl="NULL" >[$loanMoney]</clause>
+		<clause prepend="," nvl="''" >[$loanUse]</clause>
+		<clause prepend="," nvl="''" >[$phoneNumber]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$signSate]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改营销客户表 -->
+	<sql id="updateMarketCustomer" >
+		UPDATE CUST_MARKET_CUSTOMER
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([customerName])" >CUSTOMER_NAME = [$customerName]</clause>
+			<clause prepend="," assert="!isNull([customerSex])" >CUSTOMER_SEX = [$customerSex]</clause>
+			<clause prepend="," assert="!isNull([age])" >AGE = [$age]</clause>
+			<clause prepend="," assert="!isNull([cardType])" >CARD_TYPE = [$cardType]</clause>
+			<clause prepend="," assert="!isNull([cardNumber])" >CARD_NUMBER = [$cardNumber]</clause>
+			<clause prepend="," assert="!isNull([customerType])" >CUSTOMER_TYPE = [$customerType]</clause>
+			<clause prepend="," assert="!isNull([loanMoney])" >LOAN_MONEY = [$loanMoney]</clause>
+			<clause prepend="," assert="!isNull([loanUse])" >LOAN_USE = [$loanUse]</clause>
+			<clause prepend="," assert="!isNull([phoneNumber])" >PHONE_NUMBER = [$phoneNumber]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([signSate])" >SIGN_SATE = [$signSate]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			MARKET_CUSTOMER_ID = [$marketCustomerId]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到营销客户表 -->
+	<sql id="getCustMarketCustomerById" >
+		SELECT * FROM CUST_MARKET_CUSTOMER WHERE MARKET_CUSTOMER_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除营销客户表 -->
+	<sql id="deleteCustMarketCustomerById" >
+		UPDATE CUST_MARKET_CUSTOMER SET IS_DEL = 1 WHERE MARKET_CUSTOMER_ID = [0]
+	</sql>
+
+	<!-- 查询营销客户表 -->
+	<sql id="queryCustMarketCustomerList" result="custMarketCustomerQueryResult">
+		SELECT * FROM CUST_MARKET_CUSTOMER 
+		<where>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and"> SIGN_SATE = 1 </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([customerSex])" > CUSTOMER_SEX = [customerSex] </clause>
+			<clause prepend="and" assert="!isNull([age])" > AGE = [age] </clause>
+			<clause prepend="and" assert="!isNull([customerType])" > CUSTOMER_TYPE = [customerType] </clause>
+			<clause prepend="and" assert="!isNull([loanMoney])" > LOAN_MONEY = [loanMoney] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanUse])" > LOAN_USE = '[loanUse]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNumber])" > CARD_NUMBER = '[cardNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([phoneNumber])" > PHONE_NUMBER = '[phoneNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" >
+			    (CUSTOMER_NAME LIKE '%[customerName]%' OR PHONE_NUMBER LIKE '%[customerName]%' OR CARD_NUMBER LIKE  UPPER('%[customerName]%') )
+			</clause>
+			<clause prepend="and"> IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				CREATE_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				CREATE_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+			ORDER BY CREATE_DATE DESC	
+		</where>
+	</sql>
+
+	<sql id="signCustomer" >
+		UPDATE CUST_MARKET_CUSTOMER SET SIGN_SATE = [$signSate] WHERE MARKET_CUSTOMER_ID in([marketCustomerIds])
+	</sql>
+	
+	<!-- 查询预申请分配营销客户 -->
+	<sql id="queryGroupMarketCustomerList" result="custMarketCustomerQueryResult">
+		SELECT CMS.*, MCG.SIGN_DATE SIGN_DATES FROM CUST_MARKET_CUSTOMER CMS
+		INNER JOIN MARKET_CUSTOMER_GROUP MCG ON CMS.MARKET_CUSTOMER_ID=MCG.CUSTOMER_ID AND CMS.LOAN_ID = 0
+		<where>
+			<clause prepend="and" assert="!isNull([createUser])" > CMS.CREATE_USER = [createUser] </clause>
+			<clause prepend="and"> CMS.SIGN_SATE = 2 </clause>
+			<clause prepend="and" assert="!isNull([teamGroupId])" > MCG.TEAM_GROUP_ID in ([teamGroupId]) </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > CMS.UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([customerSex])" > CMS.CUSTOMER_SEX = [customerSex] </clause>
+			<clause prepend="and" assert="!isNull([age])" > CMS.AGE = [age] </clause>
+			<clause prepend="and" assert="!isNull([customerType])" > CMS.CUSTOMER_TYPE = [customerType] </clause>
+			<clause prepend="and" assert="!isNull([loanMoney])" > CMS.LOAN_MONEY = [loanMoney] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanUse])" > CMS.LOAN_USE = '[loanUse]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNumber])" > CMS.CARD_NUMBER = '[cardNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([phoneNumber])" > CMS.PHONE_NUMBER = '[phoneNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" >
+			    (CMS.CUSTOMER_NAME LIKE '%[customerName]%' OR CMS.PHONE_NUMBER LIKE '%[customerName]%' OR CMS.CARD_NUMBER LIKE UPPER('%[customerName]%'))
+			</clause>
+			<clause prepend="and"> CMS.IS_DEL = 0 </clause>
+			<clause prepend="and"> MCG.IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				MCG.SIGN_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				MCG.SIGN_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+			ORDER BY CMS.CREATE_DATE DESC	
+		</where>
+	</sql>	
+
+	<!-- 查询客户经理预申请营销客户 -->
+	<sql id="queryMemberMarketCustomerList" result="custMarketCustomerQueryResult">
+		SELECT CMS.*, MCM.SIGN_DATE SIGN_DATES FROM CUST_MARKET_CUSTOMER CMS
+		INNER JOIN MARKET_CUSTOMER_MEMBER MCM ON CMS.MARKET_CUSTOMER_ID=MCM.CUSTOMER_ID AND CMS.LOAN_ID = 0
+		<where>
+			<clause prepend="and" assert="!isNull([createUser])" > CMS.CREATE_USER = [createUser] </clause>			
+			<clause prepend="and"> CMS.SIGN_SATE = 3 </clause>
+			<clause prepend="and"> MCM.APPLY_SATE = 1 </clause>
+			<clause prepend="and" assert="!isNull([userId])" > MCM.TEAM_MEMBER_ID = [userId] </clause>
+			<clause prepend="and" assert="!isNull([customerSex])" > CMS.CUSTOMER_SEX = [customerSex] </clause>
+			<clause prepend="and" assert="!isNull([age])" > CMS.AGE = [age] </clause>
+			<clause prepend="and" assert="!isNull([customerType])" > CMS.CUSTOMER_TYPE = [customerType] </clause>
+			<clause prepend="and" assert="!isNull([loanMoney])" > CMS.LOAN_MONEY = [loanMoney] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanUse])" > CMS.LOAN_USE = '[loanUse]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNumber])" > CMS.CARD_NUMBER = '[cardNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([phoneNumber])" > CMS.PHONE_NUMBER = '[phoneNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" >
+			    (CMS.CUSTOMER_NAME LIKE '%[customerName]%' OR CMS.PHONE_NUMBER LIKE '%[customerName]%' OR CMS.CARD_NUMBER LIKE UPPER('%[customerName]%'))
+			</clause>
+			<clause prepend="and"> CMS.IS_DEL = 0 </clause>
+			<clause prepend="and"> MCM.IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				MCM.SIGN_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				MCM.SIGN_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+			ORDER BY CMS.CREATE_DATE DESC	
+		</where>
+	</sql>
+
+	<!-- 预申请转申请时，更新贷款ID -->
+	<sql id="updateCustomerLoanId" >
+		UPDATE CUST_MARKET_CUSTOMER SET LOAN_ID = [loanId] WHERE MARKET_CUSTOMER_ID = [marketCustomerId]
+	</sql>
+
+</banger>

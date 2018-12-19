@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.ModeTemplateField" table="MODE_TEMPLATE_FIELD" >
+		<id name="fieldId" type="java.lang.Integer" >
+			<column name="FIELD_ID" length="4" />
+		</id>
+		<property name="templateId" type="java.lang.Integer" >
+			<column name="TEMPLATE_ID" length="4" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="64" />
+		</property>
+		<property name="talbeColumn" type="java.lang.String" >
+			<column name="TALBE_COLUMN" length="64" />
+		</property>
+		<property name="fieldName" type="java.lang.String" >
+			<column name="FIELD_NAME" length="60" />
+		</property>
+		<property name="fieldDisplay" type="java.lang.String" >
+			<column name="FIELD_DISPLAY" length="60" />
+		</property>
+		<property name="templateModule" type="java.lang.String" >
+			<column name="TEMPLATE_MODULE" length="30" />
+		</property>
+		<property name="templateComment" type="java.lang.String" >
+			<column name="TEMPLATE_COMMENT" length="300" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

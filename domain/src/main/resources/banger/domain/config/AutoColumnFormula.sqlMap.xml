@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoColumnFormula" table="AUTO_COLUMN_FORMULA" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="40" />
+		</property>
+		<property name="fieldColumn" type="java.lang.String" >
+			<column name="FIELD_COLUMN" length="40" />
+		</property>
+		<property name="formulaExpressions" type="java.lang.String" >
+			<column name="FORMULA_EXPRESSIONS" length="150" />
+		</property>
+		<property name="isStatistics" type="java.lang.Integer" >
+			<column name="IS_STATISTICS" length="4" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

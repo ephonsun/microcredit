@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/mobile/mobile/banger-app-mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile/banger-app-mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mobile/mobileIntf/banger-app-mobileIntf.iml" filepath="$PROJECT_DIR$/mobile/mobileIntf/banger-app-mobileIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/core/banger-biz-core.iml" filepath="$PROJECT_DIR$/service/core/banger-biz-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/customer/banger-biz-customer.iml" filepath="$PROJECT_DIR$/service/customer/banger-biz-customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/customerIntf/banger-biz-customerIntf.iml" filepath="$PROJECT_DIR$/service/customerIntf/banger-biz-customerIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/desktop/banger-biz-desktop.iml" filepath="$PROJECT_DIR$/service/desktop/banger-biz-desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/handOver/banger-biz-handOver.iml" filepath="$PROJECT_DIR$/service/handOver/banger-biz-handOver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/loan/banger-biz-loan.iml" filepath="$PROJECT_DIR$/service/loan/banger-biz-loan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/loanIntf/banger-biz-loanIntf.iml" filepath="$PROJECT_DIR$/service/loanIntf/banger-biz-loanIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/permission/banger-biz-permission.iml" filepath="$PROJECT_DIR$/service/permission/banger-biz-permission.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/permissionIntf/banger-biz-permissionIntf.iml" filepath="$PROJECT_DIR$/service/permissionIntf/banger-biz-permissionIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/product/banger-biz-product.iml" filepath="$PROJECT_DIR$/service/product/banger-biz-product.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/productIntf/banger-biz-productIntf.iml" filepath="$PROJECT_DIR$/service/productIntf/banger-biz-productIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/system/banger-biz-system.iml" filepath="$PROJECT_DIR$/service/system/banger-biz-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/systemIntf/banger-biz-systemIntf.iml" filepath="$PROJECT_DIR$/service/systemIntf/banger-biz-systemIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/task/banger-biz-task.iml" filepath="$PROJECT_DIR$/service/task/banger-biz-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/taskIntf/banger-biz-taskIntf.iml" filepath="$PROJECT_DIR$/service/taskIntf/banger-biz-taskIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/track/banger-biz-track.iml" filepath="$PROJECT_DIR$/service/track/banger-biz-track.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/trackIntf/banger-biz-trackIntf.iml" filepath="$PROJECT_DIR$/service/trackIntf/banger-biz-trackIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/tranport/banger-biz-tranport.iml" filepath="$PROJECT_DIR$/service/tranport/banger-biz-tranport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/tranportIntf/banger-biz-tranportIntf.iml" filepath="$PROJECT_DIR$/service/tranportIntf/banger-biz-tranportIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/banger-common.iml" filepath="$PROJECT_DIR$/common/banger-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/config/banger-credit-config.iml" filepath="$PROJECT_DIR$/service/config/banger-credit-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/configIntf/banger-credit-configIntf.iml" filepath="$PROJECT_DIR$/service/configIntf/banger-credit-configIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/banger-domain.iml" filepath="$PROJECT_DIR$/domain/banger-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/extra/interface/banger-extra-interface.iml" filepath="$PROJECT_DIR$/extra/interface/banger-extra-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/component/banger-framework-component.iml" filepath="$PROJECT_DIR$/framework/component/banger-framework-component.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/core/banger-framework-core.iml" filepath="$PROJECT_DIR$/framework/core/banger-framework-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/dao/banger-framework-dao.iml" filepath="$PROJECT_DIR$/framework/dao/banger-framework-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/sql/banger-framework-sql.iml" filepath="$PROJECT_DIR$/framework/sql/banger-framework-sql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/util/banger-framework-util.iml" filepath="$PROJECT_DIR$/framework/util/banger-framework-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/web/banger-framework-web.iml" filepath="$PROJECT_DIR$/framework/web/banger-framework-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pub/api/banger-pub-api.iml" filepath="$PROJECT_DIR$/pub/api/banger-pub-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pub/apiIntf/banger-pub-apiIntf.iml" filepath="$PROJECT_DIR$/pub/apiIntf/banger-pub-apiIntf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pub/html5/banger-pub-html5.iml" filepath="$PROJECT_DIR$/pub/html5/banger-pub-html5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pub/html5Intf/banger-pub-html5Intf.iml" filepath="$PROJECT_DIR$/pub/html5Intf/banger-pub-html5Intf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quartz/banger-quartz.iml" filepath="$PROJECT_DIR$/quartz/banger-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/banger-web.iml" filepath="$PROJECT_DIR$/web/banger-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microcredit.iml" filepath="$PROJECT_DIR$/microcredit.iml" />
+    </modules>
+  </component>
+</project>

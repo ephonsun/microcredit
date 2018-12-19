@@ -1,0 +1,12 @@
+package banger.dao.intf;
+
+import banger.domain.loan.LoanStatQuery;
+import banger.domain.loan.QueryReport_Query;
+
+import java.util.List;
+import java.util.Map;
+
+public interface IQueryReportDao {
+    List<QueryReport_Query> queryReportByCondition(Map map);
+
+}

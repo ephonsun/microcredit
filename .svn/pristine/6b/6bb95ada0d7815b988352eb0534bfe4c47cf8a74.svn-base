@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-lazy-init="true" default-autowire="byName">
+    <!--   default-autowire="byName"自动配置bean注入 可以不用显示的set -->
+    <!--   default-lazy-init="true" sping不会再去加载整个对象实例图 加快spring启动 -->
+
+    <!-- sqlMaps模块总配 -->
+    <bean id="loanSqlMap" class="banger.framework.sql.mapping.SqlContext" >
+        <property name="resources">
+            <set>
+                <value>sqlMaps/loanAnalysislBusiness.sqlMap.xml</value>
+                <value>sqlMaps/loanAnalysislConsumption.sqlMap.xml</value>
+
+                <value>sqlMaps/loanProcessType.sqlMap.xml</value>
+                <value>sqlMaps/loanType.sqlMap.xml</value>
+                <value>sqlMaps/loanApplyInfo.sqlMap.xml</value>
+                <value>sqlMaps/loanFieldExtend.sqlMap.xml</value>
+                <value>sqlMaps/loanTypeTableField.sqlMap.xml</value>
+                <value>sqlMaps/loanTypeRelTable.sqlMap.xml</value>
+                <value>sqlMaps/loanAuditTableField.sqlMap.xml</value>
+                <value>sqlMaps/loanApplyInfoStep.sqlMap.xml</value>
+                <value>sqlMaps/loanMonitorInfo.sqlMap.xml</value>
+                <value>sqlMaps/loanRepayPlanInfo.sqlMap.xml</value>
+
+                <value>sqlMaps/loanSurveyFlowInfo.sqlMap.xml</value>
+                <value>sqlMaps/loanFlowStepItem.sqlMap.xml</value>
+                <value>sqlMaps/loanFlowStepContent.sqlMap.xml</value>
+
+                <value>sqlMaps/wfApproveCondition.sqlMap.xml</value>
+				<value>sqlMaps/wfApproveConditionParams.sqlMap.xml</value>
+				<value>sqlMaps/wfApproveInfoDef.sqlMap.xml</value>
+				<value>sqlMaps/wfApproveProcess.sqlMap.xml</value>
+                <value>sqlMaps/wfApproveProcessReview.sqlMap.xml</value>
+				
+				<value>sqlMaps/loanInfoAddedClass.sqlMap.xml</value>
+				<value>sqlMaps/loanInfoAddedFiles.sqlMap.xml</value>
+				<value>sqlMaps/loanInfoAddedOwner.sqlMap.xml</value>
+                <value>sqlMaps/loanCurrentAuditStatus.sqlMap.xml</value>
+                <value>sqlMaps/loanAudit.sqlMap.xml</value>
+
+                <value>sqlMaps/loanActionHistory.sqlMap.xml</value>
+                <value>sqlMaps/loanStat.sqlMap.xml</value>
+                <value>sqlMaps/LoanIndustryGuidelines.sqlMap.xml</value>
+
+                <value>sqlMaps/assets/LoanAssetsAccountItem.sqlMap.xml</value>
+                <value>sqlMaps/assets/LoanAssetsAmountItem.sqlMap.xml</value>
+                <value>sqlMaps/assets/LoanAssetsDebtsItem.sqlMap.xml</value>
+                <value>sqlMaps/assets/LoanAssetsFixedItem.sqlMap.xml</value>
+                <value>sqlMaps/assets/LoanAssetsInfo.sqlMap.xml</value>
+                <value>sqlMaps/assets/LoanAssetsStockItem.sqlMap.xml</value>
+
+                <value>sqlMaps/cross/LoanCrossCheckGrossProfit.sqlMap.xml</value>
+                <value>sqlMaps/cross/LoanCrossCheckIncome.sqlMap.xml</value>
+                <value>sqlMaps/cross/LoanCrossCheckNetProfit.sqlMap.xml</value>
+                <value>sqlMaps/cross/LoanCrossCheckQuanyiquan.sqlMap.xml</value>
+                <value>sqlMaps/cross/LoanCrossCheckSale.sqlMap.xml</value>
+
+                <value>sqlMaps/profit/LoanProfitBizIncomeItem.sqlMap.xml</value>
+                <value>sqlMaps/profit/LoanProfitBizIncomeMonth.sqlMap.xml</value>
+                <value>sqlMaps/profit/LoanProfitConsumIncomeItem.sqlMap.xml</value>
+                <value>sqlMaps/profit/LoanProfitLossInfo.sqlMap.xml</value>
+                <value>sqlMaps/profit/LoanProfitLossRatioItem.sqlMap.xml</value>
+
+                <value>sqlMaps/contract/loanContractExportRecord.sqlMap.xml</value>
+                <value>sqlMaps/contract/loanContractRelateItem.sqlMap.xml</value>
+                <value>sqlMaps/contract/loanContractTemplateFile.sqlMap.xml</value>
+                <value>sqlMaps/contract/loanContractTemplateType.sqlMap.xml</value>
+
+                <value>sqlMaps/tmp/tmpLoanAccount.sqlMap.xml</value>
+                <value>sqlMaps/tmp/tmpLoanInfo.sqlMap.xml</value>
+                <value>sqlMaps/tmp/tmpLoanRepaymentItem.sqlMap.xml</value>
+                <value>sqlMaps/tmp/tmpLoanRepaymentPlan.sqlMap.xml</value>
+
+
+                <value>sqlMaps/loanIndustryGradeexp.sqlMap.xml</value>
+                <value>sqlMaps/loanScoreDetailInfo.sqlMap.xml</value>
+                <value>sqlMaps/queryReport.sqlMap.xml</value>
+
+                <value>sqlMaps/depositBank.sqlMap.xml</value>
+                <value>sqlMaps/loanOrientation.sqlMap.xml</value>
+
+                <value>sqlMaps/loanTrustedPayment.sqlMap.xml</value>
+                <value>sqlMaps/bizTypeSub.sqlMap.xml</value>
+                <value>sqlMaps/commPeoInfo.sqlMap.xml</value>
+
+            </set>
+        </property>
+    </bean>
+    
+    <!-- 贷款类型 -->
+    <bean id="cdLoanType" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="getAllActivedLoanType" />
+        <property name="value" value="TYPE_ID" />
+        <property name="name" value="LOAN_TYPE_NAME" />
+    </bean>
+
+
+    
+     <!-- 自定义表信息 -->
+    <bean id="cdLoanTypeRelTable" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="getLoanTypeRelTable" />
+        <property name="value" value="TABLE_ID" />
+        <property name="name" value="TABLE_DISPLAY_NAME" />
+    </bean>
+
+    <!-- 自定义表信息 -->
+    <bean id="cdLoanContractTypeRelTable" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+        <property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="getLoanContractTypeRelTable" />
+        <property name="value" value="TABLE_ID" />
+        <property name="name" value="TABLE_DISPLAY_NAME" />
+    </bean>
+
+    <!-- 文件上传用 -->
+    <bean id="infoAddedFilesDao" class="banger.dao.impl.InfoAddedFilesDao" scope="singleton">
+    </bean>
+
+    <bean id="loanMonitorInfoJobDao" class="banger.dao.impl.LoanMonitorInfoJobDao" scope="singleton" ></bean>
+
+    <bean id="basicConfigDao" class="banger.dao.impl.BasicConfigDao" scope="singleton" ></bean>
+
+    <bean id="applyInfoDao" class="banger.dao.impl.ApplyInfoDao" scope="singleton"></bean>
+
+    <bean id="loanRepayPlanInfoJobDao" class="banger.dao.impl.LoanRepayPlanInfoJobDao" scope="singleton"></bean>
+
+    <bean id="repayPlanInfoDao" class="banger.dao.impl.RepayPlanInfoDao" scope="singleton"></bean>
+
+    <bean id="contractTemplateTypeDao" class="banger.dao.impl.ContractTemplateTypeDao" scope="singleton"></bean>
+
+
+
+    <bean id="tmpLoanAccountDao" class="banger.dao.impl.TmpLoanAccountDao" scope="singleton"></bean>
+    <bean id="tmpLoanInfoDao" class="banger.dao.impl.TmpLoanInfoDao" scope="singleton"></bean>
+    <bean id="tmpLoanRepaymentItemDao" class="banger.dao.impl.TmpLoanRepaymentItemDao" scope="singleton"></bean>
+    <bean id="tmpLoanRepaymentPlanDao" class="banger.dao.impl.TmpLoanRepaymentPlanDao" scope="singleton"></bean>
+
+    <bean id="ActionHistoryDao" class="banger.dao.impl.ActionHistoryDao" scope="singleton"></bean>
+
+    <bean id="commPeoInfoDao" class="banger.dao.impl.CommPeoInfoDao" scope="singleton"></bean>
+
+    <!-- 查询合同模版类型 -->
+    <bean id="cdContractTemplateType" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+        <property name="dao" ref="contractTemplateTypeDao"/>
+        <property name="sqlId" value="queryAllContractTemplateTypeList" />
+        <property name="value" value="ID" />
+        <property name="name" value="TYPE_NAME" />
+    </bean>
+
+</beans>

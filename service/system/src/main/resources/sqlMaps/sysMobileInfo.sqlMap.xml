@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertMobileInfo" >
+		INSERT INTO SYS_MOBILE_INFO (SERIAL_NO,UPDATE_DATE,CREATE_DATE,LAST_LOGIN_TIME,CREATE_USER,MOBILE_BRAND,DEL_FLAG,UPDATE_USER,LAST_USER_ID,SYSTEM_VERSION,MOBILE_MODEL,APP_VERSION,IS_BIND,IS_ACTIVED,LOGIN_LONGITUDE,LOGIN_LATITUDE) VALUES ([$serialNo]
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$lastLoginTime]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="''" >[$mobileBrand]</clause>
+		<clause prepend="," nvl="0" >[$delFlag]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$lastUserId]</clause>
+		<clause prepend="," nvl="''" >[$systemVersion]</clause>
+		<clause prepend="," nvl="''" >[$mobileModel]</clause>
+		<clause prepend="," nvl="''" >[$appVersion]</clause>
+		<clause prepend=",">[$isBind]</clause>
+		<clause prepend=",">[$isActived]</clause>
+		<clause prepend="," nvl="NULL" >[$loginLongitude]</clause>
+		<clause prepend="," nvl="NULL" >[$loginLatitude]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateMobileInfo" >
+		UPDATE SYS_MOBILE_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([lastLoginTime])" >LAST_LOGIN_TIME = [$lastLoginTime]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([mobileBrand])" >MOBILE_BRAND = [$mobileBrand]</clause>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([lastUserId])" >LAST_USER_ID = [$lastUserId]</clause>
+			<clause prepend="," assert="!isNull([systemVersion])" >SYSTEM_VERSION = [$systemVersion]</clause>
+			<clause prepend="," assert="!isNull([mobileModel])" >MOBILE_MODEL = [$mobileModel]</clause>
+			<clause prepend="," assert="!isNull([appVersion])" >APP_VERSION = [$appVersion]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([isBind])" >IS_BIND = [$isBind]</clause>
+		</set>
+		<where>
+			 SERIAL_NO = [$serialNo] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getMobileInfoById"  result="mobileInfo_Query">
+		<!--SELECT * FROM SYS_MOBILE_INFO WHERE SERIAL_NO = '[0]'-->
+		SELECT smi.*, pu.USER_NAME
+		FROM SYS_MOBILE_INFO smi
+		LEFT JOIN PMS_USER pu ON PU.USER_ID = smi.LAST_USER_ID
+		WHERE smi.DEL_FLAG = 1 and SERIAL_NO = '[0]'
+		ORDER BY smi.LAST_LOGIN_TIME DESC
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteMobileInfoById" >
+		DELETE FROM SYS_MOBILE_INFO WHERE SERIAL_NO = '[0]'
+	</sql>
+
+	<class id="mobileInfo_Query" name="banger.domain.system.SysMobileInfo">
+		<property name="userName" column="USER_NAME"></property>
+	</class>
+	<!-- 查询 -->
+	<sql id="queryMobileInfoList" result="mobileInfo_Query">
+		SELECT smi.*,pu.USER_NAME FROM SYS_MOBILE_INFO smi
+		LEFT JOIN PMS_USER pu ON PU.USER_ID = smi.LAST_USER_ID
+		<where>
+			smi.DEL_FLAG = 1
+			<clause parent="DateSpan" params="smi.UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause parent="DateSpan" params="smi.CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="smi.LAST_LOGIN_TIME,lastLoginTime,lastLoginTimeEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > smi.CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([mobileBrand])" > smi.MOBILE_BRAND like '%[mobileBrand]%' </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > smi.UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([lastUserId])" > smi.LAST_USER_ID = [lastUserId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([systemVersion])" > smi.SYSTEM_VERSION like '%[systemVersion]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([mobileModel])" > smi.MOBILE_MODEL like '%[mobileModel]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([serialNo])" > smi.SERIAL_NO like '%[serialNo]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([appVersion])" > smi.APP_VERSION like '%[appVersion]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" > pu.USER_NAME like '%[userName]%' </clause>
+		</where>
+		ORDER BY smi.LAST_LOGIN_TIME DESC
+	</sql>
+
+</banger>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增交叉检验收入表 -->
+	<sql id="insertCrossCheckIncome" >
+		INSERT INTO LOAN_CROSS_CHECK_INCOME (ID,LOAN_ID,LOAN_CLASS_ID,WAGE_FLOW,WAGE_FLOW_DEVIATION,INCOME_CERT,INCOME_CERT_DEVIATION,PERSON_TAX,PERSON_TAX_DEVIATION,OTHER_INCOME,OTHER_INCOME_DEVIATION,INFOMATION,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="NULL" >[$wageFlow]</clause>
+		<clause prepend="," nvl="NULL" >[$wageFlowDeviation]</clause>
+		<clause prepend="," nvl="NULL" >[$incomeCert]</clause>
+		<clause prepend="," nvl="NULL" >[$incomeCertDeviation]</clause>
+		<clause prepend="," nvl="NULL" >[$personTax]</clause>
+		<clause prepend="," nvl="NULL" >[$personTaxDeviation]</clause>
+		<clause prepend="," nvl="NULL" >[$otherIncome]</clause>
+		<clause prepend="," nvl="NULL" >[$otherIncomeDeviation]</clause>
+		<clause prepend="," nvl="''" >[$infomation]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改交叉检验收入表 -->
+	<sql id="updateCrossCheckIncome" >
+		UPDATE LOAN_CROSS_CHECK_INCOME 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([wageFlow])" >WAGE_FLOW = [$wageFlow]</clause>
+			<clause prepend="," assert="!isNull([wageFlowDeviation])" >WAGE_FLOW_DEVIATION = [$wageFlowDeviation]</clause>
+			<clause prepend="," assert="!isNull([incomeCert])" >INCOME_CERT = [$incomeCert]</clause>
+			<clause prepend="," assert="!isNull([incomeCertDeviation])" >INCOME_CERT_DEVIATION = [$incomeCertDeviation]</clause>
+			<clause prepend="," assert="!isNull([personTax])" >PERSON_TAX = [$personTax]</clause>
+			<clause prepend="," assert="!isNull([personTaxDeviation])" >PERSON_TAX_DEVIATION = [$personTaxDeviation]</clause>
+			<clause prepend="," assert="!isNull([otherIncome])" >OTHER_INCOME = [$otherIncome]</clause>
+			<clause prepend="," assert="!isNull([otherIncomeDeviation])" >OTHER_INCOME_DEVIATION = [$otherIncomeDeviation]</clause>
+			<clause prepend="," assert="!isNull([infomation])" >INFOMATION = [$infomation]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到交叉检验收入表 -->
+	<sql id="getCrossCheckIncomeById" >
+		SELECT * FROM LOAN_CROSS_CHECK_INCOME WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除交叉检验收入表 -->
+	<sql id="deleteCrossCheckIncomeById" >
+		DELETE FROM LOAN_CROSS_CHECK_INCOME WHERE ID = [0]
+	</sql>
+
+	<!-- 查询交叉检验收入表 -->
+	<sql id="queryCrossCheckIncomeList" >
+		SELECT * FROM LOAN_CROSS_CHECK_INCOME 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation])" > INFOMATION = '[infomation]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<!-- 通过贷款id得到交叉检验收入表 -->
+	<sql id="getCrossCheckIncomeByLoanId" >
+		SELECT * FROM LOAN_CROSS_CHECK_INCOME WHERE LOAN_ID= [0]
+	</sql>
+
+	<!-- 修改交叉检验收入表 (app端传入空值时赋值字段为null) -->
+	<sql id="updateNullCrossCheckIncome" >
+		UPDATE LOAN_CROSS_CHECK_INCOME
+		<set>
+			<clause prepend=","  >WAGE_FLOW = [$wageFlow]</clause>
+			<clause prepend=","  >WAGE_FLOW_DEVIATION = [$wageFlowDeviation]</clause>
+			<clause prepend=","  >INCOME_CERT = [$incomeCert]</clause>
+			<clause prepend=","  >INCOME_CERT_DEVIATION = [$incomeCertDeviation]</clause>
+			<clause prepend=","  >PERSON_TAX = [$personTax]</clause>
+			<clause prepend=","  >PERSON_TAX_DEVIATION = [$personTaxDeviation]</clause>
+			<clause prepend=","  >OTHER_INCOME = [$otherIncome]</clause>
+			<clause prepend=","  >OTHER_INCOME_DEVIATION = [$otherIncomeDeviation]</clause>
+			<clause prepend=","  >INFOMATION = [$infomation]</clause>
+			<clause prepend=","  >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend=","  >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+
+
+</banger>

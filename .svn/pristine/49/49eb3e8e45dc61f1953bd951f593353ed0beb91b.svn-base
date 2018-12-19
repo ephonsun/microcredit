@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+	default-lazy-init="true" default-autowire="byName"> 
+	<!--   default-autowire="byName"自动配置bean注入 可以不用显示的set -->
+	<!--   default-lazy-init="true" sping不会再去加载整个对象实例图 加快spring启动 -->
+	
+	<!-- sqlMaps模块总配 -->
+    <bean id="pmsSqlMap" class="banger.framework.sql.mapping.SqlContext" >
+		<property name="resources">
+			<set>
+                <value>sqlMaps/pmsBancsBrhm.sqlMap.xml</value>
+                <value>sqlMaps/pmsBancsTelm.sqlMap.xml</value>
+				<value>sqlMaps/pmsDept.sqlMap.xml</value>
+				<value>sqlMaps/pmsUser.sqlMap.xml</value>
+				<value>sqlMaps/pmsMenu.sqlMap.xml</value>
+				<value>sqlMaps/pmsFunc.sqlMap.xml</value>				
+				<value>sqlMaps/pmsRoleMenu.sqlMap.xml</value>
+				<value>sqlMaps/pmsRoleFunc.sqlMap.xml</value>
+				<value>sqlMaps/pmsRole.sqlMap.xml</value>
+				<value>sqlMaps/pmsUserRoles.sqlMap.xml</value>
+                <value>sqlMaps/pmsDataPermit.sqlMap.xml</value>
+                <value>sqlMaps/pmsRoleDataPermit.sqlMap.xml</value>
+                <value>sqlMaps/pmsUserRoleDept.sqlMap.xml</value>
+                <value>sqlMaps/pmsDeptList.sqlMap.xml</value>
+                <value>sqlMaps/pmsDeptImport.sqlMap.xml</value>
+                <value>sqlMaps/pmsUserImport.sqlMap.xml</value>
+                <value>sqlMaps/padClentDevice.sqlMap.xml</value>
+                <value>sqlMaps/sysTeamGroup.sqlMap.xml</value>
+				<value>sqlMaps/pmsSu.sqlMap.xml</value>
+				<value>sqlMaps/pmsUserPassExpiration.sqlMap.xml</value>
+				<value>sqlMaps/intoQrcodeSave.sqlMap.xml</value>
+				<value>sqlMaps/intoQrcodeSetting.sqlMap.xml</value>
+			</set>
+		</property>
+<!--        <property name="methods" >
+            <set>
+                <ref bean="deptDataPermit" />
+            </set>
+        </property>-->
+	</bean>
+	
+	<bean id="roleDao" class="banger.dao.impl.RoleDao" scope="singleton"/>
+    
+    <!-- 查询数据字典 -->
+    <bean id="cdCanApprovalRole" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="roleDao"/>
+        <property name="sqlId" value="getCanApprovalRole" />
+        <property name="value" value="ROLE_ID" />
+        <property name="name" value="ROLE_NAME" />
+    </bean>
+
+	<bean id="cdUserNameByIds" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+		<property name="dao" ref="roleDao"/>
+		<property name="sqlId" value="getUserNameByIds" />
+		<property name="value" value="USER_ID" />
+		<property name="name" value="USER_NAME" />
+	</bean>
+
+	<bean id="cdTeamGroup" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+		<property name="dao" ref="roleDao"/>
+		<property name="sqlId" value="getAllGroups" />
+		<property name="value" value="TEAM_GROUP_ID" />
+		<property name="name" value="TEAM_GROUP_NAME" />
+	</bean>
+
+</beans>

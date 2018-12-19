@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+
+	<!-- 查询贷款信息核实接口 -->
+	<sql id="queryTmpLoanInfoList" >
+		SELECT * FROM TMP_LOAN_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([repaymentAccount])" > REPAYMENT_ACCOUNT = '[repaymentAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([incomeAccount])" > INCOME_ACCOUNT = '[incomeAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([iouNo])" > IOU_NO = '[iouNo]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([contractCnNo])" > CONTRACT_CN_NO = '[contractCnNo]' </clause>
+			<clause prepend="and" assert="!isNull([limitYear])" > LIMIT_YEAR = [limitYear] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([beginDate])" > BEGIN_DATE = '[beginDate]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])" > END_DATE = '[endDate]' </clause>
+		</where>
+	</sql>
+
+	<!--  -->
+	<sql id="getTmpLoanInfoByLoanAccount" >
+		SELECT * FROM TMP_LOAN_INFO WHERE LOAN_ACCOUNT = '[0]'
+	</sql>
+
+	<!--  -->
+	<sql id="getTmpLoanInfoByContractNo" >
+		SELECT * FROM TMP_LOAN_INFO WHERE CONTRACT_NO = '[0]'
+	</sql>
+
+</banger>

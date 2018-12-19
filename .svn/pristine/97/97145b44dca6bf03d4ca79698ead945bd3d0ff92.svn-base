@@ -1,0 +1,21 @@
+package banger.dao.impl;
+
+import banger.dao.intf.ILoanStatDao;
+import banger.dao.intf.IQueryReportDao;
+import banger.domain.loan.LoanStatQuery;
+import banger.domain.loan.QueryReport_Query;
+import banger.framework.dao.PageSizeDao;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class QueryReportDao extends PageSizeDao<QueryReport_Query> implements IQueryReportDao {
+
+    @Override
+    public List<QueryReport_Query> queryReportByCondition(Map map) {
+        List<QueryReport_Query> list = (List<QueryReport_Query>)this.queryEntities("queryReportByCondition",map);
+        return list;
+    }
+}

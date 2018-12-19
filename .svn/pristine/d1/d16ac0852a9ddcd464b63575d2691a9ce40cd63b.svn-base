@@ -1,0 +1,113 @@
+#*资产负债项明细  短期负债，长期负债，消费性负债，投资性负债，自用性负债，其他负债*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>负债项详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">来源：</label>
+            </td>
+            <td width="20%">
+                #if($!entity.columnName=="DEBTS_CONSUME_AMOUNT")
+                    <label>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!loanUtil.codeTableParam($!entity.columnName,'0'),$!entity.debtsSource)</label>
+                #else
+                    <label>$!entity.debtsSource</label>
+                #end
+
+            </td>
+            <td class="field" width="5%">
+                <label>金额：</label>
+            </td>
+            <td width="20%">
+                <label>#if($entity.bebtsAmount) $!formatUtil.formatDecimal($!entity.bebtsAmount) 元#else -- 元 #end</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>期限：</label>
+            </td>
+            <td width="20%">
+                #if($entity.columnName=='DEBTS_LONG_AMOUNT')
+                    <label>#if($entity.termLimit) $!entity.termLimit 年 #else -- 年#end</label>
+                    #else
+                        <label>#if($entity.termLimit) $!entity.termLimit 月 #else -- 月#end</label>
+                #end
+            </td>
+            <td class="field" width="5%">
+                <label>用途：</label>
+            </td>
+            <td width="20%">
+                <label>$!entity.debtsUsed</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>发放日期：</label>
+            </td>
+            <td width="20%">
+                <label>$!loanUtil.format($!entity.issueDate)</label>
+            </td>
+            <td class="field" width="5%">
+                <label>余额：</label>
+            </td>
+            <td width="20%">
+                <label>#if($entity.balanceAmount) $!formatUtil.formatDecimal($!entity.balanceAmount) 元#else -- 元#end</label>
+            </td>
+        </tr>
+		<tr>
+            <td class="field" width="5%">
+                <label>保证方式：</label>
+            </td>
+            <td width="20%">
+                <label>$!entity.ensureMode</label>
+            </td>
+		</tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>备注：</label>
+            </td>
+            <td width="20%">
+                <label>
+                    $!entity.remark
+                </label>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 84px"></div>
+<hr class="ui-line"/>
+<div class="ui-layout-closure divcss10">
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+        </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../loan/js/assets/assetsDetail.js"></script>
+</body>
+</html>

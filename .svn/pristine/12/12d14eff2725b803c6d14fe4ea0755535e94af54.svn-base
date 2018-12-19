@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增旷世人脸比对配置 -->
+	<sql id="insertSetting" >
+		INSERT INTO FACE_SETTING (FACE_ID,FACE_APP_KEY,FACE_APP_SECRET,FACE_APP_URL,FACE_OCR_KEY,FACE_OCR_SECRET,FACE_OCR_URL) VALUES ([$faceId]
+		<clause prepend="," nvl="''" >[$faceAppKey]</clause>
+		<clause prepend="," nvl="''" >[$faceAppSecret]</clause>
+		<clause prepend="," nvl="''" >[$faceAppUrl]</clause>
+		<clause prepend="," nvl="''" >[$faceOcrKey]</clause>
+		<clause prepend="," nvl="''" >[$faceOcrSecret]</clause>
+		<clause prepend="," nvl="''" >[$faceOcrUrl]</clause>
+		)
+	</sql>
+
+	<!-- 修改旷世人脸比对配置 -->
+	<sql id="updateSetting" >
+		UPDATE FACE_SETTING 
+		<set>
+			<clause prepend="," assert="!isNull([faceAppKey])" >FACE_APP_KEY = [$faceAppKey]</clause>
+			<clause prepend="," assert="!isNull([faceAppSecret])" >FACE_APP_SECRET = [$faceAppSecret]</clause>
+			<clause prepend="," assert="!isNull([faceAppUrl])" >FACE_APP_URL = [$faceAppUrl]</clause>
+			<clause prepend="," assert="!isNull([faceOcrKey])" >FACE_OCR_KEY = [$faceOcrKey]</clause>
+			<clause prepend="," assert="!isNull([faceOcrSecret])" >FACE_OCR_SECRET = [$faceOcrSecret]</clause>
+			<clause prepend="," assert="!isNull([faceOcrUrl])" >FACE_OCR_URL = [$faceOcrUrl]</clause>
+		</set>
+		<where>
+			 FACE_ID = [$faceId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到旷世人脸比对配置 -->
+	<sql id="getSettingById" >
+		SELECT * FROM FACE_SETTING WHERE FACE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除旷世人脸比对配置 -->
+	<sql id="deleteSettingById" >
+		DELETE FROM FACE_SETTING WHERE FACE_ID = [0]
+	</sql>
+
+	<!-- 查询旷世人脸比对配置 -->
+	<sql id="querySettingList" >
+		SELECT * FROM FACE_SETTING 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([faceAppKey])" > FACE_APP_KEY = '[faceAppKey]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([faceAppSecret])" > FACE_APP_SECRET = '[faceAppSecret]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([faceAppUrl])" > FACE_APP_URL = '[faceAppUrl]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([faceOcrKey])" > FACE_OCR_KEY = '[faceOcrKey]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([faceOcrSecret])" > FACE_OCR_SECRET = '[faceOcrSecret]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([faceOcrUrl])" > FACE_OCR_URL = '[faceOcrUrl]' </clause>
+		</where>
+	</sql>
+
+</banger>

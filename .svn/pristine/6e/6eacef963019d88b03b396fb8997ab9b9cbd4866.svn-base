@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增初审规则参数表 -->
+	<sql id="insertTrialRuleParams" >
+		INSERT INTO INTO_TRIAL_RULE_PARAMS (PARAM_ID,TEMPLATE_ID,FIELD_ID,OPTION_ID,OPTION_PARAM1,OPTION_PARAM2,OPTION_PARAM3,OPTION_PARAM4) VALUES ([$paramId]
+		<clause prepend="," nvl="0" >[$templateId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="0" >[$optionId]</clause>
+		<clause prepend="," nvl="''" >[$optionParam1]</clause>
+		<clause prepend="," nvl="''" >[$optionParam2]</clause>
+		<clause prepend="," nvl="''" >[$optionParam3]</clause>
+		<clause prepend="," nvl="''" >[$optionParam4]</clause>
+		)
+	</sql>
+
+	<!-- 修改初审规则参数表 -->
+	<sql id="updateTrialRuleParams" >
+		UPDATE INTO_TRIAL_RULE_PARAMS 
+		<set>
+			<clause prepend="," assert="!isNull([templateId])" >TEMPLATE_ID = [$templateId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([optionId])" >OPTION_ID = [$optionId]</clause>
+			<clause prepend="," assert="!isNull([optionParam1])" >OPTION_PARAM1 = [$optionParam1]</clause>
+			<clause prepend="," assert="!isNull([optionParam2])" >OPTION_PARAM2 = [$optionParam2]</clause>
+			<clause prepend="," assert="!isNull([optionParam3])" >OPTION_PARAM3 = [$optionParam3]</clause>
+			<clause prepend="," assert="!isNull([optionParam4])" >OPTION_PARAM4 = [$optionParam4]</clause>
+		</set>
+		<where>
+			 PARAM_ID = [$paramId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到初审规则参数表 -->
+	<sql id="getTrialRuleParamsById" >
+		SELECT * FROM INTO_TRIAL_RULE_PARAMS WHERE PARAM_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除初审规则参数表 -->
+	<sql id="deleteTrialRuleParamsById" >
+		DELETE FROM INTO_TRIAL_RULE_PARAMS WHERE PARAM_ID = [0]
+	</sql>
+
+	<!-- 查询初审规则参数表 -->
+	<sql id="queryTrialRuleParamsList" >
+		SELECT * FROM INTO_TRIAL_RULE_PARAMS 
+		<where>
+			<clause prepend="and" assert="!isNull([templateId])" > TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNull([optionId])" > OPTION_ID = [optionId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam1])" > OPTION_PARAM1 = '[optionParam1]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam2])" > OPTION_PARAM2 = '[optionParam2]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam3])" > OPTION_PARAM3 = '[optionParam3]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam4])" > OPTION_PARAM4 = '[optionParam4]' </clause>
+		</where>
+	</sql>
+
+</banger>

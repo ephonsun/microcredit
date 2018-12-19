@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增行业指引表 -->
+	<sql id="insertLoanIndustryGuidelines" >
+		INSERT INTO LOAN_INDUSTRY_GUIDELINES (ID,GRADE_FIRST,GRADE_SECOND,GRADE_THIRD,GRADE_TERMS,ITEM_NAME,VALUE1,VALUE2,VALUE3,VALUE4,VALUE5,VALUE_TYPE,CREATE_DATE,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$gradeFirst]</clause>
+		<clause prepend="," nvl="''" >[$gradeSecond]</clause>
+		<clause prepend="," nvl="''" >[$gradeThird]</clause>
+		<clause prepend="," nvl="''" >[$gradeTerms]</clause>
+		<clause prepend="," nvl="''" >[$itemName]</clause>
+		<clause prepend="," nvl="NULL" >[$value1]</clause>
+		<clause prepend="," nvl="NULL" >[$value2]</clause>
+		<clause prepend="," nvl="NULL" >[$value3]</clause>
+		<clause prepend="," nvl="NULL" >[$value4]</clause>
+		<clause prepend="," nvl="NULL" >[$value5]</clause>
+		<clause prepend="," nvl="0" >[$valueType]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+	<!-- 批量新增行业指引表 -->
+	<sql id="insertIndustryListByImport" >
+		INSERT INTO LOAN_INDUSTRY_GUIDELINES (ID,GRADE_FIRST,GRADE_SECOND,GRADE_THIRD,GRADE_TERMS,ITEM_NAME,VALUE1,VALUE2,VALUE3,VALUE4,VALUE5,VALUE_TYPE,CREATE_DATE,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$gradeFirst]</clause>
+		<clause prepend="," nvl="''" >[$gradeSecond]</clause>
+		<clause prepend="," nvl="''" >[$gradeThird]</clause>
+		<clause prepend="," nvl="''" >[$gradeTerms]</clause>
+		<clause prepend="," nvl="''" >[$itemName]</clause>
+		<clause prepend="," nvl="NULL" >[$value1]</clause>
+		<clause prepend="," nvl="NULL" >[$value2]</clause>
+		<clause prepend="," nvl="NULL" >[$value3]</clause>
+		<clause prepend="," nvl="NULL" >[$value4]</clause>
+		<clause prepend="," nvl="NULL" >[$value5]</clause>
+		<clause prepend="," nvl="0" >[$valueType]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改行业指引表 -->
+	<sql id="updateLoanIndustryGuidelines" >
+		UPDATE LOAN_INDUSTRY_GUIDELINES
+		<set>
+			<clause prepend="," assert="!isNull([gradeFirst])" >GRADE_FIRST = [$gradeFirst]</clause>
+			<clause prepend="," assert="!isNull([gradeSecond])" >GRADE_SECOND = [$gradeSecond]</clause>
+			<clause prepend="," assert="!isNull([gradeThird])" >GRADE_THIRD = [$gradeThird]</clause>
+			<clause prepend="," assert="!isNull([gradeTerms])" >GRADE_TERMS = [$gradeTerms]</clause>
+			<clause prepend="," assert="!isNull([itemName])" >ITEM_NAME = [$itemName]</clause>
+			<clause prepend="," assert="!isNull([value1])" >VALUE1 = [$value1]</clause>
+			<clause prepend="," assert="!isNull([value2])" >VALUE2 = [$value2]</clause>
+			<clause prepend="," assert="!isNull([value3])" >VALUE3 = [$value3]</clause>
+			<clause prepend="," assert="!isNull([value4])" >VALUE4 = [$value4]</clause>
+			<clause prepend="," assert="!isNull([value5])" >VALUE5 = [$value5]</clause>
+			<clause prepend="," assert="!isNull([valueType])" >VALUE_TYPE = [$valueType]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到行业指引表 -->
+	<sql id="getLoanIndustryGuidelinesById" >
+		SELECT * FROM LOAN_INDUSTRY_GUIDELINES WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除行业指引表 -->
+	<sql id="deleteLoanIndustryGuidelinesById" >
+		DELETE FROM LOAN_INDUSTRY_GUIDELINES WHERE ID = [0]
+	</sql>
+
+	<!-- 查询行业指引表 -->
+	<sql id="queryLoanIndustryGuidelinesList" >
+		SELECT * FROM LOAN_INDUSTRY_GUIDELINES
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([gradeFirst])" > GRADE_FIRST = '[gradeFirst]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([gradeSecond])" > GRADE_SECOND = '[gradeSecond]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([gradeThird])" > GRADE_THIRD = '[gradeThird]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([gradeTerms])" > GRADE_TERMS = '[gradeTerms]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemName])" > ITEM_NAME = '[itemName]' </clause>
+			<clause prepend="and" assert="!isNull([valueType])" > VALUE_TYPE = [valueType] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+	</sql>
+
+	<!-- 根据行业一级和行业二级查询行业指引表 -->
+	<sql id="queryLoanIndustryGuidelinesListByCondition" >
+		SELECT * FROM LOAN_INDUSTRY_GUIDELINES where GRADE_THIRD = '[gradeThird]'
+	</sql>
+	<!-- 右边模糊查询行业指引项目名称 -->
+	<sql id="queryLoanIndustryGuidelinesListByLike" >
+		SELECT * FROM LOAN_INDUSTRY_GUIDELINES where ITEM_NAME like '[0]%'
+	</sql>
+	<!-- 清空行业指引表 -->
+	<sql id="truncateLoanIndustryGuideLines" >
+		ALTER TABLE LOAN_INDUSTRY_GUIDELINES ACTIVATE NOT LOGGED INITIALLY WITH EMPTY TABLE
+	</sql>
+	<!-- 行业指引根据上级行业查询并,分组 -->
+	<sql id="getIndustryGuidelinesByGroup" >
+		SELECT [industryGrade] FROM LOAN_INDUSTRY_GUIDELINES
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([industryParName])" > [industryParGrade] = '[industryParName]' </clause>
+		</where>
+		group by [industryGrade]
+	</sql>
+
+</banger>

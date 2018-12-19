@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>编辑任务</title>
+<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+
+<style type="text/css">
+</style>
+</head>
+
+<body>
+	<form id="form" #if("$!isShow"=="true")style="height:313px;"
+    #end>
+		<input type="hidden" id="taskId" name="taskId" value="$!task.taskId" />
+		<table class="ui-form-fields">
+			<tbody>
+				<tr>
+					<td class="field" width="5%">
+						<label>任务名称：</label>
+					</td>
+					<td  colspan="2">
+						   $!task.taskTitle							
+					</td>
+				</tr>
+				<tr>	
+					<td class="field" width="5%">
+						<label>任务期限：</label>
+					</td>
+					<td colspan="2">
+						$formatUtil.formatDate($!task.startDate,"yyyy/MM/dd")
+						&nbsp;--&nbsp;
+						$formatUtil.formatDate($!task.endDate,"yyyy/MM/dd")
+					</td>
+				</tr>
+                <tr>
+                    <td class="field" width="5%">
+                        <label>任务类型：</label>
+                    </td>
+                    <td>
+						#if($!task.taskMold==0)
+                            贷款任务
+						#elseif($!task.taskMold==1)
+                            营销任务
+						#end
+                    </td>
+                </tr>
+				<tr>
+					<td class="field" width="5%">
+						<label>任务目标：</label>
+					</td>					
+					<td align="left">
+						$!target
+						#if($!task.taskMold==0)
+							#if($!task.taskType==1)
+                                元
+							#else
+                                笔
+							#end
+						#else
+							个
+						#end
+					</td>
+				</tr>
+				<tr>
+					<td class="field" width="5%">
+						<label>任务简介：</label>
+					</td>
+					#if("$!isShow" == "true")
+                        <td colspan="2">
+							$!task.remark
+							<input type="hidden" id="isShow" value="$!isShow"/>
+							#*<div class="ui-textarea">
+								<textarea id="remark" disabled name="remark" class="ui-textarea-text" style="height:240px;" maxlength="300">$!task.remark</textarea>
+							</div>*#
+                        </td>
+					#else
+						<td colspan="2">
+                            <div id="tips" class="ui-textarea-tips"> 您还可以输入<label>0</label>字</div>
+                            <div class="ui-textarea">
+                                <textarea id="remark" name="remark" class="ui-textarea-text" style="height:180px;" maxlength="300">$!task.remark</textarea>
+                            </div>
+                        </td>
+					#end
+
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<hr class="ui-line" />
+
+    <div class="ui-layout-closure">
+		#if("$!isShow" == "true")
+        	<span id="btnSure" class="ui-closure-button">
+            	<label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+			</span>
+		#else
+            <span id="btnSave" class="ui-closure-button">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+			</span>
+            <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+				<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+			</span>
+		#end
+	</div>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../task/js/taskEdit.js?v=$!webAppVersion"></script>
+</body>
+</html>

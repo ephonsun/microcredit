@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertBasicInfo" >
+		INSERT INTO CUST_BASIC_INFO (ID,CUSTOMER_NAME,CUSTOMER_LEVEL,CUSTOMER_SEX,CUSTOMER_AGE,CUSTOMER_DEGREE,PHONE_NUMBER,IDENTIFY_TYPE,IDENTIFY_NUM,NATIVE_PLACE,HOME_ADDRESS,HOME_LONGITUDE,HOME_LATITUDE,LIVE_ADDRESS,LIVE_LONGITUDE,LIVE_LATITUDE,MARITAL_STATUS,BELONG_USER_ID,IS_DEL,CREATE_USER,CREATE_DATE,UPDATE_USER,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," nvl="''" >[$customerLevel]</clause>
+		<clause prepend="," nvl="''" >[$customerSex]</clause>
+		<clause prepend="," nvl="NULL" >[$customerAge]</clause>
+		<clause prepend="," nvl="''" >[$customerDegree]</clause>
+		<clause prepend="," nvl="''" >[$phoneNumber]</clause>
+		<clause prepend="," nvl="''" >[$identifyType]</clause>
+		<clause prepend="," nvl="''" >[$identifyNum]</clause>
+		<clause prepend="," nvl="''" >[$nativePlace]</clause>
+		<clause prepend="," nvl="''" >[$homeAddress]</clause>
+		<clause prepend="," nvl="0">[$homeLongitude]</clause>
+		<clause prepend="," nvl="0">[$homeLatitude]</clause>
+		<clause prepend="," nvl="''" >[$liveAddress]</clause>
+		<clause prepend="," nvl="0">[$liveLongitude]</clause>
+		<clause prepend="," nvl="0">[$liveLatitude]</clause>
+		<clause prepend="," nvl="''" >[$maritalStatus]</clause>
+		<clause prepend="," nvl="0" >[$belongUserId]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateBasicInfo" >
+		UPDATE CUST_BASIC_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([customerName])" >CUSTOMER_NAME = [$customerName]</clause>
+			<clause prepend="," assert="!isNull([customerLevel])" >CUSTOMER_LEVEL = [$customerLevel]</clause>
+			<clause prepend="," assert="!isNull([customerSex])" >CUSTOMER_SEX = [$customerSex]</clause>
+			<clause prepend="," assert="!isNull([customerAge])" >CUSTOMER_AGE = [$customerAge]</clause>
+			<clause prepend="," assert="!isNull([customerDegree])" >CUSTOMER_DEGREE = [$customerDegree]</clause>
+			<clause prepend="," assert="!isNull([phoneNumber])" >PHONE_NUMBER = [$phoneNumber]</clause>
+			<clause prepend="," assert="!isNull([identifyType])" >IDENTIFY_TYPE = [$identifyType]</clause>
+			<clause prepend="," assert="!isNull([identifyNum])" >IDENTIFY_NUM = [$identifyNum]</clause>
+			<clause prepend="," assert="!isNull([nativePlace])" >NATIVE_PLACE = [$nativePlace]</clause>
+			<clause prepend="," assert="!isNull([homeAddress])" >HOME_ADDRESS = [$homeAddress]</clause>
+			<clause prepend="," assert="!isNull([homeLongitude])" >HOME_LONGITUDE = [$homeLongitude]</clause>
+			<clause prepend="," assert="!isNull([homeLatitude])" >HOME_LATITUDE = [$homeLatitude]</clause>
+			<clause prepend="," assert="!isNull([liveAddress])" >LIVE_ADDRESS = [$liveAddress]</clause>
+			<clause prepend="," assert="!isNull([liveLongitude])" >LIVE_LONGITUDE = [$liveLongitude]</clause>
+			<clause prepend="," assert="!isNull([liveLatitude])" >LIVE_LATITUDE = [$liveLatitude]</clause>
+			<clause prepend="," assert="!isNull([maritalStatus])" >MARITAL_STATUS = [$maritalStatus]</clause>
+			<clause prepend="," assert="!isNull([belongUserId])" >BELONG_USER_ID = [$belongUserId]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键更新客户的电话号码 -->
+	<sql id="upldateCustomerTelNumById" >
+		UPDATE CUST_BASIC_INFO SET PHONE_NUMBER = '[0]' WHERE ID = [1]
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getBasicInfoById" >
+		SELECT * FROM CUST_BASIC_INFO WHERE ID = [0]
+	</sql>
+
+	<class id="customerDetail" name="banger.domain.customer.Customer">
+
+		<property name="id" column="ID"></property>
+		<property name="customerName" column="CUSTOMER_NAME"></property>
+		<property name="customerLevel" column="CUSTOMER_LEVEL"></property>
+		<property name="customerSex" column="CUSTOMER_SEX"></property>
+		<property name="customerAge" column="CUSTOMER_AGE"></property>
+		<property name="customerDegree" column="CUSTOMER_DEGREE"></property>
+		<property name="phoneNumber" column="PHONE_NUMBER"></property>
+		<property name="identifyType" column="IDENTIFY_TYPE"></property>
+		<property name="identifyNum" column="IDENTIFY_NUM"></property>
+		<property name="nativePlace" column="NATIVE_PLACE"></property>
+		<property name="homeAddress" column="HOME_ADDRESS"></property>
+		<property name="homeLongitude" column="HOME_LONGITUDE"></property>
+		<property name="homeLatitude" column="HOME_LATITUDE"></property>
+		<property name="liveAddress" column="LIVE_ADDRESS"></property>
+		<property name="liveLongitude" column="LIVE_LONGITUDE"></property>
+		<property name="liveLatitude" column="LIVE_LATITUDE"></property>
+		<property name="maritalStatus" column="MARITAL_STATUS"></property>
+		<property name="belongUserId" column="BELONG_USER_ID"></property>
+		<property name="isDel" column="IS_DEL"></property>
+		<property name="createUser" column="CREATE_USER"></property>
+		<property name="createDate" column="CREATE_DATE"></property>
+		<property name="updateUser" column="UPDATE_USER"></property>
+		<property name="updateDate" column="UPDATE_DATE"></property>
+
+		<property name="housePlace" column="HOUSE_PLACE"></property>
+		<property name="houseArea" column="HOUSE_AREA"></property>
+		<property name="beginLiveTime" column="BEGIN_LIVE_TIME"></property>
+		<property name="decorationStatus" column="DECORATION_STATUS"></property>
+		<property name="familyMemberNum" column="FAMILY_MEMBER_NUM"></property>
+		<property name="houseLayout" column="HOUSE_LAYOUT"></property>
+		<property name="supportMemberNum" column="SUPPORT_MEMBER_NUM"></property>
+		<property name="childrenSituation" column="CHILDREN_SITUATION"></property>
+		<property name="parentSituation" column="PARENT_SITUATION"></property>
+		<property name="spouseName" column="SPOUSE_NAME"></property>
+		<property name="spouseSex" column="SPOUSE_SEX"></property>
+		<property name="spouseAge" column="SPOUSE_AGE"></property>
+		<property name="spousePhoneNum" column="SPOUSE_PHONE_NUM"></property>
+		<property name="spouseIdentifyType" column="SPOUSE_IDENTIFY_TYPE"></property>
+		<property name="spouseIdentifyNum" column="SPOUSE_IDENTIFY_NUM"></property>
+		<property name="spouseDegree" column="SPOUSE_DEGREE"></property>
+		<property name="spouseMonthlyIncome" column="SPOUSE_MONTHLY_INCOME"></property>
+	</class>
+
+	<!-- 通过主键得到 -->
+	<sql id="getCustomerDetailById" result="customerDetail">
+		SELECT
+		cbi.*,
+		cfi.SUPPORT_MEMBER_NUM,
+		cfi.CHILDREN_SITUATION,
+		cfi.PARENT_SITUATION,
+		cfi.FAMILY_MEMBERS,
+		cfi.HOUSE_ATTR,
+		cfi.HOUSE_STATUS,
+		cfi.FAMILY_ANNUAL_INCOME,
+		cfi.ASSETS_ACCUMULATION,
+		cfi.VILLAGE_BONUS,
+		csi.SPOUSE_NAME,
+		csi.SPOUSE_SEX,
+		csi.SPOUSE_AGE,
+		csi.SPOUSE_PHONE_NUM,
+		csi.SPOUSE_IDENTIFY_TYPE,
+		csi.SPOUSE_IDENTIFY_NUM,
+		csi.SPOUSE_DEGREE,
+		csi.SPOUSE_MONTHLY_INCOME
+		FROM
+		CUST_BASIC_INFO cbi
+		LEFT JOIN
+		CUST_FAMILY_INFO cfi
+		ON
+		cbi.ID = cfi.ID
+		LEFT JOIN
+		CUST_SPOUSE_INFO csi
+		ON
+		cbi.ID = csi.ID
+		WHERE cbi.ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteBasicInfoById" >
+		UPDATE CUST_BASIC_INFO C SET C.IS_DEL = 1 WHERE C.ID = [0] AND 0=(SELECT COUNT (*) FROM LOAN_APPLY_INFO l WHERE l.LOAN_CUSTOMER_ID = [0])
+	</sql>
+
+	<class id="customer_Query" name="banger.domain.customer.CustomerQuery">
+		<property name="belongUserName" column="BELONG_USER_NAME"></property>
+	</class>
+
+	<!-- 查询 -->
+	<sql id="queryBasicInfoList" result="customer_Query">
+		SELECT
+		pu.user_name as BELONG_USER_NAME,
+		cbi.*
+		FROM cust_basic_info cbi LEFT JOIN pms_user pu ON pu.user_id = cbi.belong_user_id
+		<where>
+			cbi.is_del = 0
+			<clause prepend="and" assert="!isNullOrEmpty([customerLevel])" > cbi.customer_level = '[customerLevel]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customer])" > (cbi.customer_name like '%[customer]%' or cbi.phone_number like '%[customer]%' or cbi.identify_num like UPPER('%[customer]%'))</clause>
+			and ( cbi.belong_user_id = [belongUserId]
+			<clause assert="!isNullOrEmpty([teamGroupIds])" > or cbi.belong_user_id in (SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN	([teamGroupIds]) )</clause>
+			)
+			<clause prepend="and" assert="!isNullOrEmpty([belongUserName])" > pu.user_name like '%[belongUserName]%' </clause>
+		</where>
+	</sql>
+
+	<class id="custBasicInfo" name="banger.domain.customer.CustBasicInfo">
+		<property name="customerSexName" column="CUSTOMER_SEX_NAME"></property>
+		<property name="customerLevelName" column="CUSTOMER_LEVEL_NAME"></property>
+		<property name="identifyTypeName" column="IDENTIFY_TYPE_NAME"></property>
+		<property name="maritalStatusName" column="MARITAL_STATUS_NAME"></property>
+		<property name="customerDegreeName" column="CUSTOMER_DEGREE_NAME"></property>
+	</class>
+
+	<class id="custBasicInfoQuery" name="banger.domain.customer.CustBasicInfoQuery">
+		<property name="belongUserName" column="BELONG_USER_NAME"></property>
+		<property name="loanBelongId" column="LOAN_BELONG_ID"></property>
+		<property name="loanId" column="LOAN_ID"></property>
+	</class>
+
+	<class id="custBasicInfoQueryForMap" name="banger.domain.customer.CustBasicInfoQueryForMap">
+		<property name="tagLatitude" column="TAG_LATITUDE"></property>
+		<property name="tagLongitude" column="TAG_LONGITUDE"></property>
+		<property name="columnName" column="COLUMN_NAME"></property>
+	</class>
+
+	<sql id="custBasicInfoQueryForMap" result="custBasicInfoQueryForMap">
+		SELECT c.*, t.TAG_LATITUDE TAG_LATITUDE, t.TAG_LONGITUDE TAG_LONGITUDE, t.COLUMN_NAME COLUMN_NAME FROM CUST_BASIC_INFO c INNER JOIN MAP_TAGGING t ON c.ID = t.CUSTOMER_ID
+		WHERE t.table_name='LBIZ_PERSONAL_INFO' and ( t.column_name='LIVE_ADDRESS' or t.column_name='HOME_ADDRESS') and
+		c.is_del = 0 and ( c.customer_name like '%[customer]%' or c.phone_number like '%[customer]%' or c.LIVE_ADDRESS like  '%[customer]%' or c.HOME_ADDRESS like '%[customer]%' )
+		and ( c.belong_user_id = [userId] or
+			c.belong_user_id IN (
+				SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+					SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId] or TEAM_GROUP_ID IN (<method name="getSqlValue" >getUserGroupIdsByUserId,[userId]</method>)
+				)
+			)
+		)
+		order by c.id asc
+	</sql>
+
+
+	<!-- 查询 -->
+	<sql id="queryBasicInfoListForApp" result="custBasicInfoQuery">
+		SELECT cbi.*,u.USER_NAME AS BELONG_USER_NAME FROM cust_basic_info cbi
+		INNER JOIN PMS_USER u ON cbi.belong_user_id = u.user_id
+		<where>
+			cbi.is_del = 0
+			<clause prepend="and" assert="!isNullOrEmpty([customerLevel])" > cbi.customer_level = '[customerLevel]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customer])" > (cbi.customer_name like '%[customer]%' or cbi.phone_number like '%[customer]%' or cbi.identify_num like UPPER('%[customer]%'))</clause>
+			<!-- App 只能看团队内的
+			(
+				cbi.belong_user_id = [belongUserId]
+				<clause assert="!isNull([teamGroupIds])" > or cbi.belong_user_id in (select user_id from sys_team_member stm where stm.team_group_id in([teamGroupIds]))</clause>
+			)
+			-->
+			<!--2017年11月27日11:15:52 app角色可见客户 主管-->
+			<clause assert="isEqual([isTeamGroup],'false')" >
+				<clause assert="!isNullOrEmpty([belongUserId])" >
+				 and cbi.belong_user_id = [belongUserId]
+				</clause>
+				<clause assert="!isNull([teamGroupIds])" > or cbi.belong_user_id in (select user_id from sys_team_member stm where stm.team_group_id in([teamGroupIds]))</clause>
+			</clause>
+			<clause assert="isEqual([isTeamGroup],'true')" >
+				<clause prepend="and" assert="!isNullOrEmpty([belongUserId])" >
+					( cbi.belong_user_id IN (SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+					SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [belongUserId]
+					)) or cbi.belong_user_id = [belongUserId] )
+				</clause>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([belongUserIds])" >
+				cbi.belong_user_id IN (<for in="[belongUserIds]" split=",">{item}</for>)
+			</clause>
+		</where>
+	</sql>
+
+	<!--检查用户名和用户编号是否重复-->
+	<sql id="getCustomerForCheckRepeat" result="custBasicInfo">
+		select * from cust_basic_info cbi
+		<where>
+			cbi.is_del = 0
+			<clause prepend="and" assert="!isNullOrEmpty([id])"> <![CDATA[ cbi.ID <> [id] ]]> </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > cbi.CUSTOMER_NAME = '[customerName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([identifyType])" > cbi.IDENTIFY_TYPE = [identifyType] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([identifyNum])" > cbi.IDENTIFY_NUM = '[identifyNum]' </clause>
+		</where>
+	</sql>
+
+	<!--检查用户名和用户编号是否重复-->
+	<sql id="isUniqueCustomerNum" result="custBasicInfo">
+		<clause assert="isEqual([type],1)">
+			select * from cust_basic_info cbi
+			<where>
+				cbi.is_del = 0
+				<clause prepend="and" assert="!isNullOrEmpty([id])"> <![CDATA[ cbi.ID <> [id] ]]> </clause>
+				<clause prepend="and" assert="!isNullOrEmpty([customerNum])" > cbi.CUSTOMER_NUM = '[customerNum]' </clause>
+			</where>
+		</clause>
+		<clause assert="isEqual([type],2)">
+			select * from LBIZ_PERSONAL_INFO cbi
+			<where>
+				<!--<clause prepend="and" assert="!isNullOrEmpty([loanId])"> <![CDATA[ cbi.LOAN_ID <> [loanId] ]]> </clause>-->
+				<clause prepend="and" assert="!isNullOrEmpty([customerNum])" > cbi.CUSTOMER_NUM = '[customerNum]' </clause>
+			</where>
+		</clause>
+	</sql>
+	
+	<!-- 查询姓名证件号码相同的客户 -->
+	<sql id="getCustomerIdByCardNameType" result="custBasicInfo">
+		select * from cust_basic_info cbi where cbi.is_del = 0 
+		<clause prepend="and" assert="!isNullOrEmpty([customerName])" > cbi.CUSTOMER_NAME = '[customerName]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([identifyType])" > cbi.IDENTIFY_TYPE = '[identifyType]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([identifyNum])" > cbi.IDENTIFY_NUM = '[identifyNum]' </clause>
+	</sql>
+
+	<sql id="queryCusListByBelongId" result="custBasicInfoQuery">
+		<!--SELECT C.*,I.LOAN_ID,I.LOAN_BELONG_ID FROM LOAN_APPLY_INFO I-->
+		<!--INNER JOIN PMS_USER_ROLES R ON I.LOAN_BELONG_ID = R.PUR_USER_ID-->
+		<!--INNER JOIN PMS_USER U ON U.USER_ID = I.LOAN_BELONG_ID-->
+		<!--INNER JOIN CUST_BASIC_INFO C ON I.LOAN_CUSTOMER_ID = C.ID-->
+		<!--<where>-->
+			<!--R.PUR_ROLE_ID = 4 AND I.LOAN_PROCESS_TYPE = 'AfterLoan'-->
+			<!--<clause prepend="and" assert="!isNullOrEmpty([belongId])"> I.LOAN_BELONG_ID = [belongId]</clause>-->
+		<!--</where>-->
+		SELECT I.* FROM CUST_BASIC_INFO I INNER JOIN (SELECT ID FROM (SELECT C.*,I.LOAN_ID,I.LOAN_BELONG_ID FROM LOAN_APPLY_INFO I
+		INNER JOIN PMS_USER_ROLES R ON I.LOAN_BELONG_ID = R.PUR_USER_ID
+		INNER JOIN PMS_USER U ON U.USER_ID = I.LOAN_BELONG_ID
+		INNER JOIN CUST_BASIC_INFO C ON I.LOAN_CUSTOMER_ID = C.ID
+		<where>
+			R.PUR_ROLE_ID = 4 AND I.LOAN_PROCESS_TYPE = 'AfterLoan'
+			<clause prepend="and" assert="!isNullOrEmpty([belongId])"> I.LOAN_BELONG_ID = [belongId]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customer])"> I.LOAN_NAME = '[customer]'</clause>
+		</where>
+		)
+		GROUP BY ID ) M ON I.ID = M.ID
+	</sql>
+</banger>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="LoanTypeRelTableExtend" name="banger.domain.loan.LoanTypeRelTableExtend">
+		<property name="id" column="ID"></property>
+		<property name="sortno" column="SORTNO"></property>
+		<property name="loanTypeId" column="LOAN_TYPE_ID"></property>
+		<property name="loanPrecType" column="LOAN_PREC_TYPE"></property>
+		<property name="tableId" column="TABLE_ID"></property>
+		<property name="isActivedthis" column="IS_ACTIVED_THIS"></property>
+	</class>
+	<!-- 新增贷款类型匹配表单 -->
+	<sql id="insertTypeRelTable" >
+		INSERT INTO LOAN_TYPE_REL_TABLE (ID,SORTNO,LOAN_TYPE_ID,LOAN_PREC_TYPE,TABLE_ID,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$sortno]</clause>
+		<clause prepend="," nvl="0" >[$loanTypeId]</clause>
+		<clause prepend="," nvl="''" >[$loanPrecType]</clause>
+		<clause prepend="," nvl="0" >[$tableId]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款类型匹配表单 -->
+	<sql id="updateTypeRelTable" >
+		UPDATE LOAN_TYPE_REL_TABLE 
+		<set>
+			<clause prepend="," assert="!isNull([sortno])" >SORTNO = [$sortno]</clause>
+			<clause prepend="," assert="!isNull([loanTypeId])" >LOAN_TYPE_ID = [$loanTypeId]</clause>
+			<clause prepend="," assert="!isNull([loanPrecType])" >LOAN_PREC_TYPE = [$loanPrecType]</clause>
+			<clause prepend="," assert="!isNull([tableId])" >TABLE_ID = [$tableId]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款类型匹配表单 -->
+	<sql id="getTypeRelTableById" >
+		SELECT * FROM LOAN_TYPE_REL_TABLE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款类型匹配表单 -->
+	<sql id="deleteTypeRelTableById" >
+		DELETE FROM LOAN_TYPE_REL_TABLE WHERE ID = [0]
+	</sql>
+
+	<!-- 查询贷款类型匹配表单 -->
+	<sql id="queryTypeRelTableList" >
+		SELECT * FROM LOAN_TYPE_REL_TABLE 
+		<where>
+			<clause prepend="and" assert="!isNull([sortno])" > SORTNO = [sortno] </clause>
+			<clause prepend="and" assert="!isNull([loanTypeId])" > LOAN_TYPE_ID = [loanTypeId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanPrecType])" > LOAN_PREC_TYPE = '[loanPrecType]' </clause>
+			<clause prepend="and" assert="!isNull([tableId])" > TABLE_ID = [tableId] </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<!-- 下拉框 -->
+	<sql id="getLoanTypeRelTable">
+		SELECT TABLE_DISPLAY_NAME,TABLE_ID FROM AUTO_TABLE_INFO WHERE TABLE_ID NOT IN
+		(SELECT TABLE_ID FROM LOAN_TYPE_REL_TABLE  WHERE LOAN_TYPE_ID = [0] AND LOAN_PREC_TYPE ='[1]')
+		AND TABLE_MODULE = 'LOAN'
+	</sql>
+
+	<!-- 下拉框 -->
+	<sql id="getLoanContractTypeRelTable">
+		SELECT TABLE_DISPLAY_NAME,TABLE_ID FROM AUTO_TABLE_INFO WHERE TABLE_ID NOT IN
+		(SELECT TABLE_ID FROM LOAN_TYPE_REL_TABLE  WHERE LOAN_TYPE_ID = [0] AND LOAN_PREC_TYPE ='[1]')
+		AND TABLE_MODULE = 'CONTRACT'
+	</sql>
+
+	<!-- 根据条件查询并排序 -->
+	<sql id="queryTypeRelTableListOrder">
+		SELECT * FROM LOAN_TYPE_REL_TABLE
+		<where>
+			<clause prepend="and" > LOAN_PREC_TYPE ='[precType]' </clause>
+			<clause prepend="and" > LOAN_TYPE_ID = '[typeId]' </clause>
+		</where>
+		ORDER BY SORTNO
+	</sql>
+
+	<!-- 自定义信息表展示 -->
+	<sql id="queryDisplayLoanTypeRelTable" result="LoanTypeRelTableExtend">
+		SELECT B.TABLE_DISPLAY_NAME,B.IS_ACTIVED,A.ID,A.SORTNO,A.LOAN_TYPE_ID,A.LOAN_PREC_TYPE,A.TABLE_ID,A.CREATE_DATE,A.UPDATE_DATE,A.CREATE_USER,A.UPDATE_USER,
+		A.IS_ACTIVED IS_ACTIVED_THIS
+		FROM LOAN_TYPE_REL_TABLE A LEFT JOIN AUTO_TABLE_INFO B ON A.TABLE_ID = B.TABLE_ID
+		<!--WHERE A.LOAN_PREC_TYPE = 'Apply' AND A.LOAN_TYPE_ID = 1-->
+		<!--SELECT B.TABLE_DISPLAY_NAME,A.* FROM LOAN_TYPE_REL_TABLE A LEFT JOIN AUTO_TABLE_INFO B ON A.TABLE_ID = B.TABLE_ID-->
+		<where>
+			<clause prepend="and"  > LOAN_PREC_TYPE ='[precType]' </clause>
+			<clause prepend="and" > LOAN_TYPE_ID = '[typeId]' </clause>
+		</where>
+		Order by A.SORTNO
+		<!-- WHERE A.LOAN_PREC_TYPE ='[1]' AND A.LOAN_TYPE_ID = [0] -->
+	</sql>
+	
+	
+	<!-- 查询最大牌序号 -->
+	<sql id="queryMaxOrderNum" >
+		select max(SORTNO) from LOAN_TYPE_REL_TABLE
+		<where>
+			<clause prepend="and" > LOAN_PREC_TYPE = '[precType]' </clause>
+			<clause prepend="and" > LOAN_TYPE_ID = '[typeId]' </clause>
+		</where>
+	</sql>
+</banger>

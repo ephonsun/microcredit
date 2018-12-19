@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件管理模板字段表 -->
+	<sql id="insertTemplatesField" >
+		INSERT INTO INTO_TEMPLATES_FIELD (FIELD_ID,TEMPLATE_ID,TABLE_NAME,TALBE_COLUMN,FIELD_NAME,FIELD_DISPLAY,TEMPLATE_MODULE,TEMPLATE_COMMENT,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,IS_MUST,SORT_NO) VALUES ([$fieldId]
+		<clause prepend="," nvl="0" >[$templateId]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$talbeColumn]</clause>
+		<clause prepend="," nvl="''" >[$fieldName]</clause>
+		<clause prepend="," nvl="''" >[$fieldDisplay]</clause>
+		<clause prepend="," nvl="''" >[$templateModule]</clause>
+		<clause prepend="," nvl="''" >[$templateComment]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$isMust]</clause>
+		<clause prepend="," nvl="0" >[$sortNo]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件管理模板字段表 -->
+	<sql id="updateTemplatesField" >
+		UPDATE INTO_TEMPLATES_FIELD 
+		<set>
+			<clause prepend="," assert="!isNull([templateId])" >TEMPLATE_ID = [$templateId]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([talbeColumn])" >TALBE_COLUMN = [$talbeColumn]</clause>
+			<clause prepend="," assert="!isNull([fieldName])" >FIELD_NAME = [$fieldName]</clause>
+			<clause prepend="," assert="!isNull([fieldDisplay])" >FIELD_DISPLAY = [$fieldDisplay]</clause>
+			<clause prepend="," assert="!isNull([templateModule])" >TEMPLATE_MODULE = [$templateModule]</clause>
+			<clause prepend="," assert="!isNull([templateComment])" >TEMPLATE_COMMENT = [$templateComment]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([isMust])" >IS_MUST = [$isMust]</clause>
+			<clause prepend="," assert="!isNull([sortNo])" >SORT_NO = [$sortNo]</clause>
+		</set>
+		<where>
+			 FIELD_ID = [$fieldId] 
+		</where>
+	</sql>
+
+	<class id="intoTemplatesField_Query" name="banger.domain.config.IntoTemplatesFieldQuery">
+		<property name="fieldType" column="FIELD_TYPE"></property>
+		<property name="fieldDiciName" column="FIELD_DICT_NAME"></property>
+		<property name="fieldNumberUnit" column="FIELD_NUMBER_UNIT"></property>
+
+	</class>
+
+	<!-- 通过主键得到进件管理模板字段表 -->
+	<sql id="getTemplatesFieldById" result="intoTemplatesField_Query" >
+		SELECT itf.*,atc.FIELD_TYPE,atc.FIELD_DICT_NAME
+		FROM INTO_TEMPLATES_FIELD itf
+		LEFT JOIN auto_table_column atc
+		ON
+		itf.TABLE_NAME= atc.TABLE_NAME and itf.TALBE_COLUMN= atc.FIELD_COLUMN and atc.FIELD_TYPE IN ('Select','MultipleSelect','YesNo','Number','Float','Ratio')
+		WHERE itf.FIELD_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除进件管理模板字段表 -->
+	<sql id="deleteTemplatesFieldById" >
+		DELETE FROM INTO_TEMPLATES_FIELD WHERE FIELD_ID = [0]
+	</sql>
+
+	<!-- 查询进件管理模板字段表 -->
+	<sql id="queryTemplatesFieldList" result="intoTemplatesField_Query" >
+		SELECT itf.*,atc.FIELD_TYPE,atc.FIELD_DICT_NAME,atc.FIELD_NUMBER_UNIT
+		FROM INTO_TEMPLATES_FIELD itf
+		LEFT JOIN auto_table_column atc
+		ON
+		itf.TABLE_NAME= atc.TABLE_NAME and itf.TALBE_COLUMN= atc.FIELD_COLUMN and atc.FIELD_TYPE IN ('Select','MultipleSelect','YesNo','Number','Float','Ratio')
+		<where>
+			<clause prepend="and" assert="!isNull([templateId])" > TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([talbeColumn])" > TALBE_COLUMN = '[talbeColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > FIELD_NAME = '[fieldName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldDisplay])" > FIELD_DISPLAY = '[fieldDisplay]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateModule])" > TEMPLATE_MODULE = '[templateModule]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateComment])" > TEMPLATE_COMMENT = '[templateComment]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > itf.IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([isMust])" > IS_MUST = [isMust] </clause>
+			<clause prepend="and" assert="!isNull([sortNo])" > SORT_NO = [sortNo] </clause>
+		</where>
+	</sql>
+	<!--查询进件管理模板字段表 -->
+	<sql id="queryIntoTemplatesFieldByConditionOrder">
+		SELECT * FROM INTO_TEMPLATES_FIELD
+		<where>
+			TEMPLATE_ID = '[templateId]'
+			AND IS_ACTIVED = 1
+		</where>
+		ORDER BY SORT_NO
+	</sql>
+	<!-- 根据条件查询并排序 -->
+	<sql id="queryIntoTemplatesInfoColunm">
+		SELECT F.TEMPLATE_ID,F.FIELD_ID,I.TABLE_NAME,F.FIELD_NAME,F.IS_MUST,F.FIELD_DISPLAY,F.SORT_NO FROM INTO_TEMPLATES_FIELD F INNER JOIN INTO_TEMPLATES_INFO I
+		ON F.TEMPLATE_ID = I.TEMPLATE_ID
+		LEFT JOIN
+		AUTO_TABLE_COLUMN A
+		ON
+		F.TALBE_COLUMN = A.FIELD_COLUMN AND F.TABLE_NAME = A.TABLE_NAME
+		<where>
+			F.IS_ACTIVED = 1
+			<clause prepend="and" assert="!isNull([templateId])" > F.TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > F.FIELD_NAME like '%[fieldName]%' </clause>
+		</where>
+		ORDER BY TEMPLATE_ID,SORT_NO
+	</sql>
+
+</banger>

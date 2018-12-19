@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="AutoTableInfoCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertTableInfo" />
+		<flushOnExecute statement="updateTableInfo" />
+	</cache>
+
+	<!-- 新增自定义表信息 -->
+	<sql id="insertTableInfo" >
+		INSERT INTO AUTO_TABLE_INFO (TABLE_ID,TABLE_DB_NAME,TABLE_MODULE_NAME,TABLE_DISPLAY_NAME,TABLE_COMMENT,IS_ACTIVED,IS_FIXED,TABLE_TYPE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$tableId]
+		<clause prepend="," nvl="''" >[$tableDbName]</clause>
+		<clause prepend="," nvl="''" >[$tableModuleName]</clause>
+		<clause prepend="," nvl="''" >[$tableDisplayName]</clause>
+		<clause prepend="," nvl="''" >[$tableComment]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="0" >[$isFixed]</clause>
+		<clause prepend="," nvl="0" >[$tableType]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改自定义表信息 -->
+	<sql id="updateTableInfo" >
+		UPDATE AUTO_TABLE_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([tableDbName])" >TABLE_DB_NAME = [$tableDbName]</clause>
+			<clause prepend="," assert="!isNull([tableModuleName])" >TABLE_MODULE_NAME = [$tableModuleName]</clause>
+			<clause prepend="," assert="!isNull([tableDisplayName])" >TABLE_DISPLAY_NAME = [$tableDisplayName]</clause>
+			<clause prepend="," assert="!isNull([tableComment])" >TABLE_COMMENT = [$tableComment]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([isFixed])" >IS_FIXED = [$isFixed]</clause>
+			<clause prepend="," assert="!isNull([tableType])" >TABLE_TYPE = [$tableType]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 TABLE_ID = [$tableId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到自定义表信息 -->
+	<sql id="getTableInfoById" cache="AutoTableInfoCache" >
+		SELECT * FROM AUTO_TABLE_INFO WHERE TABLE_ID = [0]
+	</sql>
+	
+	<!-- 得到所有模板数据 -->
+	<sql id="getAllTableInfoList" cache="AutoTableInfoCache" >
+		SELECT * FROM AUTO_TABLE_INFO
+	</sql>
+	
+	<sql id="getTableInfoByTableName" cache="AutoTableInfoCache" >
+		SELECT * FROM AUTO_TABLE_INFO WHERE TABLE_DB_NAME = '[0]'
+	</sql>
+	
+	<!-- 通过表名得到自定义表信息 -->
+	<sql id="getTableInfoListByTableIds" cache="AutoTableInfoCache" >
+		SELECT * FROM AUTO_TABLE_INFO WHERE TABLE_ID IN (<for in="[0]" split=",">{item}</for>)
+	</sql>
+
+	<!-- 得到贷款环节模板集合 -->
+	<sql id="getTableInfoListByLoanType" >
+		SELECT
+		att.*
+		FROM
+		LOAN_TYPE_REL_TABLE ltrt,
+		AUTO_TABLE_INFO att
+		WHERE
+		ltrt.IS_ACTIVED = 1 AND att.IS_ACTIVED = 1
+		and att.TABLE_ID = ltrt.TABLE_ID
+		<clause prepend="and" assert="!isNull([loanTypeId])" > ltrt.LOAN_TYPE_ID = [loanTypeId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([precType])" > ltrt.LOAN_PREC_TYPE = '[precType]' </clause>
+		<clause prepend="and" assert="!isNull([tableId])" > ltrt.TABLE_ID = [tableId] </clause>
+		order by ltrt.SORTNO
+	</sql>
+	
+	<!-- 通过表名得到自定义表信息 -->
+	<sql id="getTableInfoListByTableNames" cache="AutoTableInfoCache" >
+		SELECT * FROM AUTO_TABLE_INFO WHERE TABLE_DB_NAME IN (<for in="[0]" split=",">'{item}'</for>)
+	</sql>
+
+	<!-- 通过主键删除自定义表信息 -->
+	<sql id="deleteTableInfoById" >
+		DELETE FROM AUTO_TABLE_INFO WHERE TABLE_ID = [0]
+	</sql>
+
+	<!-- 查询自定义表信息 -->
+	<sql id="queryTableInfoList" >
+		SELECT * FROM AUTO_TABLE_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([tableDbName])" > TABLE_DB_NAME = '[tableDbName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableModuleName])" > TABLE_MODULE_NAME = '[tableModuleName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableDisplayName])" > TABLE_DISPLAY_NAME = '[tableDisplayName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableComment])" > TABLE_COMMENT = '[tableComment]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause prepend="and" assert="!isNull([isFixed])" > IS_FIXED = [isFixed] </clause>
+			<clause prepend="and" assert="!isNull([tableType])" > TABLE_TYPE = [tableType] </clause>
+			<clause prepend="and" assert="!isNull([tableModule])" > TABLE_MODULE = '[tableModule]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<sql id="queryControleFormList">
+		SELECT * FROM AUTO_TABLE_INFO
+		WHERE TABLE_DB_NAME NOT IN
+		(SELECT HIDDEN_FORM FROM SYS_FORM_SETTINGS)
+		AND TABLE_DB_NAME NOT IN ('LBIZ_APPROVAL_RESOLUTION')
+		AND (TABLE_MODULE = 'LOAN' OR TABLE_MODULE = 'CONTRACT') AND IS_ACTIVED = 1 AND TABLE_TYPE = 1
+	</sql>
+
+
+	<sql id="queryHiddenFormList">
+		SELECT * FROM AUTO_TABLE_INFO
+		WHERE TABLE_DB_NAME NOT IN
+		(SELECT CONTROL_FORM FROM SYS_FORM_SETTINGS)
+		AND TABLE_DB_NAME NOT IN ('LBIZ_PERSONAL_INFO','LBIZ_LOAN_APPLY_INFO','LBIZ_SURVEY_RESULT','LBIZ_APPROVAL_RESOLUTION','LBIZ_LOAN_GRANT','[0]')
+		AND (TABLE_MODULE = 'LOAN' OR TABLE_MODULE = 'CONTRACT') AND IS_ACTIVED = 1
+	</sql>
+
+</banger>

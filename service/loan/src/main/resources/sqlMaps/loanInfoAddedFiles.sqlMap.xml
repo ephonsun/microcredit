@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="LoanInfoAddedFilesExtend" name="banger.domain.loan.LoanInfoAddedFilesExtend">
+		<property name="className" column="CLASS_NAME"></property>
+		<property name="ownerName" column="OWNER_NAME"></property>
+	</class>
+
+	<class id="LoanInfoAddedClassExtend" name="banger.domain.loan.LoanInfoAddedClassExtend">
+		<property name="ownerName" column="OWNER_NAME"></property>
+	</class>
+
+
+	<!-- 新增贷款资料附件文件表 -->
+	<sql id="insertInfoAddedFiles" >
+		INSERT INTO LOAN_INFO_ADDED_FILES (ID,OWNER_ID,CLASS_ID,LOAN_ID,LOAN_PROCESS_TYPE,IS_DEL,FILE_ID,FILE_TYPE,FILE_FIX,FILE_NAME,FILE_PATH,FILE_SIZE,FILE_SRC_NAME,FILE_THUMB_IMAGE_NAME,FILE_THUMB_IMAGE_PATH,CALL_TIME,BEGIN_TIME,END_TIME,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,MONITOR_ID) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$ownerId]</clause>
+		<clause prepend="," nvl="0" >[$classId]</clause>
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$loanProcessType]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="''" >[$fileId]</clause>
+		<clause prepend="," nvl="''" >[$fileType]</clause>
+		<clause prepend="," nvl="''" >[$fileFix]</clause>
+		<clause prepend="," nvl="''" >[$fileName]</clause>
+		<clause prepend="," nvl="''" >[$filePath]</clause>
+		<clause prepend="," nvl="0" >[$fileSize]</clause>
+		<clause prepend="," nvl="''" >[$fileSrcName]</clause>
+		<clause prepend="," nvl="''" >[$fileThumbImageName]</clause>
+		<clause prepend="," nvl="''" >[$fileThumbImagePath]</clause>
+		<clause prepend="," nvl="0" >[$callTime]</clause>
+		<clause prepend="," nvl="NULL">[$beginTime]</clause>
+		<clause prepend="," nvl="NULL">[$endTime]</clause>
+		<clause prepend="," nvl="NULL">[$createDate]</clause>
+		<clause prepend="," nvl="NULL">[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$monitorId]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款资料附件文件表 -->
+	<sql id="updateInfoAddedFiles" >
+		UPDATE LOAN_INFO_ADDED_FILES
+		<set>
+			<clause prepend="," assert="!isNull([ownerId])" >OWNER_ID = [$ownerId]</clause>
+			<clause prepend="," assert="!isNull([classId])" >CLASS_ID = [$classId]</clause>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanProcessType])" >LOAN_PROCESS_TYPE = [$loanProcessType]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([fileId])" >FILE_ID = [$fileId]</clause>
+			<clause prepend="," assert="!isNull([fileType])" >FILE_TYPE = [$fileType]</clause>
+			<clause prepend="," assert="!isNull([fileFix])" >FILE_FIX = [$fileFix]</clause>
+			<clause prepend="," assert="!isNull([fileName])" >FILE_NAME = [$fileName]</clause>
+			<clause prepend="," assert="!isNull([filePath])" >FILE_PATH = [$filePath]</clause>
+			<clause prepend="," assert="!isNull([fileSize])" >FILE_SIZE = [$fileSize]</clause>
+			<clause prepend="," assert="!isNull([fileSrcName])" >FILE_SRC_NAME = [$fileSrcName]</clause>
+			<clause prepend="," assert="!isNull([fileThumbImageName])" >FILE_THUMB_IMAGE_NAME = [$fileThumbImageName]</clause>
+			<clause prepend="," assert="!isNull([fileThumbImagePath])" >FILE_THUMB_IMAGE_PATH = [$fileThumbImagePath]</clause>
+			<clause prepend="," assert="!isNull([callTime])" >CALL_TIME = [$callTime]</clause>
+			<clause prepend="," assert="!isNull([beginTime])" >BEGIN_TIME = [$beginTime]</clause>
+			<clause prepend="," assert="!isNull([endTime])" >END_TIME = [$endTime]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([monitorId])" >MONITOR_ID = [$monitorId]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款资料附件文件表 -->
+	<sql id="getInfoAddedFilesById" >
+		SELECT * FROM LOAN_INFO_ADDED_FILES WHERE ID = [0]
+	</sql>
+
+	<!-- 通过fileId得到贷款资料附件文件表 -->
+	<sql id="getInfoAddedFilesByFileId" >
+		SELECT * FROM LOAN_INFO_ADDED_FILES WHERE FILE_ID = '[0]'
+	</sql>
+
+	<!-- 通过主键删除贷款资料附件文件表 -->
+	<sql id="deleteInfoAddedFilesById" >
+		UPDATE LOAN_INFO_ADDED_FILES SET IS_DEL = 1 WHERE ID = [0]
+	</sql>
+
+	<sql id="getInfoAddedFilesListById" >
+		SELECT * FROM LOAN_INFO_ADDED_FILES WHERE LOAN_ID = [loanId] AND IS_DEL = 0
+		<clause prepend="and" assert="!isNull([processTypes])" > LOAN_PROCESS_TYPE IN (<for in="[processTypes]" split=",">'{item}'</for>) </clause>
+	</sql>
+
+	<sql id="getInfoAddedFilesListByType" >
+		SELECT * FROM LOAN_INFO_ADDED_FILES WHERE LOAN_ID = [loanId] AND FILE_TYPE = '[fileType]' AND IS_DEL = 0
+	</sql>
+
+
+	<!-- 得到存在的ID -->
+	<sql id="getAddedFileIdByRecord" >
+		SELECT ID FROM LOAN_INFO_ADDED_FILES
+		<where>
+			<clause prepend="and" assert="!isNull([fileId])" > FILE_ID = '[fileId]' </clause>
+			<clause prepend="and" assert="!isNull([fileName])" > FILE_NAME = '[fileName]' </clause>
+			<clause prepend="and" assert="!isNull([fileType])" > FILE_TYPE = '[fileType]' </clause>
+		</where>
+	</sql>
+
+	<!-- 查询贷款资料附件文件表 -->
+	<sql id="queryInfoAddedFilesList" >
+		SELECT * FROM LOAN_INFO_ADDED_FILES
+		<where>
+			<clause prepend="and" assert="!isNull([ownerId])" > OWNER_ID = [ownerId] </clause>
+			<clause prepend="and" assert="!isNull([classId])" > CLASS_ID = [classId] </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanProcessType])" > LOAN_PROCESS_TYPE = '[loanProcessType]' </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileId])" > FILE_ID = '[fileId]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileType])" > FILE_TYPE = '[fileType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileFix])" > FILE_FIX = '[fileFix]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileName])" > FILE_NAME = '[fileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > FILE_PATH = '[filePath]' </clause>
+			<clause prepend="and" assert="!isNull([fileSize])" > FILE_SIZE = [fileSize] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileSrcName])" > FILE_SRC_NAME = '[fileSrcName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImageName])" > FILE_THUMB_IMAGE_NAME = '[fileThumbImageName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImagePath])" > FILE_THUMB_IMAGE_PATH = '[fileThumbImagePath]' </clause>
+			<clause prepend="and" assert="!isNull([callTime])" > CALL_TIME = [callTime] </clause>
+			<clause parent="DateSpan" params="BEGIN_TIME,beginTime,beginTimeEnd" ></clause>
+			<clause parent="DateSpan" params="END_TIME,endTime,endTimeEnd" ></clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([monitorId])" > MONITOR_ID = [monitorId] </clause>
+		</where>
+	</sql>
+
+	<!-- 条件查询贷款资料列表 -->
+	<sql id="queryLoanInfoPage" result="LoanInfoAddedFilesExtend">
+		SELECT F.*,C.CLASS_NAME,O.OWNER_NAME FROM LOAN_INFO_ADDED_FILES F
+		LEFT JOIN LOAN_INFO_ADDED_CLASS C ON F.CLASS_ID = C.CLASS_ID
+		LEFT JOIN LOAN_INFO_ADDED_OWNER O ON F.OWNER_ID = O.OWNER_ID
+		<where>
+			F.LOAN_PROCESS_TYPE != 'monitor'
+			<clause prepend="and" assert="!isNullOrEmpty([fileType])" > F.FILE_TYPE = '[fileType]' </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > F.LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > F.IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanProcessType])" > F.LOAN_PROCESS_TYPE = '[loanProcessType]' </clause>
+			<clause prepend="and" assert="!isNull([ownerId])" > F.OWNER_ID = [ownerId] </clause>
+			<clause prepend="and" assert="!isNull([classId])" > F.CLASS_ID = [classId] </clause>
+		</where>
+	</sql>
+
+	<!--根据id查询单个文件-->
+	<sql id="getInfoAddedFilesExtendById" result="LoanInfoAddedFilesExtend">
+		SELECT F.*,C.CLASS_NAME,O.OWNER_NAME FROM LOAN_INFO_ADDED_FILES F
+		LEFT JOIN LOAN_INFO_ADDED_CLASS C ON F.CLASS_ID = C.CLASS_ID
+		LEFT JOIN LOAN_INFO_ADDED_OWNER O ON F.OWNER_ID = O.OWNER_ID
+		WHERE LOAN_PROCESS_TYPE != 'monitor' and F.IS_DEL = 0 and ID = [0]
+	</sql>
+
+	<!--条件获取数目贷款资料数目统计-->
+	<sql id="getAddFileMount" result="LoanInfoAddedFilesExtend">
+		SELECT  FILE_TYPE,LIAO.OWNER_NAME,LIAC.CLASS_NAME, COUNT(*) AS FILE_SIZE FROM LOAN_INFO_ADDED_FILES AIAF LEFT JOIN LOAN_INFO_ADDED_CLASS LIAC ON AIAF.CLASS_ID=LIAC.CLASS_ID LEFT JOIN
+		LOAN_INFO_ADDED_OWNER LIAO ON AIAF.OWNER_ID=LIAO.OWNER_ID
+		<where>
+			LOAN_PROCESS_TYPE != 'monitor'
+			<clause prepend="and" assert="!isNull([fileType])" > FILE_TYPE = '[fileType]' </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > AIAF.IS_DEL = [isDel] </clause>
+		</where>
+		GROUP BY FILE_TYPE,LIAC.CLASS_NAME,LIAO.OWNER_NAME
+	</sql>
+
+	<sql id="queryOwnerNameByLoanId" result="LoanInfoAddedFilesExtend">
+		SELECT  O.OWNER_ID, O.OWNER_NAME FROM LOAN_INFO_ADDED_FILES F
+		LEFT JOIN  LOAN_INFO_ADDED_OWNER O ON O.OWNER_ID=F.OWNER_ID
+		WHERE F.LOAN_ID=[0]
+		GROUP BY O.OWNER_ID, O.OWNER_NAME
+	</sql>
+
+	<sql id="queryClassNameByOwnerId" result="LoanInfoAddedFilesExtend">
+		SELECT  O.CLASS_ID, O.CLASS_NAME FROM LOAN_INFO_ADDED_FILES F
+		LEFT JOIN LOAN_INFO_ADDED_CLASS O ON F.CLASS_ID=O.CLASS_ID
+		WHERE F.OWNER_ID=[0] AND F.LOAN_ID=[1] AND O.CLASS_ID IS NOT NULL
+		GROUP BY O.CLASS_ID, O.CLASS_NAME
+	</sql>
+</banger>

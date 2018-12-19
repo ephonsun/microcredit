@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增地图配置表 -->
+	<sql id="insertConfig" >
+		INSERT INTO MAP_CONFIG (ID,CONFIG_TYPE,CONFIG_VALUE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$configType]</clause>
+		<clause prepend="," nvl="''" >[$configValue]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改地图配置表 -->
+	<sql id="updateConfig" >
+		UPDATE MAP_CONFIG 
+		<set>
+			<clause prepend="," assert="!isNull([configType])" >CONFIG_TYPE = [$configType]</clause>
+			<clause prepend="," assert="!isNull([configValue])" >CONFIG_VALUE = [$configValue]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到地图配置表 -->
+	<sql id="getConfigById" >
+		SELECT * FROM MAP_CONFIG WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除地图配置表 -->
+	<sql id="deleteConfigById" >
+		DELETE FROM MAP_CONFIG WHERE ID = [0]
+	</sql>
+
+	<!-- 查询地图配置表 -->
+	<sql id="queryConfigList" >
+		SELECT * FROM MAP_CONFIG 
+		<where>
+			<clause prepend="and" assert="!isNull([configType])" > CONFIG_TYPE = [configType] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([configValue])" > CONFIG_VALUE = '[configValue]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

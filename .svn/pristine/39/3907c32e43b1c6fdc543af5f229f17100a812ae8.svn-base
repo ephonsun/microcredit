@@ -1,0 +1,23 @@
+#来电信息 
+talk_incoming_http_url=http://12.99.106.15:9082/esale/com.nbcb.retail.ptelmanage.queryCustomerByTel.flow?telNum={0}&account={1}&deviceId={2}
+#通话上传通知
+talk_upload_http_url=http://12.99.106.15:9082/esale/com.nbcb.retail.ptelmanage.updateRecordByRecordNo.flow?recordNo={0}
+#视频上传通知
+video_upload_http_url=http://12.99.106.15:9082/esale/com.nbcb.retail.ptelmanage.updateRecordByRecordNo.flow?recordNo={0}
+#通知线程数
+notice_thread_count=20
+
+#北京银行 接口实现类
+#extra_ITalkIncomingPopup_bean=talkIncomingService
+#extra_ITalkUploadNotice_bean=talkUploadNoticeService
+#extra_IVideoUploadNotice_bean=videoUploadNoticeService
+#extra_file_server_bean=
+
+#江苏银行 接口实现类
+#extra_ITalkIncomingPopup_bean=esbTalkIncomingService
+#extra_ITalkUploadNotice_bean=esbTalkUploadNoticeService
+#extra_IVideoUploadNotice_bean=esbVideoUploadNoticeService
+extra_ITalkIncomingPopup_bean=
+extra_ITalkUploadNotice_bean=
+extra_IVideoUploadNotice_bean=
+extra_file_server_bean=

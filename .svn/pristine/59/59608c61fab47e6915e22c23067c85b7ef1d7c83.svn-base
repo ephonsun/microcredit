@@ -1,0 +1,13 @@
+package banger.service.intf;
+
+import banger.domain.loan.LoanStatQuery;
+import banger.domain.loan.QueryReport_Query;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+public interface IQueryReportService {
+    List<QueryReport_Query> queryReportByCondition(Map map);
+}

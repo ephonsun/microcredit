@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../js/core.js" type="text/javascript" ></script>
+<script src="../js/ctrl.js" type="text/javascript" ></script>
+<script src="../js/widget.js" type="text/javascript" ></script>
+<script src="../js/dao.js" type="text/javascript" ></script>
+<script src="../js/ctrl.setting.js" type="text/javascript" ></script>
+<script src="../js/numspin.js" type="text/javascript" ></script>
+<link href="../skin/css/blue.css" rel="stylesheet" type="text/css" ></link>
+</head>
+<script>
+$.json.attach('DS',{Test:[{"testId":"test123","String":"abc123","Date":new Date(1337145102669),"Number":-1,"Boolean":false,"Null":null,"Function":function(obj){alert(obj);}}]});
+
+</script>
+<body>
+<div>
+	<numspin id="tx123" width="120" value="1.1" delta="0.1" ></numspin>
+</div>
+<div style="margin-top:5px;">
+	<numspan id="tx123" width="120" ></numspan>
+</div>
+<script>$.ctrl.render()</script>
+</body>
+</html>

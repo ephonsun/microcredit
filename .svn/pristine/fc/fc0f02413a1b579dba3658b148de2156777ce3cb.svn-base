@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+</head>
+
+<body>
+<input id="loanId" type="hidden" value="$!loanId" />
+<input id="loanProcess" type="hidden" value="$!loanProcess" />
+<input id="gradeFirst1" type="hidden" value="$!gradeFirst" />
+<input id="gradeSecond1" type="hidden" value="$!gradeSecond" />
+<input id="gradeThird1" type="hidden" value="$!gradeThird" />
+<form id="form" >
+    <tbody>
+    <table class="ui-form-fields">
+        <tr>
+            <td class="field" width="14%">
+                <label class="ui-star">行业一级：</label>
+            </td>
+            <td width="36%" class="validateTd">
+                <select name="gradeFirst" id="gradeFirst" onchange="queryGradeSecond(this.value,false)">
+                    <option></option>
+                    #foreach($option in $firstList)
+                        <option value ="$option.gradeFirst" #if($!gradeFirst == $option.gradeFirst) selected #end >$option.gradeFirst</option>
+                    #end
+                </select>
+            </td>
+            <td class="field" width="14%">
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="14%">
+                <label class="ui-star">行业二级：</label>
+            </td>
+            <td width="36%" class="validateTd">
+                <select name="gradeSecond" id="gradeSecond" onchange="queryGradeThird(this.value,false)">
+                    <option id="option"></option>
+                </select>
+            </td>
+            <td class="field" width="14%">
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="14%">
+                <label class="ui-star">所属行业：</label>
+            </td>
+            <td width="36%" class="validateTd">
+                <select name="gradeThird" id="gradeThird">
+                    <option></option>
+                </select>
+            </td>
+            <td class="field" width="14%">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 60px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SURE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+    <span id="btnClean" class="ui-search-button ui-search-button-clean ml5">
+        <label class="ui-search-button-text">清空</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../loan/js/industryGuide/industryGuidelines.js?v=$!webAppVersion"></script>
+</body>
+</html>

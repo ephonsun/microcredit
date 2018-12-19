@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.html5.IntoCustApplyInfo" table="INTO_CUST_APPLY_INFO" >
+		<id name="applyId" type="java.lang.Integer" >
+			<column name="APPLY_ID" length="4" />
+		</id>
+		<property name="custName" type="java.lang.String" >
+			<column name="CUST_NAME" length="90" />
+		</property>
+		<property name="custSex" type="java.lang.String" >
+			<column name="CUST_SEX" length="30" />
+		</property>
+		<property name="custAge" type="java.lang.Integer" >
+			<column name="CUST_AGE" length="4" />
+		</property>
+		<property name="idCard" type="java.lang.String" >
+			<column name="ID_CARD" length="90" />
+		</property>
+		<property name="custPhone" type="java.lang.String" >
+			<column name="CUST_PHONE" length="30" />
+		</property>
+		<property name="useId" type="java.lang.Integer" >
+			<column name="USE_ID" length="4" />
+		</property>
+		<property name="applyAmount" type="java.math.BigDecimal" >
+			<column name="APPLY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="homeAddress" type="java.lang.String" >
+			<column name="HOME_ADDRESS" length="180" />
+		</property>
+		<property name="loanUserOption" type="java.lang.String" >
+			<column name="LOAN_USER_OPTION" length="30" />
+		</property>
+		<property name="userAccount" type="java.lang.String" >
+			<column name="USER_ACCOUNT" length="60" />
+		</property>
+	</class>
+</mapping>
+

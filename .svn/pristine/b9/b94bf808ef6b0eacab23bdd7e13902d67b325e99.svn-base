@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="teamMemberTaskAssignQuery" name="banger.domain.task.TskTeamMemberTaskAssignQuery" >
+        <property name="teamMemberName" column="USER_NAME" ></property>   
+    </class>
+    <class id="userTaskAssignBeanQuery" name="banger.domain.task.UserTaskAssignBean" >
+        <property name="userName" column="USER_NAME" ></property>
+        <property name="userId" column="USER_ID" ></property>
+        <property name="assignNum" column="ASSIGN_NUM" ></property>
+        <property name="teamMemberTaskAssignId" column="TEAM_MEMBER_TASK_ASSIGN_ID" ></property>   
+    </class>
+    
+	<!-- 新增团队成员任务分配明细表 -->
+	<sql id="insertTeamMemberTaskAssign" >
+		INSERT INTO TSK_TEAM_MEMBER_TASK_ASSIGN (TEAM_MEMBER_TASK_ASSIGN_ID,CREATE_USER,UPDATE_DATE,GROUP_TASK_ASSIGN_ID,TASK_FINISH_STATUS,TEAM_GROUP_ID,ASSIGN_NUM,TASK_ID,UPDATE_USER,MEMBER_USER_ID,ASSIGN_USER_ID,IS_DEL,FINISH_NUM,ASSIGN_TIME,CREATE_DATE) VALUES ([$teamMemberTaskAssignId]
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$groupTaskAssignId]</clause>
+		<clause prepend="," nvl="0" >[$taskFinishStatus]</clause>
+		<clause prepend="," nvl="0" >[$teamGroupId]</clause>
+		<clause prepend="," nvl="0" >[$assignNum]</clause>
+		<clause prepend="," nvl="0" >[$taskId]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$memberUserId]</clause>
+		<clause prepend="," nvl="0" >[$assignUserId]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$finishNum]</clause>
+		<clause prepend="," >[$assignTime]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改团队成员任务分配明细表 -->
+	<sql id="updateTeamMemberTaskAssign" >
+		UPDATE TSK_TEAM_MEMBER_TASK_ASSIGN 
+		<set>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([groupTaskAssignId])" >GROUP_TASK_ASSIGN_ID = [$groupTaskAssignId]</clause>
+			<clause prepend="," assert="!isNull([taskFinishStatus])" >TASK_FINISH_STATUS = [$taskFinishStatus]</clause>
+			<clause prepend="," assert="!isNull([teamGroupId])" >TEAM_GROUP_ID = [$teamGroupId]</clause>
+			<clause prepend="," assert="!isNull([assignNum])" >ASSIGN_NUM = [$assignNum]</clause>
+			<clause prepend="," assert="!isNull([taskId])" >TASK_ID = [$taskId]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([memberUserId])" >MEMBER_USER_ID = [$memberUserId]</clause>
+			<clause prepend="," assert="!isNull([taskFinishTime])" >TASK_FINISH_TIME = [$taskFinishTime]</clause>
+			<clause prepend="," assert="!isNull([assignUserId])" >ASSIGN_USER_ID = [$assignUserId]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([finishNum])" >FINISH_NUM = [$finishNum]</clause>
+			<clause prepend="," assert="!isNull([assignTime])" >ASSIGN_TIME = [$assignTime]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+		</set>
+		<where>
+			 TEAM_MEMBER_TASK_ASSIGN_ID = [$teamMemberTaskAssignId] 
+		</where>
+	</sql>
+
+	<!-- 根据贷款团队ID和放款日期，得到任务用户列表 -->
+	<sql id="getTeamMemberTaskAssignListByUserIdAndDate" >
+		SELECT M.* FROM TSK_TEAM_MEMBER_TASK_ASSIGN M INNER JOIN
+		TSK_TASK_INFO T ON M.TASK_ID = T.TASK_ID AND M.IS_DEL=0 AND T.IS_DEL=0
+		WHERE M.MEMBER_USER_ID = [userId] AND M.TEAM_GROUP_ID = [groupId]
+		AND T.TASK_MOLD =[taskMold]
+		AND T.START_DATE <![CDATA[ <= ]]> <method name="toDate">[loanDate]</method>
+		AND <method name="toDate">[loanDate]</method> <![CDATA[ <= ]]> T.END_DATE
+	</sql>
+
+	<!-- 通过主键得到团队成员任务分配明细表 -->
+	<sql id="getTeamMemberTaskAssignById" >
+		SELECT * FROM TSK_TEAM_MEMBER_TASK_ASSIGN WHERE TEAM_MEMBER_TASK_ASSIGN_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除团队成员任务分配明细表 -->
+	<sql id="deleteTeamMemberTaskAssignById" >
+		UPDATE TSK_TEAM_MEMBER_TASK_ASSIGN SET IS_DEL = 1 WHERE TEAM_MEMBER_TASK_ASSIGN_ID = [0]
+	</sql>
+	<!-- 删除团队成员任务分配明细表 -->
+	<sql id="deleteTeamMemberTaskAssignByGroupId" >
+		UPDATE TSK_TEAM_MEMBER_TASK_ASSIGN SET IS_DEL = 1 WHERE GROUP_TASK_ASSIGN_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除团队成员任务分配明细表 -->
+	<sql id="deleteTeamMemberTaskAssignByTaskId" >
+		UPDATE TSK_TEAM_MEMBER_TASK_ASSIGN SET IS_DEL = 1 WHERE TASK_ID = [0]
+	</sql>
+
+	<!-- 查询团队成员任务分配明细表 -->
+	<sql id="queryTeamMemberTaskAssignList" >
+		SELECT * FROM TSK_TEAM_MEMBER_TASK_ASSIGN 
+		<where>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([groupTaskAssignId])" > GROUP_TASK_ASSIGN_ID = [groupTaskAssignId] </clause>
+			<clause prepend="and" assert="!isNull([taskFinishStatus])" > TASK_FINISH_STATUS = [taskFinishStatus] </clause>
+			<clause prepend="and" assert="!isNull([teamGroupId])" > TEAM_GROUP_ID = [teamGroupId] </clause>
+			<clause prepend="and" assert="!isNull([assignNum])" > ASSIGN_NUM = [assignNum] </clause>
+			<clause prepend="and" assert="!isNull([taskId])" > TASK_ID = [taskId] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([memberUserId])" > MEMBER_USER_ID = [memberUserId] </clause>
+			<clause parent="DateSpan" params="TASK_FINISH_TIME,taskFinishTime,taskFinishTimeEnd" ></clause>
+			<clause prepend="and" assert="!isNull([assignUserId])" > ASSIGN_USER_ID = [assignUserId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([finishNum])" > FINISH_NUM = [finishNum] </clause>
+			<clause parent="DateSpan" params="ASSIGN_TIME,assignTime,assignTimeEnd" ></clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+		</where>
+	</sql>
+
+	<sql id="queryTeamMemberTaskAssignDetail"  result="teamMemberTaskAssignQuery">
+		SELECT TMTA.*,U.USER_NAME FROM TSK_TEAM_MEMBER_TASK_ASSIGN TMTA
+		LEFT JOIN PMS_USER U ON U.USER_ID=TMTA.MEMBER_USER_ID
+		WHERE TMTA.IS_DEL=0 AND TMTA.GROUP_TASK_ASSIGN_ID=[groupTaskAssignId] AND TMTA.TEAM_GROUP_ID = [teamGroupId]
+	</sql>
+
+	<!-- 得到贷款的任务分配信息 -->
+	<sql id="getTeamMemberTaskAssignListByTaskId" >
+		SELECT * FROM TSK_GROUP_TASK_ASSIGN  WHERE IS_DEL=0 AND TASK_ID = [0]
+	</sql>
+
+	<!-- 查询客户经理任务分配目标 -->
+	<sql id="queryUnsiginedTeamMemberById"  result="userTaskAssignBeanQuery">
+		SELECT CASE WHEN MTA.USER_NAME IS NULL THEN STM.USER_NAME ELSE MTA.USER_NAME END USER_NAME,
+		CASE WHEN MTA.USER_ID IS NULL THEN STM.USER_ID ELSE MTA.USER_ID END USER_ID,
+		CASE WHEN MTA.ASSIGN_NUM IS NULL THEN 0 ELSE MTA.ASSIGN_NUM END ASSIGN_NUM,
+		CASE WHEN MTA.TEAM_MEMBER_TASK_ASSIGN_ID IS NULL THEN 0 ELSE MTA.TEAM_MEMBER_TASK_ASSIGN_ID END TEAM_MEMBER_TASK_ASSIGN_ID
+		FROM
+		(SELECT M.*,U.USER_NAME FROM SYS_TEAM_MEMBER M
+		 LEFT JOIN PMS_USER_ROLES UR ON M.USER_ID=UR.PUR_USER_ID
+		 LEFT JOIN PMS_ROLE R ON R.ROLE_ID=UR.PUR_ROLE_ID
+		LEFT JOIN PMS_USER U ON M.USER_ID=U.USER_ID
+		 WHERE M.TEAM_GROUP_ID=[teamGroupId] AND R.ROLE_ID=4)STM
+		FULL JOIN
+		(
+			SELECT U.USER_ID, U.USER_NAME,ASSIGN_NUM,TEAM_MEMBER_TASK_ASSIGN_ID,MEMBER_USER_ID FROM TSK_TEAM_MEMBER_TASK_ASSIGN
+		LEFT JOIN PMS_USER U ON MEMBER_USER_ID=U.USER_ID
+			WHERE IS_DEL=0 AND TASK_ID=[taskId] AND TEAM_GROUP_ID=[teamGroupId]
+		)MTA ON STM.USER_ID=MTA.MEMBER_USER_ID
+		<!--WHERE U.USER_ISDEL=0		-->
+	</sql>	
+	
+</banger>

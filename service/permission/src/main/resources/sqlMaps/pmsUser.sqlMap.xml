@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<class id="userQuery" name="banger.domain.permission.PmsUser_Query" >
+	  	<property name="deptCode" column="DEPT_CODE" ></property>
+	  	<property name="deptName" column="DEPT_NAME" ></property>
+	  	<property name="roleIds" column="ROLE_IDS" ></property>
+	  	<property name="roleNames" column="ROLE_NAMES" ></property>
+	  	<property name="itemIds" column="ITEM_IDS"></property>
+  		<property name="itemValues" column="ITEM_VALUES"></property>
+        <property name="userStatueName" column="USER_STATUE_NAME"></property>
+        <property name="userLoginDate" column="USER_LOGIN_DATE"></property>
+  	</class>
+
+  	<class id="pmsUserArea" name="banger.domain.permission.PmsUserArea" >
+  		<property name="pdaId" column="PDA_ID"></property>
+  		<property name="areaId" column="AREA_ID"></property>
+  		<property name="areaUserId" column="AREA_User_ID"></property>
+  	</class>
+
+	<cache id="UserGroupPermitCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertUser" />
+		<flushOnExecute statement="updateUser" />
+		<flushOnExecute statement="deleteUserById" />
+	</cache>
+
+  	<!-- 新增用户 -->
+  	<sql id="insertUser" >
+		INSERT INTO PMS_USER (USER_ID,USER_DEPT_ID,USER_ACCOUNT,USER_PASSWORD,USER_PASSWORD_RESET,
+		<clause assert="!isNullOrEmpty([userPasswordDate])" >USER_PASSWORD_DATE,</clause>
+		<clause assert="!isNullOrEmpty([userLoginDate])" >USER_LOGIN_DATE,</clause>
+		USER_LOGIN_IP,USER_NAME,USER_ISDEL,USER_REMARK,USER_STATUS,USER_CREATE_DATE,USER_UPDATE_DATE,USER_CREATE_USER,USER_UPDATE_USER,USER_PHONE_NUMBER,USER_GROUP_PERMIT
+		<clause assert="!isNullOrEmpty([userPassAmount])" >,USER_PASS_AMOUNT</clause>) VALUES ([$userId]
+		<clause prepend="," nvl="0" >[$userDeptId]</clause>
+		<clause prepend="," nvl="''" >[$userAccount]</clause>
+		<clause prepend="," nvl="''" >[$userPassword]</clause>
+		<clause prepend="," nvl="0" >[$userPasswordReset]</clause>
+		<clause prepend="," assert="!isNullOrEmpty([userPasswordDate])">[$userPasswordDate]</clause>
+		<clause prepend="," assert="!isNullOrEmpty([userLoginDate])">[$userLoginDate]</clause>
+		<clause prepend="," nvl="''" >[$userLoginIp]</clause>
+		<clause prepend="," nvl="''" >[$userName]</clause>
+		<clause prepend="," nvl="0" >[$userIsdel]</clause>
+		<clause prepend="," nvl="''" >[$userRemark]</clause>
+		<clause prepend="," nvl="0" >[$userStatus]</clause>
+		<clause prepend="," >[$userCreateDate]</clause>
+		<clause prepend="," >[$userUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$userCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$userUpdateUser]</clause>
+		<clause prepend="," nvl="''" >[$userPhoneNumber]</clause>
+		<clause prepend="," nvl="''" >[$userGroupPermit]</clause>
+		<clause prepend="," assert="!isNullOrEmpty([userPassAmount])" >[$userPassAmount]</clause>
+		)
+	</sql>
+
+	<!-- 修改用户 -->
+	<sql id="updateUser" >
+		UPDATE PMS_USER 
+		<set>
+			<clause prepend="," assert="!isNull([userDeptId])" >USER_DEPT_ID = [$userDeptId]</clause>
+			<clause prepend="," assert="!isNull([userAccount])" >USER_ACCOUNT = [$userAccount]</clause>
+			<clause prepend="," assert="!isNull([userPassword])" >USER_PASSWORD = [$userPassword]</clause>
+            <clause prepend="," assert="!isNull([userPasswordStrength])" >USER_PASSWORD_STRENGTH = [$userPasswordStrength]</clause>
+			<clause prepend="," assert="!isNull([userCode])" >USER_CODE = [$userCode]</clause>
+			<clause prepend="," assert="!isNull([userPasswordReset])" >USER_PASSWORD_RESET = [$userPasswordReset]</clause>
+			<clause prepend="," assert="!isNull([userPasswordDate])" >USER_PASSWORD_DATE = [$userPasswordDate]</clause>
+			<clause prepend="," assert="!isNull([userLoginDate])" >USER_LOGIN_DATE = [$userLoginDate]</clause>
+			<clause prepend="," assert="!isNull([userLoginIp])" >USER_LOGIN_IP = [$userLoginIp]</clause>
+			<clause prepend="," assert="!isNull([userName])" >USER_NAME = [$userName]</clause>
+			<clause prepend="," assert="!isNull([userIsdel])" >USER_ISDEL = [$userIsdel]</clause>
+			<clause prepend="," assert="!isNull([userRemark])" >USER_REMARK = [$userRemark]</clause>
+			<clause prepend="," assert="!isNull([userStatus])" >USER_STATUS = [$userStatus]</clause>
+			<clause prepend="," assert="!isNull([userCreateDate])" >USER_CREATE_DATE = [$userCreateDate]</clause>
+			<clause prepend="," assert="!isNull([userUpdateDate])" >USER_UPDATE_DATE = [$userUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([userCreateUser])" >USER_CREATE_USER = [$userCreateUser]</clause>
+			<clause prepend="," assert="!isNull([userUpdateUser])" >USER_UPDATE_USER = [$userUpdateUser]</clause>
+			<clause prepend="," assert="!isNull([userPhoneNumber])" >USER_PHONE_NUMBER = [$userPhoneNumber]</clause>
+			<clause prepend="," assert="!isNull([userGroupPermit])" >USER_GROUP_PERMIT = [$userGroupPermit]</clause>
+			<clause prepend="," assert="!isNull([userPassAmount])" >USER_PASS_AMOUNT = [$userPassAmount]</clause>
+		</set>
+		<where>
+			 USER_ID = [$userId] 
+		</where>
+	</sql>
+	
+	<!-- 通过主键删除用户 -->
+	<sql id="deleteUserById" >
+		UPDATE PMS_USER SET USER_ISDEL = 1 WHERE USER_ID = [0]
+	</sql>
+
+	<!-- 通过用户得到数据权限,框架可以用getSqlValue,这个暂时不用 -->
+	<sql id="getGroupPermitByUserId" cache="UserGroupPermitCache" >
+		SELECT USER_GROUP_PERMIT FROM PMS_USER WHERE USER_ID = [0]
+	</sql>
+	
+	<!-- 通过用户主键得到机构名称 -->
+	<sql id="getDeptNameByUserId" >
+		SELECT DEPT_NAME FROM PMS_DEPT INNER JOIN PMS_USER ON DEPT_ID = USER_DEPT_ID AND USER_ID = [0]
+	</sql>
+	
+	<!-- 询查机构用户-->
+	<sql id="queryDeptUserList" result="userQuery" >
+		SELECT U.*,DEPT_NAME,DEPT_CODE,
+        CASE WHEN U.USER_STATUS = 0 THEN '停用' ELSE '启用' END USER_STATUE_NAME
+        FROM PMS_USER U
+	    INNER JOIN PMS_DEPT D ON U.USER_DEPT_ID = D.DEPT_ID 
+	    <where>
+	    	<clause prepend="and"> <![CDATA[U.USER_ISDEL = 0 and U.USER_ACCOUNT <> 'admin' ]]></clause>
+	    	<clause prepend="and" assert="isEqual([containSub],'true')" >D.DEPT_SEARCH_CODE LIKE '<method name="getSqlValue" >getSearchCodeByDeptId,[deptId]</method>%'</clause>
+	    	<clause prepend="and" assert="isEqual([containSub],'false')" >D.DEPT_ID = [deptId]</clause>
+	    	<clause prepend="and" assert="!isNullOrEmpty([account])" >U.USER_ACCOUNT LIKE '%[account]%'</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" >U.USER_NAME LIKE '%[userName]%'</clause>
+            <clause prepend="and" assert="!isNull([userStatus])" >U.USER_STATUS=[userStatus]</clause>
+	    </where>
+	    <link sqlId="getUserRoles" pkey="USER_ID" fkey="PUR_USER_ID">
+	    	<column name="ROLE_ID" alias="ROLE_IDS" op="join" split="," />
+    		<column name="ROLE_NAME" alias="ROLE_NAMES" op="join" split="," />
+    	</link>
+    	<!--
+    	<link sqlId="getServiceUserAreas" pkey="USER_ID" fkey="AREA_USER_ID">
+    		<column name="ITEM_ID" alias="ITEM_IDS" op="join" split="," />
+    		<column name="ITEM_VALUE" alias="ITEM_VALUES" op="join" split="," />
+    	</link>
+    	-->
+	</sql>
+	
+	<!-- 获取用户的角色信息，做外部链接聚合用 -->
+	<sql id="getUserRoles">
+		select r.ROLE_ID,r.ROLE_NAME,ur.PUR_USER_ID from PMS_USER_ROLES ur inner join  PMS_ROLE r on r.ROLE_ID = ur.PUR_ROLE_ID
+		<where>
+			<clause prepend="and"> r.ROLE_ISDEL = 0 </clause>
+			<clause prepend="and"> ur.PUR_USER_ID in ([0]) </clause>
+		</where>
+	</sql>
+	
+	<!-- 根据主键得到用户 -->
+	<sql id="getUserById"  result="userQuery">
+		SELECT * FROM PMS_USER WHERE USER_ID = [0]
+		<!--
+		<link sqlId="getServiceUserAreas" pkey="USER_ID" fkey="AREA_USER_ID">
+    		<column name="ITEM_ID" alias="ITEM_IDS" op="join" split="," />
+    		<column name="ITEM_VALUE" alias="ITEM_VALUES" op="join" split="," />
+    	</link>
+    	-->
+	</sql>
+	<sql id="getServiceUserAreas">
+		select ua.area_user_id,i.item_id,i.item_value from PMS_USER_AREA ua 
+		inner join CUS_LOOKUP_ITEM i on i.ITEM_ID = ua.AREA_ID
+		<where>
+			<clause prepend="and"> i.item_isdel = 0 </clause>
+		</where>
+	</sql>
+
+    <!--根据账号查询用户-->
+    <sql id="queryUserByAccount">
+        select * from pms_user where user_account = [$0] and user_isdel = 0
+    </sql>
+    <!-- 部门ID查询管理片区集合 -->
+	<sql id="getUserAreaList" result="pmsUserArea">
+		SELECT * FROM PMS_USER_AREA WHERE AREA_USER_ID = [userId]
+	</sql>
+	<!-- 删除关联管理区 -->
+	<sql id="deleleteAreaUserById">
+		delete from PMS_USER_AREA where PDA_ID = [pdaId]
+	</sql>
+	<!-- 新增机构关联服务区 -->
+	<sql id="insertUserArea" >
+		INSERT INTO PMS_USER_AREA (PDA_ID,AREA_ID,AREA_USER_ID) VALUES ([$pdaId]
+		<clause prepend="," >[$areaId]</clause>
+		<clause prepend="," >[$areaUserId]</clause>
+		)
+	</sql>
+	<!-- 通过部门Id查询用户关联的管理区 -->
+	<sql id="getUserAreaListById" result="pmsUserArea">
+		SELECT * FROM PMS_USER_AREA WHERE 
+		AREA_USER_ID in (select USER_ID from PMS_USER where USER_DEPT_ID = [deptId])
+	</sql>
+    <!-- 根据user_deptId查询未删除用户-->
+	<sql id="getUserDeptIdcount">
+		SELECT COUNT(*) FROM PMS_USER 
+		<where>
+			<clause prepend="and" > USER_ISDEL=0  </clause>
+			<clause prepend="and" > USER_DEPT_ID=[$0]  </clause>
+		</where>
+	</sql>
+
+    <!--检查用户名和用户编号是否重复-->
+    <sql id="getUserForCheckRepeat">
+        select * from pms_user
+        <where>
+            <clause prepend="and" assert="!isNull([userId])"> <![CDATA[ user_id <> [$userId] ]]> </clause>
+            <clause prepend="and" assert="!isNull([userAccount])"> user_account = [$userAccount]</clause>
+            <clause prepend="and" > user_isdel = 0</clause>
+        </where>
+    </sql>
+    
+    <!-- 机构用户树数据权限,业务主管 -->
+    <clause id="deptUserDataPermit" >
+    	<clause prepend="and" assert="!isNull([{0}])" >
+	        <clause assert="!isNull([{1}])" >
+	            <clause assert="!isNullOrEmpty({2})">{2}.</clause>DEPT_ID in (SELECT DEPT_ID FROM PMS_USER_ROLE_DEPT WHERE ROLE_ID = [{1}] AND USER_ID = [{0}])
+	        </clause>
+	    </clause>
+    </clause>
+    
+    <!--通过userId和roleId获取可管理的用户-->
+    <sql id="getDeptManageUsersByUserId">
+        select u.* from pms_user u
+        left join pms_dept d on d.dept_id = u.user_dept_id
+        <where>
+            <clause prepend="and">u.user_isdel = 0</clause>
+            <clause parent="deptUserDataPermit" params="userId,roleId,d"/>
+        </where>
+    </sql>
+    
+    <!--通过userId获取可管理的用户-->
+    <sql id="getManageUsersByUserId">
+        select u.* from pms_user u
+        left join pms_dept d on d.dept_id = u.user_dept_id
+        <where>
+            <clause prepend="and">u.user_isdel = 0</clause>
+            <clause parent="deptManagerRight" params="userId,d"/>
+        </where>
+    </sql>
+
+    <sql id="getAssignedAreaMapList">
+        select sa.item_id id,sa.item_value value,ua.AREA_USER_ID parent from CUS_LOOKUP_ITEM sa
+        left join PMS_DEPT_AREA da on sa.ITEM_ID = da.AREA_ID
+        left join PMS_DEPT d on d.dept_id = da.AREA_DEPT_ID
+        left join PMS_USER_AREA ua on ua.AREA_ID = sa.item_id
+        left join pms_user u on u.user_id = ua.area_user_id and u.user_isdel = 0
+        where sa.item_isdel = 0 and ua.PDA_ID is not null
+        <clause parent="deptManagerRight" params="userId,d"/>
+    </sql>
+
+    <sql id="getUnassignedAreaMapList">
+        select sa.item_id id,sa.item_value value,da.AREA_DEPT_ID parent from CUS_LOOKUP_ITEM sa
+        left join PMS_DEPT_AREA da on sa.ITEM_ID = da.AREA_ID
+        left join PMS_DEPT d on d.dept_id = da.AREA_DEPT_ID
+        left join PMS_USER_AREA ua on ua.AREA_ID = sa.item_id
+        left join pms_user u on u.user_id = ua.area_user_id and u.user_isdel = 0
+        where sa.item_isdel = 0 and ua.PDA_ID is null
+        <clause parent="deptManagerRight" params="userId,d"/>
+    </sql>
+
+    <sql id="getUserManageAreaMapList">
+        select sa.item_id id,sa.item_value value,ua.AREA_USER_ID parent from CUS_LOOKUP_ITEM sa
+        left join PMS_USER_AREA ua on ua.AREA_ID = sa.item_id
+        where sa.item_isdel = 0 and ua.AREA_USER_ID = [$userId]
+    </sql>
+
+    <!-- 人员片区权限-->
+    <clause id="userAreaRight">
+        <clause assert="!isNullOrEmpty({2})">{2}.</clause>{1} in
+        (
+            select ua.AREA_ID from PMS_USER_AREA ua
+            left join pms_user u on u.user_id = ua.area_user_id
+            where ua.AREA_USER_ID in ([{0}]) and u.user_isdel = 0
+        )
+    </clause>
+
+    <!--人员片区最大权限-->
+    <clause id="userAreaAllRight">
+        <clause assert="!isNullOrEmpty({2})">{2}.</clause>{1} in
+        (
+            select ua.AREA_ID from PMS_USER_AREA ua
+            left join pms_user u on u.user_id = ua.area_user_id
+            left join pms_dept d on d.dept_id = u.user_dept_id
+            <where>
+                <clause prepend="and"> u.user_isdel = 0 </clause>
+                <clause parent="deptManagerRight" params="{0},d"></clause>
+            </where>
+        )
+    </clause>
+
+    <!--根据部门id获取他的业务主管-->
+    <sql id="getManageUserNames">
+        select u.USER_DEPT_ID,u.USER_NAME from pms_user u
+        left join PMS_USER_ROLES ur on ur.PUR_USER_ID = u.user_id
+        left join PMS_ROLE_DATA_PERMIT rdp on ur.PUR_ROLE_ID = rdp.PRDP_ROLE_ID
+        left join PMS_DATA_PERMIT dp on dp.PDP_ID = rdp.PRDP_PERMIT_ID
+        where u.user_dept_id in ([0]) and u.user_isdel = 0
+        and dp.PDP_TYPE = 'manageDept'
+    </sql>
+
+    <!--根据用户账号或者用户编辑获取用户信息-->
+    <sql id="getPmsUserByAccount">
+        select * from pms_user
+        <where>
+            <clause prepend="and" assert="!isNull([userAccount])"> <![CDATA[ user_account='[userAccount]' ]]> </clause>
+            <clause prepend="and" assert="!isNull([userCode])"> <![CDATA[ user_code='[userCode]' ]]> </clause>
+            <clause prepend="and" assert="!isNull([userIsdel])"> <![CDATA[ user_isdel='[userIsdel]' ]]> </clause>
+        </where>
+    </sql>
+    
+     <!--根据用户账号集合获取用户信息 added by huyb 2014-04-04 -->
+    <sql id="getUsersByIds">
+        SELECT U.*,D.DEPT_NAME FROM PMS_USER  U LEFT JOIN PMS_DEPT D ON U.USER_DEPT_ID = D.DEPT_ID  WHERE U.USER_ID in ([0])
+    </sql>
+    
+    <!-- 根据主键得到用户信息 -->
+	<sql id="getUserInfoById"  result="userQuery">
+		SELECT U.*,D.DEPT_NAME,D.DEPT_CODE FROM PMS_USER U
+		left join PMS_DEPT D on U.USER_DEPT_ID = D.DEPT_ID
+		WHERE U.USER_ID = [0]
+		<link sqlId="getUserRoles" pkey="USER_ID" fkey="PUR_USER_ID">
+	    	<column name="ROLE_ID" alias="ROLE_IDS" op="join" split="," />
+    		<column name="ROLE_NAME" alias="ROLE_NAMES" op="join" split="," />
+    	</link>
+	</sql>
+    <!--通过userId获取可管理的网点的用户-->
+    <sql id="getManageBranchUsersByUserId">
+        select u.* from pms_user u
+        inner join pms_dept d on d.dept_id = u.user_dept_id
+        and u.user_dept_id not in
+        ( select t1.dept_id
+          from pms_dept t1
+          inner join pms_dept t2
+          on t1.dept_id = t2.dept_parent_id
+        )
+        <where>
+            <clause prepend="and">u.user_isdel = 0</clause>
+            <clause parent="deptManagerRight" params="userId,d"/>
+        </where>
+    </sql>
+
+    <sql id="getUserInfoList">
+        select * from pms_user
+        <where>
+            <clause prepend="and" assert="!isNull([deptId])"> <![CDATA[ USER_DEPT_ID='[deptId]' ]]> </clause>
+			<clause prepend="and" assert="!isNull([account])"> <![CDATA[ USER_ACCOUNT='[account]' ]]> </clause>
+        </where>
+    </sql>
+    <!--修改状态-->
+    <sql id="updateUserStatue">
+        UPDATE PMS_USER
+        <set>
+            <clause prepend="," assert="!isNull([userStatus])" >USER_STATUS = [$userStatus]</clause>
+        </set>
+        <where>
+            USER_ID = [$userId]
+        </where>
+    </sql>
+    
+    <!-- 得到可用的用户数，除了管理员 -->
+    <sql id="getEnableUserCount" >
+    	select count(*) from PMS_USER where USER_ISDEL = 0 and USER_STATUS = 1 and USER_ID > 1
+        and USER_CREATE_USER = [0]
+    </sql>
+    
+    <!-- 获得摄像头状态数量 -->
+    <sql id="getOnlineStateCount" >
+    	select count(*) FROM VIDEO_ONLINE_STATE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([clientIp])" > CLIENT_IP = '[clientIp]' </clause>
+			<clause prepend="and" assert="!isNull([clientIpIntval])" > CLIENT_IP_INTVAL = [clientIpIntval] </clause>
+			<clause prepend="and" assert="!isNull([deviceState])" > DEVICE_STATE = [deviceState] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([clientVer])" > CLIENT_VER = '[clientVer]' </clause>
+			<clause parent="DateSpan" params="LAST_CONNECT_TIME,lastConnectTime,lastConnectTimeEnd" ></clause>
+		</where>
+    </sql>
+	
+	<sql id="getUserNameByIds">
+		SELECT USER_ID,USER_NAME FROM PMS_USER
+		<where>
+			<clause prepend="and" assert="!isNull([0])" > USER_ID IN (<for in="[0]" split=",">{item}</for>) </clause>
+			<clause prepend="and" assert="isNull([0])" > 1 = 0 </clause>
+		</where>
+	</sql>
+
+	<!--根据组ID查询客户经理-->
+	<sql id="queryUserByGroupPermit">
+		SELECT * FROM PMS_USER U INNER JOIN PMS_USER_ROLES R ON U.USER_ID = R.PUR_USER_ID
+		WHERE U.USER_ID IN (SELECT USER_ID FROM PMS_USER WHERE USER_GROUP_PERMIT = '[userGroupPermit]') AND R.PUR_ROLE_ID = 4
+	</sql>
+
+	<!-- 得返回名称 -->
+	<sql id="getUserNamesByIds">
+		SELECT USER_NAME FROM PMS_USER
+		<where>
+			<clause prepend="and" assert="!isNull([0])" > USER_ID IN (<for in="[0]" split=",">{item}</for>) </clause>
+			<clause prepend="and" assert="isNull([0])" > 1 = 0 </clause>
+		</where>
+	</sql>
+
+	<!-- Link，列表上显示用户姓名 -->
+	<sql id="getLinkUserNameByIds" >
+		SELECT USER_ID,USER_NAME FROM PMS_USER WHERE USER_ID IN (<for in="[0]" split=",">{item}</for>)
+	</sql>
+
+	<sql id="queryTotolUserNum">
+		SELECT COUNT(USER_ID) FROM PMS_USER
+	</sql>
+
+	<sql id="getUserGroupIdsByUserId" cache="UserGroupPermitCache" >
+		SELECT CASE WHEN USER_GROUP_PERMIT <![CDATA[<>]]> '' THEN USER_GROUP_PERMIT ELSE '0' END AS USER_GROUP_PERMIT FROM PMS_USER WHERE USER_ID = [0]
+	</sql>
+
+	<sql id = "queryUserGroupPermitByUserId">
+		SELECT USER_GROUP_PERMIT FROM PMS_USER WHERE USER_ID = [0]
+	</sql>
+
+	<!-- 根据角色查询用户 -->
+	<sql id="queryUserListByRoleId">
+		SELECT
+		PU.USER_ID,
+		PU.USER_ACCOUNT,
+		PU.USER_NAME
+		FROM
+		SYS_TEAM_MEMBER STM
+		LEFT JOIN
+		PMS_USER PU
+		ON
+		STM.USER_ID=PU.USER_ID
+		LEFT JOIN
+		PMS_USER_ROLES PUR
+		ON
+		PUR.PUR_USER_ID=PU.USER_ID
+		WHERE
+		STM.TEAM_GROUP_ID=[1]
+		AND PUR.PUR_ROLE_ID=[0]
+		ORDER BY
+		PU.USER_ID
+	</sql>
+
+	<sql id = "getUserIdsByTeamIds">
+		SELECT COUNT(*) FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN ([teamIds]) AND USER_ID = [userId]
+	</sql>
+
+
+</banger>

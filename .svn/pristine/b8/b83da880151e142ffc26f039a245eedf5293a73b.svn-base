@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="SysModelConfigExtend" name="banger.domain.system.SysModelConfigExtend">
+		<property name="projectName" column="PROJECT_NAME"></property>
+		<property name="dictCnName" column="DICT_CN_NAME"></property>
+	</class>
+	<!-- 新增模型列表 -->
+	<sql id="insertModelManagement" >
+		INSERT INTO SYS_MODEL_MANAGEMENT (MODEL_ID,MODEL_NAME,DICT_CN_NAME,MATCH_PROJECT_NAME,MODEL_ORDER_NUM,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$modelId]
+		<clause prepend="," nvl="''" >[$modelName]</clause>
+		<clause prepend="," nvl="''" >[$dictCnName]</clause>
+		<clause prepend="," nvl="''" >[$matchProjectName]</clause>
+		<clause prepend="," nvl="0" >[$modelOrderNum]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改模型列表 -->
+	<sql id="updateModelManagement" >
+		UPDATE SYS_MODEL_MANAGEMENT 
+		<set>
+			<clause prepend="," assert="!isNull([modelName])" >MODEL_NAME = [$modelName]</clause>
+			<clause prepend="," assert="!isNull([dictCnName])" >DICT_CN_NAME = [$dictCnName]</clause>
+			<clause prepend="," assert="!isNull([matchProjectName])" >MATCH_PROJECT_NAME = [$matchProjectName]</clause>
+			<clause prepend="," assert="!isNull([modelOrderNum])" >MODEL_ORDER_NUM = [$modelOrderNum]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 MODEL_ID = [$modelId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到模型列表 -->
+	<sql id="getModelManagementById" >
+		SELECT * FROM SYS_MODEL_MANAGEMENT WHERE MODEL_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除模型列表 -->
+	<sql id="deleteModelManagementById" >
+		DELETE FROM SYS_MODEL_MANAGEMENT WHERE MODEL_ID = [0]
+	</sql>
+
+	<!-- 查询模型列表 -->
+	<sql id="queryModelManagementList" >
+		SELECT * FROM SYS_MODEL_MANAGEMENT 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([modelName])" > MODEL_NAME = '[modelName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictCnName])" > DICT_CN_NAME = '[dictCnName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([matchProjectName])" > MATCH_PROJECT_NAME = '[matchProjectName]' </clause>
+			<clause prepend="and" assert="!isNull([modelOrderNum])" > MODEL_ORDER_NUM = [modelOrderNum] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+		<!-- 查询最大排序号 -->
+	<sql id="queryModelMaxOrderNum">
+		SELECT MAX(MODEL_ORDER_NUM) FROM SYS_MODEL_MANAGEMENT
+	</sql>
+	
+	<!-- 模型匹配选择 -->
+	<sql id="cdSysModelMatch">
+		SELECT * FROM SYS_MODEL_MANAGEMENT
+	</sql>
+
+	<sql id="queryShowPage" result="SysModelConfigExtend">
+		SELECT P.PROJECT_NAME,C.CONFIG_KEY,C.CONFIG_VALUE,M.DICT_CN_NAME FROM SYS_MATCH_PROJECT P
+		INNER JOIN SYS_MODEL_CONFIG C ON P.MODEL_ID = C.MODEL_ID
+		INNER JOIN SYS_MODEL_MANAGEMENT M ON P.MODEL_ID = M.MODEL_ID
+		<where>
+			<clause prepend="and" assert="!isNull([projectName])" > P.PROJECT_NAME = '[projectName]' </clause>
+		</where>
+	</sql>
+</banger>

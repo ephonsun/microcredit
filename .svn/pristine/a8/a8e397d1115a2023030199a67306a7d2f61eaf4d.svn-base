@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="ApproveProcessResult" name="banger.domain.loan.WfApproveProcess_Query">
+		<property name="revievRoleName" column="REVIEV_ROLE_NAME"></property>
+		<property name="reviewMode" column="REVIEW_MODE"></property>
+		<property name="reviewDataPower" column="REVIEW_DATA_POWER"></property>
+		<property name="reviewCount" column="REVIEW_COUNT"></property>
+		<property name="isLimitControl" column="IS_LIMIT_CONTROL"></property>
+		<property name="roleCount" column="ROLE_COUNT"></property>
+	</class>
+
+	<!-- 新增审批流环节定义表 -->
+	<sql id="insertApproveProcess" >
+		INSERT INTO WF_APPROVE_PROCESS (PROCESS_ID,FLOW_ID,PARAM_ID,PROCESS_NAME,ORDER_NO,IS_ACTIVED,IS_DEL,IS_FIXED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$processId]
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="0" >[$paramId]</clause>
+		<clause prepend="," nvl="''" >[$processName]</clause>
+		<clause prepend="," nvl="0" >[$orderNo]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$isFixed]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改审批流环节定义表 -->
+	<sql id="updateApproveProcess" >
+		UPDATE WF_APPROVE_PROCESS
+		<set>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+			<clause prepend="," assert="!isNull([paramId])" >PARAM_ID = [$paramId]</clause>
+			<clause prepend="," assert="!isNull([processName])" >PROCESS_NAME = [$processName]</clause>
+			<clause prepend="," assert="!isNull([orderNo])" >ORDER_NO = [$orderNo]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([isFixed])" >IS_FIXED = [$isFixed]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			PROCESS_ID = [$processId]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到审批流环节定义表 -->
+	<sql id="getApproveProcessById" >
+		SELECT * FROM WF_APPROVE_PROCESS WHERE PROCESS_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批流环节定义表 -->
+	<sql id="deleteApproveProcessById" >
+		UPDATE WF_APPROVE_PROCESS SET IS_DEL = 1 WHERE PROCESS_ID = [0]
+	</sql>
+	
+	<!-- 通过参数ID删除审批流环节定义表 -->
+	<sql id="deleteApproveProcessByParamId" >
+		UPDATE WF_APPROVE_PROCESS SET IS_DEL = 1 WHERE PARAM_ID = [0]
+	</sql>
+
+	<!-- 查询审批流环节定义表 -->
+	<sql id="queryApproveProcessList" result="ApproveProcessResult">
+		SELECT
+		WAP.*,RV.REVIEW_MODE,RV.REVIEW_DATA_POWER,RV.REVIEV_ROLE_ID,RV.REVIEW_COUNT,RV.IS_LIMIT_CONTROL,RT.ROLE_COUNT,PR.ROLE_NAME AS REVIEV_ROLE_NAME
+		FROM
+		WF_APPROVE_PROCESS WAP
+		INNER JOIN (SELECT * FROM WF_APPROVE_PROCESS_REVIEW WHERE ID IN (
+		SELECT MIN(ID) FROM WF_APPROVE_PROCESS_REVIEW GROUP BY PROCESS_ID
+		)) RV ON WAP.PROCESS_ID = RV.PROCESS_ID
+		LEFT JOIN PMS_ROLE PR ON RV.REVIEV_ROLE_ID = PR.ROLE_ID
+		INNER JOIN (
+		SELECT PROCESS_ID,COUNT(*) AS ROLE_COUNT FROM WF_APPROVE_PROCESS_REVIEW GROUP BY PROCESS_ID
+		) RT ON WAP.PROCESS_ID = RT.PROCESS_ID
+		<where>
+			<clause prepend="and" assert="!isNull([flowId])" > WAP.FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([paramId])" > WAP.PARAM_ID = [paramId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([processName])" > WAP.PROCESS_NAME = '[processName]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > WAP.IS_ACTIVED = [isActived] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > WAP.IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([isFixed])" > WAP.IS_FIXED = [isFixed] </clause>
+			<clause parent="DateSpan" params="WAP.CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="WAP.UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > WAP.CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > WAP.UPDATE_USER = [updateUser] </clause>
+		</where>
+		ORDER BY WAP.ORDER_NO
+	</sql>
+
+	<!-- 通过流程ID和参数ID，得到审批环节 -->
+	<sql id="getApproveProcessListByFlowId" >
+		SELECT * FROM WF_APPROVE_PROCESS WHERE IS_DEL = 0 AND IS_ACTIVED = 1 AND FLOW_ID = [0] AND PARAM_ID = [1] ORDER BY ORDER_NO
+	</sql>
+	
+	<sql id="getApproveProcessCount">
+		SELECT COUNT(*) FROM WF_APPROVE_PROCESS 
+		<where>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([paramId])" > PARAM_ID = [paramId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+		</where>
+	</sql>
+	
+	<sql id="getApproveProcessMaxNo">
+		SELECT MAX(ORDER_NO) FROM WF_APPROVE_PROCESS 
+		<where>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([paramId])" > PARAM_ID = [paramId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="modeTemplateFieldExtend" name="banger.domain.config.ModeTemplateFieldExtend" >
+		<property name="fieldType" column="FIELD_TYPE" ></property>
+		<property name="fieldNumberUnit" column="FIELD_NUMBER_UNIT" ></property>
+	</class>
+	<class id="ModeScoreCustomField" name="banger.domain.config.ModeScoreCustomField" >
+		<property name="optionId" column="OPTION_ID"></property>
+		<property name="modeId" column="MODE_ID"></property>
+		<property name="fieldType" column="FIELD_TYPE"></property>
+	</class>
+	<!-- 新增评分模型积分项模板字段表 -->
+	<sql id="insertTemplateField" >
+		INSERT INTO MODE_TEMPLATE_FIELD (FIELD_ID,TEMPLATE_ID,TABLE_NAME,TALBE_COLUMN,FIELD_NAME,FIELD_DISPLAY,TEMPLATE_MODULE,TEMPLATE_COMMENT,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$fieldId]
+		<clause prepend="," nvl="0" >[$templateId]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$talbeColumn]</clause>
+		<clause prepend="," nvl="''" >[$fieldName]</clause>
+		<clause prepend="," nvl="''" >[$fieldDisplay]</clause>
+		<clause prepend="," nvl="''" >[$templateModule]</clause>
+		<clause prepend="," nvl="''" >[$templateComment]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改评分模型积分项模板字段表 -->
+	<sql id="updateTemplateField" >
+		UPDATE MODE_TEMPLATE_FIELD 
+		<set>
+			<clause prepend="," assert="!isNull([templateId])" >TEMPLATE_ID = [$templateId]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([talbeColumn])" >TALBE_COLUMN = [$talbeColumn]</clause>
+			<clause prepend="," assert="!isNull([fieldName])" >FIELD_NAME = [$fieldName]</clause>
+			<clause prepend="," assert="!isNull([fieldDisplay])" >FIELD_DISPLAY = [$fieldDisplay]</clause>
+			<clause prepend="," assert="!isNull([templateModule])" >TEMPLATE_MODULE = [$templateModule]</clause>
+			<clause prepend="," assert="!isNull([templateComment])" >TEMPLATE_COMMENT = [$templateComment]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 FIELD_ID = [$fieldId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到评分模型积分项模板字段表 -->
+	<sql id="getTemplateFieldById" >
+		SELECT * FROM MODE_TEMPLATE_FIELD WHERE FIELD_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除评分模型积分项模板字段表 -->
+	<sql id="deleteTemplateFieldById" >
+		DELETE FROM MODE_TEMPLATE_FIELD WHERE FIELD_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除评分模型积分项模板字段表 -->
+	<sql id="queryTemplateFieldNames">
+		SELECT * FROM MODE_TEMPLATE_FIELD WHERE IS_ACTIVED = 1
+	</sql>
+
+	<!-- 查询评分模型积分项模板字段表 -->
+	<sql id="queryTemplateFieldList" >
+		SELECT * FROM MODE_TEMPLATE_FIELD 
+		<where>
+			<clause prepend="and" assert="!isNull([templateId])" > TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([talbeColumn])" > TALBE_COLUMN = '[talbeColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > FIELD_NAME = '[fieldName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldDisplay])" > FIELD_DISPLAY = '[fieldDisplay]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateModule])" > TEMPLATE_MODULE = '[templateModule]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateComment])" > TEMPLATE_COMMENT = '[templateComment]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+<!-- 查询评分模型积分项模板字段表并列出auto_table_column的field_type -->
+	<sql id="queryTemplateFieldAndTypeList" result="modeTemplateFieldExtend" >
+		SELECT  A.FIELD_NUMBER_UNIT, A.FIELD_TYPE,F.* FROM MODE_TEMPLATE_FIELD F INNER JOIN MODE_TEMPLATE_INFO I ON F.TEMPLATE_ID = I.TEMPLATE_ID
+		LEFT JOIN AUTO_TABLE_COLUMN A ON F.TALBE_COLUMN = A.FIELD_COLUMN AND F.TABLE_NAME = A.TABLE_NAME
+		<where>
+			<clause prepend="and" assert="!isNull([templateId])" > F.TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > F.TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([talbeColumn])" > F.TALBE_COLUMN = '[talbeColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > F.FIELD_NAME = '[fieldName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldDisplay])" > F.FIELD_DISPLAY = '[fieldDisplay]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateModule])" > F.TEMPLATE_MODULE = '[templateModule]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateComment])" > F.TEMPLATE_COMMENT = '[templateComment]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > F.IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > F.CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > F.UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<sql id="queryModelTemplateInfoColunm">
+		SELECT F.TEMPLATE_ID,F.FIELD_ID,I.TABLE_NAME,F.FIELD_NAME,F.FIELD_DISPLAY,A.FIELD_SORTNO FROM MODE_TEMPLATE_FIELD F INNER JOIN MODE_TEMPLATE_INFO I
+		ON F.TEMPLATE_ID = I.TEMPLATE_ID
+		LEFT JOIN
+		AUTO_TABLE_COLUMN A
+		ON
+		F.TALBE_COLUMN = A.FIELD_COLUMN AND F.TABLE_NAME = A.TABLE_NAME
+		<where>
+			F.IS_ACTIVED = 1
+			<clause prepend="and" assert="!isNull([templateId])" > F.TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > F.FIELD_NAME like '%[fieldName]%' </clause>
+		</where>
+		ORDER BY TEMPLATE_ID,FIELD_SORTNO
+	</sql>
+
+	<sql id="getLoanModelScoreByModeId" result="ModeScoreCustomField">
+		SELECT ATC.FIELD_TYPE, MSF.OPTION_ID,msf.MODE_ID,MTF.* FROM MODE_SCORE_FIELD MSF, MODE_TEMPLATE_FIELD MTF,AUTO_TABLE_COLUMN ATC
+		WHERE MSF.TEMPLATE_ID = MTF.TEMPLATE_ID AND MSF.FIELD_ID = MTF.FIELD_ID
+		AND   ATC.TABLE_NAME = MTF.TABLE_NAME     AND MTF.TALBE_COLUMN=ATC.FIELD_COLUMN
+		AND   MSF.MODE_ID = [modeId]
+	</sql>
+</banger>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<!-- 通过用户得到角色 -->
+	<sql id="getRolesByUserId" >
+		SELECT * FROM PMS_ROLE INNSER JOIN PMS_USER_ROLES ON ROLE_ID = PUR_ROLE_ID AND ROLE_ISDEL = 0
+		WHERE PUR_USER_ID = [0]
+		order by ROLE_ID desc
+	</sql>
+	
+	<!-- 通过用户得到角色 -->
+	<sql id="getUserAllRoles" >
+        SELECT * FROM PMS_ROLE
+		 <where>
+            <clause prepend="and"> ROLE_ISDEL = 0 </clause>
+            <clause prepend="and"> <![CDATA[ ROLE_TYPE <>1 ]]> </clause>
+         </where>
+        order by ROLE_SORT
+	</sql>
+	
+	<!-- 通过主键得到角色 -->
+	<sql id="getRoleById" >
+		SELECT * FROM PMS_ROLE WHERE ROLE_ID = [0]
+	</sql>
+	
+	<!-- 新增角色 -->
+	<sql id="insertRole" >
+		INSERT INTO PMS_ROLE (ROLE_ID,ROLE_TYPE,ROLE_NAME,ROLE_ISDEL,ROLE_SORT,ROLE_REMARK,ROLE_IS_DEFAULT,ROLE_CREATE_DATE,ROLE_UPDATE_DATE,ROLE_CREATE_USER,ROLE_UPDATE_USER,ROLE_CAN_APPROVAL,ROLE_IS_FIXED) VALUES ([$roleId]
+		<clause prepend="," nvl="99" >[$roleType]</clause>
+		<clause prepend="," nvl="''" >[$roleName]</clause>
+		<clause prepend="," nvl="0" >[$roleIsdel]</clause>
+		<clause prepend="," >[$roleSort]</clause>
+		<clause prepend="," nvl="''" >[$roleRemark]</clause>
+        <clause prepend="," nvl="0" >[$roleIsDefault]</clause>
+		<clause prepend="," >[$roleCreateDate]</clause>
+		<clause prepend="," >[$roleUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$roleCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$roleUpdateUser]</clause>
+		<clause prepend="," nvl="0" >[$roleCanApproval]</clause>
+		<clause prepend="," nvl="0" >[$roleIsFixed]</clause>
+		)
+	</sql>
+
+	<!-- 修改角色 -->
+	<sql id="updateRole" >
+		UPDATE PMS_ROLE 
+		<set>
+			<clause prepend="," assert="!isNull([roleType])" >ROLE_TYPE = [$roleType]</clause>
+			<clause prepend="," assert="!isNull([roleName])" >ROLE_NAME = [$roleName]</clause>
+			<clause prepend="," assert="!isNull([roleIsdel])" >ROLE_ISDEL = [$roleIsdel]</clause>
+			<clause prepend="," assert="!isNull([roleRemark])" >ROLE_REMARK = [$roleRemark]</clause>
+			<clause prepend="," assert="!isNull([roleCreateDate])" >ROLE_CREATE_DATE = [$roleCreateDate]</clause>
+			<clause prepend="," assert="!isNull([roleUpdateDate])" >ROLE_UPDATE_DATE = [$roleUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([roleCreateUser])" >ROLE_CREATE_USER = [$roleCreateUser]</clause>
+			<clause prepend="," assert="!isNull([roleUpdateUser])" >ROLE_UPDATE_USER = [$roleUpdateUser]</clause>
+			<clause prepend="," assert="!isNull([roleCanApproval])" >ROLE_CAN_APPROVAL = [$roleCanApproval]</clause>
+		</set>
+		<where>
+			 ROLE_ID = [$roleId] 
+		</where>
+	</sql>
+	
+	<!-- 删除角色 -->
+	<sql id="deleteRoleById" >
+		UPDATE PMS_ROLE SET ROLE_ISDEL = 1 WHERE ROLE_ID = [0]
+	</sql>
+	
+	<!-- 查询角色 -->
+	<sql id="queryRoleList" >
+		SELECT * FROM PMS_ROLE
+        <where>
+            <clause prepend="and"> ROLE_ISDEL = 0 </clause>
+           <!-- <clause prepend="and"> <![CDATA[ ROLE_IS_DEFAULT =1 ]]> </clause>-->
+            <clause prepend="and" assert="!isNullOrEmpty([roleName])" >ROLE_NAME LIKE '%[roleName]%'</clause>
+        </where>
+		order by ROLE_SORT
+	</sql>
+
+	<!-- 通过ROLE_CAN_APPROVAL得到角色 -->
+	<sql id="getRolesByType" >
+		SELECT * FROM PMS_ROLE WHERE ROLE_ISDEL = 0 AND ROLE_CAN_APPROVAL = [0] ORDER BY ROLE_IS_FIXED DESC,ROLE_SORT ASC
+	</sql>
+
+    <!--校验角色名是否重复-->
+    <sql id="getRoleForCheckRepeat">
+        SELECT * FROM PMS_ROLE
+        <where>
+            <clause prepend="and"> ROLE_ISDEL = 0 </clause>
+            <clause prepend="and" assert="!isNull([roleId])"> <![CDATA[ ROLE_ID <> [$roleId] ]]></clause>
+            <clause prepend="and"> ROLE_NAME = [$roleName]</clause>
+        </where>
+    </sql>
+    
+    <!-- 查询所有可以审批的角色 -->
+    <sql id="getCanApprovalRole">
+    	SELECT * FROM PMS_ROLE WHERE ROLE_ISDEL = 0 AND ROLE_CAN_APPROVAL = 1 ORDER BY ROLE_SORT 
+    </sql>
+
+	<!--查询用户所有的id-->
+	<sql id="getPmsRoleListByUserId" result="pmsUserRoles_">
+		SELECT * FROM PMS_USER_ROLES WHERE PUR_USER_ID = [purUserId]
+	</sql>
+
+	<sql id="getRoleIdbyUID">
+		SELECT * FROM PMS_ROLE WHERE ROLE_ID in (
+		SELECT PUR_ROLE_ID FROM PMS_USER u,PMS_USER_ROLES r
+		WHERE u.USER_ID = r.PUR_USER_ID AND u.USER_ID = [0] )  AND ROLE_ISDEL = 0
+	</sql>
+
+	<sql id="getTeamRolesByGroupId">
+		SELECT
+		distinct PR.*
+		FROM
+		SYS_TEAM_MEMBER STM
+		LEFT JOIN
+		PMS_USER PU
+		ON
+		STM.USER_ID=PU.USER_ID
+		LEFT JOIN
+		PMS_USER_ROLES PUR
+		ON
+		PUR.PUR_USER_ID=PU.USER_ID
+		LEFT JOIN
+		PMS_ROLE PR
+		ON
+		PUR.PUR_ROLE_ID=PR.ROLE_ID
+		WHERE
+		STM.TEAM_GROUP_ID=[0] AND ROLE_TYPE=3
+
+	</sql>
+
+
+</banger>

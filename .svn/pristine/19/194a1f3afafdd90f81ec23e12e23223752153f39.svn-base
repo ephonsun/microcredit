@@ -1,0 +1,1235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>贷款列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<form id="form" action="" onsubmit="return false;">
+    <input type="hidden" id="benchMode" name="benchMode" value="$!benchMode">
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields" >
+            #if($!module == 'all')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>产品类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="productType" name="productType">
+                            <option></option>
+                            #datadict("","CD_PRODUCT_TYPE")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款状态：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="afterState" name="afterState">
+                            <option></option>
+                            #options("cdDictColByName","","CD_LOAN_AFTERLOAN_STATUS")
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>贷款阶段：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="processType" name="processType">
+                            <option></option>
+                            #enumOptions("loanProcess","$!benchMode")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>放款期限：</label>
+                    </td>
+                    <td width="18%">
+                                <div class="ui-text fl" style="width:80px;">
+                                    <input type="text" name="loanStartTime" maxlength="13" class="ui-text-text" numFlag="true" id="loanStartTime" />
+                                </div>
+                                <label class="dash fl">-</label>
+                                <div class="ui-text fl" style="width:80px;">
+                                    <input type="text" name="loanEndTime" maxlength="13" class="ui-text-text" numFlag="true" id="loanEndTime" />
+                                </div>
+                                <label class="dash fl">
+                                    期
+                                </label>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>申请日期：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>放款日期：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="loanStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="loanEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                    <label>提交审批日期：</label>
+                </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="auditStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="auditEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <td class="field" width="7%">
+                        <label>审批结束日期：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="auditEndStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="auditEndEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+
+                        <td class="field" width="7%">
+                            <label>合同开始日期：</label>
+                        </td>
+
+                        <td width="18%">
+                            <table class="ui-form-fields-cell">
+                                <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="loanContractStartDate" class="ui-text-text" name="condition.createDate" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="loanContractEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    <td class="field" width="7%">
+                        <label>合同到期日期：</label>
+                    </td>
+
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="loanContractEndStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="loanContractEndEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>新增/转贷：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="isNew" name="isNew">
+                            <option></option>
+                            #datadict("","CD_IS_NEW")
+                        </select>
+                    </td>
+                    #if($!noTeam != '1')
+                        <td class="field" width="7%">
+                            <label>归属团队：</label>
+                        </td>
+                        <td width="18%">
+                            <select id="teamId" name="teamId">
+                                <option></option>
+                                #foreach($team in $!teamGroups)
+                                    <option value="$!team.teamGroupId">$!team.teamGroupName</option>
+                                #end
+                            </select>
+                        </td>
+                    #end
+                    <td class="field" width="7%">
+                        <label>归属人：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="memberUser" name="memberUser" placeholder="" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>是否核心开户：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="isExistAccountNo" name="isExistAccountNo">
+                            <option></option>
+                            <option value="0">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            #end
+            #if($!module == 'apply')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>申请时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td width="7%">
+                    </td>
+                    <td width="18%">
+                    </td>
+                </tr>
+                </tbody>
+            #end
+            #if($!module == 'allot')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="5%">
+                        <label>提交申请时间：</label>
+                    </td>
+                    <td width="20%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>申请人：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="memberUserId" name="memberUserId">
+                            <option></option>
+                            #foreach($member in $!teamMembers)
+                                <option value="$!member.userId">$!member.userName</option>
+                            #end
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            #end
+            #if($!module == 'investigate')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>分配时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                    </td>
+                    <td width="18%">
+                    </td>
+                </tr>
+                </tbody>
+            #end
+            #if($!module == 'approval')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>提交审批时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                    </td>
+                    <td width="18%">
+                    </td>
+                </tr>
+                </tbody>
+            #end
+                #if($!module == 'contract')
+                    <tbody>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>客户：</label>
+                        </td>
+                        <td width="18%">
+                            <div class="ui-text">
+                                <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                            </div>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>贷款类型：</label>
+                        </td>
+                        <td width="18%">
+                            <select id="loanTypeId" name="loanTypeId">
+                                <option></option>
+                                #options("cdLoanType","","")
+                            </select>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>提交审批时间：</label>
+                        </td>
+                        <td width="18%">
+                            <table class="ui-form-fields-cell">
+                                <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="auditStartDate" class="ui-text-text" name="condition.createDate" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="auditEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="field" width="7%">
+                        </td>
+                        <td width="18%">
+                        </td>
+                    </tr>
+                    </tbody>
+                #end
+                #if($!module == 'sign')
+                    <tbody>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>客户：</label>
+                        </td>
+                        <td width="18%">
+                            <div class="ui-text">
+                                <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                            </div>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>贷款类型：</label>
+                        </td>
+                        <td width="18%">
+                            <select id="loanTypeId" name="loanTypeId">
+                                <option></option>
+                                #options("cdLoanType","","")
+                            </select>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>合同提交时间：</label>
+                        </td>
+                        <td width="18%">
+                            <table class="ui-form-fields-cell">
+                                <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="field" width="7%">
+                        </td>
+                        <td width="18%">
+                        </td>
+                    </tr>
+                    </tbody>
+                #end
+            #if($!module == 'loan')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>审批结束时间：</label>
+                    </td>
+
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="auditStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="auditEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>提交申请时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            #end
+                #if($!module == 'authorized')
+                    <tbody>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>客户：</label>
+                        </td>
+                        <td width="18%">
+                            <div class="ui-text">
+                                <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                            </div>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>贷款类型：</label>
+                        </td>
+                        <td width="18%">
+                            <select id="loanTypeId" name="loanTypeId">
+                                <option></option>
+                                #options("cdLoanType","","")
+                            </select>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>审批结束时间：</label>
+                        </td>
+
+                        <td width="18%">
+                            <table class="ui-form-fields-cell">
+                                <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="auditStartDate" class="ui-text-text" name="condition.createDate" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="auditEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="field" width="7%">
+                            <label>提交申请时间：</label>
+                        </td>
+                        <td width="18%">
+                            <table class="ui-form-fields-cell">
+                                <tbody>
+                                <tr>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                    <td width="20">-</td>
+                                    <td width="150">
+                                        <div class="ui-text">
+                                            <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                            <i class="ui-text-icon ui-text-date"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                #end
+            #if($!module == 'afterLoan')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款状态：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="afterState" name="afterState">
+                            <option></option>
+                            #options("cdDictColByName","","CD_LOAN_AFTERLOAN_STATUS")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>监控状态：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="montiorState" name="montiorState">
+                            <option></option>
+                            #enumOptions("monitor","")
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>还款提醒状态：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="collectionState" name="collectionState">
+                            <option></option>
+                            #enumOptions("collectionState","")
+                        </select>
+                    </td>
+                    <td class="field">
+                        <label>放贷时间：</label>
+                    </td>
+                    <td>
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td></td><td></td>
+                </tr>
+                </tbody>
+            #end
+            #if($!module == 'monitor')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="hidden" id="montiorState" name="montiorState" value="Monitor"/>
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>放贷时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>首次监控：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="firstMonitorState" name="firstMonitorState">
+                            <option value="-1"></option>
+                            <option value="0">未完成</option>
+                            <option value="1">已完成</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            #end
+            #if($!module == 'collection')
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>客户：</label>
+                    </td>
+                    <td width="18%">
+                        <div class="ui-text">
+                            <input type="hidden" id="collectionState" name="collectionState" value="Collection"/>
+                            <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option></option>
+                            #options("cdLoanType","","")
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>是否逾期：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="isOverdue" name="isOverdue">
+                            <option value=""></option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>还款账户余额：</label>
+                    </td>
+                    <td width="18%">
+                        <select id="isEnough" name="isEnough">
+                            <option value=""></option>
+                            <option value="1">充足</option>
+                            <option value="0">短缺</option>
+                        </select>
+                    </td>
+##                    <td class="field" width="7%">
+##                        <label>计划还款日期：</label>
+##                    </td>
+##                    <td width="18%">
+##                        <table class="ui-form-fields-cell">
+##                            <tbody>
+##                            <tr>
+##                                <td width="150">
+##                                    <div class="ui-text">
+##                                        <input type="text" id="txtStartDate" class="ui-text-text" name="condition.createDate" />
+##                                        <i class="ui-text-icon ui-text-date"></i>
+##                                    </div>
+##                                </td>
+##                                <td width="20">-</td>
+##                                <td width="150">
+##                                    <div class="ui-text">
+##                                        <input type="text" id="txtEndDate" class="ui-text-text" name="condition.createDateEnd" />
+##                                        <i class="ui-text-icon ui-text-date"></i>
+##                                    </div>
+##                                </td>
+##                            </tr>
+##                            </tbody>
+##                        </table>
+##                    </td>
+                </tr>
+                </tbody>
+            #end
+            </table>
+        </div>
+
+        <div class="ui-layout-search-foot">
+            <div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+                    <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="ui-layout-statistics">
+    #if($!module == 'all') 所有贷款信息 #end
+    #if($!module == 'apply') 所有申请 #end
+    #if($!module == 'allot') 所有待分配信息 #end
+    #if($!module == 'investigate') 所有待调查信息 #end
+    #if($!module == 'approval') 所有待审批信息 #end
+    #if($!module == 'contract')所有待录入贷款列表#end
+    #if($!module == 'sign')所有待合同签订列表#end
+    #if($!module == 'loan') 所有待放款信息 #end
+    #if($!module == 'afterLoan') 所有贷后信息 #end
+    #if($!module == 'monitor') 所有监控信息 #end
+    #if($!module == 'collection') 所有待还款信息 #end
+    #if($!module == 'authorized') 所有待授权信息 #end
+    (<label class="statistics" id="lblStatistics">0</label>)
+</div>
+<div class="ui-layout-action">
+    #if($!module == 'apply')
+        #if($funcPermit.hasFuncCode("loanApplyAdd"))
+            <span id="addApplyInfoBtn" class="ui-button fl" module="$!module">
+                <label class="ui-button-text">新建申请</label>
+            </span>
+        #end
+    #end
+
+    #if($!module == 'allot')
+##        #if($funcPermit.hasFuncCode("loanAllotSave"))
+##            <span id="applyInfoSignBtn" class="ui-button fl">
+##                <label class="ui-button-text">分配</label>
+##            </span>
+##        #end
+    #end
+    #if($!module == 'investigate')
+    #end
+    #if($!module == 'approval')
+    #end
+    #if($!module == 'loan')
+    #end
+    #if($!module == 'afterLoan')
+    #end
+    #if($!module == 'monitor')
+##        #if($funcPermit.hasFuncCode("exportFirstMonitorBtn"))
+            <span id="exportFirstMonitorBtn" class="ui-button fl" module="$!module">
+                <label class="ui-button-text">导出</label>
+            </span>
+##        #end
+    #end
+
+    <span id="btnRefresh" class="ui-button fr ml5">
+        <label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+    </span>
+
+    #if($!module == 'collection')
+        <input type="hidden" id="collectionType" name="collectionType" value="$!collectionType"/>
+        <span id="btnRefreshLoanAccount" class="ui-closure-button fr ml5">
+            <label class="ui-closure-button-text">同步</label>
+        </span>
+    #end
+
+</div>
+<table id="grid"></table>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../loan/js/pub/loanList.js"></script>
+<script type="text/javascript">
+    var fields = [];
+    var buttons = [];
+    var width = 100;
+    if('$!module' == 'all') {
+        width = 40;
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 100 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 140 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 60 ,align : 'center' },
+            { display: '申请金额(元)', field: 'loanApplyAmountFormat', width: 140 ,align : 'center' },
+            { display: '贷款阶段', field: 'loanProcessTypeName', width: 100 ,align : 'center' },
+            { display: '贷款状态', field: 'loanAfterStateName', width: 60 ,align : 'center' },
+            { display: '贷款账号', field: 'loanAccountNo', width: 140 ,align : 'center' },
+            { display: '申请人员', field: 'applyUserName', width: 60 ,align : 'center' },
+            { display: '调查人员', field: 'investigateUserName', width: 60 ,align : 'center' },
+            { display: '归属人', field: 'belongUserName', width: 60 ,align : 'center' },
+            { display: '归属团队', field: 'teamName', width: 80 ,align : 'center' },
+            { display: '创建时间', field: 'createDate', width: 110 ,align : 'center' },
+            { display: '提交审批时间', field: 'loanInvestigationDate', width: 110 ,align : 'center' },
+            { display: '合同到期时间', field: 'loanContractEnd', width: 110 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){  showApplyInfo('$!module',data, '所有贷款-详情'); }}];
+    } else if('$!module' == 'apply') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 240 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '申请金额(元)', field: 'loanApplyAmountFormat', width: 120 ,align : 'center' },
+            { display: '创建时间', field: 'createDate', width: 180 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){  showApplyInfo('$!module',data, '申请列表-详情'); }},
+        #if($funcPermit.hasFuncCode("loanApplyEdit"))
+            { display: '编辑', onClick: function(tr, data){  viewApplyInfo('$!module',data, '申请列表-编辑'); }}];
+        #else
+            { display: '编辑', isDisabled: function(){return true;}}];
+        #end
+
+    } else if('$!module' == 'allot') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '申请金额(元)', field: 'loanApplyAmountFormat', width: 120 ,align : 'center' },
+            { display: '申请人', field: 'applyUserName', width: 100 ,align : 'center' },
+            { display: '提交申请时间', field: 'loanApplyDate', width: 140 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){  showApplyInfo('$!module',data, '分配列表-详情'); }},
+    #if($funcPermit.hasFuncCode("loanAllotSave"))
+        { display: '分配', onClick: function(tr, data){ applyInfoSign(data.id); }},
+    #else
+        { display: '分配', isDisabled: function(){ return true; }},
+    #end
+        #if($funcPermit.hasFuncCode("loanAllotBack"))
+            { display: '回退', onClick: function(tr, data){ backApplyInfo(data, '$!module'); }}];
+        #else
+            { display: '回退', isDisabled: function(){ return true; }}];
+        #end
+
+    } else if('$!module' == 'investigate') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 240 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '申请金额(元)', field: 'loanApplyAmountFormat', width: 120 ,align : 'center' },
+            { display: '分配时间', field: 'loanAssignmentDate', width: 180 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){  showApplyInfo('$!module',data, '调查列表-详情'); }},
+        #if($funcPermit.hasFuncCode("loanInvestigateEdit"))
+            { display: '编辑', onClick: function(tr, data){  viewApplyInfo('$!module',data, '调查列表-编辑'); }},
+        #else
+            { display: '编辑', isDisabled: function(){return true;}},
+        #end
+        #if($funcPermit.hasFuncCode("loanInvestigateBack"))
+            { display: '回退', onClick: function(tr, data){ backApplyInfo(data, '$!module'); }}];
+        #else
+            { display: '回退', isDisabled: function(){ return true; }}];
+        #end
+    } else if('$!module' == 'approval') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 240 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '建议金额(元)', field: 'loanProposeAmountFormat', width: 120 ,align : 'center' },
+            { display: '提交审批时间', field: 'loanInvestigationDate', width: 180 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '审核列表-详情'); }}];
+    }else if('$!module' == 'contract') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '决议金额(元)', field: 'loanResultAmountFormat', width: 120 ,align : 'center' },
+            { display: '审批结束时间', field: 'loanAuditDate', width: 120 ,align : 'center' },
+            { display: '提交申请时间', field: 'loanApplyDate', width: 120 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '合同列表-详情'); }}];
+    }else if('$!module' == 'sign'){
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '归属人', field: 'belongUserName', width: 60 ,align : 'center' },
+            { display: '合同提交时间', field: 'contractSubmitDate', width: 120 ,align : 'center' }
+            ];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '合同签订-详情'); }}];
+    } else if('$!module' == 'loan') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '决议金额(元)', field: 'loanResultAmountFormat', width: 120 ,align : 'center' },
+            { display: '审批结束时间', field: 'loanAuditDate', width: 120 ,align : 'center' },
+            { display: '提交申请时间', field: 'loanApplyDate', width: 120 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '放贷列表-详情'); }}];
+    } else if('$!module' == 'afterLoan') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '放款金额(元)', field: 'loanCreditAmountFormat', width: 100 ,align : 'center' },
+            { display: '放贷日期', field: 'loanCreditDate', width: 80 ,align : 'center' },
+            { display: '贷款状态', field: 'loanAfterStateName', width: 80 ,align : 'center' },
+            { display: '监控状态', field: 'loanMonitorStateName', width: 80 ,align : 'center' },
+            { display: '提醒状态', field: 'collectionState', width: 100 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '贷后列表-详情'); }}];
+    } else if('$!module' == 'monitor') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '放款金额(元)', field: 'loanCreditAmountFormat', width: 100 ,align : 'center' },
+            { display: '放贷日期', field: 'loanCreditDate', width: 80 ,align : 'center' },
+            { display: '贷款状态', field: 'loanAfterStateName', width: 80 ,align : 'center' },
+            { display: '首次监控状态', field: 'firstMonitorState', width: 80 ,align : 'center' },
+            { display: '首次监控日期', field: 'firstMonitorDate', width: 80 ,align : 'center' },
+            { display: '归属人', field: 'belongUserName', width: 80 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '贷后监控列表-详情'); }}];
+    } else if('$!module' == 'collection') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 100 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 120 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 60 ,align : 'center' },
+            { display: '下期还款日', field: 'loanRepayDate', width: 80 ,align : 'center' },
+            { display: '下期还款额', field: 'nextRepaymentAmount', width: 80 ,align : 'center' },
+            { display: '还款账户余额', field: 'loanAccountAmount', width: 80 ,align : 'center' },
+            { display: '贷款余额(元)', field: 'loanBalanceAmount', width: 80 ,align : 'center' },
+            { display: '欠本金额(元)', field: 'loanArrears', width: 80 ,align : 'center' },
+            { display: '欠息金额(元)', field: 'loanIrrevocableInterest', width: 80 ,align : 'center' },
+            { display: '逾期期数(期)', field: 'overdueLimit', width: 80 ,align : 'center' },
+            { display: '归属人', field: 'belongUserName', width: 80 ,align : 'center' } ];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '还款计划列表-详情'); }},
+            { display: '同步', onClick: function(tr, data){ refreshLoanAccountTab(data.id); }}
+        ];
+    }else if('$!module' == 'authorized') {
+        fields = [{ display: '客户信息', field: 'customerInfo', width: 140 ,align : 'center' },
+            { display: '证件信息', field: 'cardInfo', width: 200 ,align : 'center' },
+            { display: '贷款类型', field: 'loanTypeName', width: 120 ,align : 'center' },
+            { display: '放款金额(元)', field: 'loanCreditAmountFormat', width: 120 ,align : 'center' },
+            { display: '审批结束时间', field: 'loanAuditDate', width: 120 ,align : 'center' },
+            { display: '提交申请时间', field: 'loanApplyDate', width: 120 ,align : 'center' }];
+        buttons = [{ display: '详情', onClick: function(tr, data){ viewApplyInfo('$!module',data, '授权列表-详情'); }}];
+    }
+
+
+    $(function () {
+        //初始化列表
+        initGrid(fields, buttons, '$!module', width);
+
+
+//跳转到新建页面
+        $("#exportFirstMonitorBtn").click(function() {
+
+            var postJson = "";
+            postJson+='&loanTypeId=' + $('#loanTypeId').val();
+            postJson+='&customer=' + $('#customer').val();
+            postJson+='&startDate=' + jQuery.trim($('#txtStartDate').val());
+            postJson+='&endDate=' + jQuery.trim($('#txtEndDate').val());
+            postJson+='&processType=' + jQuery.trim($('#processType').val());
+            postJson+='&teamId=' + jQuery.trim($('#teamId').val());
+
+            postJson+='&montiorState=' + $('#montiorState').val();
+            postJson+='&firstMonitorState=' + $('#firstMonitorState').val();
+
+
+            postJson+='&memberUserId=' + $('#memberUserId').val();
+            postJson+='&memberUser=' + $('#memberUser').val();
+
+            postJson+='&auditStartDate=' + jQuery.trim($('#auditStartDate').val());
+            postJson+='&auditEndDate=' + jQuery.trim($('#auditEndDate').val());
+
+            postJson+='&loanContractStartDate=' + jQuery.trim($('#loanContractStartDate').val());
+            postJson+='&loanContractEndDate=' + jQuery.trim($('#loanContractEndDate').val());
+            postJson+='&benchMode=' + "";
+
+            postJson+='&loanStartDate=' + jQuery.trim($('#loanStartDate').val());
+            postJson+='&loanEndDate=' + jQuery.trim($('#loanEndDate').val());
+
+            postJson+='&loanContractEndStartDate=' + jQuery.trim($('#loanContractEndStartDate').val());
+            postJson+='&loanContractEndEndDate=' + jQuery.trim($('#loanContractEndEndDate').val());
+
+            postJson+='&auditEndStartDate=' + jQuery.trim($('#auditEndStartDate').val());
+            postJson+='&auditEndEndDate=' + jQuery.trim($('#auditEndEndDate').val());
+
+            postJson+='&loanStartTime=' + jQuery.trim($('#loanStartTime').val());
+            postJson+='&loanEndTime=' + jQuery.trim($('#loanEndTime').val());
+
+            postJson+='&isNew=' + jQuery.trim($('#isNew').val());
+            postJson+='&productType=' + jQuery.trim($('#productType').val());
+
+            window.parent.location.href="../loan/exportFirstMonitor.html?module=" +  '$!module' + postJson;
+
+        });
+
+    });
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanApplyInfo" table="LOAN_APPLY_INFO" >
+		<id name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</id>
+		<property name="loanTypeId" type="java.lang.Integer" >
+			<column name="LOAN_TYPE_ID" length="4" />
+		</property>
+		<property name="loanProcessType" type="java.lang.String" >
+			<column name="LOAN_PROCESS_TYPE" length="64" />
+		</property>
+		<property name="loanAuditProcessId" type="java.lang.Integer" >
+			<column name="LOAN_AUDIT_PROCESS_ID" length="4" />
+		</property>
+		<property name="loanAuditFlowId" type="java.lang.Integer" >
+			<column name="LOAN_AUDIT_FLOW_ID" length="4" />
+		</property>
+		<property name="loanAuditParamId" type="java.lang.Integer" >
+			<column name="LOAN_AUDIT_PARAM_ID" length="4" />
+		</property>
+		<property name="loanName" type="java.lang.String" >
+			<column name="LOAN_NAME" length="150" />
+		</property>
+		<property name="loanAge" type="java.lang.Integer" >
+			<column name="LOAN_AGE" length="4" />
+		</property>
+		<property name="loanSex" type="java.lang.String" >
+			<column name="LOAN_SEX" length="30" />
+		</property>
+		<property name="loanIdentifyType" type="java.lang.String" >
+			<column name="LOAN_IDENTIFY_TYPE" length="30" />
+		</property>
+		<property name="loanIdentifyNum" type="java.lang.String" >
+			<column name="LOAN_IDENTIFY_NUM" length="150" />
+		</property>
+		<property name="loanTelNum" type="java.lang.String" >
+			<column name="LOAN_TEL_NUM" length="150" />
+		</property>
+		<property name="loanApplyDate" type="java.util.Date" >
+			<column name="LOAN_APPLY_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanAssignmentDate" type="java.util.Date" >
+			<column name="LOAN_ASSIGNMENT_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanInvestigationDate" type="java.util.Date" >
+			<column name="LOAN_INVESTIGATION_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanAuditDate" type="java.util.Date" >
+			<column name="LOAN_AUDIT_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanCreditDate" type="java.util.Date" >
+			<column name="LOAN_CREDIT_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanRefuseDate" type="java.util.Date" >
+			<column name="LOAN_REFUSE_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanApplyAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_APPLY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="loanProposeAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_PROPOSE_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="loanResultAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_RESULT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="loanRefuseType" type="java.lang.String" >
+			<column name="LOAN_REFUSE_TYPE" length="30" />
+		</property>
+		<property name="loanRefuseReason" type="java.lang.String" >
+			<column name="LOAN_REFUSE_REASON" length="150" />
+		</property>
+		<property name="loanRefuseUser" type="java.lang.Integer" >
+			<column name="LOAN_REFUSE_USER" length="4" />
+		</property>
+		<property name="loanRefuseRemark" type="java.lang.String" >
+			<column name="LOAN_REFUSE_REMARK" length="300" />
+		</property>
+		<property name="loanCollectionState" type="java.lang.String" >
+			<column name="LOAN_COLLECTION_STATE" length="30" />
+		</property>
+		<property name="loanCollectionDate" type="java.util.Date" >
+			<column name="LOAN_COLLECTION_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanMonitorState" type="java.lang.String" >
+			<column name="LOAN_MONITOR_STATE" length="30" />
+		</property>
+		<property name="loanMonitorDate" type="java.util.Date" >
+			<column name="LOAN_MONITOR_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanRepayAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_REPAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="loanRepayDate" type="java.util.Date" >
+			<column name="LOAN_REPAY_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanMonitorType" type="java.lang.String" >
+			<column name="LOAN_MONITOR_TYPE" length="30" />
+		</property>
+		<property name="loanProcessTabs" type="java.lang.String" >
+			<column name="LOAN_PROCESS_TABS" length="150" />
+		</property>
+		<property name="loanApplyUserId" type="java.lang.Integer" >
+			<column name="LOAN_APPLY_USER_ID" length="4" />
+		</property>
+
+		<property name="potentialCustomerId" type="java.lang.Integer" >
+			<column name="POTENTIAL_CUSTOMER_ID" length="4" />
+		</property>
+
+		<property name="loanInvestigationUserId" type="java.lang.Integer" >
+			<column name="LOAN_INVESTIGATION_USER_ID" length="4" />
+		</property>
+		<property name="loanAllotUserId" type="java.lang.Integer" >
+			<column name="LOAN_ALLOT_USER_ID" length="4" />
+		</property>
+		<property name="loanCreditUserId" type="java.lang.Integer" >
+			<column name="LOAN_CREDIT_USER_ID" length="4" />
+		</property>
+		<property name="loanAfterGroupId" type="java.lang.Integer" >
+			<column name="LOAN_AFTER_GROUP_ID" length="4" />
+		</property>
+		<property name="loanBelongId" type="java.lang.Integer" >
+			<column name="LOAN_BELONG_ID" length="4" />
+		</property>
+		<property name="loanAfterState" type="java.lang.String" >
+			<column name="LOAN_AFTER_STATE" length="60" />
+		</property>
+		<property name="repaymentMode" type="java.lang.String" >
+			<column name="REPAYMENT_MODE" length="30" />
+		</property>
+		<property name="loanCustomerId" type="java.lang.Integer" >
+			<column name="LOAN_CUSTOMER_ID" length="4" />
+		</property>
+		<property name="clientTime" type="java.lang.String" >
+			<column name="CLIENT_TIME" length="20" />
+		</property>
+		<property name="isDel" type="java.lang.Integer" >
+			<column name="IS_DEL" length="4" />
+		</property>
+		<property name="loanAuditState" type="java.lang.Integer" >
+			<column name="LOAN_AUDIT_STATE" length="4" />
+		</property>
+		<property name="loanAuditors" type="java.lang.String" >
+			<column name="LOAN_AUDITORS" length="90" />
+		</property>
+		<property name="loanBusinessCatalog" type="java.lang.String" >
+			<column name="LOAN_BUSINESS_CATALOG" length="240" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="modelScore" type="java.math.BigDecimal" >
+			<column name="MODEL_SCORE" length="18" scale="2" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="loanCreditAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_CREDIT_AMOUNT" length="18" scale="2" />
+		</property>
+
+		<property name="loanAccountNo" type="java.lang.String" >
+			<column name="LOAN_ACCOUNT_NO" length="100" />
+		</property>
+		<property name="loanContractNumber" type="java.lang.String" >
+			<column name="LOAN_CONTRACT_NUMBER" length="100" />
+		</property>
+		<property name="loanAccountAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_ACCOUNT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="loanBalanceAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_BALANCE_AMOUNT" length="18" scale="2" />
+		</property>
+
+		<property name="loanContractBegin" type="java.util.Date" >
+			<column name="LOAN_CONTRACT_BEGIN" length="10" scale="6" />
+		</property>
+		<property name="loanContractEnd" type="java.util.Date" >
+			<column name="LOAN_CONTRACT_END" length="10" scale="6" />
+		</property>
+		<property name="loanContractTypeId" type="java.lang.Integer">
+			<column name="LOAN_CONTRACT_TYPE_ID" length="4"  />
+		</property>
+		<property name="syncStatus" type="java.lang.Integer">
+			<column name="SYNC_STATUS" length="4"  />
+		</property>
+		<property name="contractCheckUser" type="java.lang.Integer">
+			<column name="CONTRACT_CHECK_USER" length="4"  />
+		</property>
+		<property name="contractCode" type="java.lang.String" >
+			<column name="CONTRACT_CODE" length="100" />
+		</property>
+		<property name="guaranteeContractNo" type="java.lang.String" >
+			<column name="GUARANTEE_CONTRACT_NO" length="100" />
+		</property>
+		<property name="guaranteeContractCode" type="java.lang.String" >
+			<column name="GUARANTEE_CONTRACT_CODE" length="100" />
+		</property>
+		<property name="mortgageContractNo" type="java.lang.String" >
+			<column name="MORTGAGE_CONTRACT_NO" length="100" />
+		</property>
+		<property name="mortgageContractCode" type="java.lang.String" >
+			<column name="MORTGAGE_CONTRACT_CODE" length="100" />
+		</property>
+		<property name="pledgeContractNo" type="java.lang.String" >
+			<column name="PLEDGE_CONTRACT_NO" length="100" />
+		</property>
+		<property name="pledgeContractCode" type="java.lang.String" >
+			<column name="PLEDGE_CONTRACT_CODE" length="100" />
+		</property>
+		<property name="iouNum" type="java.lang.String" >
+			<column name="IOU_NUM" length="100" />
+		</property>
+		<property name="authorizationCode" type="java.lang.String" >
+			<column name="AUTHORIZATION_CODE" length="100" />
+		</property>
+		<property name="contractSubmitDate" type="java.util.Date" >
+			<column name="CONTRACT_SUBMIT_DATE" length="10" scale="6" />
+		</property>
+		<property name="contractSignDate" type="java.util.Date" >
+			<column name="CONTRACT_SIGN_DATE" length="10" scale="6" />
+		</property>
+		<property name="accountNum" type="java.lang.String" >
+			<column name="ACCOUNT_NUM" length="150"/>
+		</property>
+		<property name="enterAccount" type="java.lang.String" >
+			<column name="ENTER_ACCOUNT" length="150"/>
+		</property>
+
+		<property name="loanStatus" type="java.lang.String" >
+			<column name="LOAN_STATUS" length="30" />
+		</property>
+		<property name="nextRepaymentAmount" type="java.math.BigDecimal" >
+			<column name="NEXT_REPAYMENT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="loanArrears" type="java.math.BigDecimal" >
+			<column name="LOAN_ARREARS" length="18" scale="2" />
+		</property>
+		<property name="loanIrrevocableInterest" type="java.math.BigDecimal" >
+			<column name="LOAN_IRREVOCABLE_INTEREST" length="18" scale="2" />
+		</property>
+		<property name="isContractCancel" type="java.lang.Integer">
+			<column name="IS_CONTRACT_CANCEL" length="4"  />
+		</property>
+		<property name="overdueLimit" type="java.lang.Integer" >
+			<column name="OVERDUE_LIMIT" length="4" />
+		</property>
+	</class>
+</mapping>
+

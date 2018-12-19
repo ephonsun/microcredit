@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>修改明细</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+<form id="showJustConDetail-form" style="margin-left: 90px">
+
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">项目：</label>
+            </td>
+
+            <td width="20%">
+
+                    #if($!lpcii.columnName=='OTHER_INCOME_AMOUNT' || $!lpcii.columnName=='OTHER_DEFRAY_AMOUNT')
+                        <label >
+                            $!lpcii.itemName
+                        </label>
+                    #else
+
+                        #if($!lpcii.columnName=='FIXED_DEFRAY_AMOUNT')#*//固定成本支出（消费类）*#
+                            $!constantCodeUtil.getCodeTableDisplay('cdDictColByName','CD_PROFIT_FIXED_DEFRAY',$!lpcii.itemName)
+                            #elseif($!lpcii.columnName=='TEX_DEFRAY_AMOUNT' ||$lpcii.columnName=='TEX_PERSONAL_AMOUNT')#*//所得税支出*#
+                            $!constantCodeUtil.getCodeTableDisplay('cdDictColByName','CD_PROFIT_TEX_DEFRAY',$!lpcii.itemName)
+                            #elseif($!lpcii.columnName=='HOME_INCOME_AMOUNT')#*//家庭收入*#
+                            $!constantCodeUtil.getCodeTableDisplay('cdDictColByName','CD_PROFIT_HOME_INCOME',$!lpcii.itemName)
+
+                        #end
+
+
+                    #end
+
+
+            </td>
+        </tr>
+        <tr>
+
+            <td class="field" width="5%">
+                <label class="ui">上年度：</label>
+            </td>
+            <td width="20%">
+                <label>
+                    #if($!lpcii.preYearAmount == "" || !$!lpcii.preYearAmount)
+                        --
+                    #else
+                        $lpcii.preYearAmount 元
+                    #end
+                </label>
+
+            </td>
+            <td class="field" width="5%">
+                <label class="ui">本年度：</label>
+            </td>
+            <td width="20%">
+                <label>
+                    #if($!lpcii.preYearAmount == "" || !$!lpcii.preYearAmount)
+                        --
+                    #else
+                        $!lpcii.preYearAmount 元
+                    #end
+                </label>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="field" width="5%">
+                <label class="ui">总金额：</label>
+            </td>
+            <td width="20%">
+                <label>
+                    #if($!lpcii.totalAmount == "" || !$!lpcii.totalAmount)
+                        --
+                    #else
+                        $lpcii.totalAmount 元
+                    #end
+                </label>
+
+            </td>
+            <td class="field" width="5%">
+                <label class="ui">月平均：</label>
+            </td>
+            <td width="20%">
+                <label>
+                    #if($!lpcii.monthAvgAmount == "" || !$!lpcii.monthAvgAmount)
+                        --
+                    #else
+                        $!lpcii.monthAvgAmount 元
+                    #end
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui">备注：</label>
+            </td>
+            <td colspan="3">
+                    <label>
+
+                        #if($!lpcii.remark == "" || !$!lpcii.remark)
+                            --
+                        #else
+                            $!lpcii.remark
+                        #end
+                    </label>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 100px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/profitLoss/showJustConDetail.js?v=$!webAppVersion"></script>
+</body>
+</html>

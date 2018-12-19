@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增自动导入配置项表 -->
+	<sql id="insertImportSettingItem" >
+		INSERT INTO AUTO_IMPORT_SETTING_ITEM (ITEM_ID,IMPORT_CODE,SETTING_ID,SOURCE_TABLE_COLUMN,SOURCE_COLUMN_INDEX,SOURCE_COLUMN_DISPLAY,TARGET_TABLE_COLUMN,TARGET_TABLE_NAME,TARGET_COLUMN_TYPE,TARGET_COLUMN_DICT_NAME,IS_COVERED,IS_REQUIRED,TARGET_COLUMN_ID,TARGET_COLUMN_DISPLAY) VALUES ([$itemId]
+		<clause prepend="," nvl="''" >[$importCode]</clause>
+		<clause prepend="," nvl="0" >[$settingId]</clause>
+		<clause prepend="," nvl="''" >[$sourceTableColumn]</clause>
+		<clause prepend="," nvl="0" >[$sourceColumnIndex]</clause>
+		<clause prepend="," nvl="0" >[$sourceColumnDisplay]</clause>
+		<clause prepend="," nvl="''" >[$targetTableColumn]</clause>
+		<clause prepend="," nvl="''" >[$targetTableName]</clause>
+		<clause prepend="," nvl="''" >[$targetColumnType]</clause>
+		<clause prepend="," nvl="''" >[$targetColumnDictName]</clause>
+		<clause prepend="," nvl="0" >[$isCovered]</clause>
+		<clause prepend="," nvl="0" >[$isRequired]</clause>
+		<clause prepend="," nvl="0" >[$targetColumnId]</clause>
+		<clause prepend="," nvl="0" >[$targetColumnDisplay]</clause>
+		)
+	</sql>
+
+	<!-- 修改自动导入配置项表 -->
+	<sql id="updateImportSettingItem" >
+		UPDATE AUTO_IMPORT_SETTING_ITEM 
+		<set>
+			<clause prepend="," assert="!isNull([importCode])" >IMPORT_CODE = [$importCode]</clause>
+			<clause prepend="," assert="!isNull([settingId])" >SETTING_ID = [$settingId]</clause>
+			<clause prepend="," assert="!isNull([sourceTableColumn])" >SOURCE_TABLE_COLUMN = [$sourceTableColumn]</clause>
+			<clause prepend="," assert="!isNull([sourceColumnIndex])" >SOURCE_COLUMN_INDEX = [$sourceColumnIndex]</clause>
+			<clause prepend="," assert="!isNull([sourceColumnDisplay])" >SOURCE_COLUMN_DISPLAY = [$sourceColumnDisplay]</clause>
+			<clause prepend="," assert="!isNull([targetTableColumn])" >TARGET_TABLE_COLUMN = [$targetTableColumn]</clause>
+			<clause prepend="," assert="!isNull([targetTableName])" >TARGET_TABLE_NAME = [$targetTableName]</clause>
+			<clause prepend="," assert="!isNull([targetColumnType])" >TARGET_COLUMN_TYPE = [$targetColumnType]</clause>
+			<clause prepend="," assert="!isNull([targetColumnDictName])" >TARGET_COLUMN_DICT_NAME = [$targetColumnDictName]</clause>
+			<clause prepend="," assert="!isNull([isCovered])" >IS_COVERED = [$isCovered]</clause>
+			<clause prepend="," assert="!isNull([isRequired])" >IS_REQUIRED = [$isRequired]</clause>
+			<clause prepend="," assert="!isNull([targetColumnId])" >TARGET_COLUMN_ID = [$targetColumnId]</clause>
+			<clause prepend="," assert="!isNull([targetColumnDisplay])" >TARGET_COLUMN_DISPLAY = [$targetColumnDisplay]</clause>
+		</set>
+		<where>
+			 ITEM_ID = [$itemId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到自动导入配置项表 -->
+	<sql id="getImportSettingItemById" >
+		SELECT * FROM AUTO_IMPORT_SETTING_ITEM WHERE ITEM_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除自动导入配置项表 -->
+	<sql id="deleteImportSettingItemById" >
+		DELETE FROM AUTO_IMPORT_SETTING_ITEM WHERE ITEM_ID = [0]
+	</sql>
+
+	<!-- 查询自动导入配置项表 -->
+	<sql id="queryImportSettingItemList" >
+		SELECT * FROM AUTO_IMPORT_SETTING_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([importCode])" > IMPORT_CODE = '[importCode]' </clause>
+			<clause prepend="and" assert="!isNull([settingId])" > SETTING_ID = [settingId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([sourceTableColumn])" > SOURCE_TABLE_COLUMN = '[sourceTableColumn]' </clause>
+			<clause prepend="and" assert="!isNull([sourceColumnIndex])" > SOURCE_COLUMN_INDEX = [sourceColumnIndex] </clause>
+			<clause prepend="and" assert="!isNull([sourceColumnDisplay])" > SOURCE_COLUMN_DISPLAY = '[sourceColumnDisplay]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([targetTableColumn])" > TARGET_TABLE_COLUMN = '[targetTableColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([targetTableName])" > TARGET_TABLE_NAME = '[targetTableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([targetColumnType])" > TARGET_COLUMN_TYPE = '[targetColumnType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([targetColumnDictName])" > TARGET_COLUMN_DICT_NAME = '[targetColumnDictName]' </clause>
+			<clause prepend="and" assert="!isNull([isCovered])" > IS_COVERED = [isCovered] </clause>
+			<clause prepend="and" assert="!isNull([isRequired])" > IS_REQUIRED = [isRequired] </clause>
+			<clause prepend="," assert="!isNull([targetColumnId])" >TARGET_COLUMN_ID = [targetColumnId]</clause>
+			<clause prepend="," assert="!isNull([targetColumnDisplay])" >TARGET_COLUMN_DISPLAY = [targetColumnDisplay]</clause>
+		</where>
+	</sql>
+</banger>

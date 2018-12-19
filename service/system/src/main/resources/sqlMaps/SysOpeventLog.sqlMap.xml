@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<class id="SysOpeventLog_Query" name="banger.domain.system.SysOpeventLog_Query" >
+	  	<property name="opeventUserName" column="USER_NAME" ></property>
+	  	<property name="opeventUserAccount" column="USER_ACCOUNT" ></property>
+	</class>
+
+	
+	<sql id="insertSysOpeventLog" >
+		INSERT INTO SYS_OPEVENT_LOG (OPEVENT_ID,OPEVENT_USER_ID,OPEVENT_MODULE,OPEVENT_ACTION,
+		<clause assert="!isNull([opeventDate])" >OPEVENT_DATE,</clause>
+		OPEVENT_IP) VALUES ([$opeventId]
+		<clause prepend="," nvl="0" >[$opeventUserId]</clause>
+		<clause prepend="," nvl="''" >[$opeventModule]</clause>
+		<clause prepend="," nvl="''" >[$opeventAction]</clause>
+		<clause prepend=","  assert="!isNull([opeventDate])">[$opeventDate]</clause>
+		<clause prepend="," nvl="''" >[$opeventIp]</clause>
+		)
+	</sql>
+
+	<sql id="updateSysOpeventLog" >
+		UPDATE SYS_OPEVENT_LOG 
+		<set>
+			<clause prepend="," assert="!isNull([opeventUserId])" >OPEVENT_USER_ID = [$opeventUserId]</clause>
+			<clause prepend="," assert="!isNull([opeventModule])" >OPEVENT_MODULE = [$opeventModule]</clause>
+			<clause prepend="," assert="!isNull([opeventAction])" >OPEVENT_ACTION = [$opeventAction]</clause>
+			<clause prepend="," assert="!isNull([opeventDate])" >OPEVENT_DATE = [$opeventDate]</clause>
+			<clause prepend="," assert="!isNull([opeventIp])" >OPEVENT_IP = [$opeventIp]</clause>
+		</set>
+		<where>
+			 OPEVENT_ID = [$opeventId] 
+		</where>
+	</sql>
+
+	<sql id="querySysOpeventLog" result = "SysOpeventLog_Query">
+		SELECT 
+			A.OPEVENT_ID,
+			A.OPEVENT_USER_ID,
+			B.USER_NAME,
+			A.OPEVENT_MODULE,
+			A.OPEVENT_ACTION,
+			A.OPEVENT_DATE,
+			A.OPEVENT_IP
+		FROM SYS_OPEVENT_LOG A
+		INNER JOIN PMS_USER B ON A.OPEVENT_USER_ID=B.USER_ID
+		INNER JOIN PMS_DEPT D on B.USER_DEPT_ID = D.DEPT_ID
+		<where>
+			<!--<clause prepend="and" assert="!isNullOrEmpty([opeventModule])" > A.OPEVENT_MODULE like '%[opeventModule]%' </clause>-->
+			<clause prepend="and" assert="!isNullOrEmpty([opeventAction])" > A.OPEVENT_ACTION like '%[opeventAction]%' </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([opeventModules])">A.OPEVENT_MODULE IN (<for in="[opeventModules]" split=",">'{item}'</for>)
+            </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([opeventUserName])" > B.USER_NAME like '%[opeventUserName]%' </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([userIds])">A.OPEVENT_USER_ID IN (<for in="[userIds]" split=",">'{item}'</for>)
+            </clause>
+            <clause parent="DateSpan" params="OPEVENT_DATE,opeventDate,opeventDateEnd,A" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([deptSearchCode])" > (D.DEPT_SEARCH_CODE LIKE '[deptSearchCode]%' AND B.USER_ID != 1) </clause>
+		</where>
+        ORDER BY OPEVENT_DATE DESC
+	</sql>
+
+	<sql id = "deleteSysOpeventLog">
+		DELETE FROM SYS_OPEVENT_LOG
+		<where>
+			<clause assert = "!isNull([UserId])" >OPEVENT_USER_ID = [UserId]</clause>
+			<clause parent = "DateSpan" params="OPEVENT_DATE,BeginDate,EndDate" ></clause>
+		</where>
+	</sql>
+
+	<sql id = "getOpeventModule">
+		SELECT OPEVENT_MODULE FROM SYS_OPEVENT_LOG GROUP BY OPEVENT_MODULE
+    </sql>
+
+	<sql id="queryLogByCondition" result="SysOpeventLog_Query">
+		SELECT L.*,U.USER_ACCOUNT,U.USER_NAME FROM SYS_OPEVENT_LOG L INNER JOIN PMS_USER U
+		ON L.OPEVENT_USER_ID = U.USER_ID
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([opeventModule])" > L.OPEVENT_MODULE LIKE '%[opeventModule]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" > U.USER_NAME LIKE '%[userName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([logDateBegin])">
+				L.OPEVENT_DATE <![CDATA[>=]]><method name="beginDate">[logDateBegin]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([logDateEnd])">
+				L.OPEVENT_DATE <![CDATA[<]]><method name="endDate">[logDateEnd]</method>
+			</clause>
+		</where>
+		ORDER BY L.OPEVENT_DATE DESC
+	</sql>
+</banger>

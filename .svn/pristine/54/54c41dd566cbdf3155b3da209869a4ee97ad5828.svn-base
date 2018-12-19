@@ -1,0 +1,74 @@
+#*资产负债金额项目明细表，现金，其他经营资产，其他非经营资产，其他资产，其他负债，投资性资产，对外债权，预付款， 编辑界面*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资产负债金额项目明细表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <table class="ui-form-fields">
+        <div style="margin-top: 15px">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">项目：</label>
+            </td>
+            <td width="20%">
+                #if($!entity.columnName eq 'ASSETS_OTHER_AMOUNT' || $!entity.columnName eq 'ASSETS_EXTERNAL_CLAIMS' || $!entity.columnName eq 'ASSETS_ADVANCE_PAYMENT_AMOUNT' || $!entity.columnName eq 'DEBTS_BIZ_OTHER_AMOUNT')
+                    <label>$!entity.itemName</label>
+                #else
+                <label>$!constantCodeUtil.getCodeTableDisplay('cdDictColByName',$!loanUtil.codeTableParam($!entity.columnName,'1'),$!entity.itemName)</label>
+                #end
+            </td>
+            <td class="field" width="5%">
+                <label>金额：</label>
+            </td>
+            <td width="20%">
+                <label>#if($entity.amount) $!formatUtil.formatDecimal($!entity.amount) 元#else -- 元#end </label>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>备注：</label>
+            </td>
+            <td width="15%"colspan="3">
+                <label>
+                   $!entity.remark
+                </label>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 178px;"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure divcss10">
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+            <label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+        </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/assets/assetsDetail.js"></script>
+</body>
+</html>

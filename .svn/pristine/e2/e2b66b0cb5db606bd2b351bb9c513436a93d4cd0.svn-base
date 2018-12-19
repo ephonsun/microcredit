@@ -1,0 +1,837 @@
+<div id="crossPage">
+<input type="hidden" id="loanId" value="$!loanId">
+    <form class="form123" id="form1234">
+        <!--权益交叉检验-->
+    <div class="border" id="qy">
+        <label class="head-name"><strong>权益交叉检验</strong></label>
+        <input type="hidden" name="" value="$!lccq">
+        <table class="ui-form-fields tableParam"  >
+            <tbody>
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>应有权益：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.deservedRight)
+                            $!formatUtil.formatDecimal($!lccq.deservedRight) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>实际权益：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.actualRight)
+                            $!formatUtil.formatDecimal($!lccq.actualRight) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>差别：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.deviation)
+                            $!formatUtil.formatDecimal($!lccq.deviation) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>偏差率：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.deviationRatio)
+                            $!formatUtil.formatDecimal($!lccq.deviationRatio,"0.0#") %
+
+                        #else
+                           -- %
+                        #end
+                    </span>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>初始权益日：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text ui-datepicker">
+                        <input id="initRightDate" name="initRightDate" type="text" value="$!formatUtil.formatDate($!lccq.initRightDate,"yyyy-MM-dd")" class="ui-text-text" >
+                        <i class="ui-text-icon ui-text-date">&nbsp;</i>
+                    </div>
+
+                </td>
+
+                <td class="field" width="7%">
+                    <label>初始权益：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text w100 fl mr5">
+                        <input type="text" id="initRight" flag="yuan" name="initRight" maxlength="13" value="$!lccq.initRight"  class="ui-text-text" >
+                    </div>
+                    <label class="dash fl">
+                        元
+                    </label>
+
+                </td>
+                <td class="field" width="7%"></td>
+                <td width="18%"></td>
+                <td class="field" width="7%"></td>
+                <td width="18%"></td>
+
+            </tr>
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>初始权益说明：</label>
+                </td>
+                <td colspan="7" width="auto">
+                    <div class="ui-textarea h50">
+                        <textarea class="ui-textarea-text" name="initRightDesc" id="initRightDesc" maxlength="500" >$!lccq.initRightDesc</textarea>
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                #if($!loanClassId==1)
+                <td class="field" width="7%">
+                    <label>期间利润：</label>
+                </td>
+                <td width="18%">
+                    <span>
+
+                        #if($!lccq.periodProfit)
+                            $!formatUtil.formatDecimal($!lccq.periodProfit) 元
+
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+
+
+                <td class="field" width="7%">
+                    <label>期间注资：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text w100 fl mr5">
+                        <input type="text"  flag="yuan" name="periodInjection" maxlength="13" value="$!lccq.periodInjection" id="periodInjection"  class="ui-text-text" >
+                    </div>
+                    <label class="dash fl">
+                        元
+                    </label>
+
+                </td>
+                #else
+                    <td class="field" width="7%">
+                    <label>期间收入：</label>
+                </td>
+                    <td width="18%">
+                        <div class="ui-text w100 fl mr5">
+                            <input type="text"  flag="yuan" name="periodInjection" maxlength="13" value="$!lccq.periodInjection" id="periodInjection"  class="ui-text-text" >
+                        </div>
+                        <label class="dash fl">
+                            元
+                        </label>
+
+                    </td>
+
+#end
+
+                <td class="field" width="7%">
+                    <label>升值：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text w100 fl mr5">
+                        <input type="text" flag="yuan" name="appreciation" maxlength="13" value="$!lccq.appreciation" id="appreciation" class="ui-text-text" >
+                    </div>
+                    <label class="dash fl">
+                        元
+                    </label>
+
+                </td>
+                <td class="field" width="7%">
+                </td>
+                <td width="18%"></td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label>增项说明：</label>
+                </td>
+                <td colspan="7" width="auto">
+                    <div class="ui-textarea h50">
+
+                        <textarea class="ui-textarea-text" name="increaseDesc"  id="increaseDesc" maxlength="500">$!lccq.increaseDesc</textarea>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label>期间提取：</label>
+                </td >
+                <td width="18%">
+                    <div class="ui-text w100 fl mr5">
+                        <input type="text" flag="yuan" name="periodExtract" maxlength="13" value="$!lccq.periodExtract" id="periodExtract"  class="ui-text-text" >
+                    </div>
+                    <label class="dash fl">
+                        元
+                    </label>
+
+                </td>
+                <td class="field" width="7%">
+                    <label>折旧/贬值：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text w100 fl mr5">
+                        <input type="text" flag="yuan" name="depreciation" maxlength="13" value="$!lccq.depreciation" id="depreciation"  class="ui-text-text" >
+                    </div>
+                    <label class="dash fl">
+                        元
+                    </label>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label>减项说明：</label>
+                </td>
+                <td colspan="7" width="auto">
+                    <div class="ui-textarea h50">
+                        <textarea class="ui-textarea-text" name="reduceDesc"  id="reduceDesc" maxlength="500">$!lccq.reduceDesc</textarea>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+        #if($loanClassId==1)
+            <!--销售额检验-->
+            <div class="border" id="xse">
+                <label class="head-name"><strong>销售额检验</strong></label>
+                <div>
+                    <table class="ui-form-fields tableParam">
+                        <input type="hidden" name="" value="$!lccs">
+                        <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验销售额1：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="checkSaleAmount1" maxlength="13" value="$!lccs.checkSaleAmount1" id="checkSaleAmount1"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccs.deviationRatio1)
+                                $!formatUtil.formatDecimal($!lccs.deviationRatio1,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+
+                            </td>
+
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+                                    <textarea class="ui-textarea-text" name="infomation1"  id="infomation1" maxlength="500">$!lccs.infomation1</textarea>
+                                </div>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验销售额2：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="checkSaleAmount2" maxlength="13" value="$!lccs.checkSaleAmount2" id="checkSaleAmount2"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccs.deviationRatio2)
+                                $!formatUtil.formatDecimal($!lccs.deviationRatio2,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+                                    <textarea class="ui-textarea-text" name="infomation2"  id="infomation2" maxlength="500">$!lccs.infomation2</textarea>
+                                </div>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验销售额3：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="checkSaleAmount3" maxlength="13"  value="$!lccs.checkSaleAmount3" id="checkSaleAmount3"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+
+                            #if($!lccs.deviationRatio3)
+                                $!formatUtil.formatDecimal($!lccs.deviationRatio3,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+                                    <textarea class="ui-textarea-text" name="infomation3"  value=value.substr(0,500)" id="infomation3" maxlength="500">$!lccs.infomation3</textarea>
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!--毛利检验-->
+            <div class="border" id="ml">
+                <label class="head-name"><strong>毛利检验</strong></label>
+                <div>
+                    <table class="ui-form-fields tableParam">
+                        <input type="hidden" name="" value="$!lccgp">
+                        <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验毛利率1：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="checkGrossProfitRatio1" maxlength="13" value="$!lccgp.checkGrossProfitRatio1" id="checkGrossProfitRatio1"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccgp.deviationRatio1)
+                                $!formatUtil.formatDecimal($!lccgp.deviationRatio1,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+
+                                    <textarea class="ui-textarea-text" name="infomation1"  id="infomation1" maxlength="500">$!lccgp.infomation1</textarea>
+                                </div>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验毛利率2：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="checkGrossProfitRatio2" maxlength="13" value="$!lccgp.checkGrossProfitRatio2" id="checkGrossProfitRatio2" class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccgp.deviationRatio2)
+                                $!formatUtil.formatDecimal($!lccgp.deviationRatio2,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+
+                                    <textarea class="ui-textarea-text" name="infomation2"  id="infomation2" maxlength="500">$!lccgp.infomation2</textarea>
+                                </div>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验毛利率3：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="checkGrossProfitRatio3" maxlength="13" value="$!lccgp.checkGrossProfitRatio3" id="checkGrossProfitRatio3"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccgp.deviationRatio3)
+                                $!formatUtil.formatDecimal($!lccgp.deviationRatio3,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+
+                                    <textarea class="ui-textarea-text" name="infomation3"  id="infomation3" maxlength="500">$!lccgp.infomation3</textarea>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!--净利检验-->
+        <div class="border" id="jl">
+            <label class="head-name"><strong>净利检验</strong></label>
+            <div >
+                <table class="ui-form-fields tableParam">
+                    <input type="hidden" name="" value="$!lccnp">
+                    <tbody>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label >检验净利率1：</label>
+                        </td>
+                        <td width="18%">
+                            <div class="ui-text w100 fl mr5">
+                                <input type="text" name="checkNetProfitRatio1" maxlength="13" value="$!lccnp.checkNetProfitRatio1" id="checkNetProfitRatio1"  class="ui-text-text" >
+                            </div>
+                            <label class="dash fl">
+                                %
+                            </label>
+
+                        </td>
+
+                        <td class="field" width="7%">
+                            <label> 偏差率：</label>
+                        </td>
+                        <td width="18%">
+                        <span>
+                            #if($!lccnp.deviationRatio1)
+                                $!formatUtil.formatDecimal($!lccnp.deviationRatio1,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                        </td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>说明：</label>
+                        </td>
+                        <td colspan="7" width="auto">
+                            <div class="ui-textarea h50">
+                                <textarea class="ui-textarea-text" name="infomation1"  id="infomation1" maxlength="500">$!lccnp.infomation1</textarea>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label >检验净利率2：</label>
+                        </td>
+                        <td width="18%">
+                            <div class="ui-text w100 fl mr5">
+                                <input type="text" name="checkNetProfitRatio2" maxlength="13" value="$!lccnp.checkNetProfitRatio2" id="checkNetProfitRatio2" class="ui-text-text" >
+                            </div>
+                            <label class="dash fl">
+                                %
+                            </label>
+
+                        </td>
+
+                        <td class="field" width="7%">
+                            <label> 偏差率：</label>
+                        </td>
+                        <td width="18%">
+                        <span>
+                            #if($!lccnp.deviationRatio2)
+                                $!formatUtil.formatDecimal($!lccnp.deviationRatio2,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                        </td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>说明：</label>
+                        </td>
+                        <td colspan="7" width="auto">
+                            <div class="ui-textarea h50">
+
+                                <textarea class="ui-textarea-text" name="infomation2"  id="infomation2" maxlength="500">$!lccnp.infomation2</textarea>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label >检验净利率3：</label>
+                        </td>
+                        <td width="18%">
+                            <div class="ui-text w100 fl mr5">
+                                <input type="text" name="checkNetProfitRatio3" maxlength="13" value="$!lccnp.checkNetProfitRatio3" id="checkNetProfitRatio3" class="ui-text-text" >
+                            </div>
+                            <label class="dash fl">
+                               %
+                            </label>
+
+                        </td>
+
+                        <td class="field" width="7%">
+                            <label> 偏差率：</label>
+                        </td>
+                        <td width="18%">
+                        <span>
+                            #if($!lccnp.deviationRatio3)
+                                $!formatUtil.formatDecimal($!lccnp.deviationRatio3,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                        </td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>说明：</label>
+                        </td>
+                        <td colspan="7" width="auto">
+                            <div class="ui-textarea h50">
+
+                                <textarea class="ui-textarea-text" name="infomation3"  id="infomation3" maxlength="500">$!lccnp.infomation3</textarea>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <br>
+            #else
+                <!--收入检验-->
+            <div class="border" id="sr">
+                <label class="head-name"><strong>收入检验</strong></label>
+                <div >
+                    <table class="ui-form-fields tableParam">
+                        <input type="hidden" name="" value="$!lcci">
+                        <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >工资流水：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="wageFlow" maxlength="13" value="$!lcci.wageFlow" id="wageFlow"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="wageFlowDeviation" maxlength="13" value="$!lcci.wageFlowDeviation" id="wageFlowDeviation"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >收入证明：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="incomeCert" maxlength="13" value="$!lcci.incomeCert" id="incomeCert"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="incomeCertDeviation" maxlength="13" value="$!lcci.incomeCertDeviation" id="incomeCertDeviation"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >个人税单：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="personTax" maxlength="13" value="$!lcci.personTax" id="personTax"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                            <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="personTaxDeviation" maxlength="13" value="$!lcci.personTaxDeviation" id="personTaxDeviation"  class="ui-text-text" >
+                            </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >其他：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" flag="yuan" name="otherIncome" maxlength="13" value="$!lcci.otherIncome" id="otherIncome" class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    元
+                                </label>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text w100 fl mr5">
+                                    <input type="text" name="otherIncomeDeviation" maxlength="13" value="$!lcci.otherIncomeDeviation" id="otherIncomeDeviation"  class="ui-text-text" >
+                                </div>
+                                <label class="dash fl">
+                                    %
+                                </label>
+
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <div class="ui-textarea h50">
+
+                                    <textarea class="ui-textarea-text" name="infomation" id="infomation" maxlength="500">$!lcci.infomation</textarea>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+        #end
+   </form>
+
+    </div>
+<br>
+<br>
+<div class="ui-layout-closure">
+                                        <span id="btnSave123" class="ui-closure-button">
+                <label class="ui-closure-button-text">保存</label>
+            </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+            <label class="ui-closure-button-text">取消</label>
+        </span>
+
+</div>
+

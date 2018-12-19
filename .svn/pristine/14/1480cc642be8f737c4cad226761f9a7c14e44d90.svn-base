@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增初审规则表 -->
+	<sql id="insertTrialRuleInfo" >
+		INSERT INTO INTO_TRIAL_RULE_INFO (RULE_ID,RULE_NAME,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$ruleId]
+		<clause prepend="," nvl="''" >[$ruleName]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改初审规则表 -->
+	<sql id="updateTrialRuleInfo" >
+		UPDATE INTO_TRIAL_RULE_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([ruleName])" >RULE_NAME = [$ruleName]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 RULE_ID = [$ruleId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到初审规则表 -->
+	<sql id="getTrialRuleInfoById" >
+		SELECT * FROM INTO_TRIAL_RULE_INFO WHERE RULE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除初审规则表 -->
+	<sql id="deleteTrialRuleInfoById" >
+		DELETE FROM INTO_TRIAL_RULE_INFO WHERE RULE_ID = [0]
+	</sql>
+
+	<!-- 查询初审规则表 -->
+	<sql id="queryTrialRuleInfoList" >
+		SELECT * FROM INTO_TRIAL_RULE_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([ruleName])" > RULE_NAME = '[ruleName]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanAssetsAccountItem" table="LOAN_ASSETS_ACCOUNT_ITEM" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="customerName" type="java.lang.String" >
+			<column name="CUSTOMER_NAME" length="90" />
+		</property>
+		<property name="columnName" type="java.lang.String" >
+			<column name="COLUMN_NAME" length="64" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="64" />
+		</property>
+		<property name="amount" type="java.math.BigDecimal" >
+			<column name="AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="settlementMode" type="java.lang.String" >
+			<column name="SETTLEMENT_MODE" length="30" />
+		</property>
+		<property name="accountAge" type="java.lang.Integer" >
+			<column name="ACCOUNT_AGE" length="4" />
+		</property>
+		<property name="renewDeposit" type="java.lang.String" >
+			<column name="RENEW_DEPOSIT" length="3" />
+		</property>
+		<property name="paymentMode" type="java.lang.String" >
+			<column name="PAYMENT_MODE" length="60" />
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="REMARK" length="300" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增资产负责项明细 -->
+	<sql id="insertAssetsDebtsItem" >
+		INSERT INTO LOAN_ASSETS_DEBTS_ITEM (ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME,DEBTS_SOURCE,BEBTS_AMOUNT,TERM_LIMIT,DEBTS_USED,ISSUE_DATE,BALANCE_AMOUNT,ENSURE_MODE,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="''" >[$columnName]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$debtsSource]</clause>
+		<clause prepend="," nvl="NULL" >[$bebtsAmount]</clause>
+		<clause prepend="," nvl="0" >[$termLimit]</clause>
+		<clause prepend="," nvl="''" >[$debtsUsed]</clause>
+		<clause prepend="," nvl="NULL" >[$issueDate]</clause>
+		<clause prepend="," nvl="NULL" >[$balanceAmount]</clause>
+		<clause prepend="," nvl="''" >[$ensureMode]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改资产负责项明细 -->
+	<sql id="updateAssetsDebtsItem" >
+		UPDATE LOAN_ASSETS_DEBTS_ITEM 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([columnName])" >COLUMN_NAME = [$columnName]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([debtsSource])" >DEBTS_SOURCE = [$debtsSource]</clause>
+			<clause prepend="," assert="!isNull([bebtsAmount])" >BEBTS_AMOUNT = [$bebtsAmount]</clause>
+			<clause prepend="," assert="!isNull([termLimit])" >TERM_LIMIT = [$termLimit]</clause>
+			<clause prepend="," assert="!isNull([debtsUsed])" >DEBTS_USED = [$debtsUsed]</clause>
+			<clause prepend="," assert="!isNull([issueDate])" >ISSUE_DATE = [$issueDate]</clause>
+			<clause prepend="," assert="!isNull([balanceAmount])" >BALANCE_AMOUNT = [$balanceAmount]</clause>
+			<clause prepend="," assert="!isNull([ensureMode])" >ENSURE_MODE = [$ensureMode]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到资产负责项明细 -->
+	<sql id="getAssetsDebtsItemById" >
+		SELECT * FROM LOAN_ASSETS_DEBTS_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除资产负责项明细 -->
+	<sql id="deleteAssetsDebtsItemById" >
+		DELETE FROM LOAN_ASSETS_DEBTS_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 查询资产负责项明细 -->
+	<sql id="queryAssetsDebtsItemList" >
+		SELECT * FROM LOAN_ASSETS_DEBTS_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([columnName])" > COLUMN_NAME = '[columnName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([debtsSource])" > DEBTS_SOURCE = '[debtsSource]' </clause>
+			<clause prepend="and" assert="!isNull([termLimit])" > TERM_LIMIT = [termLimit] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([debtsUsed])" > DEBTS_USED = '[debtsUsed]' </clause>
+			<clause parent="DateSpan" params="ISSUE_DATE,issueDate,issueDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ensureMode])" > ENSURE_MODE = '[ensureMode]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > REMARK = '[remark]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

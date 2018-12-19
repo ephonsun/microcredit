@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanMonitorInfo" table="LOAN_MONITOR_INFO" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanMonitorDate" type="java.util.Date" >
+			<column name="LOAN_MONITOR_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanMonitorType" type="java.lang.String" >
+			<column name="LOAN_MONITOR_TYPE" length="30" />
+		</property>
+		<property name="loanMonitorUserId" type="java.lang.Integer" >
+			<column name="LOAN_MONITOR_USER_ID" length="4" />
+		</property>
+		<property name="loanCompleteDate" type="java.util.Date" >
+			<column name="LOAN_COMPLETE_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanRevisitType" type="java.lang.String" >
+			<column name="LOAN_REVISIT_TYPE" length="30" />
+		</property>
+		<property name="loanResultContent" type="java.lang.String" >
+			<column name="LOAN_RESULT_CONTENT" length="600" />
+		</property>
+		<property name="loanMonitorState" type="java.lang.String" >
+			<column name="LOAN_MONITOR_STATE" length="30" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

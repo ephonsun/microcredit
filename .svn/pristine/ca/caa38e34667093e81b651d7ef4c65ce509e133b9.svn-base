@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>照片预览</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css"/>
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css"/>
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/third/jqueryMagnify/jquery.magnify.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/third/jqueryMagnify/font-awesome.min.css" />
+    <style type="text/css">
+        ul {
+            list-style: none;
+        }
+
+        ul.imglist {
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        ul.imglist li {
+            float: left;
+            margin: 16px 16px;
+            width: 150px;
+            height: 140px;
+        }
+
+        ul.imglist li a {
+            color: black;
+        }
+
+        ul.imglist li img {
+            display: block;
+            width: 100%;
+            height: 80%;
+        }
+
+        ul.imglist li label {
+            font-size: 14px;
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            white-space: pre;
+            text-overflow: ellipsis;
+            padding: 0 7px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<!-- // 搜索栏 -->
+<form id="form">
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields">
+
+                <tr>
+                    <td class="field" width="5%">
+                        <label>资料分类：</label>
+                    </td>
+                    <td width="15%">
+                                    <div>
+                                        <select id="fileType" name="fileType">
+                                            <option></option>
+
+                                        </select>
+                                    </div>
+                    </td>
+
+
+
+
+                    <td class="field" width="5%">
+                        <label>子类：</label>
+                    </td>
+
+                    <td width="15%">
+                        <div>
+                            <select id="subClass" name="subClass">
+                                <option></option>
+
+                            </select>
+                        </div>
+                    </td>
+
+
+                    <td width="60%"></td>
+
+                </tr>
+
+            </table>
+        </div>
+        <div class="ui-layout-search-foot">
+            <div class="buttons">
+						<span id="btnSearch" class="ui-search-button">
+                        <label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+                    </span>
+                <span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+<input type="hidden" id="_loanId" value="$!loanId"/>
+
+<div>
+    <ul class="imglist" id="imglist">
+        #if($!thumbImageList)
+            #set($num = 0)
+               <input type="hidden" id="total" value="$thumbImageList.size()"/>
+               #foreach($thumbImage in $!thumbImageList)
+               <li id="imagePreview_$num" #*onclick="orginalImg($thumbImage.id,'$thumbImage.className')"*#>
+                    <a data-magnify="galleryLoanFile" href="../loanFile/getOriginalImage.html?id=$thumbImage.id">
+                        <img width='100%' height='80%'  src="../loanFile/previewImage.html?fileId=$thumbImage.id&loanId$!loanId"/>
+                    </a>
+                   <input type="hidden" id="loanId" value="$thumbImage.loanId"/>
+                   <input type="hidden" id="fileId_$num" value="$thumbImage.id"/>
+                   <input type="hidden" id="calssName" value="$thumbImage.className"/>
+                   #set($num = $num + 1)
+                   <label title="$thumbImage.className">$thumbImage.className</label>
+               </li>
+               #end
+        #end
+    </ul>
+</div>
+<div id="taskGrid">
+
+</div>
+
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //附件上传相关脚本 -->
+<script type="text/javascript" src="../uploadify/swfobject.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../core/js/third/jqueryMagnify/jquery.magnify.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/loanFileManage/previewImage.js"></script>
+</body>
+</html>

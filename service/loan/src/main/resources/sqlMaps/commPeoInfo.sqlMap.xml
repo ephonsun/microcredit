@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="commPeoInfo" name="banger.domain.loan.CommPeoInfo"></class>
+	<class id="commPeoInfo_Query" name="banger.domain.loan.CommPeoInfo_Query"></class>
+	<sql id="queryCommPeoInfoById" result="commPeoInfo">
+		SELECT * FROM COMMON_PEOPLE_INFO WHERE ID = [0]
+	</sql>
+	<sql id="queryCommPeoInfoListByLoanId">
+		SELECT * FROM COMMON_PEOPLE_INFO WHERE LOAN_ID = [0]
+	</sql>
+	<sql id="queryCommPeoInfoListByItemId">
+		SELECT * FROM COMMON_PEOPLE_INFO WHERE ITEM_ID = [0]
+	</sql>
+	<sql id="queryCommPeoInfoListByCondition" result="commPeoInfo_Query">
+		SELECT * FROM COMMON_PEOPLE_INFO
+		<where>
+			<clause prepend="and" assert="!isNull([id])" > ID = [id] </clause>
+			<clause prepend="and" assert="!isNull([itemId])" > ITEM_ID = [itemId] </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanProcessType])" > LOAN_PROCESS_TYPE = [loanProcessType] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([commPeoName])" > COMM_PEO_NAME = [commPeoName] </clause>
+		</where>
+	</sql>
+	<sql id="updateCommPeoInfoById">
+		UPDATE COMMON_PEOPLE_INFO
+		<set>
+			<clause prepend="," assert="!isNull([itemId])" >ITEM_ID = [$itemId]</clause>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanProcessType])" >LOAN_PROCESS_TYPE = [$loanProcessType]</clause>
+			<clause prepend="," assert="!isNull([commPeoName])" >COMM_PEO_NAME = [$commPeoName]</clause>
+			<clause prepend="," assert="!isNull([commPeoCerType])" >COMM_PEO_CER_TYPE = [$commPeoCerType]</clause>
+			<clause prepend="," assert="!isNull([commLicenseNo])" >COMM_LICENSE_NO = [$commLicenseNo]</clause>
+			<clause prepend="," assert="!isNull([commNo])" >COMM_NO = [$commNo]</clause>
+			<clause prepend="," assert="!isNull([commKeeperName])" >COMM_KEEPER_NAME = [$commKeeperName]</clause>
+			<clause prepend="," assert="!isNull([corporation])" >CORPORATION = [$corporation]</clause>
+			<clause prepend="," assert="!isNull([telephone])" >TELEPHONE = [$telephone]</clause>
+			<clause prepend="," assert="!isNull([facsimile])" >FACSIMILE = [$facsimile]</clause>
+			<clause prepend="," assert="!isNull([address])" >ADDRESS = [$address]</clause>
+			<clause prepend="," assert="!isNull([indivSpsName])" >INDIV_SPS_NAME = [$indivSpsName]</clause>
+			<clause prepend="," assert="!isNull([indivSpsIdType])" >INDIV_SPS_ID_TYPE = [$indivSpsIdType]</clause>
+			<clause prepend="," assert="!isNull([indivSpsIdCode])" >INDIV_SPS_ID_CODE = [$indivSpsIdCode]</clause>
+			<clause prepend="," assert="!isNull([indivSpsMobile])" >INDIV_SPS_MOBILE = [$indivSpsMobile]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+	<sql id="insertCommPeoInfo">
+		INSERT INTO COMMON_PEOPLE_INFO (ID,ITEM_ID,LOAN_ID,LOAN_PROCESS_TYPE,COMM_PEO_NAME,COMM_PEO_CER_TYPE,COMM_LICENSE_NO,COMM_NO,COMM_KEEPER_NAME,CORPORATION,TELEPHONE,FACSIMILE,ADDRESS,INDIV_SPS_NAME,INDIV_SPS_ID_TYPE,INDIV_SPS_ID_CODE,INDIV_SPS_MOBILE,USER_ID) VALUES (
+		[$ID]
+		<clause prepend="," nvl="NULL" >[$itemId]</clause>
+		<clause prepend="," nvl="NULL" >[$loanId]</clause>
+		<clause prepend="," nvl="NULL" >[$loanProcessType]</clause>
+		<clause prepend="," nvl="NULL" >[$commPeoName]</clause>
+		<clause prepend="," nvl="NULL" >[$commPeoCerType]</clause>
+		<clause prepend="," nvl="NULL" >[$commLicenseNo]</clause>
+		<clause prepend="," nvl="NULL" >[$commNo]</clause>
+		<clause prepend="," nvl="NULL" >[$commKeeperName]</clause>
+		<clause prepend="," nvl="NULL" >[$corporation]</clause>
+		<clause prepend="," nvl="NULL" >[$telephone]</clause>
+		<clause prepend="," nvl="NULL" >[$facsimile]</clause>
+		<clause prepend="," nvl="NULL" >[$address]</clause>
+		<clause prepend="," nvl="NULL" >[$indivSpsName]</clause>
+		<clause prepend="," nvl="NULL" >[$indivSpsIdtype]</clause>
+		<clause prepend="," nvl="NULL" >[$indivSpsIdCode]</clause>
+		<clause prepend="," nvl="NULL" >[$indivSpsMobile]</clause>
+		<clause prepend="," nvl="0" >[$userId]</clause>
+		)
+	</sql>
+
+	<sql id="deleteCommPeoInfo">
+		DELETE FROM COMMON_PEOPLE_INFO WHERE ID=[0]
+	</sql>
+
+</banger>

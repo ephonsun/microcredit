@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="templateFileQuery" name="banger.domain.loan.contract.LoanContractTemplateFile" >
+		<property name="templateTypeName" column="TYPE_NAME"></property>
+	</class>
+
+	<!-- 新增 -->
+	<sql id="insertContractTemplateFile" >
+		INSERT INTO LOAN_CONTRACT_TEMPLATE_FILE (ID,TEMPLATE_TYPE_ID,OLD_FILE_NAME,FILE_NAME,FILE_PATH,SORT_NO,REMARK,IS_DEL,CREATE_USER,CREATE_DATE,UPDATE_USER,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$templateTypeId]</clause>
+		<clause prepend="," nvl="''" >[$oldFileName]</clause>
+		<clause prepend="," nvl="''" >[$fileName]</clause>
+		<clause prepend="," nvl="''" >[$filePath]</clause>
+		<clause prepend="," nvl="0" >[$sortNo]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateContractTemplateFile" >
+		UPDATE LOAN_CONTRACT_TEMPLATE_FILE 
+		<set>
+			<clause prepend="," assert="!isNull([templateTypeId])" >TEMPLATE_TYPE_ID = [$templateTypeId]</clause>
+			<clause prepend="," assert="!isNull([oldFileName])" >OLD_FILE_NAME = [$oldFileName]</clause>
+			<clause prepend="," assert="!isNull([fileName])" >FILE_NAME = [$fileName]</clause>
+			<clause prepend="," assert="!isNull([filePath])" >FILE_PATH = [$filePath]</clause>
+			<clause prepend="," assert="!isNull([sortNo])" >SORT_NO = [$sortNo]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getContractTemplateFileById" result="templateFileQuery">
+		SELECT TF.*,TT.TYPE_NAME FROM LOAN_CONTRACT_TEMPLATE_FILE TF
+		LEFT JOIN LOAN_CONTRACT_TEMPLATE_TYPE TT ON TF.TEMPLATE_TYPE_ID = TT.ID
+		WHERE TF.IS_DEL = 0 AND TF.ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteContractTemplateFileById" >
+		UPDATE LOAN_CONTRACT_TEMPLATE_FILE SET IS_DEL = 1 WHERE ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryContractTemplateFileList" result="templateFileQuery" >
+		SELECT TF.*,TT.TYPE_NAME FROM LOAN_CONTRACT_TEMPLATE_FILE TF
+		 LEFT JOIN LOAN_CONTRACT_TEMPLATE_TYPE TT ON TF.TEMPLATE_TYPE_ID = TT.ID
+		<where>
+			TF.IS_DEL = 0
+			<clause prepend="and" assert="!isNull([templateTypeId])" > TF.TEMPLATE_TYPE_ID = [templateTypeId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([oldFileName])" > TF.OLD_FILE_NAME = '[oldFileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileName])" > TF.FILE_NAME = '[fileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > TF.FILE_PATH = '[filePath]' </clause>
+			<clause prepend="and" assert="!isNull([sortNo])" > TF.SORT_NO = [sortNo] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > TF.REMARK = '[remark]' </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > TF.CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="TF.CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > TF.UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="TF.UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([id])" > TF.ID &lt;&gt; [id] </clause>
+		</where>
+		ORDER BY TF.TEMPLATE_TYPE_ID,TF.CREATE_DATE ASC
+
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryTemplateFileByTypeId" >
+		SELECT * FROM LOAN_CONTRACT_TEMPLATE_FILE WHERE TEMPLATE_TYPE_ID = [0] AND IS_DEL = 0 ORDER BY CREATE_DATE ASC
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryTemplateFilesByLoanTypeId" >
+		SELECT TF.* FROM LOAN_CONTRACT_TEMPLATE_FILE TF
+		INNER JOIN LOAN_CONTRACT_RELATE_ITEM RT ON TF.ID = RT.TEMPLATE_FILE_ID
+		<where>
+			TF.IS_DEL = 0
+			<clause prepend="and" assert="!isNull([loanTypeId])" > RT.LOAN_TYPE_ID = [loanTypeId] </clause>
+		</where>
+		ORDER BY TF.TEMPLATE_TYPE_ID,TF.CREATE_DATE ASC
+
+	</sql>
+
+
+</banger>

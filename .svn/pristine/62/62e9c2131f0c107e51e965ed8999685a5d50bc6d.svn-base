@@ -1,0 +1,85 @@
+#*<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>贷款审计详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+</head>
+
+<body>*#
+<form id="form">
+    <input type="hidden" id="auditLoanId"  name="auditLoanId" value="$loanId"/>
+    #foreach($!loanAudit in $!loanAuditList)
+        <div style="border: 1px solid #d7d7d7">
+            <tr>
+                <div id="tips" class="ui-textarea-tips">
+                    <label><strong>*历史审计信息</strong></label>
+                </div>
+            </tr>
+            <tr>
+                <blockquote>
+                    <div id="tips" class="ui-textarea-tips">
+                            #if($!loanAudit.loanAuditState == 2)
+                            <strong style="color: red">
+                                (审计不通过 $!loanAudit.loanAuditors  $!date.format('yyyy/MM/dd HH:mm',$!loanAudit.createDate))
+                            </strong>
+                            #elseif($!loanAudit.loanAuditState == 1)
+                            <strong style="color: green">
+                                (审计通过 $!loanAudit.loanAuditors  $!date.format('yyyy/MM/dd HH:mm',$!loanAudit.createDate))
+                            </strong>
+                            #end
+                    </div>
+                </blockquote>
+            </tr>
+            <tr>
+                <blockquote>
+                    <div class="ui-textarea">
+                        <textarea class="ui-textarea-text" maxlength="200"
+                                  disabled>$!loanAudit.loanAuditRemark</textarea>
+                    </div>
+                </blockquote>
+            </tr>
+        </div>
+        <br/>
+    #end
+    #if($!isAudited == 0 && $!isNotRefuse)
+        <div style="border: 1px solid #d7d7d7">
+            <div id="tips" class="ui-textarea-tips">
+                <label><strong>审计信息</strong></label>
+            </div>
+            <blockquote>
+                <div class="ui-textarea">
+                    <textarea id="loanAuditRemark" name="loanAuditRemark" class="ui-textarea-text"
+                              maxlength="200"></textarea>
+                </div>
+            </blockquote>
+        </div>
+    #end
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+    #if($!isAudited == 0 && $!isNotRefuse)
+    <span id="btnPass" class="ui-closure-button">
+        <label class="ui-closure-button-text">审计通过</label>
+    </span>
+    <span id="btnUnPass" class="ui-closure-button ml5">
+        <label class="ui-closure-button-text">审计不通过</label>
+    </span>
+    #end
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">关闭</label>
+    </span>
+</div>
+#*<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.tabs.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../loan/js/audit/auditDetail.js"></script>
+</body>
+</html>*#

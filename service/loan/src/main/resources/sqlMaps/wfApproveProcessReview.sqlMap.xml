@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增审批流环节审核人员表 -->
+	<sql id="insertApproveProcessReview" >
+		INSERT INTO WF_APPROVE_PROCESS_REVIEW (ID,PROCESS_ID,REVIEW_MODE,REVIEW_DATA_POWER,REVIEV_ROLE_ID,REVIEW_COUNT,IS_LIMIT_CONTROL,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$processId]</clause>
+		<clause prepend="," nvl="''" >[$reviewMode]</clause>
+		<clause prepend="," nvl="''" >[$reviewDataPower]</clause>
+		<clause prepend="," nvl="0" >[$revievRoleId]</clause>
+		<clause prepend="," nvl="0" >[$reviewCount]</clause>
+		<clause prepend="," nvl="0" >[$isLimitControl]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改审批流环节审核人员表 -->
+	<sql id="updateApproveProcessReview" >
+		UPDATE WF_APPROVE_PROCESS_REVIEW 
+		<set>
+			<clause prepend="," assert="!isNull([processId])" >PROCESS_ID = [$processId]</clause>
+			<clause prepend="," assert="!isNull([reviewMode])" >REVIEW_MODE = [$reviewMode]</clause>
+			<clause prepend="," assert="!isNull([reviewDataPower])" >REVIEW_DATA_POWER = [$reviewDataPower]</clause>
+			<clause prepend="," assert="!isNull([revievRoleId])" >REVIEV_ROLE_ID = [$revievRoleId]</clause>
+			<clause prepend="," assert="!isNull([reviewCount])" >REVIEW_COUNT = [$reviewCount]</clause>
+			<clause prepend="," assert="!isNull([isLimitControl])" >IS_LIMIT_CONTROL = [$isLimitControl]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到审批流环节审核人员表 -->
+	<sql id="getApproveProcessReviewById" >
+		SELECT * FROM WF_APPROVE_PROCESS_REVIEW WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批流环节审核人员表 -->
+	<sql id="deleteApproveProcessReviewById" >
+		DELETE FROM WF_APPROVE_PROCESS_REVIEW WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批流环节审核人员表 -->
+	<sql id="deleteApproveProcessReviewByProcessFilterId" >
+		DELETE FROM WF_APPROVE_PROCESS_REVIEW WHERE PROCESS_ID = [processId]
+		<clause prepend="and" assert="!isNull([filterIds])" > ID NOT IN (<for in="[filterIds]" split=",">{item}</for>) </clause>
+	</sql>
+
+	<!-- 查询审批流环节审核人员表 -->
+	<sql id="queryApproveProcessReviewList" >
+		SELECT * FROM WF_APPROVE_PROCESS_REVIEW 
+		<where>
+			<clause prepend="and" assert="!isNull([processId])" > PROCESS_ID = [processId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([reviewMode])" > REVIEW_MODE = '[reviewMode]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([reviewDataPower])" > REVIEW_DATA_POWER = '[reviewDataPower]' </clause>
+			<clause prepend="and" assert="!isNull([revievRoleId])" > REVIEV_ROLE_ID = [revievRoleId] </clause>
+			<clause prepend="and" assert="!isNull([reviewCount])" > REVIEW_COUNT = [reviewCount] </clause>
+			<clause prepend="and" assert="!isNull([isLimitControl])" > IS_LIMIT_CONTROL = [isLimitControl] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<!-- 查询审批流环节审核人员表 -->
+	<sql id="getApproveProcessReviewListByProcessId" >
+		SELECT * FROM WF_APPROVE_PROCESS_REVIEW WHERE PROCESS_ID = [0]
+	</sql>
+
+</banger>

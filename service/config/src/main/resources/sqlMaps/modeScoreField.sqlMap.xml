@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="modeScoreFieldExtend" name="banger.domain.config.ModeScoreFieldExtend" >
+		<property name="templateId" column="TEMPLATE_ID" ></property>
+		<property name="tableName" column="TABLE_NAME" ></property>
+		<property name="talbeColumn" column="TALBE_COLUMN" ></property>
+		<property name="fieldName" column="FIELD_NAME" ></property>
+		<property name="fieldDisplay" column="FIELD_DISPLAY" ></property>
+		<property name="templateModule" column="TEMPLATE_MODULE" ></property>
+		<property name="isActived" column="IS_ACTIVED" ></property>
+		<property name="tableNameCn" column="TABLE_NAME_CN" ></property>
+	</class>
+	<!-- 新增评分模型评分项明细表 -->
+	<sql id="insertScoreField" >
+		INSERT INTO MODE_SCORE_FIELD (OPTION_ID,MODE_ID,TEMPLATE_ID,FIELD_ID,FIELD_NAME) VALUES ([$optionId]
+		<clause prepend="," nvl="0" >[$modeId]</clause>
+		<clause prepend="," nvl="0" >[$templateId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="" >[$fieldName]</clause>
+		)
+	</sql>
+
+	<!-- 修改评分模型评分项明细表 -->
+	<sql id="updateScoreField" >
+		UPDATE MODE_SCORE_FIELD 
+		<set>
+			<clause prepend="," assert="!isNull([modeId])" >MODE_ID = [$modeId]</clause>
+			<clause prepend="," assert="!isNull([templateId])" >TEMPLATE_ID = [$templateId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([fieldName])" > FIELD_NAME = [$fieldName] </clause>
+		</set>
+		<where>
+			 OPTION_ID = [$optionId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到评分模型评分项明细表 -->
+	<sql id="getScoreFieldById" >
+		SELECT * FROM MODE_SCORE_FIELD WHERE OPTION_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除评分模型评分项明细表 -->
+	<sql id="deleteScoreFieldById" >
+		DELETE FROM MODE_SCORE_FIELD WHERE OPTION_ID = [0]
+	</sql>
+
+	<!-- 查询评分模型评分项明细表 -->
+	<sql id="queryScoreFieldList" >
+		SELECT * FROM MODE_SCORE_FIELD 
+		<where>
+			<clause prepend="and" assert="!isNull([modeId])" > MODE_ID = [modeId] </clause>
+			<clause prepend="and" assert="!isNull([templateId])" > TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNull([fieldName])" > FIELD_NAME = '[fieldName]' </clause>
+		</where>
+	</sql>
+	<!--查询评分模型评分项列表-->
+	<sql id="queryModelScoreInfoFieldList" result="modeScoreFieldExtend">
+		SELECT I.TABLE_NAME TABLE_NAME_CN,T.*,S.OPTION_ID FROM MODE_SCORE_FIELD S INNER JOIN MODE_TEMPLATE_FIELD T ON S.FIELD_ID = T.FIELD_ID
+		INNER JOIN MODE_TEMPLATE_INFO I ON I.TEMPLATE_ID = S.TEMPLATE_ID
+		<where>
+			<clause prepend="and" assert="!isNull([modeId])" > S.MODE_ID = [modeId] </clause>
+		</where>
+	</sql>
+
+	<sql id="deleteScoreFieldByModeId">
+		DELETE FROM MODE_SCORE_FIELD WHERE MODE_ID = [modeId]
+	</sql>
+</banger>

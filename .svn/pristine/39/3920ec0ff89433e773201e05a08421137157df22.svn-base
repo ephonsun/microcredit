@@ -1,0 +1,72 @@
+#if($!flag=="1")##查看
+    #set($fieldFlag=2)
+#elseif($customer.id)
+    #set($fieldFlag=0)
+#else
+    #set($fieldFlag=0)
+#end
+<input type="hidden" id="id" name="id" value="$!id"/>
+<input type="hidden" id="belongId" value="$!belongId">
+<form id="baseForm">
+    #foreach($template in $templateList)
+        #if($template.showOrHide == "hide")
+            #set ($showOrHide = "style='display:none;'")
+        #else
+            #set ($showOrHide = "")
+        #end
+        <div class="template" name="$template.tableName"  id="$template.tableName" $!showOrHide >
+            <label class="head-name"><strong>$template.name</strong></label>
+            #templateFieldFormType($template.fields,$template.data[0], $fieldFlag, $template.tableName, $!id,'customer')
+        </div>
+    #end
+</form>
+
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+    #if($isHandOver == "1")
+        <span id="btnHandOver" class="ui-closure-button">
+            <label class="ui-closure-button-text">移交</label>
+        </span>
+    #end
+    #if(($fieldFlag!=2 && $isHandOver == "") || ($fieldFlag!=2 && !$isHandOver)  )
+        <span id="btnSaveBase" class="ui-closure-button">
+                <label class="ui-closure-button-text">保存</label>
+            </span>
+        #if(!$id)
+            <span id="btnSaveContine" class="ui-closure-button ml5">
+                    <label class="ui-closure-button-text">保存并新建</label>
+                </span>
+        #end
+    #end
+    #if($!isapply=="1")
+        <span id="toApplyLoan" class="ui-closure-button" style="margin:0 14px">
+        <label class="ui-closure-button-text">申请贷款</label>
+    </span>
+    #end
+
+    <span id="btnCancelBase" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">关闭</label>
+        </span>
+</div>
+
+<script type="text/javascript">
+    var address = $!address;
+    $(function () {
+        $.each(address, function (index, value) {
+            var lbizId = value.lbizId;
+            if (lbizId) {
+                $('#' + value.tableName + ' table').each(function () {
+                    var id = $(this).find("input[name='field.ID']").val();
+                    if (id == lbizId)
+                        $(this).find(".map-button." + value.columnName).addClass("blue-address");
+                });
+            } else {
+                $('#' + value.tableName).find(".map-button." + value.columnName).addClass("blue-address");
+            }
+        });
+        $('.map-button').each(function () {
+            if (!$(this).hasClass('blue-address'))
+                $(this).addClass("grey-address");
+        });
+    });
+</script>

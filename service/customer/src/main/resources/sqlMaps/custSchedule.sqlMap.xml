@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="custScheduleQuery" name="banger.domain.customer.CustScheduleQuery" >
+        <property name="customerLevel" column="CUSTOMER_LEVEL" ></property>
+        <property name="customerName" column="CUSTOMER_NAME" ></property>
+        <property name="customerSex" column="CUSTOMER_SEX" ></property>
+        <property name="customerAge" column="CUSTOMER_AGE" ></property>
+        <property name="phoneNumber" column="PHONE_NUMBER" ></property>
+        <property name="belongUserId" column="BELONG_USER_ID" ></property>   
+    </class>
+
+    <class id="custScheduleQueryByCustomer" name="banger.domain.customer.CustScheduleQuery" > 
+    </class>    
+    
+	<!-- 新增 -->
+	<sql id="insertSchedule" >
+		INSERT INTO CUST_SCHEDULE (ID,CUSTOMER_ID,PLAN_TYPE,PLAN_TIME,PLAN_REMARK,PLAN_RATE,SCHEDULE_TYPE,STATE,CREATE_USER,CREATE_DATE,UPDATE_USER,UPDATE_DATE,DEL_FLAG) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$customerId]</clause>
+		<clause prepend="," nvl="0" >[$planType]</clause>
+		<clause prepend="," >[$planTime]</clause>
+		<clause prepend="," nvl="''" >[$planRemark]</clause>
+		<clause prepend="," nvl="1" >[$planRate]</clause>
+		<clause prepend=",">[$scheduleType]</clause>
+		<clause prepend="," nvl="1" >[$state]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$delFlag]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateSchedule" >
+		UPDATE CUST_SCHEDULE 
+		<set>
+			<clause prepend="," assert="!isNull([customerId])" >CUSTOMER_ID = [$customerId]</clause>
+			<clause prepend="," assert="!isNull([planType])" >PLAN_TYPE = [$planType]</clause>
+			<clause prepend="," assert="!isNull([planTime])" >PLAN_TIME = [$planTime]</clause>
+			<clause prepend="," assert="!isNull([planRemark])" >PLAN_REMARK = [$planRemark]</clause>
+			<clause prepend="," assert="!isNull([planRate])" >PLAN_RATE = [$planRate]</clause>
+			<clause prepend="," assert="!isNull([state])" >STATE = [$state]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getScheduleById" >
+		SELECT * FROM CUST_SCHEDULE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteScheduleById" >
+		DELETE FROM CUST_SCHEDULE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteScheduleByCuctomerId" >
+		DELETE FROM CUST_SCHEDULE WHERE CUSTOMER_ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryScheduleList" result="custScheduleQueryByCustomer">
+		SELECT CS.*
+		FROM CUST_SCHEDULE CS
+		<where>
+			<clause prepend="and" assert="!isNull([customerId])" > CS.CUSTOMER_ID = [customerId] </clause>
+			<clause prepend="and" assert="!isNull([scheduleType])" > CS.SCHEDULE_TYPE = [scheduleType] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([planType])" > CS.PLAN_TYPE = [planType] </clause>
+			<clause parent="DateSpan" params="PLAN_TIME,planTime,planTimeEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([planRemark])" > CS.PLAN_REMARK = '[planRemark]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([planRate])" >CS. PLAN_RATE = [planRate] </clause>
+			<clause prepend="and" assert="!isNull([state])" > CS.STATE = [state] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CS.CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > CS.UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and"> CS.DEL_FLAG = 0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])" > CS.PLAN_TIME <![CDATA[ >= ]]> <method name="beginDate">[startDate]</method> </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])" > CS.PLAN_TIME <![CDATA[ < ]]> <method name="endDate">[endDate]</method> </clause>
+			ORDER BY CS.STATE,CS.PLAN_TIME DESC
+		</where>
+
+	</sql>
+
+	<!-- 查询客户的日程列表 -->
+	<sql id="getCustScheduleListByCustomerId" result="custScheduleQuery" >
+		SELECT SC.*,CUST.CUSTOMER_NAME,CUST.CUSTOMER_LEVEL,
+		CUST.CUSTOMER_SEX,CUST.CUSTOMER_AGE,CUST.PHONE_NUMBER,CUST.BELONG_USER_ID
+		FROM CUST_SCHEDULE SC
+		INNER JOIN CUST_BASIC_INFO CUST ON CUST.ID=SC.CUSTOMER_ID
+		INNER JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=SC.CREATE_USER
+		WHERE SC.DEL_FLAG = 0 AND SC.CUSTOMER_ID = [0]
+		<clause prepend="and" assert="!isNull([1])" > SC.CREATE_USER = [1] </clause>
+		ORDER BY SC.STATE,SC.PLAN_TIME ASC
+	</sql>
+
+	<!-- 查询客户的日程列表 -->
+	<sql id="queryCustScheduleList"  result="custScheduleQuery">
+		SELECT SC.*,CUST.CUSTOMER_NAME,CUST.CUSTOMER_LEVEL,
+		CUST.CUSTOMER_SEX,CUST.CUSTOMER_AGE,CUST.PHONE_NUMBER,CUST.BELONG_USER_ID		
+		FROM CUST_SCHEDULE SC
+		INNER JOIN CUST_BASIC_INFO CUST ON CUST.ID=SC.CUSTOMER_ID
+		<clause assert="!isNull([teamGroupIds])" > INNER JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=SC.CREATE_USER </clause><!--分配给团队的-->
+		<where>
+			<clause prepend="and"> SC.DEL_FLAG = 0 </clause>
+			<clause prepend="and" assert="!isNull([createUser])">
+				(  SC.CREATE_USER = [createUser]
+				<clause prepend="or" assert="!isNull([teamGroupIds])" > STM.TEAM_GROUP_ID in ([teamGroupIds])</clause>
+				)
+			</clause>
+
+			<clause prepend="and" assert="!isNull([customerId])" > SC.CUSTOMER_ID = [customerId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([planType])" > SC.PLAN_TYPE = [planType] </clause>						
+			<clause prepend="and" assert="!isNullOrEmpty([planRate])" > SC.PLAN_RATE = [planRate] </clause>
+			<clause prepend="and" assert="!isNull([state])" > SC.STATE = [state] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" >
+				(CUST.CUSTOMER_NAME LIKE '%[customerName]%' OR  CUST.PHONE_NUMBER LIKE '%[customerName]%'
+					OR CUST.IDENTIFY_NUM LIKE UPPER('%[customerName]%')
+				)
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerLevel])" > CUST.CUSTOMER_LEVEL='[customerLevel]'</clause>
+			<clause prepend="and" assert="!isNull([userId])" > SC.CREATE_USER = [userId] </clause>
+
+			<clause prepend="and" assert="isEqual([isOverDate],'1')" > SC.PLAN_TIME <![CDATA[ >= ]]> <method name="toDate">[nowDate]</method> </clause>
+			<clause prepend="and" assert="isEqual([isOverDate],'2')" > SC.PLAN_TIME <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause>
+
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])" > SC.PLAN_TIME <![CDATA[ >= ]]> <method name="beginDate">[startDate]</method> </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])" > SC.PLAN_TIME <![CDATA[ < ]]> <method name="endDate">[endDate]</method> </clause>
+			ORDER BY sc.STATE,sC.PLAN_TIME DESC
+		</where>
+	</sql>
+
+	<!-- 客户查询客户的日程列表 -->
+	<sql id="queryCustScheduleListForApp"  result="custScheduleQuery">
+		SELECT SC.*,CUST.CUSTOMER_NAME,CUST.CUSTOMER_LEVEL,
+		CUST.CUSTOMER_SEX,CUST.CUSTOMER_AGE,CUST.PHONE_NUMBER,CUST.BELONG_USER_ID		
+		FROM CUST_SCHEDULE SC
+		INNER JOIN CUST_BASIC_INFO CUST ON CUST.ID=SC.CUSTOMER_ID
+		<where>
+			<clause prepend="and"> SC.DEL_FLAG = 0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > 	
+				CUST.CUSTOMER_NAME LIKE '%[customerName]%'
+			</clause>
+			<clause prepend="and" assert="!isNull([userId])" > SC.CREATE_USER = [userId] </clause>						
+			<clause prepend="and" assert="!isNull([customerId])" > SC.CUSTOMER_ID = [customerId] </clause>
+			<clause prepend="and" assert="!isNull([scheduleType])" > SC.SCHEDULE_TYPE = [scheduleType] </clause>
+		</where>
+		ORDER BY sc.STATE,sC.PLAN_TIME DESC
+	</sql>
+	
+</banger>

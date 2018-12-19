@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<!-- 新增角色功能 -->
+	<sql id="insertRoleFunc" >
+		INSERT INTO PMS_ROLE_FUNC (PRF_ROLE_FUNC_ID,PRF_ROLE_ID,PRF_FUNC_ID,PRF_CREATE_DATE,PRF_UPDATE_DATE,PRF_CREATE_USER,PRF_UPDATE_USER) VALUES ([$prfRoleFuncId]
+		<clause prepend="," nvl="0" >[$prfRoleId]</clause>
+		<clause prepend="," nvl="''" >[$prfFuncId]</clause>
+		<clause prepend="," >[$prfCreateDate]</clause>
+		<clause prepend="," >[$prfUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$prfCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$prfUpdateUser]</clause>
+		)
+	</sql>
+	
+	<!-- 通过角色主键,得到角色功能 -->
+	<sql id="getRoleFuncsByRoleId" >
+		SELECT * FROM PMS_ROLE_FUNC WHERE PRF_ROLE_ID = [0]
+	</sql>
+	
+	<!-- 通过角色主键,得到角色功能Id集体合 -->
+	<sql id="getFuncIdsByRoleId" >
+		SELECT PRF_FUNC_ID FROM PMS_ROLE_FUNC WHERE PRF_ROLE_ID = [0]
+	</sql>
+	
+	<!-- 删除角色功能 -->
+	<sql id="deleteRoleFuncById" >
+		DELETE FROM PMS_ROLE_FUNC WHERE PRF_ROLE_FUNC_ID = [0]
+	</sql>
+	
+	<!-- 删除角色功能 -->
+	<sql id="deleteFuncByRoleId" >
+		DELETE FROM PMS_ROLE_FUNC WHERE PRF_ROLE_ID = [0]
+	</sql>
+
+</banger>

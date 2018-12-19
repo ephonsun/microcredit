@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="CACHE_SYS_BASIC" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="updateSysBasicConfig" />
+	</cache>
+
+	<!-- 查询基础配置表 -->
+	<sql id="querySysBasicConfigList" >
+		SELECT * FROM SYS_BASIC_CONFIG
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([basicConfigName])" > BASIC_CONFIG_NAME = [basicConfigName] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([basicConfigKey])" > BASIC_CONFIG_KEY = '[basicConfigKey]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([configStatus])" > CONFIG_STATUS = '[configStatus]' </clause>
+			<clause prepend="and" assert="!isNull([configValue])" > CONFIG_VALUE = [configValue] </clause>
+			<clause prepend="and" assert="!isNull([configType])" > CONFIG_TYPE = [configType] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remarks])" > REMARKS = [remarks] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+		</where>
+		ORDER BY BASIC_CONFIG_ID
+	</sql>
+
+	<!-- 修改基础配置表-->
+	<sql id="updateSysBasicConfig" >
+		UPDATE SYS_BASIC_CONFIG
+		<set>
+			<clause prepend="," assert="!isNullOrEmpty([basicConfigName])" >BASIC_CONFIG_NAME = '[basicConfigName]'</clause>
+			<clause prepend="," assert="!isNullOrEmpty([basicConfigKey])" >BASIC_CONFIG_KEY = '[basicConfigKey]'</clause>
+			<clause prepend="," assert="!isNullOrEmpty([configStatus])" > CONFIG_STATUS = '[configStatus]' </clause>
+			<clause prepend="," assert="!isNull([configValue])" > CONFIG_VALUE = [configValue] </clause>
+			<clause prepend="," assert="!isNull([configType])" > CONFIG_TYPE = [configType] </clause>
+			<clause prepend="," assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="," assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="," assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="," assert="!isNullOrEmpty([remarks])" > REMARKS = '[remarks]' </clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			BASIC_CONFIG_ID = [basicConfigId]
+		</where>
+	</sql>
+
+	<!-- 通过配置key得到基础数据信息 -->
+	<sql id="getSysBasicConfigByKey" cache="CACHE_SYS_BASIC" >
+		SELECT * FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_KEY = '[0]' AND IS_DEL = 0
+	</sql>
+
+	<!-- 通过配置key得到基础数据信息 -->
+	<sql id="getSysBasicConfigStatusByKey" cache="CACHE_SYS_BASIC" >
+		SELECT CONFIG_STATUS FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_KEY = '[0]' AND IS_DEL = 0
+	</sql>
+
+	<!--<sql id="getFirstMonitorDay">-->
+		<!--SELECT CONFIG_VALUE FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_KEY = 'scjk'-->
+	<!--</sql>-->
+
+	<!--<sql id="queryNormalMonitorDay">-->
+		<!--SELECT CONFIG_VALUE FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_KEY = 'cgjkzc'-->
+	<!--</sql>-->
+
+	<!--<sql id="queryConcernMonitorDay">-->
+		<!--SELECT CONFIG_VALUE FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_KEY = 'cgjkgz'-->
+	<!--</sql>-->
+
+	<!--查询催发天数-->
+	<!--<sql id="queryRepayPlanDay">-->
+		<!--SELECT CONFIG_VALUE FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_KEY = 'cfsz'-->
+	<!--</sql>-->
+	<!-- 通过主键得到基本配置表 -->
+	<sql id="getBasicConfigById" >
+		SELECT * FROM SYS_BASIC_CONFIG WHERE BASIC_CONFIG_ID = [0]
+	</sql>
+</banger>

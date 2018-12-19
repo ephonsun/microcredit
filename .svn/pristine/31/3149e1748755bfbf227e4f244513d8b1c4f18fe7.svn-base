@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增APP升级版本信息表 -->
+	<sql id="insertAppVersion" >
+		INSERT INTO SYS_APP_VERSION (ID,USER_ID,APK_NAME,APK_URL,APK_VERSION_SHOW,APK_VERSION_UPD,IS_UPDATE,UPDATE_CONTENT,CREATE_DATE,IS_DEL) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$userId]</clause>
+		<clause prepend="," nvl="''" >[$apkName]</clause>
+		<clause prepend="," nvl="''" >[$apkUrl]</clause>
+		<clause prepend="," nvl="''" >[$apkVersionShow]</clause>
+		<clause prepend="," nvl="''" >[$apkVersionUpd]</clause>
+		<clause prepend="," nvl="''" >[$isUpdate]</clause>
+		<clause prepend="," nvl="''" >[$updateContent]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		)
+	</sql>
+
+	<!-- 修改APP升级版本信息表 -->
+	<sql id="updateAppVersion" >
+		UPDATE SYS_APP_VERSION 
+		<set>
+			<clause prepend="," assert="!isNull([userId])" >USER_ID = [$userId]</clause>
+			<clause prepend="," assert="!isNull([apkName])" >APK_NAME = [$apkName]</clause>
+			<clause prepend="," assert="!isNull([apkUrl])" >APK_URL = [$apkUrl]</clause>
+			<clause prepend="," assert="!isNull([apkVersionShow])" >APK_VERSION_SHOW = [$apkVersionShow]</clause>
+			<clause prepend="," assert="!isNull([apkVersionUpd])" >APK_VERSION_UPD = [$apkVersionUpd]</clause>
+			<clause prepend="," assert="!isNull([isUpdate])" >IS_UPDATE = [$isUpdate]</clause>
+			<clause prepend="," assert="!isNull([updateContent])" >UPDATE_CONTENT = [$updateContent]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到APP升级版本信息表 -->
+	<sql id="getAppVersionById" >
+		SELECT * FROM SYS_APP_VERSION WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除APP升级版本信息表 -->
+	<sql id="deleteAppVersionById" >
+		DELETE FROM SYS_APP_VERSION WHERE ID = [0]
+	</sql>
+
+	<!-- 查询APP升级版本信息表 -->
+	<sql id="queryAppVersionList" >
+		SELECT SAV.*,PS.SN userName FROM SYS_APP_VERSION SAV LEFT JOIN PMS_SU PS ON SAV.USER_ID = PS.ID
+		<where>
+			<clause prepend="and" assert="!isNull([userId])" > SAV.USER_ID = [userId] </clause>
+			<clause prepend="and" assert="!isNull([idDel])" > SAV.IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([apkName])" > SAV.APK_NAME = '[apkName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([apkUrl])" > SAV.APK_URL = '[apkUrl]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([apkVersionShow])" > SAV.APK_VERSION_SHOW = '[apkVersionShow]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([apkVersionUpd])" > SAV.APK_VERSION_UPD = '[apkVersionUpd]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([isUpdate])" > SAV.IS_UPDATE = '[isUpdate]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([updateContent])" > SAV.UPDATE_CONTENT = '[updateContent]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+		</where>
+		order by SAV.CREATE_DATE DESC
+	</sql>
+
+	<!-- 获取最新的版本 -->
+	<sql id="getLastOneVersionUpd" >
+		SELECT * FROM SYS_APP_VERSION SAV WHERE SAV.ID = (SELECT MAX(ID) FROM SYS_APP_VERSION WHERE IS_DEL = 0)
+	</sql>
+
+</banger>

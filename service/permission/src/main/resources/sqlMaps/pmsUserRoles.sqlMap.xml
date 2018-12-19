@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<!-- 得用户角色通过用户 -->
+	<sql id="getUserRolesByUserId" >
+		SELECT * FROM PMS_USER_ROLES WHERE PUR_USER_ID = [0]
+	</sql>
+	
+	<!-- 新增用户角色 -->
+	<sql id="insertUserRole" >
+		INSERT INTO PMS_USER_ROLES (PUR_USER_ROLES_ID,PUR_USER_ID,PUR_ROLE_ID,PUR_CREATE_DATE,PUR_UPDATE_DATE,PUR_CREATE_USER,PUR_UPDATE_USER) VALUES ([$purUserRolesId]
+		<clause prepend="," nvl="0" >[$purUserId]</clause>
+		<clause prepend="," nvl="0" >[$purRoleId]</clause>
+		<clause prepend="," >[$purCreateDate]</clause>
+		<clause prepend="," >[$purUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$purCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$purUpdateUser]</clause>
+		)
+	</sql>
+
+	<!-- 删除用户角色 -->
+	<sql id="deleteUserRoleById" >
+		DELETE FROM PMS_USER_ROLES WHERE PUR_USER_ROLES_ID = [0]
+	</sql>
+	
+	<!-- 通过用户主键,删除用户角色 -->
+	<sql id="deleteRoleByUserId" >
+		DELETE FROM PMS_USER_ROLES WHERE PUR_USER_ID = [0]
+	</sql>
+
+
+    <!--通过roleId获取用户数量-->
+    <sql id="getUserCountByRoleId">
+        select count(*) from PMS_USER_ROLES ur
+        inner join pms_user u on u.user_id = ur.pur_user_id and u.user_isdel = 0
+        where ur.pur_role_id = [$0]
+    </sql>
+
+	<class id="userRoleQuery" name="banger.domain.permission.PmsUserRoles_Query" >
+		<property name="userName" column="USER_NAME" ></property>
+		<property name="deptName" column="DEPT_NAME" ></property>
+	</class>
+
+	<!-- 询查机构用户-->
+	<sql id="getUserByRoleId" result="userRoleQuery" >
+		select pur.*,pu.user_name,pd.dept_name from pms_user pu
+		left join pms_user_roles pur on pu.user_id = pur_user_id
+		left join pms_dept pd on pd.dept_id = pu.user_dept_id
+		<where>
+			pu.user_isdel = 0
+			and not exists (select 1 from sys_team_member stm where stm.user_id = pu.user_id)
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" >pu.user_name like '%[userName]%'</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([roleIds])" >pur.pur_role_id in([roleIds])</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([exUserIds])" >pu.user_id not in([exUserIds])</clause>
+		</where>
+	</sql>
+
+	<!-- 询查机构用户-->
+	<sql id="getUserByGroupId" result="userRoleQuery" >
+		select pur.*,pu.user_name,pd.dept_name from sys_team_member stm
+		left join pms_user pu on pu.user_id = stm.user_id
+		left join pms_user_roles pur on pu.user_id = pur_user_id
+		left join pms_dept pd on pd.dept_id = pu.user_dept_id
+		<where>
+			pu.user_isdel = 0
+			<clause prepend="and" assert="!isNullOrEmpty([groupId])" >stm.team_group_id = [groupId]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([roleIds])" >pur.pur_role_id in([roleIds])</clause>
+		</where>
+	</sql>
+
+</banger>

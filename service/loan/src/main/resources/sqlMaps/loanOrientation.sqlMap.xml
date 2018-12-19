@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="loanOrientation" name="banger.domain.loan.LoanOrientation"></class>
+	<sql id="getLoanOrientationList" result="loanOrientation">
+		SELECT * FROM LOAN_INVESTMENT_DATA ORDER BY ID ASC
+	</sql>
+</banger>

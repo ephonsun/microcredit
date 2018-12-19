@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>基础参数</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+</head>
+
+<body>
+<form id="form">
+<table class="ui-form-fields">
+    <input type="hidden" id="jcdc_id" value="$!jcdc.basicConfigId">
+    <input type="hidden" id="cfsz_id" value="$!cfsz.basicConfigId">
+    <input type="hidden" id="scjk_id" value="$!scjk.basicConfigId">
+    <input type="hidden" id="cgjkzc_id" value="$!cgjkzc.basicConfigId">
+    <input type="hidden" id="cgjkgz_id" value="$!cgjkgz.basicConfigId">
+    <input type="hidden" id="qxsz_id" value="$!qxsz.basicConfigId">
+    <input type="hidden" id="lxdw_id" value="$!lxdw.basicConfigId">
+    <tbody>
+##    <tr>
+##        <td width="6%">
+##            <label>交叉调查：</label>
+##        </td>
+##        <td width="15%">
+##            <select id="jcdc">
+##                <option value ="0" #if($!jcdc.configValue == 0) selected="selected" #end>否</option>
+##                <option value ="1" #if($!jcdc.configValue == 1) selected="selected" #end>是</option>
+##            </select>
+##        </td>
+##        <td width="60%">
+##            <span class="c999">（设置是否交叉调查，默认为是，分配调查时不能分配给申请的客户经理）</span>
+##        </td>
+##    </tr>
+    <tr>
+        <td width="6%">
+            <label >还款提醒：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="cfsz" class="ui-text-text" value="$!cfsz.configValue" />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（设置还款日提前几天进入还款状态，默认7天）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label >首次监控：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="scjk" class="ui-text-text" value="$!scjk.configValue" />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（设置放贷之后几天进行首次监控，默认30天）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label style="align-content: center">常规监控：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="cgjkzc" class="ui-text-text" value="$!cgjkzc.configValue"  />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（设置正常状态常规监控的频率）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label >关注监控：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="cgjkgz" class="ui-text-text" value="$!cgjkgz.configValue" />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（设置关注状态常规监控的频率）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label >计息设置：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="qxsz" class="ui-text-text" value="$!qxsz.configValue" />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（设置起息日与首次还款的间隔）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label >利息单位：</label>
+        </td>
+        <td width="15%">
+            <select id="lxdw">
+                <option value ="1" #if("$!lxdw.configValue" == "1") selected="selected" #end>年</option>
+                <option value ="2" #if("$!lxdw.configValue" == "2") selected="selected" #end>月</option>
+            </select>
+        </td>
+        <td width="60%">
+            <span class="c999">（设置申请、建议、决议、放款信息中的利率单位）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label >顺序号：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="sxh" class="ui-text-text" readonly value="$!sxh" />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（顺序号自动递增,年终重置,不可手动修改!）</span>
+        </td>
+    </tr>
+    <tr>
+        <td width="6%">
+            <label >流水顺序号：</label>
+        </td>
+        <td width="15%">
+            <div class="ui-text">
+                <input type="text" id="lssxh" class="ui-text-text" readonly value="$!lssxh" />
+            </div>
+        </td>
+        <td width="60%">
+            <span class="c999">（流水顺序号自动递增,年终重置,不可手动修改!）</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">关闭</label>
+    </span>
+</div>
+    <table id="sysBasicConfig"></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../system/js/sysBasicConfig.js?v=$!webAppVersion"></script>
+</body>
+</html>

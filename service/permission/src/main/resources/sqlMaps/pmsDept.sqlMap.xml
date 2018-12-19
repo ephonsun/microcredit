@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+	
+	<class id="pmsDept_Query" name="banger.domain.permission.PmsDept_Query" >
+  		<property name="itemIds" column="ITEM_IDS"></property>
+  		<property name="itemValues" column="ITEM_VALUES"></property>
+        <property name="parentDeptName" column="PARENT_DEPT_NAME"/>
+  	</class>
+  	
+  	<class id="pmsDeptArea" name="banger.domain.permission.PmsDeptArea" >
+  		<property name="pdaId" column="PDA_ID"></property>
+  		<property name="areaId" column="AREA_ID"></property>
+  		<property name="areaDeptId" column="AREA_DEPT_ID"></property>
+  	</class>
+  	
+	<!-- 新增机构 -->
+	<sql id="insertDept" >
+		INSERT INTO PMS_DEPT (DEPT_ID,DEPT_NAME,DEPT_PARENT_ID,DEPT_CODE,DEPT_SEARCH_CODE,DEPT_REMARK,DEPT_ISDEL,DEPT_SORT,DEPT_DEPTH,DEPT_CREATE_DATE,DEPT_UPDATE_DATE,DEPT_CREATE_USER,DEPT_UPDATE_USER) VALUES ([$deptId]
+		<clause prepend="," nvl="''" >[$deptName]</clause>
+		<clause prepend="," nvl="0" >[$deptParentId]</clause>
+		<clause prepend="," nvl="''" >[$deptCode]</clause>
+		<clause prepend="," nvl="''" >[$deptSearchCode]</clause>
+		<clause prepend="," nvl="''" >[$deptRemark]</clause>
+		<clause prepend="," nvl="0" >[$deptIsdel]</clause>
+		<clause prepend="," nvl="0" >[$deptSort]</clause>
+		<clause prepend="," nvl="0" >[$deptDepth]</clause>
+		<clause prepend="," >[$deptCreateDate]</clause>
+		<clause prepend="," >[$deptUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$deptCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$deptUpdateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改机构 -->
+	<sql id="updateDept" >
+		UPDATE PMS_DEPT 
+		<set>
+			<clause prepend="," assert="!isNull([deptName])" >DEPT_NAME = [$deptName]</clause>
+			<clause prepend="," assert="!isNull([deptParentId])" >DEPT_PARENT_ID = [$deptParentId]</clause>
+			<clause prepend="," assert="!isNull([deptCode])" >DEPT_CODE = [$deptCode]</clause>
+			<clause prepend="," assert="!isNull([deptSearchCode])" >DEPT_SEARCH_CODE = [$deptSearchCode]</clause>
+			<clause prepend="," assert="!isNull([deptRemark])" >DEPT_REMARK = [$deptRemark]</clause>
+			<clause prepend="," assert="!isNull([deptIsdel])" >DEPT_ISDEL = [$deptIsdel]</clause>
+			<clause prepend="," assert="!isNull([deptSort])" >DEPT_SORT = [$deptSort]</clause>
+			<clause prepend="," assert="!isNull([deptDepth])" >DEPT_DEPTH = [$deptDepth]</clause>
+			<clause prepend="," assert="!isNull([deptCreateDate])" >DEPT_CREATE_DATE = [$deptCreateDate]</clause>
+			<clause prepend="," assert="!isNull([deptUpdateDate])" >DEPT_UPDATE_DATE = [$deptUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([deptCreateUser])" >DEPT_CREATE_USER = [$deptCreateUser]</clause>
+			<clause prepend="," assert="!isNull([deptUpdateUser])" >DEPT_UPDATE_USER = [$deptUpdateUser]</clause>
+		</set>
+		<where>
+			 DEPT_ID = [$deptId] 
+		</where>
+	</sql>
+	
+	<!-- 删除机构 -->
+	<sql id="deleteDept" >
+		DELETE FROM PMS_DEPT WHERE DEPT_ID = [0]
+	</sql>
+	
+	<!-- 得到下级子机构 -->
+	<sql id="getChildrenByParentId" >
+		SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL = 0 AND DEPT_PARENT_ID = [0] ORDER BY DEPT_DEPTH,DEPT_SORT
+	</sql>
+	
+	<!-- 得到所有子机构 -->
+	<sql id="getChildrenBySearchCode" >
+		SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL = 0 AND DEPT_SEARCH_CODE LIKE '[searchCode]' ORDER BY DEPT_DEPTH,DEPT_SORT
+	</sql>
+	
+	<!-- 查询所有机构 -->
+	<sql id="getAllDept" >
+		SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL = 0 ORDER BY DEPT_DEPTH,DEPT_NAME
+	</sql>
+	
+
+	<sql id="getServiceAreas">
+		select da.area_dept_id,i.item_id,i.item_value from PMS_DEPT_AREA da 
+		inner join CUS_LOOKUP_ITEM i on i.ITEM_ID = da.AREA_ID
+		<where>
+			<clause prepend="and"> i.item_isdel = 0 </clause>
+		</where>
+	</sql>
+	
+	<!-- 通过主键删除机构名称 -->
+	<sql id="getDeptNameById" >
+		SELECT DEPT_NAME FROM PMS_DEPT WHERE DEPT_ID = [0]
+	</sql>
+	
+	<!-- 更新查询码 -->
+	<sql id="updateDeptSearchCodeById" >
+		UPDATE PMS_DEPT SET DEPT_SEARCH_CODE = '[searchCode]' 
+		 <clause prepend="," assert="!isNull([depth])" >DEPT_DEPTH = [$depth]</clause>
+		 WHERE DEPT_ID = [deptId]
+	</sql>
+	
+	<!-- 通用户权限取机构 -->
+	<sql id="getDeptsByUserId" >
+		SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL = 0
+		<clause parent="deptManagerRight" params="userId" />
+		ORDER BY DEPT_SORT 
+	</sql>
+
+    <!-- 通数据权限取机构 -->
+    <sql id="getDeptListByDataPermit" >
+        SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL = 0
+        <clause prepend="and" assert="!isNull([userId])" >
+        	<clause assert="!isNull([roleId])" >
+            	<method name="deptDataPermit">[userId],[roleId]</method>
+            </clause>
+        </clause>
+        ORDER BY DEPT_SORT 
+    </sql>
+
+    <!-- 通用户权限取机构 -->
+    <sql id="getDeptByUserId" >
+        SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL = 0
+        ORDER BY DEPT_DEPTH,DEPT_SORT
+    </sql>
+
+    <!-- 通过机构主键得到机构查询码 -->
+	<sql id="getSearchCodeByDeptId" >
+		SELECT DEPT_SEARCH_CODE FROM PMS_DEPT WHERE DEPT_ID = [0]
+	</sql>
+	
+	<!-- 通过机构主键得到机构查询码 -->
+	<sql id="checkUniqueDeptName" >
+		SELECT COUNT(*) FROM PMS_DEPT where DEPT_ISDEL = 0
+        <clause prepend="and" assert="!isNullOrEmpty([deptName])" >DEPT_NAME = [$deptName]</clause>
+        <clause prepend="and" assert="!isNull([deptId])" ><![CDATA[DEPT_ID <> ]]>[deptId]</clause>
+        <clause prepend="and" assert="!isNull([deptParentId])" >DEPT_PARENT_ID = [deptParentId]</clause>
+	</sql>
+	
+	<!-- 通过机构主键得到机构查询码 -->
+	<sql id="checkUniqueDeptCode" >
+		SELECT COUNT(*) FROM PMS_DEPT where DEPT_ISDEL = 0
+        <clause prepend="and" assert="!isNullOrEmpty([deptCode])" >DEPT_CODE = [$deptCode]</clause>
+        <clause prepend="and" assert="!isNull([deptId])" ><![CDATA[DEPT_ID <> ]]>[deptId]</clause>
+	</sql>
+
+	<!-- 部门ID查询管理片区集合 -->
+	<sql id="getDeptAreaList" result="pmsDeptArea">
+		SELECT * FROM PMS_DEPT_AREA WHERE AREA_DEPT_ID = [deptId]
+	</sql>
+	
+	<!-- 新增机构关联服务区 -->
+	<sql id="insertDeptArea" >
+		INSERT INTO PMS_DEPT_AREA (PDA_ID,AREA_ID,AREA_DEPT_ID) VALUES ([$pdaId]
+		<clause prepend="," >[$areaId]</clause>
+		<clause prepend="," >[$areaDeptId]</clause>
+		)
+	</sql>
+	<!-- 删除关联管理区 -->
+	<sql id="deleleteAreaById">
+		delete from PMS_DEPT_AREA where PDA_ID = [pdaId]
+	</sql>
+	<!-- 根据deptSeachCode查询机构-->
+	<sql id="getDeptByDeptSeachCode">
+		SELECT * FROM PMS_DEPT 
+		<where>
+			<clause prepend="and"> DEPT_ISDEL=0  and DEPT_SEARCH_CODE LIKE '[0]%' order by DEPT_SEARCH_CODE</clause>
+		</where>
+	</sql>
+
+    <!-- 通过用户主键得到机构查询码 -->
+    <sql id="getSearchCodeByUserId" >
+        SELECT DEPT_SEARCH_CODE FROM PMS_DEPT INNER JOIN PMS_USER ON DEPT_ID = USER_DEPT_ID AND USER_ID = [0]
+    </sql>
+
+    <!-- 机构管理权限 -->
+    <clause id="deptManagerRight" >
+        <clause prepend="and" assert="!isNull([{0}])" >
+            <clause assert="!isNullOrEmpty({1})">{1}.</clause>DEPT_SEARCH_CODE like '<method name="getSqlValue">getSearchCodeByUserId,[{0}]</method>%'
+        </clause>
+    </clause>
+
+    <!-- 机构管理数据权限,机构管理员 -->
+    <clause id="deptDataPermit" >
+    	<clause prepend="and" assert="!isNull([{0}])" >
+	        <clause prepend="and" assert="!isNull([{0}])" >
+	            <clause assert="!isNullOrEmpty({1})">{1}.</clause>DEPT_ID in (SELECT DEPT_ID FROM PMS_USER_ROLE_DEPT WHERE ROLE_ID = 2 AND USER_ID = [{0}])
+	        </clause>
+	    </clause>
+    </clause>
+
+    <!--   -->
+    <sql id="getDeptSearchCodesByUserId" >
+        SELECT DEPT_SEARCH_CODE FROM PMS_DEPT WHERE DEPT_ISDEL = 0 AND DEPT_ID in (SELECT DEPT_ID FROM PMS_USER_ROLE_DEPT WHERE ROLE_ID = [1] AND USER_ID = [0] )
+    </sql>
+
+    <!-- 机构片区权限-->
+    <clause id="deptAreaRight">
+        <clause assert="!isNullOrEmpty({2})">{2}.</clause>{1} in
+        (
+            select da.AREA_ID from PMS_DEPT_AREA da
+            left join pms_dept d on d.dept_id = da.area_dept_id
+            where da.AREA_DEPT_ID in ([{0}]) and d.dept_isdel = 0
+        )
+    </clause>
+    
+    <!--机构片区最大权限-->
+    <clause id="deptAreaAllRight">
+        <clause assert="!isNullOrEmpty({2})">{2}.</clause>{1} in
+        (
+            select da.AREA_ID from PMS_DEPT_AREA da
+            left join pms_dept d on d.dept_id = da.area_dept_id
+            <where>
+                <clause prepend="and"> d.dept_isdel = 0 </clause>
+                <clause parent="deptManagerRight" params="{0},d"></clause>
+            </where>
+        )
+    </clause>
+    
+    
+    <!-- 根据DEPT ID S查询机构-->
+	<sql id="getDeptsByIds">
+		SELECT * FROM PMS_DEPT WHERE DEPT_ID IN ([0])
+		
+	</sql>
+    <!-- 通过机构编码查询机构信息 -->
+    <sql id="getDeptByCode" >
+        SELECT * FROM PMS_DEPT
+        <where>
+            <clause prepend="and" assert="!isNullOrEmpty([deptCode])" >DEPT_CODE = '[deptCode]'</clause>
+        </where>
+    </sql>
+</banger>

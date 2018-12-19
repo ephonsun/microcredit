@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertSpouseInfo" >
+		INSERT INTO CUST_SPOUSE_INFO (ID,SPOUSE_NAME,SPOUSE_SEX,SPOUSE_AGE,SPOUSE_PHONE_NUM,SPOUSE_IDENTIFY_TYPE,SPOUSE_IDENTIFY_NUM,SPOUSE_DEGREE,SPOUSE_MONTHLY_INCOME) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$spouseName]</clause>
+		<clause prepend="," nvl="''" >[$spouseSex]</clause>
+		<clause prepend="," nvl="0" >[$spouseAge]</clause>
+		<clause prepend="," nvl="''" >[$spousePhoneNum]</clause>
+		<clause prepend="," nvl="''" >[$spouseIdentifyType]</clause>
+		<clause prepend="," nvl="''" >[$spouseIdentifyNum]</clause>
+		<clause prepend="," nvl="''" >[$spouseDegree]</clause>
+		<clause prepend="," nvl="''">[$spouseMonthlyIncome]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateSpouseInfo" >
+		UPDATE CUST_SPOUSE_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([spouseName])" >SPOUSE_NAME = [$spouseName]</clause>
+			<clause prepend="," assert="!isNull([spouseSex])" >SPOUSE_SEX = [$spouseSex]</clause>
+			<clause prepend="," assert="!isNull([spouseAge])" >SPOUSE_AGE = [$spouseAge]</clause>
+			<clause prepend="," assert="!isNull([spousePhoneNum])" >SPOUSE_PHONE_NUM = [$spousePhoneNum]</clause>
+			<clause prepend="," assert="!isNull([spouseIdentifyType])" >SPOUSE_IDENTIFY_TYPE = [$spouseIdentifyType]</clause>
+			<clause prepend="," assert="!isNull([spouseIdentifyNum])" >SPOUSE_IDENTIFY_NUM = [$spouseIdentifyNum]</clause>
+			<clause prepend="," assert="!isNull([spouseDegree])" >SPOUSE_DEGREE = [$spouseDegree]</clause>
+			<clause prepend="," assert="!isNull([spouseMonthlyIncome])" >SPOUSE_MONTHLY_INCOME = [$spouseMonthlyIncome]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getSpouseInfoById" >
+		SELECT * FROM CUST_SPOUSE_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteSpouseInfoById" >
+		DELETE FROM CUST_SPOUSE_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="querySpouseInfoList" >
+		SELECT * FROM CUST_SPOUSE_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([spouseName])" > SPOUSE_NAME = '[spouseName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([spouseSex])" > SPOUSE_SEX = '[spouseSex]' </clause>
+			<clause prepend="and" assert="!isNull([spouseAge])" > SPOUSE_AGE = [spouseAge] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([spousePhoneNum])" > SPOUSE_PHONE_NUM = '[spousePhoneNum]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([spouseIdentifyType])" > SPOUSE_IDENTIFY_TYPE = '[spouseIdentifyType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([spouseIdentifyNum])" > SPOUSE_IDENTIFY_NUM = '[spouseIdentifyNum]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([spouseDegree])" > SPOUSE_DEGREE = '[spouseDegree]' </clause>
+		</where>
+	</sql>
+
+</banger>

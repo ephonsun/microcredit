@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<!-- 得到所有菜单 -->
+	<sql id="getMenuByRoleIds" >
+		SELECT * FROM PMS_ROLE_MENU WHERE PRM_ROLE_ID IN ([0])
+	</sql>
+	
+	<!-- 得到角色菜单 -->
+	<sql id="getRoleMenusByRoleId" >
+		SELECT * FROM PMS_ROLE_MENU WHERE PRM_ROLE_ID = [0]
+	</sql>
+	
+	<!-- 得到角色菜单id集合 -->
+	<sql id="getMenuIdsByRoleId" >
+		SELECT PRM_MENU_ID FROM PMS_ROLE_MENU WHERE PRM_ROLE_ID = [0]
+	</sql>
+	
+	<!-- 新增角色菜单 -->
+	<sql id="insertRoleMenu" >
+		INSERT INTO PMS_ROLE_MENU (PRM_ROLE_MENU_ID,PRM_ROLE_ID,PRM_MENU_ID,PRM_CREATE_DATE,PRM_UPDATE_DATE,PRM_CREATE_USER,PRM_UPDATE_USER) VALUES ([$prmRoleMenuId]
+		<clause prepend="," nvl="0" >[$prmRoleId]</clause>
+		<clause prepend="," nvl="''" >[$prmMenuId]</clause>
+		<clause prepend="," >[$prmCreateDate]</clause>
+		<clause prepend="," >[$prmUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$prmCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$prmUpdateUser]</clause>
+		)
+	</sql>
+	
+	<!-- 删除角色菜单 -->
+	<sql id="deleteRoleMenuById" >
+		DELETE FROM PMS_ROLE_MENU WHERE PRM_ROLE_MENU_ID = [0]
+	</sql>
+	
+	<!-- 删除角色菜单 -->
+	<sql id="deleteMenuByRoleId" >
+		DELETE FROM PMS_ROLE_MENU WHERE PRM_ROLE_ID = [0]
+	</sql>
+	
+</banger>

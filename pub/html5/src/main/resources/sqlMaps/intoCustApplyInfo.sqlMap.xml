@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件申请信息表 -->
+	<sql id="insertCustApplyInfo" >
+		INSERT INTO INTO_CUST_APPLY_INFO (APPLY_ID,CUST_NAME,CUST_SEX,CUST_AGE,ID_CARD,CUST_PHONE,APPLY_AMOUNT,HOME_ADDRESS,LOAN_ID,IS_DEL,SIGN_SATE,LOAN_USER_OPTION,USER_ACCOUNT) VALUES ([$applyId]
+		<clause prepend="," nvl="''" >[$custName]</clause>
+		<clause prepend="," nvl="''" >[$custSex]</clause>
+		<clause prepend="," nvl="0" >[$custAge]</clause>
+		<clause prepend="," nvl="''" >[$idCard]</clause>
+		<clause prepend="," nvl="''" >[$custPhone]</clause>
+		<clause prepend="," nvl="NULL" >[$applyAmount]</clause>
+		<clause prepend="," nvl="''" >[$homeAddress]</clause>
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$signSate]</clause>
+		<clause prepend="," nvl="''" >[$loanUserOption]</clause>
+		<clause prepend="," nvl="''" >[$userAccount]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件申请信息表 -->
+	<sql id="updateCustApplyInfo" >
+		UPDATE INTO_CUST_APPLY_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([custName])" >CUST_NAME = [$custName]</clause>
+			<clause prepend="," assert="!isNull([custSex])" >CUST_SEX = [$custSex]</clause>
+			<clause prepend="," assert="!isNull([custAge])" >CUST_AGE = [$custAge]</clause>
+			<clause prepend="," assert="!isNull([idCard])" >ID_CARD = [$idCard]</clause>
+			<clause prepend="," assert="!isNull([custPhone])" >CUST_PHONE = [$custPhone]</clause>
+			<clause prepend="," assert="!isNull([useId])" >USE_ID = [$useId]</clause>
+			<clause prepend="," assert="!isNull([applyAmount])" >APPLY_AMOUNT = [$applyAmount]</clause>
+			<clause prepend="," assert="!isNull([homeAddress])" >HOME_ADDRESS = [$homeAddress]</clause>
+		</set>
+		<where>
+			 APPLY_ID = [$applyId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件申请信息表 -->
+	<sql id="getCustApplyInfoById" >
+		SELECT * FROM INTO_CUST_APPLY_INFO WHERE APPLY_ID = [0]
+	</sql>
+
+	<!-- 通过主键得到进件申请信息表 -->
+	<sql id="getCustApplyInfoByIdQuery" result="intoCustApplyInfoQuery">
+		SELECT * FROM INTO_CUST_APPLY_INFO WHERE APPLY_ID = [0]
+	</sql>
+
+	<!-- App端通过主键得到进件申请信息表 -->
+	<sql id="getAppCustApplyInfoById" result="intoCustApplyInfoQuery">
+		SELECT icai.*,icm.SIGN_DATE AS SIGN_DATES FROM INTO_CUST_APPLY_INFO icai inner join
+		INTO_CUSTOMER_MEMBER icm on icai.APPLY_ID = icm.CUSTOMER_ID	WHERE APPLY_ID = [0]
+	</sql>
+
+
+	<!-- 通过主键删除进件申请信息表 -->
+	<sql id="deleteCustApplyInfoById" >
+		DELETE FROM INTO_CUST_APPLY_INFO WHERE APPLY_ID = [0]
+	</sql>
+
+	<!-- 查询进件申请信息表 -->
+	<sql id="queryCustApplyInfoList" >
+		SELECT * FROM INTO_CUST_APPLY_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([custName])" > CUST_NAME = '[custName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custSex])" > CUST_SEX = '[custSex]' </clause>
+			<clause prepend="and" assert="!isNull([custAge])" > CUST_AGE = [custAge] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([idCard])" > ID_CARD = '[idCard]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custPhone])" > CUST_PHONE = '[custPhone]' </clause>
+			<clause prepend="and" assert="!isNull([useId])" > USE_ID = [useId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([homeAddress])" > HOME_ADDRESS = '[homeAddress]' </clause>
+			<clause prepend="and"> IS_DEL = 0 </clause>
+			<clause prepend="and"> SIGN_SATE = 1 </clause>
+		</where>
+	</sql>
+	<!-- 团队主管查询进件用户 Query-->
+	<sql id="QueryIntoCustApplyInfoList" result="intoCustApplyInfoQuery" >
+		SELECT
+		icai.*,icg.SIGN_DATE as SIGN_DATES
+		FROM
+		INTO_CUST_APPLY_INFO icai
+		inner join
+		INTO_CUSTOMER_GROUP icg
+		on
+		icai.APPLY_ID = icg.CUSTOMER_ID
+		<where>
+			<!--<clause prepend="and" assert="!isNullOrEmpty([custName])" > CUST_NAME like '%[custName]%' </clause>-->
+			<clause prepend="and" assert="!isNullOrEmpty([custSex])" > CUST_SEX = '[custSex]' </clause>
+			<clause prepend="and" assert="!isNull([custAge])" > CUST_AGE = [custAge] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([idCard])" > ID_CARD like '%[idCard]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custPhone])" > CUST_PHONE like '%[custPhone]%' </clause>
+			<clause prepend="and" assert="!isNull([useId])" > icai.USE_ID = [useId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([homeAddress])" > HOME_ADDRESS = '[homeAddress]' </clause>
+			<clause prepend="and" assert="!isNull([teamGroupId])" > icg.TEAM_GROUP_ID in ([teamGroupId]) </clause>
+			<clause prepend="and"> icai.IS_DEL = 0 </clause>
+			<clause prepend="and"> icai.LOAN_ID = 0 </clause>
+			<clause prepend="and"> icg.IS_DEL = 0 </clause>
+			<clause prepend="and"> icai.SIGN_SATE = 2 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custName])" >
+				(icai.CUST_NAME LIKE '%[custName]%' OR icai.CUST_PHONE LIKE '%[custName]%' OR icai.ID_CARD LIKE UPPER('%[custName]%'))
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				icg.SIGN_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				icg.SIGN_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+		</where>
+	</sql>
+
+	<!-- 营销团队查询进件申请信息表 Query-->
+	<sql id="IntoCustApplyInfoListQuery" result="intoCustApplyInfoQuery" >
+		SELECT
+		icai.*,
+		ilu.USE_SELECT  as USE_TYPE
+		FROM
+		INTO_CUST_APPLY_INFO icai
+		left join
+		INTO_LOAN_USE ilu
+		on
+		icai.USE_ID = ilu.USE_ID
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([custName])" > CUST_NAME like '%[custName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custSex])" > CUST_SEX = '[custSex]' </clause>
+			<clause prepend="and" assert="!isNull([custAge])" > CUST_AGE = [custAge] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([idCard])" > ID_CARD like '%[idCard]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custPhone])" > CUST_PHONE like '%[custPhone]%' </clause>
+			<clause prepend="and" assert="!isNull([useId])" > icai.USE_ID = [useId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([homeAddress])" > HOME_ADDRESS = '[homeAddress]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanUserOption])" > LOAN_USER_OPTION = '[loanUserOption]' </clause>
+			<clause prepend="and"> icai.IS_DEL = 0 </clause>
+			<clause prepend="and"> icai.LOAN_ID = 0 </clause>
+			<clause prepend="and"> icai.SIGN_SATE = 1 </clause>
+		</where>
+	</sql>
+
+	<class id="intoCustApplyInfoQuery" name="banger.domain.html5.IntoCustApplyInfoQuery">
+		<property name="useType" column="USE_TYPE"></property>
+		<property name="signDates" column="SIGN_DATES"></property>
+		<property name="isDel" column="IS_DEL"></property>
+		<property name="loanUserOption" column="LOAN_USER_OPTION"></property>
+	</class>
+
+	<!--客户经理查询进件客户-->
+	<sql id="IntoCustApplyInfoMemberList" result="intoCustApplyInfoQuery">
+		SELECT icai.*, icm.SIGN_DATE AS SIGN_DATES
+		FROM INTO_CUST_APPLY_INFO icai
+		INNER JOIN INTO_CUSTOMER_MEMBER icm ON icai.APPLY_ID = icm.CUSTOMER_ID
+		<where>
+			<!--<clause prepend="and" assert="!isNullOrEmpty([custName])" > CUST_NAME like '%[custName]%' </clause>-->
+			<clause prepend="and" assert="!isNullOrEmpty([custSex])" > CUST_SEX = '[custSex]' </clause>
+			<clause prepend="and" assert="!isNull([custAge])" > CUST_AGE = [custAge] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([idCard])" > ID_CARD like '%[idCard]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custPhone])" > CUST_PHONE like '%[custPhone]%' </clause>
+			<clause prepend="and" assert="!isNull([useId])" > icai.USE_ID = [useId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([homeAddress])" > HOME_ADDRESS = '[homeAddress]' </clause>
+			<!--<clause prepend="and"> icai.IS_DEL = 0 </clause>-->
+			<clause prepend="and" assert="isEqual([isDel],'1')" > icai.IS_DEL = 1  </clause>
+			<clause prepend="and" assert="isEqual([isDel],'0')" > icai.IS_DEL = 0  </clause>
+			<clause prepend="and" assert="isNull([isDel]))" > icai.IS_DEL = 0  </clause>
+			<clause prepend="and"> icm.APPLY_SATE = 1 </clause>
+			<clause prepend="and" assert="!isNull([userId])" > icm.TEAM_MEMBER_ID = [userId] </clause>
+			<clause prepend="and"> icai.LOAN_ID = 0 </clause>
+			<!--<clause prepend="and"> icm.IS_DEL = 0 </clause>-->
+			<clause prepend="and"> icai.SIGN_SATE = 3 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custName])" >
+				(icai.CUST_NAME LIKE '%[custName]%' OR icai.CUST_PHONE LIKE '%[custName]%' OR icai.ID_CARD LIKE UPPER('%[custName]%'))
+			</clause>
+			<clause prepend="and" assert="!isNull([isDel])" > icai.IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				icm.SIGN_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				icm.SIGN_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+		</where>
+	</sql>
+
+	<!--App端 客户经理查询进件客户-->
+	<sql id="IntoAppCustApplyInfoMemberList" result="intoCustApplyInfoQuery">
+		SELECT icai.*, icm.SIGN_DATE AS SIGN_DATES
+		FROM INTO_CUST_APPLY_INFO icai
+		INNER JOIN INTO_CUSTOMER_MEMBER icm ON icai.APPLY_ID = icm.CUSTOMER_ID
+		<where>
+			<!--<clause prepend="and" assert="!isNullOrEmpty([custName])" > CUST_NAME like '%[custName]%' </clause>-->
+			<clause prepend="and" assert="!isNullOrEmpty([custSex])" > CUST_SEX = '[custSex]' </clause>
+			<clause prepend="and" assert="!isNull([custAge])" > CUST_AGE = [custAge] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([idCard])" > ID_CARD like '%[idCard]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custPhone])" > CUST_PHONE like '%[custPhone]%' </clause>
+			<clause prepend="and" assert="!isNull([useId])" > icai.USE_ID = [useId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([homeAddress])" > HOME_ADDRESS = '[homeAddress]' </clause>
+			<clause prepend="and"> icai.IS_DEL = 0 </clause>
+			<clause prepend="and"> icm.APPLY_SATE = 1 </clause>
+			<clause prepend="and" assert="!isNull([userId])" > icm.TEAM_MEMBER_ID = [userId] </clause>
+			<clause prepend="and"> icai.LOAN_ID = 0 </clause>
+			<clause prepend="and"> icm.IS_DEL = 0 </clause>
+			<clause prepend="and"> icai.SIGN_SATE = 3 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([custName])" >
+				(icai.CUST_NAME LIKE '%[custName]%' OR icai.CUST_PHONE LIKE '%[custName]%' OR icai.ID_CARD LIKE UPPER('%[custName]%'))
+			</clause>
+			<clause prepend="and" assert="!isNull([isDel])" > icai.IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				icm.SIGN_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				icm.SIGN_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+		</where>
+	</sql>
+
+	<!-- 更新分配状态-->
+	<sql id="signIntoCustomer" >
+		UPDATE INTO_CUST_APPLY_INFO SET SIGN_SATE = [$signSate] WHERE APPLY_ID in([applyIds])
+	</sql>
+
+	<!-- 预审请转申请时，更新贷款ID-->
+	<sql id="updateIntoCustomerLoanId" >
+		UPDATE INTO_CUST_APPLY_INFO SET LOAN_ID = [loanId] WHERE APPLY_ID = [applyId]
+	</sql>
+
+	<!-- 通过主键删除进件客户表 -->
+	<sql id="deleteIntoCustomerById" >
+		UPDATE INTO_CUST_APPLY_INFO SET IS_DEL = 1 WHERE APPLY_ID = [0]
+	</sql>
+</banger>

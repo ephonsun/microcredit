@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsFunc" table="PMS_FUNC" >
+		<id name="funcId" type="java.lang.String" >
+			<column name="FUNC_ID" lenght="120" />
+		</id>
+		<property name="funcName" type="java.lang.String" >
+			<column name="FUNC_NAME" lenght="120" />
+		</property>
+		<property name="funcParentId" type="java.lang.String" >
+			<column name="FUNC_PARENT_ID" lenght="60" />
+		</property>
+		<property name="funcModule" type="java.lang.String" >
+			<column name="FUNC_MODULE" lenght="60" />
+		</property>
+		<property name="funcIsdel" type="java.lang.Integer" >
+			<column name="FUNC_ISDEL" lenght="4" />
+		</property>
+		<property name="funcDepth" type="java.lang.Integer" >
+			<column name="FUNC_DEPTH" lenght="4" />
+		</property>
+		<property name="funcCreateDate" type="java.util.Date" >
+			<column name="FUNC_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="funcUpdateDate" type="java.util.Date" >
+			<column name="FUNC_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="funcCreateUser" type="java.lang.Integer" >
+			<column name="FUNC_CREATE_USER" lenght="4" />
+		</property>
+		<property name="funcUpdateUser" type="java.lang.Integer" >
+			<column name="FUNC_UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanProfitLossInfo" table="LOAN_PROFIT_LOSS_INFO" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="grossProfitRatio" type="java.math.BigDecimal" >
+			<column name="GROSS_PROFIT_RATIO" length="8" scale="2" />
+		</property>
+		<property name="businessIncomeAmount" type="java.math.BigDecimal" >
+			<column name="BUSINESS_INCOME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="homeIncomeAmount" type="java.math.BigDecimal" >
+			<column name="HOME_INCOME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="otherIncomeAmount" type="java.math.BigDecimal" >
+			<column name="OTHER_INCOME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="fixedCostDefrayAmount" type="java.math.BigDecimal" >
+			<column name="FIXED_COST_DEFRAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="texDefrayAmount" type="java.math.BigDecimal" >
+			<column name="TEX_DEFRAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="otherDefrayAmount" type="java.math.BigDecimal" >
+			<column name="OTHER_DEFRAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="fixedDefrayAmount" type="java.math.BigDecimal" >
+			<column name="FIXED_DEFRAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="texPersonalAmount" type="java.math.BigDecimal" >
+			<column name="TEX_PERSONAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="yearEnd" type="java.lang.Integer" >
+			<column name="YEAR_END" length="4" />
+		</property>
+		<property name="monthEnd" type="java.lang.Integer" >
+			<column name="MONTH_END" length="4" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="yearStart" type="java.lang.Integer" >
+			<column name="YEAR_START" length="4" />
+		</property>
+		<property name="monthStart" type="java.lang.Integer" >
+			<column name="MONTH_START" length="4" />
+		</property>
+	</class>
+</mapping>
+

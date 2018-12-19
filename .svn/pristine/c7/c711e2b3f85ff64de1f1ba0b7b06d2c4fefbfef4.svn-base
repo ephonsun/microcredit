@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>个人信息</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+	<input type="hidden" name="roleIds" id="roleIds"  value="$!user.roleIds"/>
+##    #if($!admin)
+	<div class="ui-legend">
+		<label>您的基础信息</label>
+        <!--<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V2.1.23</label>-->
+	</div>
+	<table class="ui-form-browse">
+    	<tbody>
+        	<tr>
+        		<td class="field" width="7%">
+            		<label>姓名：</label>
+            	</td>
+                <td width="18%">
+                    <label>$!user.userName</label>
+                </td>
+        		<td class="field" width="7%">
+            		<label>用户名：</label>
+            	</td>
+                <td width="18%">
+                    <label>$!user.userAccount</label>
+                </td>
+				<td class="field" width="7%">
+            		<label>归属机构：</label>
+            	</td>
+                <td colspan="5">
+                    <label>$!user.deptName</label>
+                </td>
+            </tr>
+        	<tr>
+        		<td class="field" width="7%">
+            		<label>机构编号：</label>
+            	</td>
+                <td width="18%">
+                    <label>$!user.deptCode</label>
+                </td> 
+				<td class="field" width="7%">
+            		<label>角色：</label>
+            	</td>
+                <td colspan="7">
+                	<label>$!user.roleNames</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+##	<div class="ui-legend mt20">
+##		<label>帐号安全信息</label>
+##	</div>
+##	<div class="mt20 ml20">
+##		<span>强度：<label id="strength">中</label></span>
+##		<span class="c999">（安全性高的密码可以使帐号更安全，建议您定期更换密码，且设置一个包含数字和字母，长度超过6位以上的密码。<label id="btnUpdate" class="ui-link">点击修改</label>）</span>
+##	</div>
+##    #end
+    <!--
+    <div id="userCertificateInfo" class="ui-legend mt20 hide">
+        <label>我的资质</label>
+    </div>
+    <div class="mt20 mb20">
+        <table id="userCertificateInfoGrid"></table>
+    </div>
+    -->
+
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+	<script type="text/javascript" src="../permission/js/userInfo.js"></script>
+	<!--<script type="text/javascript">
+    $(function(){
+    	checklevel("$!pwdLevel");
+    });
+    </script>
+	-->
+</body>
+</html>

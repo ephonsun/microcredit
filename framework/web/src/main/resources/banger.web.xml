@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<import resource="classpath:banger.dao.xml" />
+	
+	<bean id="layoutLoader" class="banger.framework.web.layout.LayoutLoader" />
+	
+	<bean id="formsQuery" class="banger.framework.web.query.FormsQuery" >
+		<property name="entityMap" ref="EntityMap" />
+	</bean>
+
+	<bean id="jsonParser" class="banger.framework.web.json.parser.DefaultJsonParser" />
+
+	<bean id="formsParser" class="banger.framework.web.json.parser.FormsJsonParser" />
+
+	<bean id="requestParser" class="banger.framework.web.json.parser.RequestJsonParser" />
+
+	<bean id="valueConvert" class="banger.framework.web.dojo.ValueConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="arrayConvert" class="banger.framework.web.dojo.ArrayConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="dataTableConvert" class="banger.framework.web.dojo.DataTableConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="collectionConvert" class="banger.framework.web.dojo.CollectionConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="mapConvert" class="banger.framework.web.dojo.MapConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="objectConvert" class="banger.framework.web.dojo.ObjectConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="pagelistConvert" class="banger.framework.web.dojo.PageListConvert" >
+		<property name="parser" ref="jsonParser" ></property>
+	</bean>
+
+	<bean id="dojoConvert" class="banger.framework.web.dojo.DojoConvert" >
+		<property name="converts" >
+			<list merge="true" >
+				<ref bean="valueConvert" ></ref>
+				<ref bean="objectConvert" ></ref>
+				<ref bean="arrayConvert" ></ref>
+				<ref bean="mapConvert" ></ref>
+				<ref bean="collectionConvert" ></ref>
+				<ref bean="dataTableConvert" ></ref>
+				<ref bean="pagelistConvert" ></ref>
+			</list>
+		</property>
+	</bean>
+
+ </beans>

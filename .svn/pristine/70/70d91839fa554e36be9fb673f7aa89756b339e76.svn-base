@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增自动导入配置信息表 -->
+	<sql id="insertImportSetting" >
+		INSERT INTO AUTO_IMPORT_SETTING (SETTING_ID,IMPORT_CODE,IMPORT_NAME,IMPORT_DISPLAY,DATA_SOURCE_TYPE,TABLE_NAME,IS_ACTIVED,DATA_FILE_PATH,DATA_FILE_NAME,MATCH_MODE) VALUES ([$settingId]
+		<clause prepend="," nvl="''" >[$importCode]</clause>
+		<clause prepend="," nvl="''" >[$importName]</clause>
+		<clause prepend="," nvl="''" >[$importDisplay]</clause>
+		<clause prepend="," nvl="''" >[$dataSourceType]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="''" >[$dataFilePath]</clause>
+		<clause prepend="," nvl="''" >[$dataFileName]</clause>
+		<clause prepend="," nvl="''" >[$matchMode]</clause>
+		)
+	</sql>
+
+	<!-- 修改自动导入配置信息表 -->
+	<sql id="updateImportSetting" >
+		UPDATE AUTO_IMPORT_SETTING 
+		<set>
+			<clause prepend="," assert="!isNull([importCode])" >IMPORT_CODE = [$importCode]</clause>
+			<clause prepend="," assert="!isNull([importName])" >IMPORT_NAME = [$importName]</clause>
+			<clause prepend="," assert="!isNull([importDisplay])" >IMPORT_DISPLAY = [$importDisplay]</clause>
+			<clause prepend="," assert="!isNull([dataSourceType])" >DATA_SOURCE_TYPE = [$dataSourceType]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([dataFilePath])" >DATA_FILE_PATH = [$dataFilePath]</clause>
+			<clause prepend="," assert="!isNull([dataFileName])" >DATA_FILE_NAME = [$dataFileName]</clause>
+			<clause prepend="," assert="!isNull([matchMode])" >MATCH_MODE = [$matchMode]</clause>
+		</set>
+		<where>
+			 SETTING_ID = [$settingId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到自动导入配置信息表 -->
+	<sql id="getImportSettingById" >
+		SELECT * FROM AUTO_IMPORT_SETTING WHERE SETTING_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除自动导入配置信息表 -->
+	<sql id="deleteImportSettingById" >
+		DELETE FROM AUTO_IMPORT_SETTING WHERE SETTING_ID = [0]
+	</sql>
+
+	<!-- 查询自动导入配置信息表 -->
+	<sql id="queryImportSettingList" >
+		SELECT * FROM AUTO_IMPORT_SETTING 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([importCode])" > IMPORT_CODE = '[importCode]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([importName])" > IMPORT_NAME = '[importName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([importDisplay])" > IMPORT_DISPLAY = '[importDisplay]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dataSourceType])" > DATA_SOURCE_TYPE = '[dataSourceType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dataFilePath])" > DATA_FILE_PATH = '[dataFilePath]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dataFileName])" > DATA_FILE_NAME = '[dataFileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([matchMode])" > MATCH_MODE = '[matchMode]' </clause>
+		</where>
+	</sql>
+
+</banger>

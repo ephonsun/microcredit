@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="ProdProductResult" name="banger.domain.product.ProdProduct_Query">
+		<property name="loanTypeName" column="LOAN_TYPE_NAME" ></property>
+	</class>
+
+	<!-- 新增产品列表 -->
+	<sql id="insertProduct" >
+		INSERT INTO PROD_PRODUCT (PRODUCT_ID,PRODUCT_CREATE_USER,PRODUCT_ISDEL,PRODUCT_INFO,PRODUCT_CODE,PRODUCT_NAME,PRODUCT_CREATE_DATE,PRODUCT_UPDATE_USER,PRODUCT_UPDATE_DATE,PRODUCT_TYPE,LOAN_TYPE) VALUES ([$productId]
+		<clause prepend="," nvl="0" >[$productCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$productIsdel]</clause>
+		<clause prepend="," nvl="''" >[$productInfo]</clause>
+		<clause prepend="," nvl="''" >[$productCode]</clause>
+		<clause prepend="," nvl="''" >[$productName]</clause>
+		<clause prepend="," >[$productCreateDate]</clause>
+		<clause prepend="," nvl="0" >[$productUpdateUser]</clause>
+		<clause prepend="," >[$productUpdateDate]</clause>
+		<clause prepend="," nvl="''" >[$productType]</clause>
+		<clause prepend="," nvl="0" >[$loanType]</clause>
+		)
+	</sql>
+
+	<!-- 修改产品列表 -->
+	<sql id="updateProduct" >
+		UPDATE PROD_PRODUCT 
+		<set>
+			<clause prepend="," assert="!isNull([productCreateUser])" >PRODUCT_CREATE_USER = [$productCreateUser]</clause>
+			<clause prepend="," assert="!isNull([productIsdel])" >PRODUCT_ISDEL = [$productIsdel]</clause>
+			<clause prepend="," assert="!isNull([productInfo])" >PRODUCT_INFO = [$productInfo]</clause>
+			<clause prepend="," assert="!isNull([productCode])" >PRODUCT_CODE = [$productCode]</clause>
+			<clause prepend="," assert="!isNull([productName])" >PRODUCT_NAME = [$productName]</clause>
+			<clause prepend="," assert="!isNull([productCreateDate])" >PRODUCT_CREATE_DATE = [$productCreateDate]</clause>
+			<clause prepend="," assert="!isNull([productUpdateUser])" >PRODUCT_UPDATE_USER = [$productUpdateUser]</clause>
+			<clause prepend="," assert="!isNull([productUpdateDate])" >PRODUCT_UPDATE_DATE = [$productUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([productType])" >PRODUCT_TYPE = [$productType]</clause>
+			<clause prepend="," >LOAN_TYPE = [$loanType]</clause>
+		</set>
+		<where>
+			 PRODUCT_ID = [$productId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到产品列表 -->
+	<sql id="getProductById" result="ProdProductResult">
+		SELECT PP.*,L.LOAN_TYPE_NAME
+		FROM PROD_PRODUCT PP
+		LEFT JOIN LOAN_TYPE L
+		ON L.TYPE_ID=PP.LOAN_TYPE
+		WHERE PP.PRODUCT_ISDEL = 0 AND PP.PRODUCT_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除产品列表 -->
+	<sql id="deleteProductById" >
+		UPDATE PROD_PRODUCT SET PRODUCT_ISDEL = 1 WHERE PRODUCT_ID = [0]
+	</sql>
+	
+	<sql id="queryProductAll">
+		SELECT * FROM PROD_PRODUCT WHERE PRODUCT_ISDEL = 0 ORDER BY PRODUCT_CREATE_DATE DESC
+	</sql>
+
+	<!-- 查询产品列表 -->
+	<sql id="queryProductList" result="ProdProductResult">
+		SELECT PP.*,L.LOAN_TYPE_NAME
+		FROM PROD_PRODUCT PP
+		LEFT JOIN LOAN_TYPE L
+		ON L.TYPE_ID=PP.LOAN_TYPE
+		<where>
+			<clause prepend="and" assert="!isNull([productIsdel])" > PP.PRODUCT_ISDEL = [productIsdel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productCode])" > PP.PRODUCT_CODE LIKE '%[productCode]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productName])" > PP.PRODUCT_NAME LIKE '%[productName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productType])" > PP.PRODUCT_TYPE = '[productType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([beginTime])" > TO_CHAR(PP.PRODUCT_CREATE_DATE,'yyyy-MM-dd') >='[beginTime]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endTime])" > '[endTime]' >= TO_CHAR(PP.PRODUCT_CREATE_DATE,'yyyy-MM-dd') </clause>
+		</where>
+		ORDER BY PP.PRODUCT_CREATE_DATE DESC
+	</sql>
+
+	<!-- 查询产品列表 -->
+	<sql id="queryProductListForApp" result="ProdProductResult">
+		SELECT PP.*,L.LOAN_TYPE_NAME
+		FROM PROD_PRODUCT PP
+		LEFT JOIN LOAN_TYPE L
+		ON L.TYPE_ID=PP.LOAN_TYPE
+		<where>
+			<clause prepend="and" assert="!isNull([productIsdel])" > PP.PRODUCT_ISDEL = [productIsdel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productName])" > (PP.PRODUCT_NAME LIKE '%[productName]%' OR PP.PRODUCT_CODE LIKE '%[productName]%') </clause>
+			<!--<clause prepend="and" assert="!isNullOrEmpty([productType])" > PP.PRODUCT_TYPE = '[productType]' </clause>-->
+			<clause prepend="and" assert="!isNullOrEmpty([types])" > PP.PRODUCT_TYPE IN (<for in="[types]" split=",">{item}</for>) </clause>
+		</where>
+		ORDER BY PP.PRODUCT_CREATE_DATE DESC
+	</sql>
+	
+	<sql id="queryProductCount" >
+		SELECT COUNT(*) FROM PROD_PRODUCT 
+		<where>
+			<clause prepend="and" assert="!isNull([productIsdel])" > PRODUCT_ISDEL = [productIsdel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productCode])" > PRODUCT_CODE = '[productCode]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productName])" > PRODUCT_NAME = '[productName]' </clause>
+			<clause prepend="and" assert="!isNull([productId])"> <![CDATA[ PRODUCT_ID <> [productId] ]]></clause>
+		</where>
+	</sql>
+
+</banger>

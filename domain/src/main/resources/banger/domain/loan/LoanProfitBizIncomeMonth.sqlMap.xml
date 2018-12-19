@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanProfitBizIncomeMonth" table="LOAN_PROFIT_BIZ_INCOME_MONTH" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="incomeId" type="java.lang.Integer" >
+			<column name="INCOME_ID" length="4" />
+		</property>
+		<property name="yearVal" type="java.lang.Integer" >
+			<column name="YEAR_VAL" length="4" />
+		</property>
+		<property name="monthVal" type="java.lang.Integer" >
+			<column name="MONTH_VAL" length="4" />
+		</property>
+		<property name="monthAmount" type="java.math.BigDecimal" >
+			<column name="MONTH_AMOUNT" length="18" scale="2" />
+		</property>
+	</class>
+</mapping>
+

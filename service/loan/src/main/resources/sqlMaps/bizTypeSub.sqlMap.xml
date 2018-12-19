@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="bizTypeSubResult" name="banger.domain.sub.BizTypeSub">
+		<property name="subCode" column="SUB_CODE"></property>
+		<property name="subName" column="SUB_NAME"></property>
+		<property name="parentCode" column="PARENT_CODE"></property>
+		<property name="subOrder" column="SUB_ORDER"></property>
+		<property name="prdCode" column="PRD_CODE"></property>
+		<property name="prdName" column="PRD_NAME"></property>
+		<property name="prdPk" column="PRD_PK"></property>
+		<property name="cmiCode" column="CMI_CODE"></property>
+		<property name="cmiName" column="CMI_NAME"></property>
+	</class>
+
+	<class id="crmPrdTypeResult" name="banger.domain.sub.CrmPrdType">
+		<property name="ywtx" column="YWTX"></property>
+		<property name="ywtxbm" column="YWTXBM"></property>
+		<property name="prdType" column="PRD_TYPE"></property>
+		<property name="prdName" column="PRD_NAME"></property>
+		<property name="crmCode" column="CRM_CODE"></property>
+		<property name="subCode" column="SUB_CODE"></property>
+	</class>
+	<!-- 查询业务品种分类 -->
+	<sql id="queryTypeSubList" result="bizTypeSubResult">
+		select t.* from (
+		select bts.sub_code,bts.sub_name,bts.parent_code,bts.sub_order,bts.prd_code,pt.prd_pk,pt.prd_name,cpt.cmi_code,cpt.cmi_name
+		from (select a.* from biz_type_sub a where not exists (select * from biz_type_sub where parent_code =a.sub_code) and prd_code is not null) bts left join prd_type pt on bts.prd_code= pt.PRD_CODE
+		left join cmi_prd_type cpt on cpt.sub_code = bts.sub_code where bts. sub_code like '1%'
+		group by bts.sub_code,bts.sub_name,bts.parent_code,bts.sub_order,bts.prd_code,pt.prd_pk,pt.prd_name,cpt.cmi_code,cpt.cmi_name
+		union
+		select distinct bts.sub_code,bts.sub_name,bts.parent_code,bts.sub_order,bts.prd_code,pt.prd_pk,pt.prd_name,null cmi_code,null cmi_name
+		from (select a.* from biz_type_sub a where exists (select * from biz_type_sub where parent_code =a.sub_code) or prd_code is null) bts
+		left join prd_type pt on bts.prd_code= pt.PRD_CODE  where bts. sub_code like '1%'
+		) t
+		order by t.sub_code,t.cmi_code
+	</sql>
+
+	<sql id="queryCrmPrdType" result="crmPrdTypeResult">
+		select * from CRM_PRD_TYPE order by sub_code desc
+	</sql>
+</banger>

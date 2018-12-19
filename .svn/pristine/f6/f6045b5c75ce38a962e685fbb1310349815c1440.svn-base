@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+    <!-- 新增用户 -->
+    <sql id="insertBancsBrhm" >
+        INSERT INTO BANCS_BRHM (ORO1_BR_NO,ORO1_PROV_BR_NO) VALUES (
+        [$oro1BrNo]
+        <clause prepend="," nvl="''" >[$oro1ProvBrNo]</clause>
+        )
+    </sql>
+
+    <sql id="deleteBancsBrhm" >
+        TRUNCATE TABLE BANCS_BRHM
+    </sql>
+</banger>

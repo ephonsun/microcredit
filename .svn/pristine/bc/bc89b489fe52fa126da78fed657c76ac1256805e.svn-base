@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增客户项选收集 -->
+	<sql id="insertOptionCollect" >
+		INSERT INTO CUST_OPTION_COLLECT (ID,CUSTOMER_ID,OPTION_PARAM,OPTION_VALUE,OPTION_DISPLAY,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$customerId]</clause>
+		<clause prepend="," nvl="''" >[$optionParam]</clause>
+		<clause prepend="," nvl="''" >[$optionValue]</clause>
+		<clause prepend="," nvl="''" >[$optionDisplay]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改客户项选收集 -->
+	<sql id="updateOptionCollect" >
+		UPDATE CUST_OPTION_COLLECT 
+		<set>
+			<clause prepend="," assert="!isNull([customerId])" >CUSTOMER_ID = [$customerId]</clause>
+			<clause prepend="," assert="!isNull([optionParam])" >OPTION_PARAM = [$optionParam]</clause>
+			<clause prepend="," assert="!isNull([optionValue])" >OPTION_VALUE = [$optionValue]</clause>
+			<clause prepend="," assert="!isNull([optionDisplay])" >OPTION_DISPLAY = [$optionDisplay]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到客户项选收集 -->
+	<sql id="getOptionCollectById" >
+		SELECT * FROM CUST_OPTION_COLLECT WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除客户项选收集 -->
+	<sql id="deleteOptionCollectById" >
+		DELETE FROM CUST_OPTION_COLLECT WHERE ID = [0]
+	</sql>
+
+	<!-- 查询客户项选收集 -->
+	<sql id="queryOptionCollectList" >
+		SELECT * FROM CUST_OPTION_COLLECT 
+		<where>
+			<clause prepend="and" assert="!isNull([customerId])" > CUSTOMER_ID = [customerId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam])" > OPTION_PARAM = '[optionParam]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionValue])" > OPTION_VALUE = '[optionValue]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionDisplay])" > OPTION_DISPLAY = '[optionDisplay]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+
+	<!-- 通过客户ID得到客户项选收集 -->
+	<sql id="getCustomerOptionById" >
+		SELECT * FROM CUST_OPTION_COLLECT WHERE CUSTOMER_ID = [0]
+	</sql>
+
+
+</banger>

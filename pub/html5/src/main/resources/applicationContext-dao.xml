@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd" 
+default-lazy-init="true" default-autowire="byName" >
+    <!--   default-autowire="byName"自动配置bean注入 可以不用显示的set -->
+    <!--   default-lazy-init="true" sping不会再去加载整个对象实例图 加快spring启动 -->
+
+    <!-- sqlMaps模块总配 -->
+    <bean id="html5SqlMap" class="banger.framework.sql.mapping.SqlContext" >
+        <property name="resources">
+            <set>
+                <value>sqlMaps/intoPhoneMsgCode.sqlMap.xml</value>
+                <value>sqlMaps/intoCustApplyInfo.sqlMap.xml</value>
+                <value>sqlMaps/intoFileInfo.sqlMap.xml</value>
+                <value>sqlMaps/intoIntefaceRecord.sqlMap.xml</value>
+                <value>sqlMaps/smsConfig.sqlMap.xml</value>
+            </set>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>任务分配信息</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+	<input type="hidden" id="taskId" name="taskId" value="$!taskId" />
+	<input type="hidden" id="userTeamGroupId" name="userTeamGroupId" value="$!userTeamGroupId" />
+    	<div class="ui-layout-search">
+        	<div class="ui-layout-search-body">
+        		<table class="ui-form-fields" align="center">
+                    <tbody>
+                        <tr align="center">
+                            <td>
+                                <label><font style="font-size:16px;font-weight:800;">$!taskTitle分配信息</font></label>
+                            </td>                           
+                        </tr>
+                        <tr align="center">
+                        	<td>
+                                <label><font style="font-size:16px;font-weight:800;">$!taskDateLimit</font></label>
+                            </td>                        							
+                        </tr>
+                    </tbody>
+                </table>
+        	</div>
+        </div>
+    <div class="ui-layout-action">
+        #if($!noPermit)
+		#else
+			#if($funcPermit.hasFuncCode("assignTask") and $!canAssign == '1')
+            	<span id="btnAssign" class="ui-button fl">
+                	<label class="ui-button-text">分配任务</label> 
+                </span>
+            #end
+		#end
+		
+    </div>
+    <table id="taskAssignGrid"></table>
+    <br>
+    <div class="ui-layout-closure">
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">关闭</label>
+		</span>
+    </div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../task/js/groupTaskAssignList.js?v=$!webAppVersion"></script>
+</body>
+</html>

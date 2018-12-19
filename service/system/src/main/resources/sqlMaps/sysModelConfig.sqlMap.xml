@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增模型配置 -->
+	<sql id="insertModelConfig" >
+		INSERT INTO SYS_MODEL_CONFIG (CONFIG_ID,MODEL_ID,MODEL_NAME,CONFIG_KEY,CONFIG_VALUE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$configId]
+		<clause prepend="," nvl="0" >[$modelId]</clause>
+		<clause prepend="," nvl="''" >[$modelName]</clause>
+		<clause prepend="," nvl="''" >[$configKey]</clause>
+		<clause prepend="," nvl="''" >[$configValue]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改模型配置 -->
+	<sql id="updateModelConfig" >
+		UPDATE SYS_MODEL_CONFIG 
+		<set>
+			<clause prepend="," assert="!isNull([modelId])" >MODEL_ID = [$modelId]</clause>
+			<clause prepend="," assert="!isNull([modelName])" >MODEL_NAME = [$modelName]</clause>
+			<clause prepend="," assert="!isNull([configKey])" >CONFIG_KEY = [$configKey]</clause>
+			<clause prepend="," assert="!isNull([configValue])" >CONFIG_VALUE = [$configValue]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 CONFIG_ID = [$configId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到模型配置 -->
+	<sql id="getModelConfigById" >
+		SELECT * FROM SYS_MODEL_CONFIG WHERE CONFIG_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除模型配置 -->
+	<sql id="deleteModelConfigById" >
+		DELETE FROM SYS_MODEL_CONFIG WHERE CONFIG_ID = [0]
+	</sql>
+
+	<!-- 查询模型配置 -->
+	<sql id="queryModelConfigList" >
+		SELECT * FROM SYS_MODEL_CONFIG 
+		<where>
+			<clause prepend="and" assert="!isNull([modelId])" > MODEL_ID = [modelId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([modelName])" > MODEL_NAME = '[modelName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([configKey])" > CONFIG_KEY = '[configKey]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([configValue])" > CONFIG_VALUE = '[configValue]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

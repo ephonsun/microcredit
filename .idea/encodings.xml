@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/domain" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/extra/interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/framework/component" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/framework/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/framework/dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/framework/sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/framework/util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/framework/web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mobile/mobile" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mobile/mobileIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pub/api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pub/apiIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pub/html5" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pub/html5Intf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/quartz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/config" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/configIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/customer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/customerIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/desktop" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/handOver" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/loan" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/loanIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/permission" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/permissionIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/product" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/productIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/system" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/systemIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/task" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/taskIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/track" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/trackIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/tranport" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/tranportIntf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web" charset="UTF-8" />
+  </component>
+</project>

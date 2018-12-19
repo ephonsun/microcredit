@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.DepositBank" table="DEPOSIT_BANK_DATA" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="bankNo" type="java.lang.String" >
+			<column name="BANK_NO" length="40" />
+		</property>
+		<property name="swiftCode" type="java.lang.String" >
+			<column name="SWIFT_CODE" length="40" />
+		</property>
+		<property name="swiftCode1" type="java.lang.String" >
+			<column name="SWIFT_CODE_1" length="40" />
+		</property>
+		<property name="swiftCode2" type="java.lang.String" >
+			<column name="SWIFT_CODE_2" length="40" />
+		</property>
+		<property name="swiftCode3" type="java.lang.String" >
+			<column name="SWIFT_CODE_3" length="40" />
+		</property>
+		<property name="swiftCode4" type="java.lang.String" >
+			<column name="SWIFT_CODE_4" length="40" />
+		</property>
+		<property name="swiftCode5" type="java.lang.String" >
+			<column name="SWIFT_CODE_5" length="40" />
+		</property>
+		<property name="swiftCode6" type="java.lang.String" >
+			<column name="SWIFT_CODE_6" length="64" />
+		</property>
+		<property name="bankCoffer" type="java.lang.String" >
+			<column name="BANK_COFFER" length="150" />
+		</property>
+		<property name="bankCofferAbbreviation" type="java.lang.String" >
+			<column name="BANK_COFFER_ABBREVIATION" length="60" />
+		</property>
+		<property name="abbreviationNum" type="java.lang.String" >
+			<column name="ABBREVIATED_NUM" length="50" />
+		</property>
+		<property name="address" type="java.lang.String" >
+			<column name="ADDRESS" length="150" />
+		</property>
+		<property name="postalCode" type="java.lang.String" >
+			<column name="POSTAL_CODE" length="50" />
+		</property>
+		<property name="bankPhone1" type="java.lang.String" >
+			<column name="BANK_PHONE1" length="40" />
+		</property>
+		<property name="bankPhone2" type="java.lang.String" >
+			<column name="BANK_PHONE2" length="40" />
+		</property>
+		<property name="bankPhone3" type="java.lang.String" >
+			<column name="BANK_PHONE3" length="40" />
+		</property>
+		<property name="bankPhone3" type="java.lang.String" >
+			<column name="BANK_PHONE3" length="64" />
+		</property>
+		<property name="bankManagerName" type="java.lang.String" >
+			<column name="BANK_MANAGER_NAME" length="20" />
+		</property>
+		<property name="status1" type="java.lang.String" >
+			<column name="STATUS_1" length="10" />
+		</property>
+		<property name="status2" type="java.lang.String" >
+			<column name="STATUS_2" length="10" />
+		</property>
+		<property name="status3" type="java.lang.String" >
+			<column name="STATUS_3" length="10" />
+		</property>
+		<property name="openDate" type="java.lang.String" >
+			<column name="OPEN_DATE" length="20" />
+		</property>
+		<property name="c1" type="java.lang.String" >
+			<column name="C1" length="40" />
+		</property>
+		<property name="c2" type="java.lang.String" >
+			<column name="C2" length="40" />
+		</property>
+	</class>
+</mapping>
+

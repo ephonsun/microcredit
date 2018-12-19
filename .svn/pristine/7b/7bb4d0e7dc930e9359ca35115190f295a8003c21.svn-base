@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 批量新增潜在客户表 -->
+	<sql id="batchInsertPotentialCustomers" >
+		INSERT INTO CUST_POTENTIAL_CUSTOMERS (ID,LOAN_ID,CUSTOMER_NAME,TELEPHONE_NUMBER,CARD_TYPE,CARD_NUMBER,CUSTOMER_SEX,AGE,ADDRESS,LOAN_INTENTION,LOAN_USE,ATTRIBUTION_TEAM,ATTRIBUTION_MANAGER,MARKETING_SUCCESS,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,RECORD_TYPE,CREATE_USER_TEAM,PRODUCT_CODE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," nvl="''" >[$telephoneNumber]</clause>
+		<clause prepend="," nvl="''" >[$cardType]</clause>
+		<clause prepend="," nvl="''" >[$cardNumber]</clause>
+		<clause prepend="," nvl="''" >[$customerSex]</clause>
+		<clause prepend="," nvl="0" >[$age]</clause>
+		<clause prepend="," nvl="''" >[$address]</clause>
+		<clause prepend="," nvl="0" >[$loanIntention]</clause>
+		<clause prepend="," nvl="''" >[$loanUse]</clause>
+		<clause prepend="," nvl="0" >[$attributionTeam]</clause>
+		<clause prepend="," nvl="0" >[$attributionManager]</clause>
+		<clause prepend="," nvl="0" >[$marketingSuccess]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$recordType]</clause>
+		<clause prepend="," nvl="0" >[$createUserTeam]</clause>
+		<clause prepend="," nvl="''" >[$productCode]</clause>
+		)
+	</sql>
+	<!-- 新增潜在客户表 -->
+	<sql id="insertPotentialCustomers" >
+		INSERT INTO CUST_POTENTIAL_CUSTOMERS (ID,LOAN_ID,CUSTOMER_NAME,TELEPHONE_NUMBER,CARD_TYPE,CARD_NUMBER,CUSTOMER_SEX,AGE,ADDRESS,LOAN_INTENTION,INTENTION_DATE,LOAN_USE,ATTRIBUTION_TEAM,ATTRIBUTION_MANAGER,MARKETING_SUCCESS,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,RECORD_TYPE,CREATE_USER_TEAM,PRODUCT_CODE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," nvl="''" >[$telephoneNumber]</clause>
+		<clause prepend="," nvl="''" >[$cardType]</clause>
+		<clause prepend="," nvl="''" >[$cardNumber]</clause>
+		<clause prepend="," nvl="''" >[$customerSex]</clause>
+		<clause prepend="," nvl="-1" >[$age]</clause>
+		<clause prepend="," nvl="''" >[$address]</clause>
+		<clause prepend="," nvl="0" >[$loanIntention]</clause>
+		<clause prepend="," nvl="NULL" >[$intentionDate]</clause>
+		<clause prepend="," nvl="''" >[$loanUse]</clause>
+		<clause prepend="," nvl="0" >[$attributionTeam]</clause>
+		<clause prepend="," nvl="0" >[$attributionManager]</clause>
+		<clause prepend="," nvl="0" >[$marketingSuccess]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$recordType]</clause>
+		<clause prepend="," nvl="0" >[$createUserTeam]</clause>
+		<clause prepend="," nvl="''" >[$productCode]</clause>
+		)
+	</sql>
+
+	<!-- 修改潜在客户表 -->
+	<sql id="updatePotentialCustomers" >
+		UPDATE CUST_POTENTIAL_CUSTOMERS
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([customerName])" >CUSTOMER_NAME = [$customerName]</clause>
+			<clause prepend="," assert="!isNull([telephoneNumber])" >TELEPHONE_NUMBER = [$telephoneNumber]</clause>
+			<clause prepend="," assert="!isNull([cardType])" >CARD_TYPE = [$cardType]</clause>
+			<clause prepend="," assert="!isNull([cardNumber])" >CARD_NUMBER = [$cardNumber]</clause>
+			<clause prepend="," assert="!isNull([customerSex])" >CUSTOMER_SEX = [$customerSex]</clause>
+			<clause prepend="," assert="!isNull([age])" >AGE = [$age]</clause>
+			<clause prepend="," assert="!isNull([address])" >ADDRESS = [$address]</clause>
+			<clause prepend="," assert="!isNull([loanIntention])" >LOAN_INTENTION = [$loanIntention]</clause>
+			<clause prepend="," assert="!isNull([intentionDate])" >INTENTION_DATE = [$intentionDate]</clause>
+			<clause prepend="," assert="!isNull([loanUse])" >LOAN_USE = [$loanUse]</clause>
+			<clause prepend="," assert="!isNull([attributionTeam])" >ATTRIBUTION_TEAM = [$attributionTeam]</clause>
+			<clause prepend="," assert="!isNull([attributionManager])" >ATTRIBUTION_MANAGER = [$attributionManager]</clause>
+			<clause prepend="," assert="!isNull([marketingSuccess])" >MARKETING_SUCCESS = [$marketingSuccess]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([productCode])" >PRODUCT_CODE = [$productCode]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+	<!-- 修改潜在客户表 -->
+	<sql id="updatePotentialCustomersByDate" >
+		UPDATE CUST_POTENTIAL_CUSTOMERS
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([customerName])" >CUSTOMER_NAME = [$customerName]</clause>
+			<clause prepend="," assert="!isNull([telephoneNumber])" >TELEPHONE_NUMBER = [$telephoneNumber]</clause>
+			<clause prepend="," assert="!isNull([cardType])" >CARD_TYPE = [$cardType]</clause>
+			<clause prepend="," assert="!isNull([cardNumber])" >CARD_NUMBER = [$cardNumber]</clause>
+			<clause prepend="," assert="!isNull([customerSex])" >CUSTOMER_SEX = [$customerSex]</clause>
+			<clause prepend="," assert="!isNull([age])" >AGE = [$age]</clause>
+			<clause prepend="," assert="!isNull([address])" >ADDRESS = [$address]</clause>
+			<clause prepend="," assert="!isNull([loanIntention])" >LOAN_INTENTION = [$loanIntention]</clause>
+			<clause prepend="," >INTENTION_DATE = null</clause>
+			<clause prepend="," assert="!isNull([loanUse])" >LOAN_USE = [$loanUse]</clause>
+			<clause prepend="," assert="!isNull([attributionTeam])" >ATTRIBUTION_TEAM = [$attributionTeam]</clause>
+			<clause prepend="," assert="!isNull([attributionManager])" >ATTRIBUTION_MANAGER = [$attributionManager]</clause>
+			<clause prepend="," assert="!isNull([marketingSuccess])" >MARKETING_SUCCESS = [$marketingSuccess]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([productCode])" >PRODUCT_CODE = [$productCode]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+	<!-- 通过主键得到潜在客户表 -->
+	<sql id="getPotentialCustomersById" >
+		SELECT * FROM CUST_POTENTIAL_CUSTOMERS WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除潜在客户表 -->
+	<sql id="deletePotentialCustomersById" >
+		DELETE FROM CUST_POTENTIAL_CUSTOMERS WHERE ID = [0]
+	</sql>
+
+	<!-- 客户经理删除全部自己在客户表 -->
+	<sql id="deletePotentialCustomersAll" >
+		DELETE FROM CUST_POTENTIAL_CUSTOMERS WHERE ATTRIBUTION_MANAGER = [0]
+	</sql>
+	<!-- 团队主管删除全部自己在客户表 -->
+	<sql id="deletePotentialCustomersAllByGroupId" >
+		DELETE FROM CUST_POTENTIAL_CUSTOMERS WHERE ATTRIBUTION_TEAM = [0]
+	</sql>
+	<class id="potentialCustomer_Query" name="banger.domain.customer.CustPotentialCustomerQuery">
+		<property name="belongUserName" column="BELONG_USER_NAME"></property>
+		<property name="attributionTeamName" column="TEAM_NAME"></property>
+		<property name="productName" column="PRODUCT_NAME"></property>
+	</class>
+	<!-- 查询潜在客户表 -->
+	<sql id="queryPotentialCustomersList" result="potentialCustomer_Query">
+		SELECT pu.user_name as BELONG_USER_NAME,stg.TEAM_GROUP_NAME as TEAM_NAME,ppct.PRODUCT_NAME as PRODUCT_NAME,
+		cpu.* FROM CUST_POTENTIAL_CUSTOMERS cpu LEFT JOIN pms_user pu ON pu.user_id = cpu.ATTRIBUTION_MANAGER
+		LEFT JOIN SYS_TEAM_GROUP stg  ON stg.TEAM_GROUP_ID = cpu.ATTRIBUTION_TEAM
+		LEFT JOIN PROD_PRODUCT ppct  ON ppct.PRODUCT_CODE = cpu.PRODUCT_CODE
+		<where>
+			<clause prepend="and" assert="!isNull([productCode])" > cpu.PRODUCT_CODE = '[productCode]' </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > CUSTOMER_NAME = '[customerName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([telephoneNumber])" > TELEPHONE_NUMBER = '[telephoneNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardType])" > CARD_TYPE = '[cardType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNumber])" > CARD_NUMBER = '[cardNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerSex])" > CUSTOMER_SEX = '[customerSex]' </clause>
+			<clause prepend="and" assert="!isNull([age])" > AGE = [age] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([address])" > ADDRESS = '[address]' </clause>
+			<clause prepend="and" assert="!isNull([loanIntention])" > LOAN_INTENTION = [loanIntention] </clause>
+			<clause parent="DateSpan" params="INTENTION_DATE,intentionDate,intentionDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanUse])" > LOAN_USE = '[loanUse]' </clause>
+			<clause prepend="and" assert="!isNull([attributionTeam])" > ATTRIBUTION_TEAM = [attributionTeam] </clause>
+			<clause prepend="and" assert="!isNull([isMy])" > cpu.ATTRIBUTION_MANAGER = [isMy]</clause>
+			<!--筛选客户经理-->
+			<clause prepend="and" assert="!isNull([attributionManagers])" >
+				cpu.ATTRIBUTION_MANAGER IN (<for in="[attributionManagers]" split=",">{item}</for>)
+			</clause>
+			<!--客户3要素 模糊查询-->
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" > (cpu.CUSTOMER_NAME like '%[userName]%' or cpu.TELEPHONE_NUMBER like '%[userName]%' or cpu.CARD_NUMBER like UPPER('%[userName]%'))</clause>
+			<clause prepend="and" assert="!isNull([marketingSuccess])" > MARKETING_SUCCESS = [marketingSuccess] </clause>
+			<!--有无备注-->
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > <![CDATA[ REMARK [remark] ]]></clause>
+			<!--创建时间查询-->
+			<clause prepend="and" assert="!isNullOrEmpty([createDate])" > cpu.CREATE_DATE <![CDATA[ >= ]]> <method name="beginDate">[createDate]</method></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([createDateEnd])" > cpu.CREATE_DATE <![CDATA[ < ]]> <method name="endDate">[createDateEnd]</method> </clause>
+
+			<!--意向时间查询-->
+			<clause prepend="and" assert="!isNullOrEmpty([intentionDate])" > cpu.INTENTION_DATE <![CDATA[ >= ]]> <method name="beginDate">[intentionDate]</method></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([intentionDateEnd])" > cpu.INTENTION_DATE <![CDATA[ < ]]> <method name="endDate">[intentionDateEnd]</method> </clause>
+
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<!--客户经理名称模糊查询-->
+			<clause prepend="and" assert="!isNullOrEmpty([attributionManagerName])" > (pu.USER_NAME like '%[attributionManagerName]%') </clause>
+			<!--根据当前登录用户的数据权限 查询-->
+			<clause prepend="and" assert="isAllNotEmpty([userId],[roleIds],[attributionManager])" >
+				(
+				cpu.ATTRIBUTION_MANAGER IN (<for in="[attributionManager]" split=",">{item}</for>) or
+				(
+				cpu.ATTRIBUTION_MANAGER = [userId] or
+				cpu.ATTRIBUTION_TEAM IN (
+				SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+				SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId]
+
+				) or TEAM_GROUP_ID IN (<method name="getSqlValue" >selectUserGroupIdsByUserId,[userId]</method>)
+				)
+				)
+				)
+
+			</clause>
+		</where>
+		order by cpu.Id desc
+	</sql>
+
+	<sql id="selectUserGroupIdsByUserId">
+		SELECT CASE WHEN USER_GROUP_PERMIT <![CDATA[<>]]> '' THEN USER_GROUP_PERMIT ELSE '0' END AS USER_GROUP_PERMIT FROM PMS_USER WHERE USER_ID = [0]
+	</sql>
+	<!--检查用户名和用户编号是否重复-->
+	<sql id="getPointCustomerForCheckRepeat">
+		select * from cust_potential_customers cpc
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([id])"> <![CDATA[ cpc.ID <> [id] ]]> </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > cpc.CUSTOMER_NAME = '[customerName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardType])" > cpc.CARD_TYPE = '[cardType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNumber])" > cpc.CARD_NUMBER = '[cardNumber]' </clause>
+		</where>
+	</sql>
+
+	<sql id="getPotentialCustomersQueryById" result="potentialCustomer_Query">
+		SELECT cpc.*,ppct.PRODUCT_NAME as PRODUCT_NAME,ppct.PRODUCT_ID as PRODUCT_ID,
+		pu.user_name as BELONG_USER_NAME,
+		stg.TEAM_GROUP_NAME as TEAM_NAME
+		FROM
+		CUST_POTENTIAL_CUSTOMERS cpc
+		LEFT JOIN
+		PMS_USER pu
+		ON
+		cpc.ATTRIBUTION_MANAGER   = pu.USER_ID
+		LEFT JOIN
+		SYS_TEAM_GROUP stg
+		ON
+		stg.TEAM_GROUP_ID = cpc.ATTRIBUTION_TEAM
+		LEFT JOIN PROD_PRODUCT ppct  ON ppct.PRODUCT_CODE = cpc.PRODUCT_CODE
+		WHERE cpc.ID = [0]
+	</sql>
+	<class id="SysTeamMembers" name="banger.domain.permission.SysTeamMember">
+
+	</class>
+
+	<sql id="getTeamById"  result="SysTeamMembers">
+		SELECT * FROM SYS_TEAM_MEMBER WHERE USER_ID = [0]
+	</sql>
+    <!--批量检查用户名和用户联系电话是否重复,避免一条一条校验,先查询出电话号码重复的,内存中处理用户名和联系电话都重复的-->
+    <sql id="getPotentialCustomersByPhones">
+        select CUSTOMER_NAME, TELEPHONE_NUMBER from cust_potential_customers where  TELEPHONE_NUMBER in ([0])
+    </sql>
+	<clause prepend="," assert="!isNull([loanIntention])" >LOAN_INTENTION = [$loanIntention]</clause>
+	<sql id="updatePotentialCustomersByProductCode">
+		UPDATE CUST_POTENTIAL_CUSTOMERS
+		<set>
+			LOAN_INTENTION = 0,
+			PRODUCT_CODE =''
+		</set>
+		<where>
+			PRODUCT_CODE = '[0]'
+		</where>
+    </sql>
+</banger>

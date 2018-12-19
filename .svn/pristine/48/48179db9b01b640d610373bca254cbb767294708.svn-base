@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.SysTeamGroup" table="SYS_TEAM_GROUP" >
+		<id name="teamGroupId" type="java.lang.Integer" >
+			<column name="TEAM_GROUP_ID" lenght="10" />
+		</id>
+		<property name="teamGroupName" type="java.lang.String" >
+			<column name="TEAM_GROUP_NAME" lenght="128" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="10" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="10" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="delFlag" type="java.lang.Integer" >
+			<column name="DEL_FLAG" lenght="10" />
+		</property>
+	</class>
+</mapping>
+

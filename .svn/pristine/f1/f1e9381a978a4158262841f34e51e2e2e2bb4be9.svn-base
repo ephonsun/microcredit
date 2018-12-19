@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion"/>
+    <style type="text/css">
+        .roles {
+            border: 1px solid #b6c4d8;
+            background-color: #f2f7fe;
+            padding: 10px;
+        }
+
+        .roles .ui-form-fields .field {
+            padding-left: 0;
+            padding-right: 2px;
+        }
+    </style>
+</head>
+
+<body>
+<form id="baseForm">
+    <input type="hidden" id="id" name="id" value="$!commPeoInfo.id"/>
+    <input type="hidden" id="itemId" name="itemId" value="$!commPeoInfo.itemId"/>
+    <input type="hidden" id="loanId" name="loanId" value="$!commPeoInfo.loanId"/>
+    <input type="hidden" id="loanProcessType" name="loanProcessType" value="$!commPeoInfo.loanProcessType"/>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">共有人名称：</label>
+            </td>
+            <td>
+                #if($editFlag=='0')
+                    <div class="ui-text">
+                        <input type="text" id="commPeoName" class="ui-text-text" name="commPeoName" value="$!commPeoInfo.commPeoName"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.commPeoName</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+            <td class="field" width="7%">
+                <label class="ui-star">证件类型：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div>
+                        <select id="commPeoCerType" name="commPeoCerType">
+                            <option></option>
+                            #datadict($!commPeoInfo.commPeoCerType,"CD_IDENTIFY_TYPE")
+                        </select>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!constantCodeUtil.getCodeTableDisplay('cdDictColByName','CD_IDENTIFY_TYPE',$!commPeoInfo.commPeoCerType)</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">证件号码：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="commLicenseNo" class="ui-text-text" name="commLicenseNo" value="$!commPeoInfo.commLicenseNo"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.commLicenseNo</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+            <td class="field" width="7%">
+                <label class="ui-star">不动产权证/共有证件号码：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="commNo" class="ui-text-text" name="commNo" value="$!commPeoInfo.commNo"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.commNo</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>保管人：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="commKeeperName" class="ui-text-text" name="commKeeperName" value="$!commPeoInfo.commKeeperName"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.commKeeperName</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+            <td class="field" width="7%">
+                <label>法人代表：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="corporation" class="ui-text-text" name="corporation" value="$!commPeoInfo.corporation"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.corporation</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">联系电话：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="telephone" class="ui-text-text" name="telephone" value="$!commPeoInfo.telephone"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.telephone</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+            <td class="field" width="7%">
+                <label>传真：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="facsimile" class="ui-text-text" name="facsimile" value="$!commPeoInfo.facsimile"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.facsimile</label>
+                    <label class="ml10"></label>
+                #end
+
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star" isnull="false">联系地址：</label>
+            </td>
+            <td colspan="3">
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="address" class="ui-text-text" name="address" value="$!commPeoInfo.address"
+                               maxlength="100"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.address</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>共有人配偶名称：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="indivSpsName" class="ui-text-text" name="indivSpsName" value="$!commPeoInfo.indivSpsName"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.indivSpsName</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+            <td class="field" width="7%">
+                <label>配偶证件类型：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div>
+                        <select id="indivSpsIdType" name="indivSpsIdType">
+                            <option></option>
+                            #datadict($!commPeoInfo.indivSpsIdType,"CD_IDENTIFY_TYPE")
+                        </select>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!constantCodeUtil.getCodeTableDisplay('cdDictColByName','CD_IDENTIFY_TYPE',$!commPeoInfo.indivSpsIdType)</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>配偶证件号码：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="indivSpsIdCode" class="ui-text-text" name="indivSpsIdCode" value="$!commPeoInfo.indivSpsIdCode"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.indivSpsIdCode</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+            <td class="field" width="7%">
+                <label>配偶人联系电话：</label>
+            </td>
+            <td>
+                #if($!editFlag==0)
+                    <div class="ui-text">
+                        <input type="text" id="indivSpsMobile" class="ui-text-text" name="indivSpsMobile" value="$!commPeoInfo.indivSpsMobile"
+                               maxlength="50"/>
+                    </div>
+                #else
+                    <label class="ui-quest-text">$!commPeoInfo.indivSpsMobile</label>
+                    <label class="ml10"></label>
+                #end
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 25px"></div>
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+    #if($!editFlag==0)
+        <span id="btnUpdate" class="ui-closure-button">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+    </span>
+    #end
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+
+<script language="javascript" type="text/javascript">
+    $(function () {
+        $('select').selectbox();
+        $('#btnCancel').click(function () {
+            var dialog = getDialog('commPeoInfoPage');
+            dialog.close();
+        });
+
+        $('#btnUpdate').click(function () {
+            if (!checkRequired ()) {
+                showConfirm({
+                    icon: 'warning',
+                    content: '还有必填项未填写，请先进行编辑，将必填项填写完整'
+                });
+                return false;
+            }
+            var postJson = getPostFields();
+            jQuery.ajax({
+                type: 'post',
+                dataType:'json',
+                url: '../loan/updateCommPeoInfo.html',
+                data: postJson,
+                success: function (result) {
+                    if (result.success) {
+                        showConfirm({
+                            icon: 'succeed',
+                            content: result.cause
+                        });
+                        closeDialog();
+//                        closeApplyTab();
+                    } else {
+                        showConfirm({
+                            icon: 'warning',
+                            content: result.cause
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+    //关闭dialog
+    function closeDialog() {
+        var dialog = getDialog('commPeoInfoPage');
+        var win = tabs.getIframeWindow(dialog.config.tabId);
+        if( win && win.refreshList){
+            win.refreshList();
+        }
+        setTimeout(function() {
+            dialog.close();
+        }, 0);
+    }
+    //判断必填项是否完整
+    function checkRequired () {
+        var bool = true;
+        $("#baseForm").find(".ui-star").each(function () {
+            var divObj = $(this).parent().next().find("div");
+            var inputObj = divObj.find("input");
+            var selectObj = divObj.find("select");
+            if(inputObj.length>0){
+                if(''!=inputObj.val()&&null!=inputObj.val()){
+                    divObj.removeClass('ui-text-failed');
+                }else{
+                    bool = false;
+                    divObj.addClass('ui-text-failed');
+                }
+            }
+            if(selectObj.length>0){
+                if(''!=selectObj.val()&&null!=selectObj.val()){
+                    divObj.removeClass('ui-text-failed');
+                }else{
+                    bool = false;
+                    divObj.addClass('ui-text-failed');
+                }
+            }
+        });
+        return bool;
+    }
+</script>
+</body>
+</html>

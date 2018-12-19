@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+##    <title>申请人</title>
+    <style>
+        body{font-size: 0.14rem;/*实际相当于14px*/}
+        body,*{
+            padding:0;
+            margin:0;
+        }
+        .headDiv{
+			width:100%;
+			height:1.6rem;
+			background:#109add;
+			text-align:center;
+			line-height:1.6rem;
+			}
+			
+		
+		.headDiv label{
+			font-size:0.5rem;
+			font-family:FZLTHJW--GB1-0;
+			text-align:center;
+			color:#FFF;
+			margin-right:1.2rem;
+			}
+			
+		.bodyDiv{
+			width:100%;
+			height:15.8rem;
+			background:#fff;
+			text-align:center;
+			}
+			.bodyDiv ul{
+			margin-top:1.2rem;
+			margin-left:0.35rem;
+			text-align:center;
+			}
+			
+		.bodyDiv ul li{
+			list-style-type:none;
+			height:1.2rem;
+			line-height:1.2rem;
+			width:9.95rem;
+			border:1px solid #d9d9d9;
+			border-radius:0.1rem;
+			}
+		.phoneLi{
+			boder-bottom:none;
+			
+			}
+				
+		
+		   .nextDiv{
+			   width:100%;
+			   text-align:center;
+			   margin-top:0.3rem;
+			 
+			   }
+			   
+		  .nameLab{
+			  display: inline-block;
+			  margin-left:0.7rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+			  float:left;
+			 }
+		  .nameLab_1{
+			  display: inline-block;
+			  margin-left:1.15rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+			  float:left;
+           	  
+			 }
+		 
+			 	
+		  .nextStep{
+			  width:9.96rem;
+			  height:1.44rem;
+			  text-align:center;
+			  line-height:1.44rem;
+			  font-family:FZLTHJW--GB1-0;
+			  font-size:0.54rem;
+			  -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+			  border-radius:0.2rem;
+			  background:#dfdfdf;
+			  color:#b3b3b3;
+			  border:0px ;
+			  }
+			 .headSpan{
+				 float:left;
+			     display:-moz-inline-box;
+				 height:1.6rem;
+				 display:inline-block;
+				 background: url(../html5/intoApply/backIcon.png)  no-repeat 0.1rem 0.45rem;
+				 width:1.6rem;
+				 line-height:1.6rem;
+				
+				 }
+			 .div_1{
+				 width:70%;
+				 height:6.5rem;				
+				  -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+				 }
+			 .div_2{
+				 width:100%;
+				 height:3rem;				
+				  -webkit-box-sizing: border-box;
+                  -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+				  margin-top:4.5rem;
+				 }
+			
+			
+			.image_1{
+				margin-top:0.6rem;
+                position: absolute;
+				width:8.78rem;
+				height:8.78rem;
+				}
+			 
+			
+			 .p1{
+				 font-size:0.5rem;
+				 font-family:FZLTHJW--GB1-0;
+				 text-align:center;	
+				 margin-top:0.3rem; 
+				 color:#ff7800;
+				 }
+				 
+			  			 
+    </style>
+</head>
+<body>
+
+##	<div class="headDiv"><span id="backstep" class="headSpan"></span><label>二维码图片</label></div>
+    <div class="bodyDiv">
+		 <div class="div_1">
+             <img src="$!base64"                   onError="this.src='../../html5/intoApply/s1_2.png'" alt="" class="image_1"/>
+         </div>
+    </div>
+</body>
+</html>

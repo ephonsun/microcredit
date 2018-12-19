@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.tmp.TmpLoanRepaymentItem" table="TMP_LOAN_REPAYMENT_ITEM" >
+		<property name="loanAccount" type="java.lang.String" >
+			<column name="LOAN_ACCOUNT" length="200" />
+		</property>
+		<property name="repaymentType" type="java.lang.String" >
+			<column name="REPAYMENT_TYPE" length="10" />
+		</property>
+		<property name="repaymentDate" type="java.lang.String" >
+			<column name="REPAYMENT_DATE" length="8" />
+		</property>
+		<property name="repaymentTime" type="java.lang.String" >
+			<column name="REPAYMENT_TIME" length="20" />
+		</property>
+		<property name="repaymentAmount" type="java.math.BigDecimal" >
+			<column name="REPAYMENT_AMOUNT" length="20" scale="2" />
+		</property>
+	</class>
+</mapping>
+

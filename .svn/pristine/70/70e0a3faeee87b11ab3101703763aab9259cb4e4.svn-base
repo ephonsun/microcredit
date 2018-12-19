@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.system.SysDataDictCol" table="SYS_DATA_DICT_COL" >
+		<id name="dictColId" type="java.lang.Integer" >
+			<column name="DICT_COL_ID" lenght="22" />
+		</id>
+		<property name="orderNo" type="java.lang.Integer" >
+			<column name="ORDER_NO" lenght="22" />
+		</property>
+		<property name="dataDictName" type="java.lang.String" >
+			<column name="DATA_DICT_NAME" lenght="32" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="22" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="dataDictId" type="java.lang.Integer" >
+			<column name="DATA_DICT_ID" lenght="22" />
+		</property>
+		<property name="dictName" type="java.lang.String" >
+			<column name="DICT_NAME" lenght="32" />
+		</property>
+		<property name="dictCode" type="java.lang.String" >
+			<column name="DICT_CODE" lenght="60" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="22" />
+		</property>
+		<property name="delFlag" type="java.lang.Integer" >
+			<column name="DEL_FLAG" lenght="22" />
+		</property>
+		<property name="dictValue" type="java.lang.String" >
+			<column name="DICT_VALUE" lenght="32" />
+		</property>
+		<property name="isFixed" type="java.lang.Integer" >
+			<column name="IS_FIXED" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

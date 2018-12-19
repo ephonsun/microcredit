@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="intoPhoneMsgQuery" name="banger.domain.html5.IntoPhoneMsgCodeQuery" >
+		<property name="counts" column="COUNTS" ></property>
+	</class>
+	<!-- 新增短信验证码表 -->
+	<sql id="insertPhoneMsgCode" >
+		INSERT INTO INTO_PHONE_MSG_CODE (ID,PHONE,CHECK_CODE,ADD_TIME,IS_USE,IP) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$phone]</clause>
+		<clause prepend="," nvl="''" >[$checkCode]</clause>
+		<clause prepend="," nvl="NULL" >[$addTime]</clause>
+		<clause prepend="," nvl="0" >[$isUse]</clause>
+		<clause prepend="," nvl="''" >[$ip]</clause>
+		)
+	</sql>
+
+	<!-- 修改短信验证码表 -->
+	<sql id="updatePhoneMsgCode" >
+		UPDATE INTO_PHONE_MSG_CODE 
+		<set>
+			<clause prepend="," assert="!isNull([phone])" >PHONE = [$phone]</clause>
+			<clause prepend="," assert="!isNull([checkCode])" >CHECK_CODE = [$checkCode]</clause>
+			<clause prepend="," assert="!isNull([addTime])" >ADD_TIME = [$addTime]</clause>
+			<clause prepend="," assert="!isNull([isUse])" >IS_USE = [$isUse]</clause>
+			<clause prepend="," assert="!isNull([ip])" >IP = [$ip]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到短信验证码表 -->
+	<sql id="getPhoneMsgCodeById" >
+		SELECT * FROM INTO_PHONE_MSG_CODE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除短信验证码表 -->
+	<sql id="deletePhoneMsgCodeById" >
+		DELETE FROM INTO_PHONE_MSG_CODE WHERE ID = [0]
+	</sql>
+
+	<!-- 查询短信验证码表 -->
+	<sql id="queryPhoneMsgCodeList">
+		SELECT * FROM INTO_PHONE_MSG_CODE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([phone])" > PHONE like '%[phone]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([checkCode])" > CHECK_CODE = '[checkCode]' </clause>
+			<clause parent="DateSpan" params="ADD_TIME,addTime,addTimeEnd" ></clause>
+			<clause prepend="and" assert="!isNull([isUse])" > IS_USE = [isUse] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ip])" > IP = '[ip]' </clause>
+		</where>
+	</sql>
+
+	<!--根据手机号查询当天已查询次数-->
+	<sql id="queryCountByPhone" result="intoPhoneMsgQuery">
+		SELECT COUNT(PHONE) AS COUNTS FROM INTO_PHONE_MSG_CODE
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([phone])" > phone =[phone] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				ADD_TIME <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				ADD_TIME <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+		</where>
+	</sql>
+
+	<!--根据IP查询当天已查询次数-->
+	<sql id="queryCountByIp" result="intoPhoneMsgQuery">
+		SELECT COUNT(IP) AS COUNTS FROM INTO_PHONE_MSG_CODE
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([ip])" > IP =[ip] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				ADD_TIME <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				ADD_TIME <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+		</where>
+	</sql>
+	<!--查询最新的验证码-->
+	<sql id="queryMsgInfoByPhone">
+		SELECT * FROM INTO_PHONE_MSG_CODE
+		WHERE PHONE=[0]
+		AND ADD_TIME=(SELECT MAX(ADD_TIME) FROM INTO_PHONE_MSG_CODE WHERE PHONE=[0])
+	</sql>
+
+</banger>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.tmp.TmpLoanAccount" table="TMP_LOAN_ACCOUNT" >
+		<property name="loanAccount" type="java.lang.String" >
+			<column name="LOAN_ACCOUNT" length="200" />
+		</property>
+		<property name="iouNo" type="java.lang.String" >
+			<column name="IOU_NO" length="200" />
+		</property>
+		<property name="contractNo" type="java.lang.String" >
+			<column name="CONTRACT_NO" length="200" />
+		</property>
+		<property name="customerNo" type="java.lang.String" >
+			<column name="CUSTOMER_NO" length="200" />
+		</property>
+		<property name="loanBalance" type="java.math.BigDecimal" >
+			<column name="LOAN_BALANCE" length="20" scale="2" />
+		</property>
+		<property name="repaymentAccount" type="java.lang.String" >
+			<column name="REPAYMENT_ACCOUNT" length="60" />
+		</property>
+		<property name="repaymentBalance" type="java.math.BigDecimal" >
+			<column name="REPAYMENT_BALANCE" length="20" scale="2" />
+		</property>
+		<property name="loanStatus" type="java.lang.String" >
+			<column name="LOAN_STATUS" length="10" />
+		</property>
+		<property name="nextRepaymentAmount" type="java.math.BigDecimal" >
+			<column name="NEXT_REPAYMENT_AMOUNT" length="20" scale="2" />
+		</property>
+	</class>
+</mapping>
+

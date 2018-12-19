@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.IntoAutoTableColumn" table="INTO_AUTO_TABLE_COLUMN" >
+		<id name="fieldId" type="java.lang.Integer" >
+			<column name="FIELD_ID" length="4" />
+		</id>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="40" />
+		</property>
+		<property name="fieldColumn" type="java.lang.String" >
+			<column name="FIELD_COLUMN" length="40" />
+		</property>
+		<property name="fieldIsRequired" type="java.lang.Integer" >
+			<column name="FIELD_IS_REQUIRED" length="4" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="fieldSortno" type="java.lang.Integer" >
+			<column name="FIELD_SORTNO" length="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.sub.BizTypeSub" table="BIZ_TYPE_SUB" >
+		<property name="subCode" type="java.lang.String" >
+			<column name="SUB_CODE" length="20" />
+		</property>
+		<property name="subName" type="java.lang.String" >
+			<column name="SUB_NAME" length="90" />
+		</property>
+		<property name="parentCode" type="java.lang.String" >
+			<column name="PARENT_CODE" length="20" />
+		</property>
+		<property name="subOrder" type="java.lang.String" >
+			<column name="SUB_ORDER" length="100" />
+		</property>
+		<property name="prdCode" type="java.lang.String" >
+			<column name="PRD_CODE" length="20" />
+		</property>
+	</class>
+</mapping>

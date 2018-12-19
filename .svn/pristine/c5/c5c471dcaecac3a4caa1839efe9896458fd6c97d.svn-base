@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款流程类型 -->
+	<sql id="insertProcessType" >
+		INSERT INTO LOAN_PROCESS_TYPE (ID,PREC_TYPE,PREC_TYPE_NAME,ORDER_NO,IS_ACTIVED) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$precType]</clause>
+		<clause prepend="," nvl="''" >[$precTypeName]</clause>
+		<clause prepend="," nvl="0" >[$orderNo]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款流程类型 -->
+	<sql id="updateProcessType" >
+		UPDATE LOAN_PROCESS_TYPE 
+		<set>
+			<clause prepend="," assert="!isNull([precType])" >PREC_TYPE = [$precType]</clause>
+			<clause prepend="," assert="!isNull([precTypeName])" >PREC_TYPE_NAME = [$precTypeName]</clause>
+			<clause prepend="," assert="!isNull([orderNo])" >ORDER_NO = [$orderNo]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款流程类型 -->
+	<sql id="getProcessTypeById" >
+		SELECT * FROM LOAN_PROCESS_TYPE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款流程类型 -->
+	<sql id="deleteProcessTypeById" >
+		DELETE FROM LOAN_PROCESS_TYPE WHERE ID = [0]
+	</sql>
+	
+		<!-- 查询贷款流程类型 -->
+	<sql id="getProcessTypeList" >
+		SELECT * FROM LOAN_PROCESS_TYPE 
+	</sql>
+
+	<!-- 查询贷款流程类型 -->
+	<sql id="queryProcessTypeList" >
+		SELECT * FROM LOAN_PROCESS_TYPE
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([precType])" > PREC_TYPE = '[precType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([precTypeName])" > PREC_TYPE_NAME = '[precTypeName]' </clause>
+			<clause prepend="and" assert="!isNull([orderNo])" > ORDER_NO = [orderNo] </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+		</where>
+	</sql>
+
+</banger>

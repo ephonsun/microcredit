@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增资产负责金额项目明细表 -->
+	<sql id="insertAssetsAmountItem" >
+		INSERT INTO LOAN_ASSETS_AMOUNT_ITEM (ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME,ITEM_NAME,AMOUNT,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="''" >[$columnName]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$itemName]</clause>
+		<clause prepend="," nvl="NULL" >[$amount]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改资产负责金额项目明细表 -->
+	<sql id="updateAssetsAmountItem" >
+		UPDATE LOAN_ASSETS_AMOUNT_ITEM 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([columnName])" >COLUMN_NAME = [$columnName]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([itemName])" >ITEM_NAME = [$itemName]</clause>
+			<clause prepend="," assert="!isNull([amount])" >AMOUNT = [$amount]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到资产负责金额项目明细表 -->
+	<sql id="getAssetsAmountItemById" >
+		SELECT * FROM LOAN_ASSETS_AMOUNT_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除资产负责金额项目明细表 -->
+	<sql id="deleteAssetsAmountItemById" >
+		DELETE FROM LOAN_ASSETS_AMOUNT_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 查询资产负责金额项目明细表 -->
+	<sql id="queryAssetsAmountItemList" >
+		SELECT * FROM LOAN_ASSETS_AMOUNT_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([columnName])" > COLUMN_NAME = '[columnName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([itemName])" > ITEM_NAME = '[itemName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > REMARK = '[remark]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<!--  -->
+	<sql id="getAssetsItemListByColumnName" >
+
+		<clause assert="isEqual([tableName],'LOAN_ASSETS_ACCOUNT_ITEM')" >
+			SELECT ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME,CUSTOMER_NAME ITEM_NAME,AMOUNT,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER FROM LOAN_ASSETS_ACCOUNT_ITEM
+		</clause>
+		<clause assert="isEqual([tableName],'LOAN_ASSETS_AMOUNT_ITEM')" >
+			SELECT ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME,ITEM_NAME,AMOUNT,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER FROM LOAN_ASSETS_AMOUNT_ITEM
+		</clause>
+		<clause assert="isEqual([tableName],'LOAN_ASSETS_DEBTS_ITEM')" >
+			SELECT ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME, DEBTS_SOURCE ITEM_NAME, BALANCE_AMOUNT AMOUNT,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER FROM LOAN_ASSETS_DEBTS_ITEM
+		</clause>
+		<clause assert="isEqual([tableName],'LOAN_ASSETS_FIXED_ITEM')" >
+			SELECT ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME, ITEM_NAME, AMOUNT,ITEM_REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER FROM LOAN_ASSETS_FIXED_ITEM
+		</clause>
+		<clause assert="isEqual([tableName],'LOAN_ASSETS_STOCK_ITEM')" >
+			SELECT ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME, ITEM_NAME, AMOUNT,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER FROM LOAN_ASSETS_STOCK_ITEM
+		</clause>
+
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([columnName])" > COLUMN_NAME = '[columnName]' </clause>
+		</where>
+	</sql>
+
+
+
+</banger>

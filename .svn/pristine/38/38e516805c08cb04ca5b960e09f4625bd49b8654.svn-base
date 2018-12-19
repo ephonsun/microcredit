@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<import resource="classpath:banger.web.xml" />
+    <import resource="classpath:banger.component.xml" />
+	<!--默认数据库配置放在最后 -->
+	<bean id="MyDbConfig" parent="DbConfig" >
+		<property name="dbType" value="DB2"/>
+		<property name="dataSource" ref="basicDataSource"/>
+		<property name="options">
+	      <map>
+	      	<entry key="sqlSelectSuffix" value="" />
+	      </map>
+		</property>
+	</bean>
+	
+	<bean id="EntityMap" parent="AbstractEntityMap" >
+		<property name="mappingLocations">
+		    <list>
+		    	<value>classpath*:/banger/domain/permission/*.sqlMap.xml</value>
+		    	<value>classpath*:/banger/domain/system/*.sqlMap.xml</value>
+		    	<value>classpath*:/banger/domain/auto/*.sqlMap.xml</value>
+		    	<value>classpath*:/banger/domain/config/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/customer/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/product/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/task/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/loan/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/app/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/face/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/track/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/loan/contract/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/loan/tmp/*.sqlMap.xml</value>
+				<value>classpath*:/banger/domain/html5/*.sqlMap.xml</value>
+		    </list>
+		</property>
+	</bean>
+	
+	<bean id="SqlMap" parent="AbstractSqlMap" >
+		<property name="contexts" >
+			<set merge="true">
+                <ref bean="pmsSqlMap"></ref>
+                <ref bean="sysSqlMap"></ref>
+				<ref bean="cusSqlMap"></ref>
+				<ref bean="prodSqlMap"></ref>
+				<ref bean="autoSqlMap"></ref>
+				<ref bean="taskSqlMap"></ref>
+				<ref bean="loanSqlMap"></ref>
+				<ref bean="appSqlMap"></ref>
+				<ref bean="apiSqlMap"></ref>
+				<ref bean="trackSqlMap"></ref>
+				<ref bean="html5SqlMap"></ref>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="DbConfig" abstract="true" class="banger.framework.sql.config.DbConfig" >
+	    <property name="dialects">
+	      <map>
+	        <entry key="SqlServer" value="banger.framework.sql.dialect.MsSql2000Dialect" />
+	        <entry key="SqlServer2000" value="banger.framework.sql.dialect.MsSql2000Dialect" />
+	        <entry key="SqlServer2005" value="banger.framework.sql.dialect.MsSql2005Dialect" />
+	        <entry key="Oracle9" value="banger.framework.sql.dialect.Oracle9iDialect" />
+	        <entry key="Oracle10" value="banger.framework.sql.dialect.Oracle10gDialect" />
+	        <entry key="MySql" value="banger.framework.sql.dialect.MySqlDialect" />
+	        <entry key="Firebird" value="banger.framework.sql.dialect.FirebirdDialect" />
+	        <entry key="PostgreSql" value="banger.framework.sql.dialect.PostgreSQLDialect" />
+	        <entry key="Sqlite" value="banger.framework.sql.dialect.SqlLiteDialect" />
+	        <entry key="DB2" value="banger.framework.sql.dialect.DB2Dialect" />
+	      </map>
+	    </property>
+  	</bean>
+</beans>

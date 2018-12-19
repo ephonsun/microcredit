@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.customer.CustFamilyInfo" table="CUST_FAMILY_INFO" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="housePlace" type="java.lang.String" >
+			<column name="HOUSE_PLACE" length="150" />
+		</property>
+		<property name="houseArea" type="java.lang.Integer" >
+			<column name="HOUSE_AREA" length="4" />
+		</property>
+		<property name="beginLiveTime" type="java.util.Date" >
+			<column name="BEGIN_LIVE_TIME" length="10" scale="6" />
+		</property>
+		<property name="decorationStatus" type="java.lang.String" >
+			<column name="DECORATION_STATUS" length="150" />
+		</property>
+		<property name="houseLayout" type="java.lang.String" >
+			<column name="HOUSE_LAYOUT" length="150" />
+		</property>
+		<property name="familyMemberNum" type="java.lang.Integer" >
+			<column name="FAMILY_MEMBER_NUM" length="4" />
+		</property>
+		<property name="supportMemberNum" type="java.lang.Integer" >
+			<column name="SUPPORT_MEMBER_NUM" length="4" />
+		</property>
+		<property name="childrenSituation" type="java.lang.String" >
+			<column name="CHILDREN_SITUATION" length="150" />
+		</property>
+		<property name="parentSituation" type="java.lang.String" >
+			<column name="PARENT_SITUATION" length="150" />
+		</property>
+	</class>
+</mapping>
+

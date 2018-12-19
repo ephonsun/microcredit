@@ -1,0 +1,8 @@
+#文件端口
+nio_file_port=7958
+#消息端口
+nio_msg_port=7959
+#线程数
+nio_threed_count=10
+#文件上传临时目录
+nio_upload_temp_path=E:/tempfile

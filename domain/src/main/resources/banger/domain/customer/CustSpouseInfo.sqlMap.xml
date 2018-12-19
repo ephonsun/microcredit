@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.customer.CustSpouseInfo" table="CUST_SPOUSE_INFO" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="spouseName" type="java.lang.String" >
+			<column name="SPOUSE_NAME" length="150" />
+		</property>
+		<property name="spouseSex" type="java.lang.String" >
+			<column name="SPOUSE_SEX" length="30" />
+		</property>
+		<property name="spouseAge" type="java.lang.Integer" >
+			<column name="SPOUSE_AGE" length="4" />
+		</property>
+		<property name="spousePhoneNum" type="java.lang.String" >
+			<column name="SPOUSE_PHONE_NUM" length="150" />
+		</property>
+		<property name="spouseIdentifyType" type="java.lang.String" >
+			<column name="SPOUSE_IDENTIFY_TYPE" length="30" />
+		</property>
+		<property name="spouseIdentifyNum" type="java.lang.String" >
+			<column name="SPOUSE_IDENTIFY_NUM" length="150" />
+		</property>
+		<property name="spouseDegree" type="java.lang.String" >
+			<column name="SPOUSE_DEGREE" length="30" />
+		</property>
+		<property name="spouseMonthlyIncome" type="java.lang.String" >
+			<column name="SPOUSE_MONTHLY_INCOME" length="30"/>
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款审计表 -->
+	<sql id="insertAudit" >
+		INSERT INTO LOAN_AUDIT (LOAN_AUDIT_ID,LOAN_ID,LOAN_AUDIT_STATE,LOAN_AUDITORS,LOAN_AUDIT_REMARK,CREATE_USER,CREATE_DATE,UPDATE_USER,UPDATE_DATE) VALUES ([$loanAuditId]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanAuditState]</clause>
+		<clause prepend="," nvl="''" >[$loanAuditors]</clause>
+		<clause prepend="," nvl="''" >[$loanAuditRemark]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款审计表 -->
+	<sql id="updateAudit" >
+		UPDATE LOAN_AUDIT 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanAuditState])" >LOAN_AUDIT_STATE = [$loanAuditState]</clause>
+			<clause prepend="," assert="!isNull([loanAuditors])" >LOAN_AUDITORS = [$loanAuditors]</clause>
+			<clause prepend="," assert="!isNull([loanAuditRemark])" >LOAN_AUDIT_REMARK = [$loanAuditRemark]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 LOAN_AUDIT_ID = [$loanAuditId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款审计表 -->
+	<sql id="getAuditById" >
+		SELECT * FROM LOAN_AUDIT WHERE LOAN_AUDIT_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款审计表 -->
+	<sql id="deleteAuditById" >
+		DELETE FROM LOAN_AUDIT WHERE LOAN_AUDIT_ID = [0]
+	</sql>
+
+	<!-- 查询贷款审计表 -->
+	<sql id="queryAuditList" >
+		SELECT * FROM LOAN_AUDIT 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanAuditState])" > LOAN_AUDIT_STATE = [loanAuditState] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanAuditors])" > LOAN_AUDITORS = '[loanAuditors]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanAuditRemark])" > LOAN_AUDIT_REMARK = '[loanAuditRemark]' </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+	</sql>
+
+</banger>

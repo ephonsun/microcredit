@@ -1,0 +1,117 @@
+#*资产负债金额项目明细表，现金，其他经营资产，其他非经营资产，其他资产，其他负债，投资性资产，对外债权，预付款， 编辑界面*#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>金额项目编辑界面</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css"/>
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css"/>
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion"/>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<form id="form">
+#if($entity)
+    <input type="hidden" value="$!entity.loanId" name="loanId" id="loanId">
+    <input type="hidden" value="$!entity.loanClassId" name="loanClassId" id="loanClassId">
+#else
+    <input type="hidden" value="$!loanId" name="loanId" id="loanId">
+    <input type="hidden" value="$!loanClassId" name="loanClassId" id="loanClassId">
+#end
+    <table class="ui-form-fields">
+
+        <input type="hidden" value="$!entity.id" name="id">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">项目：</label>
+            </td>
+            <td width="20%">
+                #if($entity.columnName=='ASSETS_OTHER_AMOUNT' || $columnName =='ASSETS_OTHER_AMOUNT' || $entity.columnName=='ASSETS_EXTERNAL_CLAIMS' || $columnName =='ASSETS_EXTERNAL_CLAIMS' ||$entity.columnName=='ASSETS_ADVANCE_PAYMENT_AMOUNT' || $columnName =='ASSETS_ADVANCE_PAYMENT_AMOUNT' || $entity.columnName=='DEBTS_BIZ_OTHER_AMOUNT' || $columnName =='DEBTS_BIZ_OTHER_AMOUNT' )
+                    <div class="ui-text" style="width: 85%">
+                        <input type="text" id="itemName" class="ui-text-text" name="itemName"
+                               value="$!entity.itemName" maxlength="20"/>
+                    </div>
+                #else
+                    #if($entity)
+                        <div style="width: 85%">
+                        <select id="itemName" name="itemName" >
+                            <option></option>
+                            #set($classId=$!entity.loanClassId+"")
+                            #datadict("$!entity.itemName","$!loanUtil.codeTableParam($!entity.columnName,$classId)")
+                        </select>
+                        </div>
+                    #else
+                    <div style="width: 85%">
+                        <select id="itemName" name="itemName" >
+                             <option></option>
+                             #datadict("","$!loanUtil.codeTableParam($columnName,'1')")
+                        </select>
+                    </div>
+                    #end
+                #end
+            </td>
+            <td class="field" width="5%">
+                <label class="ui">金额：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9">
+                   <input type="text" id="amount" class="ui-text-text" name="amount" value="$!entity.amount" maxlength="13"/>
+                </div>&nbsp;元
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label style="margin-top: 10px">备注：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-textarea" style="width: 91.8%;margin-top: 10px">
+                    <textarea id="remark" name="remark" class="ui-textarea-text"
+                              maxlength="100">$!entity.remark</textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 118px"></div>
+<hr class="ui-line"/>
+<div class="ui-layout-closure divcss10">
+            #if($entity)
+            <span id="btnUpdate" class="ui-closure-button" onclick="updateAmountAssets('$!entity.columnName')">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+			</span>
+            <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		    </span>
+                #else
+                 <span id="btnAdd" class="ui-closure-button" onclick="addAmountAssets('$!columnName')">
+				<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+			    </span>$nbsp;$nbsp;
+                <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+                    <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+                </span>
+            #end
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //附件上传相关脚本 -->
+<script type="text/javascript" src="../uploadify/swfobject.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/assets/assetsAmountSave.js"></script>
+
+</body>
+</html>

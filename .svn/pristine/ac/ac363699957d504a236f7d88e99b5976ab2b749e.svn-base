@@ -1,0 +1,77 @@
+#*实现无刷界面*#
+
+#*现金信息*#
+#if($columnName=='ASSETS_CASH_AMOUNT')
+    #assetsAmount($assetsMap,"ASSETS_CASH_AMOUNT","CD_ASSETS_CASH_ITEM",'现金',$!asInfo.assetsCashAmount,'2')
+#*存货信息*#
+#elseif($columnName=='ASSETS_STOCK_AMOUNT')
+    #assetsStock($assetsMap,"ASSETS_STOCK_AMOUNT","CD_ASSETS_STOCK_TYPE",'存货',$!asInfo.assetsStockAmount,'2')
+#*应收账款*#
+#elseif($columnName=='ASSETS_RECEIVABLE_AMOUNT')
+    #assetsAccount($assetsMap,"ASSETS_RECEIVABLE_AMOUNT","CD_SETTLEMENT_MODE",'应收账款',$!asInfo.assetsReceivableAmount,'2')
+#*预付账款*#
+#elseif($columnName=='ASSETS_PAYMENT_AMOUNT')
+    #assetsAccount($assetsMap,"ASSETS_PAYMENT_AMOUNT","CD_SETTLEMENT_MODE",'预付账款',$!asInfo.assetsPaymentAmount,'2')
+#*其他经营资产*#
+#elseif($columnName=='ASSETS_OPERATING_AMOUNT')
+    #assetsAmount($assetsMap,"ASSETS_OPERATING_AMOUNT","CD_OTHER_OPERATING_ITEM",'其他经营资产',$!asInfo.assetsOperatingAmount,'2')
+#*其他非经营资产*#
+#elseif($columnName=='ASSETS_NON_OPERATING_AMOUNT')
+    #assetsAmount($assetsMap,"ASSETS_NON_OPERATING_AMOUNT","CD_NON_OPERATING_ITEM",'其他非经营资产',$!asInfo.assetsNonOperatingAmount,'2')
+#*固定资产*#
+#elseif($columnName=='ASSETS_FIXED_AMOUNT1')
+    #assetsFixed($assetsMap,"ASSETS_FIXED_AMOUNT","CD_ASSETS_BIZ_FIXED_TYPE","固定资产",$!asInfo.assetsFixedAmount,'2')
+#*其他资产*#
+#elseif($columnName=='ASSETS_OTHER_AMOUNT')
+    #assetsAmount($assetsMap,"ASSETS_OTHER_AMOUNT",false,'其他资产',$!asInfo.assetsOtherAmount,'2')
+#*应付账款*#
+#elseif($columnName=='DEBTS_PAYABLE_AMOUNT')
+    #assetsAccount($assetsMap,"DEBTS_PAYABLE_AMOUNT","CD_SETTLEMENT_MODE",'应付账款',$!asInfo.debtsPayableAmount,'2')
+#*预收账款*#
+#elseif($columnName=='DEBTS_RECEIVED_AMOUNT')
+    #assetsAccount($assetsMap,"DEBTS_RECEIVED_AMOUNT","CD_SETTLEMENT_MODE",'预收账款',$!asInfo.debtsReceivedAmount,'2')
+#*短期负债*#
+#elseif($columnName=='DEBTS_SHORT_AMOUNT')
+    #assetsDebts($assetsMap,"DEBTS_SHORT_AMOUNT",false,'短期负债',$!asInfo.debtsShortAmount,'2')
+#*长期负债*#
+#elseif($columnName=='DEBTS_LONG_AMOUNT')
+    #assetsDebts($assetsMap,"DEBTS_LONG_AMOUNT",false,'长期负债',$!asInfo.debtsLongAmount,'2')
+#*其他负债*#
+#elseif($columnName=='DEBTS_BIZ_OTHER_AMOUNT')
+    #assetsAmount($assetsMap,"DEBTS_BIZ_OTHER_AMOUNT",false,'其他负债',$!asInfo.debtsBizOtherAmount,'2')
+#*投资性资产*#
+#elseif($columnName=='ASSETS_INVEST_AMOUNT')
+    #assetsAmount($assetsMap,"ASSETS_INVEST_AMOUNT","CD_ASSETS_INVEST_ITEM",'投资性资产',$!asInfo.assetsInvestAmount,'2')
+#*对外债权*#
+#elseif($columnName=='ASSETS_EXTERNAL_CLAIMS')
+    #assetsAmount($assetsMap,"ASSETS_EXTERNAL_CLAIMS",false,'对外债权',$!asInfo.assetsExternalClaims,'2')
+#*预付账款*#
+#elseif($columnName=='ASSETS_ADVANCE_PAYMENT_AMOUNT')
+    #assetsAmount($assetsMap,"ASSETS_ADVANCE_PAYMENT_AMOUNT",false,'预付款',$!asInfo.assetsAdvancePaymentAmount,'2')
+#*固定资产*#
+#elseif($columnName=='ASSETS_FIXED_AMOUNT2')
+    #assetsFixed($assetsMap,"ASSETS_FIXED_AMOUNT","CD_ASSETS_CONSUM_FIXED_TYPE","固定资产",$!asInfo.assetsFixedAmount,'2')
+#*预付账款*#
+#elseif($columnName=='DEBTS_CONSUME_AMOUNT')
+    #assetsDebts($assetsMap,"DEBTS_CONSUME_AMOUNT",'CD_DEBTS_CONSUME_SOURCE','消费性负债',$!asInfo.debtsConsumeAmount,'2')
+#*预付账款*#
+#elseif($columnName=='DEBTS_SELF_USER_AMOUNT')
+    #assetsDebts($assetsMap,"DEBTS_SELF_USER_AMOUNT",false,'自用性负债',$!asInfo.debtsSelfUserAmount,'2')
+#*预付账款*#
+#elseif($columnName=='DEBTS_INVEST_AMOUNT')
+    #assetsDebts($assetsMap,"DEBTS_INVEST_AMOUNT",false,'投资性负债',$!asInfo.debtsInvestAmount,'2')
+#*其他负债*#
+#elseif($columnName=='DEBTS_OTHER_AMOUNT')
+    #assetsDebts($assetsMap,"DEBTS_OTHER_AMOUNT",false,'其他负债',$!asInfo.debtsOtherAmount,'2')
+#else
+    #offAssets($!asInfo.offAssetsAmount,$!asInfo.offDebtsAmount,$!asInfo.offRemark,$!asInfo.id,'2')
+#end
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+#*<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />*#
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>贷款量统计</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css" />
+</head>
+<body>
+<form id="form" action="" onsubmit="return false;">
+    <input type="hidden" id="role" name="role" value="$!role" />
+    <input type="hidden" id="groupPermit" name="groupPermit" value="$!groupPermit" />
+    <input type="hidden" id="gp" name="gp" value="$!gp" />
+    <input type="hidden" id="userName" name="userName" value="$!userName" />
+    <input type="hidden" id="loginUserId" name="loginUserId" value="$!userId" />
+    <input type="hidden" id="teamGroupID" name="teamGroupID" value="$!teamGroupID" />
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields">
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>统计对象：</label>
+                </td>
+
+                #if(!$teamGroupID&&$role==1&&$gp.length()==0)
+                    <td width="34%">
+                        <select id="userIdSelect" name="userId">
+                            <option value="$userId">自己</option>
+                        </select>
+                    </td>
+                    <td width="76%"></td>
+                #else
+                    <td width="34%">
+                        <select id="taskObj" name="taskObj">
+                            #if($!role==1&& $gp.length()>1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                                <option value="3">所有</option>
+                            #elseif($!role==1&& $gp.length()==1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                            #elseif($!role==1&&$gp.length()==0&&$teamGroupID)
+                                <option value="1">客户经理</option>
+                            #elseif($!role==2&& $gp.length()==1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                            #elseif($!role==2&& $gp.length()>1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                                <option value="3">所有</option>
+                            #elseif($!role==3&&$gp.length()==0)
+                                <option value="3"></option>
+                            ##                            #elseif($!role==3&&$gp.length()==1)
+                            ##                                <option value="1">客户经理</option>
+                            ##                                <option value="2">团队</option>
+                            ##                            #elseif($!role==3&&$gp.length()>1)
+                            #else
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                                <option value="3">所有</option>
+                            #end
+                        </select>
+
+                    </td>
+
+
+                    <td width="34%">
+                        <div id="hh">
+                            <select id="teamGroupId" name="teamGroupId" >
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+
+
+                    <td width="28%" >
+                        <div id="gg">
+                            <select id="userIdSelect" name="userId">
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+
+                ##                        <td width="36%" >
+                ##
+                ##                        </td>
+
+                </tr>
+                #end
+            </table>
+            <table class="ui-form-fields">
+                <tr>
+                    <td class="field" width="7%">
+                        <label>贷款类型：</label>
+                    </td>
+                    <td width="34%">
+                        <div>
+                            <select id="loanType" name="isHaveHouse">
+                                <option value=""></option>
+                                <option value="1">消费贷</option>
+                                <option value="2">经营贷</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="59%"></td>
+                </tr>
+            </table>
+            <table class="ui-form-fields">
+                <tr>
+                    <td class="field" width="7%">
+                        <label>是否本地人：</label>
+                    </td>
+                    <td width="34%">
+                        <div>
+                            <select id="isLocalPerson" name="isLocalPerson">
+                                <option value=""></option>
+                                <option value="01">是</option>
+                                <option value="02">否</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>是否有房：</label>
+                    </td>
+                    <td width="34%">
+                        <div>
+                            <select id="isHaveHouse" name="isHaveHouse">
+                                <option value=""></option>
+                                <option value="01">是</option>
+                                <option value="02">否</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="18%"></td>
+                </tr>
+            </table>
+            <table class="ui-form-fields" >
+
+                <tr>
+                    <td class="field" width="7%">
+                        <label>时间类型：</label>
+                    </td>
+                    <td colspan="2">
+                        <input type="radio" id="s1" name="ttype"  value="1" checked="checked"/>&nbsp;按月汇总&nbsp;
+                        <input type="radio" id="s2" name="ttype" value="2"/>&nbsp;按季度汇总&nbsp;
+                        <input type="radio" id="s3" name="ttype" value="3"/>&nbsp;按年汇总&nbsp;
+                    </td>
+
+                </tr>
+
+            </table>
+            <table class="ui-form-fields" id="t1">
+                <tr>
+                    <td class="field" width="7%">
+                        <label>开始年份：</label>
+                    </td>
+                    <td width="20%">
+                        <div>
+                            <input style="width: 100px;height: 22px;border-color: #b6c4d8" id="startYear" name="startYear" type="text" class="Wdate" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy',maxDate: '#F{$dp.$D(\'endYear\')}'})"/>
+
+                        </div>
+                    </td>
+                    <td width="20%">
+                        <div>
+                            <select id="startMonth" name="startMonth">
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td width="46%"></td>
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>结束年份：</label>
+                    </td>
+                    <td width="20%">
+                        <div>
+                            <input style="width: 100px;height: 22px;border-color: #b6c4d8" id="endYear" name="endYear" type="text" class="Wdate" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy',minDate:'#F{$dp.$D(\'startYear\')}'})"/>
+                        </div>
+                    </td>
+                    <td width="20%">
+                        <div>
+                            <select id="endMonth" name="endMonth">
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="ui-form-fields" id="t2" style="display: none">
+                <tr>
+                    <td class="field" width="7%">
+                        <label>开始年份：</label>
+                    </td>
+                    <td width="10%">
+                        <div>
+                            <input style="width: 100px;height: 22px;border-color: #b6c4d8" id="startYear1" name="startYear1" type="text" class="Wdate" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy',maxDate: '#F{$dp.$D(\'endYear1\')}'})"/>
+                        </div>
+                    </td>
+                    <td class="field" width="5%">
+                        <label>季度：</label>
+                    </td>
+                    <td width="34%">
+                        <div>
+                            <select id="startMonth1" name="startMonth1">
+                                <option value="1">第1季度</option>
+                                <option value="2">第2季度</option>
+                                <option value="3">第3季度</option>
+                                <option value="4">第4季度</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="14%"></td>
+                </tr>
+                <tr>
+                    <td class="field" width="5%">
+                        <label>结束年份：</label>
+                    </td>
+                    <td width="10%">
+                        <div>
+                            <input style="width: 100px;height: 22px;border-color: #b6c4d8" id="endYear1" name="endYear1" type="text" class="Wdate" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy',minDate:'#F{$dp.$D(\'startYear1\')}'})"/>
+                        </div>
+                    </td>
+                    <td class="field" width="5%">
+                        <label>季度：</label>
+                    </td>
+
+                    <td width="34%">
+                        <div>
+                            <select id="endMonth1" name="endMonth1">
+                                <option value="1">第1季度</option>
+                                <option value="2">第2季度</option>
+                                <option value="3">第3季度</option>
+                                <option value="4" selected="selected">第4季度</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="ui-form-fields" id="t3" style="display: none">
+                <tr >
+                    <td class="field" width="5%">
+                        <label>年份区间：</label>
+                    </td>
+                    <td width="20%">
+                        <div>
+                            <input style="width: 100px;height: 22px;border-color: #b6c4d8" id="startYear2" name="startYear2" type="text" class="Wdate" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy',maxDate: '#F{$dp.$D(\'endYear2\')}'})"/>
+                        </div>
+                    </td>
+                    <td width="20%">
+                        <div>
+                            <input style="width: 100px;height: 22px;border-color: #b6c4d8" id="endYear2" name="endYear2" type="text" class="Wdate" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy',minDate: '#F{$dp.$D(\'startYear2\')}'})"/>
+                        </div>
+                    </td>
+                    <td width="55%"></td>
+                </tr>
+            </table>
+
+            <table class="ui-form-fields">
+                <tr>
+                    <td class="field" width="7%">
+                        <label>图表类型：</label>
+                    </td>
+                    <td colspan="2">
+                        <input type="radio" name="ptype" value="1" />&nbsp;曲线图&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="ptype" value="2"/>&nbsp;柱状图&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="ptype" value="3" checked="checked"/>&nbsp;统计表&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- 搜索刷新按钮-->
+        <div class="ui-layout-search-foot">
+            <div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+    	            <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="ui-layout-statistics">
+
+</div>
+<div class="ui-layout-action">
+        <span id="btnExport" style="display: none" class="ui-button fl" >
+                <label class="ui-button-text">导出</label>
+            </span>
+</div>
+<div id="taskGrid" style="overflow: auto; white-space: nowrap; text-overflow: ellipsis; width: 100%;"></div>
+<div id="container" style="min-width:auto;height:auto;"></div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/third/highCharts/js/highcharts.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/third/highCharts/js/exporting.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/third/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    var r= $('#role').val();
+    $("#taskObj").val(r);
+    $('#s1').click(function(){
+        $('#t1').show();
+        $('#t2').hide();
+        $('#t3').hide();
+    });
+    $('#s2').click(function () {
+        $('#t1').hide();
+        $('#t2').show();
+        $('#t3').hide();
+    });
+    $('#s3').click(function () {
+        $('#t1').hide();
+        $('#t2').hide();
+        $('#t3').show();
+    });
+    //当开始年结束年相等，控制开始月份不能大于结束月份
+    $('#startMonth').change(function () {
+        var a=$('#startYear').val();
+        var b=$('#endYear').val();
+        var c=parseFloat($('#endMonth').val());
+        var d=parseFloat($(this).val());
+        if(a==b){
+//                debugger
+            if(d>=c){
+                $('#startMonth').val(c);
+                $('select').selectbox({});
+            }
+        }
+    });
+    $('#endMonth').change(function () {
+        var a=$('#startYear').val();
+        var b=$('#endYear').val();
+        var c=parseFloat($('#startMonth').val());
+        var d=parseFloat($(this).val());
+        if(a==b){
+            if(d<=c){
+                $('#endMonth').val(c);
+                $('select').selectbox({});
+            }
+        }
+    });
+
+    //当开始年结束年相等，控制开始季度不能大于结束季度
+    $('#startMonth1').change(function () {
+        var a=$('#startYear1').val();
+        var b=$('#endYear1').val();
+        var c=$('#endMonth1').val();
+        var d=$(this).val();
+        if(a==b){
+            if(d>c){
+                $('#startMonth1').val(c);
+                $('select').selectbox({});
+            }
+        }
+    });
+    $('#endMonth1').change(function () {
+        var a=$('#startYear1').val();
+        var b=$('#endYear1').val();
+        var c=$('#startMonth1').val();
+        var d=$(this).val();
+        if(a==b){
+            if(d<c){
+                $('#endMonth1').val(c);
+                $('select').selectbox({});
+            }
+        }
+    });
+</script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/loanStat.js?v=$!webAppVersion"></script>
+</body>
+</html>

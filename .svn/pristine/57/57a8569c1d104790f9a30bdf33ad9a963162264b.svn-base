@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!--&lt;!&ndash; 修改还款记录 &ndash;&gt;-->
+	<!--<sql id="updateLoanRepaymentItem" >-->
+		<!--UPDATE TMP_LOAN_REPAYMENT_ITEM-->
+		<!--<set>-->
+			<!--<clause prepend="," assert="!isNull([repaymentType])" >REPAYMENT_TYPE = [$repaymentType]</clause>-->
+			<!--<clause prepend="," assert="!isNull([repaymentAmount])" >REPAYMENT_AMOUNT = [$repaymentAmount]</clause>-->
+			<!--<clause prepend="," assert="!isNull([repaymentDate])" >REPAYMENT_DATE = [$repaymentDate]</clause>-->
+		<!--</set>-->
+		<!--<where>-->
+		<!--</where>-->
+	<!--</sql>-->
+
+	<!-- 查询还款记录 -->
+	<sql id="queryLoanRepaymentItemList" >
+		SELECT * FROM TMP_LOAN_REPAYMENT_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([loanAccount])" > LOAN_ACCOUNT = '[loanAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([repaymentDate])" > REPAYMENT_DATE = '[repaymentDate]' </clause>
+		</where>
+	</sql>
+
+	<!-- 查询还款记录 -->
+	<sql id="sumPaymentAmountByAccount">
+		SELECT SUM(REPAYMENT_AMOUNT) FROM TMP_LOAN_REPAYMENT_ITEM WHERE LOAN_ACCOUNT = '[0]'
+	</sql>
+
+
+	<!--//	<select id="sumCashByType" resultClass="java.math.BigDecimal" parameterClass="java.util.Map">-->
+	<!--//	select sum(AMOUNT) from LN_BALANCE_CASH where LOAN_ID=#loanId# AND TYPE=#type#-->
+	<!--//	</select>-->
+
+</banger>

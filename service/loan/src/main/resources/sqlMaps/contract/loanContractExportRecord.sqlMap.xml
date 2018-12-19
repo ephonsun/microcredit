@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertContractExportRecord" >
+		INSERT INTO LOAN_CONTRACT_EXPORT_RECORD (ID,LOAN_ID,TEMPLATE_FILE_ID,TEMPLATE_FILE_NAME,EXPORT_USER_ID,EXPORT_TIME) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$templateFileId]</clause>
+		<clause prepend="," nvl="''" >[$templateFileName]</clause>
+		<clause prepend="," nvl="0" >[$exportUserId]</clause>
+		<clause prepend="," nvl="NULL" >[$exportTime]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateContractExportRecord" >
+		UPDATE LOAN_CONTRACT_EXPORT_RECORD 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([templateFileId])" >TEMPLATE_FILE_ID = [$templateFileId]</clause>
+			<clause prepend="," assert="!isNull([templateFileName])" >TEMPLATE_FILE_NAME = [$templateFileName]</clause>
+			<clause prepend="," assert="!isNull([exportUserId])" >EXPORT_USER_ID = [$exportUserId]</clause>
+			<clause prepend="," assert="!isNull([exportTime])" >EXPORT_TIME = [$exportTime]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getContractExportRecordById" >
+		SELECT * FROM LOAN_CONTRACT_EXPORT_RECORD WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteContractExportRecordById" >
+		DELETE FROM LOAN_CONTRACT_EXPORT_RECORD WHERE ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryContractExportRecordList" >
+		SELECT * FROM LOAN_CONTRACT_EXPORT_RECORD 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([templateFileId])" > TEMPLATE_FILE_ID = [templateFileId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateFileName])" > TEMPLATE_FILE_NAME = '[templateFileName]' </clause>
+			<clause prepend="and" assert="!isNull([exportUserId])" > EXPORT_USER_ID = [exportUserId] </clause>
+			<clause parent="DateSpan" params="EXPORT_TIME,exportTime,exportTimeEnd" ></clause>
+		</where>
+	</sql>
+
+</banger>

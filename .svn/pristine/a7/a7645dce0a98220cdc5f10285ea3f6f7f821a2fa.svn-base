@@ -1,0 +1,31 @@
+<script>
+jQuery.json.attach("CD",{"PageTypes":{"queryPage":"查询页面","eidtPage":"编辑页面","addPage":"新增页面","viewPage":"查看页面"}});
+jQuery.json.attach("DS",{"PageSetting":{"id":"","type":"queryPage"}});
+
+function saveAutoPage(){
+	var id = DS.PageSetting.id;
+	var type = DS.PageSetting.type;
+	switch(type){
+		case "queryPage":
+			var url = "../build/getQueryBuilderPage.html?pageId="+id;
+			var page = {'id':'buildQueryPage','title':'生成查询页面','url':url,'pid':tabs.getSelfId(window),'lock':false};
+			tabs.add(page);
+			break;
+	}
+	$("#newPagePanel").ctrl().hide();
+}
+</script>
+<dialog id="newPagePanel" width="400" height="200" visible="false" title="新建页面生成模板" >
+	<div class="ui-layout-search-body" >
+		<forms id="scriptForms" layout="table" columns="1" data="DS.PageSetting" >
+			<cell title="页面ID" field="id" editor="textbox" nullable="false" ></cell>
+            <cell title="页面类型" field="type" editor="combobox" data="CD.PageTypes" nullable="false" ></cell>
+			<cell>
+				<div class="forms-split-lineStyle" ></div>
+			</cell>
+        </forms>
+	</div>
+	<div class="ui-layout-closure" >
+		<button onclick="saveAutoPage" skin="blur" value="保存" ></button>
+	</div>
+</dialog>

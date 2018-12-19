@@ -1,0 +1,90 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../../js/nff.core.js" type="text/javascript" ></script>
+<script src="../../js/nff.ctrl.js" type="text/javascript" ></script>
+<script src="../../js/nff.widget.js" type="text/javascript" ></script>
+<script src="../../js/nff.dao.js" type="text/javascript" ></script>
+<script src="../../js/nff.treebox.js" type="text/javascript" ></script>
+<script src="../../js/nff.button.js" type="text/javascript" ></script>
+<script src="../../js/nff.pagesize.js" type="text/javascript" ></script>
+<script src="../../js/nff.gridview.js" type="text/javascript" ></script>
+<script src="../../js/nff.window.js" type="text/javascript" ></script>
+<script src="../../js/nff.ctrl.setting.js" type="text/javascript" ></script>
+<link href="../../skin/css/nff.blue.css" rel="stylesheet" type="text/css" ></link>
+<style>
+.right {float:left;}
+</style>
+</head>
+<script>
+$.json.attach("DS",{"Customer":[{"id":123,"name":"张三","sex":"男","mobile":"13356715358"},{"id":456,"name":"李田","sex":"女","mobile":"13383294738"},{"id":333,"name":"明楞","sex":"男","mobile":"1402393023"},{"id":8732,"name":"导要三","sex":"男","mobile":"183933333232"},{"id":7223,"name":"张三丰","sex":"男","mobile":"13939239333"}]});
+$.json.attach("TV",{"System":[{"id":1,"pid":0,"name":"系统"},{"id":2,"pid":1,"name":"我的文档"},{"id":3,"pid":2,"name":"图片"},{"id":4,"pid":2,"name":"音乐"},{"id":5,"pid":1,"name":"桌面"},{"id":6,"pid":1,"name":"计算机"},{"id":7,"pid":6,"name":"本地磁盘(C:)"},{"id":8,"pid":6,"name":"本地磁盘(D:)"},{"id":9,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":10,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":11,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":12,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":13,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":14,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":15,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":16,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":17,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":18,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":19,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":20,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":21,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":22,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":23,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":24,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":25,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":26,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":27,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":28,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":29,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":30,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":31,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":32,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":33,"pid":6,"name":"本地磁盘(E:)"}
+,{"id":34,"pid":6,"name":"本地磁盘(E:)"}
+]});
+$.json.attach("CD",{"Items":[{"value":1,"text":"选择项一"},{"value":2,"text":"选择项二"},{"value":3,"text":"选择项三"},{"value":4,"text":"选择项四"}]});
+$.json.attach("CD",{"Items":[{}]});
+
+function test1(){
+	alert($("#tx123").val());
+}
+
+function nodeChange(args){
+	with(args){
+		alert(node.name);
+	}
+}
+
+</script>
+<body>
+
+<input type=button id=btnEmergency value="获取控件的值" onClick="javascript:test1()" />
+<panel id="tableTreePanel" width="1000" height="600" buttons="closeWin" title="添加表字段" >
+	<div class="clearfix" >
+    	<div style="float:left">
+       		<treebox id="tx123" name="tx123" width="200" height="600" multiselect="false" data="table:TV.System;" drag="true" events="onSelectChange:nodeChange" ></treebox>
+        </div>
+        <div class="right" style="width:780px;" >
+            <textarea height="50" >12334444</textarea>
+            <div class="ui-layout-search-foot">
+                <div class="buttons">
+                    <button skin="blur" value="保存" ></button>
+                </div>
+            </div>
+            <gridview id="grid123" style="height:400px;width:500px;" data="table:DS.Columns" check="true" >
+                <column field="name" title="字段名称" width="280" ></column>
+                <column field="type" title="数据类型" width="200" ></column>
+                <column field="length" title="字段长度" ></column>
+                <column field="title" title="列名" editor="textbox" width="200" ></column>
+                <column field="width" title="列宽度"　editor="numspin" ></column>
+            </gridview>
+        </div>
+    </div>
+</panel>
+<script>nff.ctrl.render()</script>
+</body>
+</html>

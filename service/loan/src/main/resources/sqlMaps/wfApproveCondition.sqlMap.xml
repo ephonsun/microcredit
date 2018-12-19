@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增审批进程条件表 -->
+	<sql id="insertApproveCondition" >
+		INSERT INTO WF_APPROVE_CONDITION (CONDITION_ID,FLOW_ID,FIELD_ID,FIELD_NAME,FIELD_TYPE,IS_DEL,ORDER_NO,TABLE_NAME,TABLE_COLUMN,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$conditionId]
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="''" >[$fieldName]</clause>
+		<clause prepend="," nvl="''" >[$fieldType]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$orderNo]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$tableColumn]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改审批进程条件表 -->
+	<sql id="updateApproveCondition" >
+		UPDATE WF_APPROVE_CONDITION 
+		<set>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([fieldName])" >FIELD_NAME = [$fieldName]</clause>
+			<clause prepend="," assert="!isNull([fieldType])" >FIELD_TYPE = [$fieldType]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([orderNo])" >ORDER_NO = [$orderNo]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([tableColumn])" >TABLE_COLUMN = [$tableColumn]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 CONDITION_ID = [$conditionId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到审批进程条件表 -->
+	<sql id="getApproveConditionById" >
+		SELECT * FROM WF_APPROVE_CONDITION WHERE CONDITION_ID = [0]
+	</sql>
+
+	<!-- 通过流程ID得到审批进程条件表 -->
+	<sql id="getApproveConditionByFlowId" >
+		SELECT * FROM WF_APPROVE_CONDITION WHERE IS_DEL = 0 AND FLOW_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批进程条件表 -->
+	<sql id="deleteApproveConditionById" >
+		UPDATE WF_APPROVE_CONDITION SET IS_DEL = 1 WHERE CONDITION_ID = [0]
+	</sql>
+	
+	<sql id="deleteApproveConditionByFlowId" >
+		UPDATE WF_APPROVE_CONDITION SET IS_DEL = 1 WHERE FLOW_ID = [0]
+	</sql>
+
+	<!-- 查询审批进程条件表 -->
+	<sql id="queryApproveConditionList" >
+		SELECT * FROM WF_APPROVE_CONDITION 
+		<where>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > FIELD_NAME = '[fieldName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldType])" > FIELD_TYPE = '[fieldType]' </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([orderNo])" > ORDER_NO = [orderNo] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableColumn])" > TABLE_COLUMN = '[tableColumn]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>基础数据-编辑</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        #imagePreview_{
+            position:absolute;width:258px;height:461px;left:30%;top:30%;margin-left:-200px;margin-top:-150px;border:solid 2px #ccc;z-index:99;
+            text-align:center;
+        }
+
+    </style>
+</head>
+
+<body>
+</form enctype="multipart/form-data">
+    <table>
+        <div id="imagePreview_">
+            <img id='myimg' width='258' height='461' />
+        <div>
+            <br/>
+        <div id="uploadimg">
+            <div id="imgPicker">上传/替换 App过渡页面</div>
+        </div>
+    </table>
+</form>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+##百度上传控件
+<link rel="stylesheet" type="text/css" href="../system/WebUploader/webuploader.css">
+<script type="text/javascript" src="../system/WebUploader/webuploader.min.js"></script>
+
+<script type="text/javascript" src="../system/js/transitionPicture.js?v=$!webAppVersion"></script>
+<script>
+</script>
+</body>
+</html>

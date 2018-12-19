@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增损益情况信息表 -->
+	<sql id="insertProfitLossInfo" >
+		INSERT INTO LOAN_PROFIT_LOSS_INFO (ID,LOAN_ID,LOAN_CLASS_ID,GROSS_PROFIT_RATIO,BUSINESS_INCOME_AMOUNT,HOME_INCOME_AMOUNT,OTHER_INCOME_AMOUNT,FIXED_COST_DEFRAY_AMOUNT,TEX_DEFRAY_AMOUNT,OTHER_DEFRAY_AMOUNT,FIXED_DEFRAY_AMOUNT,TEX_PERSONAL_AMOUNT,CREATE_DATE,UPDATE_DATE,YEAR_END,MONTH_END,CREATE_USER,UPDATE_USER,YEAR_START,MONTH_START) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="NULL" >[$grossProfitRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$businessIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$homeIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$otherIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$fixedCostDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$texDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$otherDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$fixedDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$texPersonalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$yearEnd]</clause>
+		<clause prepend="," nvl="0" >[$monthEnd]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$yearStart]</clause>
+		<clause prepend="," nvl="0" >[$monthStart]</clause>
+		)
+	</sql>
+
+	<!-- 修改损益情况信息表 -->
+	<sql id="updateProfitLossInfo" >
+		UPDATE LOAN_PROFIT_LOSS_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([grossProfitRatio])" >GROSS_PROFIT_RATIO = [$grossProfitRatio]</clause>
+			<clause prepend="," assert="!isNull([businessIncomeAmount])" >BUSINESS_INCOME_AMOUNT = [$businessIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([homeIncomeAmount])" >HOME_INCOME_AMOUNT = [$homeIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([otherIncomeAmount])" >OTHER_INCOME_AMOUNT = [$otherIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([fixedCostDefrayAmount])" >FIXED_COST_DEFRAY_AMOUNT = [$fixedCostDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([texDefrayAmount])" >TEX_DEFRAY_AMOUNT = [$texDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([otherDefrayAmount])" >OTHER_DEFRAY_AMOUNT = [$otherDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([fixedDefrayAmount])" >FIXED_DEFRAY_AMOUNT = [$fixedDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([texPersonalAmount])" >TEX_PERSONAL_AMOUNT = [$texPersonalAmount]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([yearEnd])" >YEAR_END = [$yearEnd]</clause>
+			<clause prepend="," assert="!isNull([monthEnd])" >MONTH_END = [$monthEnd]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([yearStart])" >YEAR_START = [$yearStart]</clause>
+			<clause prepend="," assert="!isNull([monthStart])" >MONTH_START = [$monthStart]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到损益情况信息表 -->
+	<sql id="getProfitLossInfoById" >
+		SELECT * FROM LOAN_PROFIT_LOSS_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除损益情况信息表 -->
+	<sql id="deleteProfitLossInfoById" >
+		DELETE FROM LOAN_PROFIT_LOSS_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 查询损益情况信息表 -->
+	<sql id="queryProfitLossInfoList" >
+		SELECT * FROM LOAN_PROFIT_LOSS_INFO 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([yearEnd])" > YEAR_END = [yearEnd] </clause>
+			<clause prepend="and" assert="!isNull([monthEnd])" > MONTH_END = [monthEnd] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([yearStart])" > YEAR_START = [yearStart] </clause>
+			<clause prepend="and" assert="!isNull([monthStart])" > MONTH_START = [monthStart] </clause>
+		</where>
+	</sql>
+	<!--根据id查询损益情况主界面信息-->
+	<sql id="queryLoanProfitLossInfoByIds">
+		SELECT * FROM LOAN_PROFIT_LOSS_INFO
+		WHERE LOAN_ID=[0] AND LOAN_CLASS_ID=[1]
+	</sql>
+	<!-- 通过贷款id得到损益情况信息表 -->
+	<sql id="getProfitLossInfoByLoanId" >
+		SELECT * FROM LOAN_PROFIT_LOSS_INFO WHERE LOAN_ID = [0]
+	</sql>
+
+	<sql id="updateProfitLossInfoByLoanId" >
+		UPDATE LOAN_PROFIT_LOSS_INFO
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([grossProfitRatio])" >GROSS_PROFIT_RATIO = [$grossProfitRatio]</clause>
+			<clause prepend="," assert="!isNull([businessIncomeAmount])" >BUSINESS_INCOME_AMOUNT = [$businessIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([homeIncomeAmount])" >HOME_INCOME_AMOUNT = [$homeIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([otherIncomeAmount])" >OTHER_INCOME_AMOUNT = [$otherIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([fixedCostDefrayAmount])" >FIXED_COST_DEFRAY_AMOUNT = [$fixedCostDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([texDefrayAmount])" >TEX_DEFRAY_AMOUNT = [$texDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([otherDefrayAmount])" >OTHER_DEFRAY_AMOUNT = [$otherDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([fixedDefrayAmount])" >FIXED_DEFRAY_AMOUNT = [$fixedDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([texPersonalAmount])" >TEX_PERSONAL_AMOUNT = [$texPersonalAmount]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([yearEnd])" >YEAR_END = [$yearEnd]</clause>
+			<clause prepend="," assert="!isNull([monthEnd])" >MONTH_END = [$monthEnd]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([yearStart])" >YEAR_START = [$yearStart]</clause>
+			<clause prepend="," assert="!isNull([monthStart])" >MONTH_START = [$monthStart]</clause>
+		</set>
+		<where>
+			LOAN_ID = [$loanId]
+		</where>
+	</sql>
+</banger>

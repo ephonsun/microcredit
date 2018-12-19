@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsDataPermit" table="PMS_DATA_PERMIT" >
+		<id name="pdpId" type="java.lang.Integer" >
+			<column name="PDP_ID" lenght="4" />
+		</id>
+		<property name="pdpType" type="java.lang.String" >
+			<column name="PDP_TYPE" lenght="50" />
+		</property>
+		<property name="pdpName" type="java.lang.String" >
+			<column name="PDP_NAME" lenght="100" />
+		</property>
+		<property name="pdpRemark" type="java.lang.String" >
+			<column name="PDP_REMARK" lenght="300" />
+		</property>
+		<property name="pdpCreateDate" type="java.util.Date" >
+			<column name="PDP_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="pdpUpdateDate" type="java.util.Date" >
+			<column name="PDP_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="pdpCreateUser" type="java.lang.Integer" >
+			<column name="PDP_CREATE_USER" lenght="4" />
+		</property>
+		<property name="pdpUpdateUser" type="java.lang.Integer" >
+			<column name="PDP_UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

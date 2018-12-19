@@ -1,0 +1,55 @@
+
+#*消费类损益情况信息统计*#
+<input type="hidden" id="loanId" name="loanId" value="$!loanId"/>
+#*收入信息*#
+    <div class="ui-layout-statistics">
+        基本信息
+    </div>
+
+    <div class="ui-layout-statistics">
+        月份区间#if($!createDate == "" || !$!createDate ||$!createDateEnd == "" || !$!createDateEnd)
+        未设置
+    #else
+        $createDate ~$createDateEnd
+    #end
+#if($showApply ne '1')<label class="ui-link mr5" onclick="javascript:updateConTime($!loanId,'$!createDate','$!createDateEnd');">编辑</label>#end
+    </div>
+
+<div class="border" style="padding:0px 15px 15px 15px; margin-top:10px" >
+    <div class="ui-layout-statistics">
+    收入情况
+    </div>
+        #*家庭收入*#
+            <div id="HOME_INCOME_AMOUNT">
+                #conOutIncomeAmount($!liBt,'家庭收入',"HOME_INCOME_AMOUNT",$!totalLibt,$!loanId,$createDate,$createDateEnd,"CD_PROFIT_HOME_INCOME",$!showApply)
+            </div>
+
+        #*其他收入*#
+            <div id="OTHER_INCOME_AMOUNT">
+                #conOutIncomeAmount($!liOt,'其他收入',"OTHER_INCOME_AMOUNT",$!totalLiot,$!loanId,$createDate,$createDateEnd,"",$!showApply)
+            </div>
+</div>
+    #*支出信息*#
+<div class="border" style="padding:0px 15px 15px 15px;margin-top:10px">
+            <div class="ui-layout-statistics">
+                支出情况
+            </div>
+        #*固定成本支出*#
+
+            <div id="FIXED_DEFRAY_AMOUNT">
+                #conOutIncomeAmount($!liFt,'固定成本支出',"FIXED_DEFRAY_AMOUNT",$!totalLift,$!loanId,$createDate,$createDateEnd,"CD_PROFIT_FIXED_DEFRAY",$!showApply)
+            </div>
+        #*所得税支出*#
+
+            <div id="TEX_PERSONAL_AMOUNT">
+                #conOutIncomeAmount($!liTt,'所得税支出',"TEX_PERSONAL_AMOUNT",$!totalLitt,$!loanId,$createDate,$createDateEnd,"CD_PROFIT_TEX_DEFRAY",$!showApply)
+            </div>
+        #*其他支出*#
+
+            <div id="OTHER_DEFRAY_AMOUNT">
+                #conOutIncomeAmount($!liOdt,'其他支出',"OTHER_DEFRAY_AMOUNT",$!totalLiodt,$!loanId,$createDate,$createDateEnd,"",$!showApply)
+            </div>
+        </div>
+
+
+

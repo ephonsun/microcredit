@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款审合表单字段配置 -->
+	<!-- 新增贷款类型表单字段配置 -->
+	<sql id="insertTypeTableField" >
+		INSERT INTO LOAN_TYPE_TABLE_FIELD (ID,LOAN_TYPE_ID,LOAN_PREC_TYPE,TABLE_ID,FIELD_ID,FIELD_APP_IS_SHOW,FIELD_WEB_IS_SHOW,FIELD_IS_REQUIRED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,FIELD_IS_CONDITION) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanTypeId]</clause>
+		<clause prepend="," nvl="''" >[$loanPrecType]</clause>
+		<clause prepend="," nvl="0" >[$tableId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="0" >[$fieldAppIsShow]</clause>
+		<clause prepend="," nvl="0" >[$fieldWebIsShow]</clause>
+		<clause prepend="," nvl="0" >[$fieldIsRequired]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$fieldIsCondition]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款类型表单字段配置 -->
+	<sql id="updateTypeTableField" >
+		UPDATE LOAN_TYPE_TABLE_FIELD 
+		<set>
+			<clause prepend="," assert="!isNull([loanTypeId])" >LOAN_TYPE_ID = [$loanTypeId]</clause>
+			<clause prepend="," assert="!isNull([loanPrecType])" >LOAN_PREC_TYPE = [$loanPrecType]</clause>
+			<clause prepend="," assert="!isNull([tableId])" >TABLE_ID = [$tableId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([fieldAppIsShow])" >FIELD_APP_IS_SHOW = [$fieldAppIsShow]</clause>
+			<clause prepend="," assert="!isNull([fieldWebIsShow])" >FIELD_WEB_IS_SHOW = [$fieldWebIsShow]</clause>
+			<clause prepend="," assert="!isNull([fieldIsRequired])" >FIELD_IS_REQUIRED = [$fieldIsRequired]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([fieldIsCondition])" >FIELD_IS_CONDITION = [$fieldIsCondition]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款类型表单字段配置 -->
+	<sql id="getTypeTableFieldById" >
+		SELECT * FROM LOAN_TYPE_TABLE_FIELD WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款类型表单字段配置 -->
+	<sql id="deleteTypeTableFieldById" >
+		DELETE FROM LOAN_TYPE_TABLE_FIELD WHERE ID = [0]
+	</sql>
+
+	<!-- 查询贷款类型表单字段配置 -->
+	<sql id="queryTypeTableFieldList" >
+		SELECT * FROM LOAN_TYPE_TABLE_FIELD 
+		<where>
+			<clause prepend="and" assert="!isNull([loanTypeId])" > LOAN_TYPE_ID = [loanTypeId] </clause>
+			<clause prepend="and" assert="!isNull([loadPrecId])" > LOAD_PREC_ID = [loadPrecId] </clause>
+			<clause prepend="and" assert="!isNull([tableId])" > TABLE_ID = [tableId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNull([fieldAppIsShow])" > FIELD_APP_IS_SHOW = [fieldAppIsShow] </clause>
+			<clause prepend="and" assert="!isNull([fieldWebIsShow])" > FIELD_WEB_IS_SHOW = [fieldWebIsShow] </clause>
+			<clause prepend="and" assert="!isNull([fieldIsRequired])" > FIELD_IS_REQUIRED = [fieldIsRequired] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<!-- 根据条件联表查询自定义字段集合  -->
+	<sql id="queryTypeTableFieldListByCondition" result="LoanFieldExtend">
+		SELECT C.FIELD_ID,C.TABLE_ID,C.TABLE_NAME,C.FIELD_NAME,C.FIELD_TYPE,C.FIELD_NUMBER_UNIT,
+		C.FIELD_COLUMN,C.FIELD_COLUMN_DISPLAY,C.FIELD_DICT_NAME,C.FIELD_LENGTH,L.FIELD_IS_CONDITION,C.IS_FIXED,L.ID,
+		CASE WHEN L.FIELD_ID IS NULL THEN C.FIELD_IS_REQUIRED ELSE L.FIELD_IS_REQUIRED END AS FIELD_IS_REQUIRED,
+		CASE WHEN L.FIELD_ID IS NULL THEN C.FIELD_APP_IS_SHOW ELSE L.FIELD_APP_IS_SHOW END AS FIELD_APP_IS_SHOW,
+		CASE WHEN L.FIELD_ID IS NULL THEN C.FIELD_WEB_IS_SHOW ELSE L.FIELD_WEB_IS_SHOW END AS FIELD_WEB_IS_SHOW
+		FROM AUTO_TABLE_COLUMN C 
+		LEFT JOIN LOAN_TYPE_TABLE_FIELD L
+		ON C.FIELD_ID = L.FIELD_ID AND L.LOAN_TYPE_ID = [typeId] AND L.LOAN_PREC_TYPE = '[precType]'
+		<where>
+			<clause prepend="and" assert="!isNull([tableId])" > C.TABLE_ID = [tableId] </clause>
+		</where>
+		ORDER BY C.FIELD_SORTNO
+	</sql>
+
+	<!--查询表中是否有数据-->
+	<sql id="queryTypeTableFieldListData" result="LoanFieldExtend">
+		SELECT F.* FROM LOAN_TYPE_TABLE_FIELD F INNER JOIN AUTO_TABLE_COLUMN C
+		ON F.FIELD_ID = C.FIELD_ID
+		<where>
+			<clause prepend="and" assert="!isNull([typeId])" > F.LOAN_TYPE_ID = [typeId] </clause>
+			<clause prepend="and" assert="!isNull([precType])" > F.LOAN_PREC_TYPE = '[precType]' </clause>
+			<clause prepend="and" assert="!isNull([tableId])" > F.TABLE_ID = [tableId] </clause>
+		</where>
+	</sql>
+
+	<!--根据fieldId查询 -->
+	<sql id="queryTypeTableFieldByFieldId" result="LoanTypeTableField">
+		SELECT * FROM LOAN_TYPE_TABLE_FIELD
+		<where>
+			<clause prepend="and" > FIELD_ID = [fieldId] </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+    <!-- 新增用户角色机构 -->
+    <sql id="insertUserRoleDept" >
+        INSERT INTO PMS_USER_ROLE_DEPT (ROLE_DEPT_ID,USER_ID,ROLE_ID,DEPT_ID,CREATE_DATE,CREATE_USER) VALUES ([$roleDeptId]
+        <clause prepend=",">[$userId]</clause>
+        <clause prepend=",">[$roleId]</clause>
+        <clause prepend=",">[$deptId]</clause>
+        <clause prepend=",">[$createDate]</clause>
+        <clause prepend=",">[$createUser]</clause>
+        )
+    </sql>
+
+    <sql id="deleteUserRoleDept" >
+        DELETE FROM PMS_USER_ROLE_DEPT WHERE USER_ID = [0]
+    </sql>
+    <!--根据userId 删除角色机构-->
+    <sql id="deleteRoleDeptByUserId" >
+        DELETE FROM PMS_USER_ROLE_DEPT WHERE USER_ID = [0]
+    </sql>
+
+    <sql id="GetPmsUserRoleDeptList" >
+        SELECT P.* FROM PMS_USER_ROLE_DEPT P
+        INNER JOIN PMS_ROLE R ON P.ROLE_ID = R.ROLE_ID
+        INNER JOIN PMS_USER_ROLES U ON R.ROLE_ID = U.PUR_ROLE_ID AND P.USER_ID = U.PUR_USER_ID AND R.ROLE_ISDEL = 0
+        WHERE U.PUR_USER_ID = [0]
+    </sql>
+
+    <!-- 根据userId获取用户负责的机构所管辖的人员ids -->
+    <sql id="GetUserRoleUserByIds">
+        SELECT 0 AS ROLE_DEPT_ID,PU.USER_ID,0 AS ROLE_ID,PU.USER_DEPT_ID,P.CREATE_DATE,P.CREATE_USER
+        FROM PMS_USER PU
+        INNER JOIN PMS_USER_ROLE_DEPT P ON P.DEPT_ID = PU.USER_DEPT_ID
+        INNER JOIN PMS_ROLE R ON P.ROLE_ID = R.ROLE_ID
+        INNER JOIN PMS_USER_ROLES U ON R.ROLE_ID = U.PUR_ROLE_ID AND R.ROLE_ISDEL = 0
+        WHERE U.PUR_USER_ID = [0] AND PU.USER_ISDEL=0
+    </sql>
+    <!--获取角色对应的机构-->
+   <sql id="getPmsUserRoleDeptByRoleId" >
+       SELECT * FROM PMS_USER_ROLE_DEPT  WHERE USER_ID = [1] AND ROLE_ID=[0]
+   </sql>
+   <!-- 通过主键删除用户角色机构关系表 -->
+    <sql id="deletePmsUserRoleDeptById" >
+        DELETE FROM PMS_USER_ROLE_DEPT WHERE ROLE_DEPT_ID = [0]
+    </sql>
+</banger>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsRoleDataPermit" table="PMS_ROLE_DATA_PERMIT" >
+		<id name="prdpId" type="java.lang.Integer" >
+			<column name="PRDP_ID" lenght="4" />
+		</id>
+		<property name="prdpPermitId" type="java.lang.Integer" >
+			<column name="PRDP_PERMIT_ID" lenght="4" />
+		</property>
+		<property name="prdpRoleId" type="java.lang.Integer" >
+			<column name="PRDP_ROLE_ID" lenght="4" />
+		</property>
+		<property name="prdpCreateDate" type="java.util.Date" >
+			<column name="PRDP_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="prdpUpdateDate" type="java.util.Date" >
+			<column name="PRDP_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="prdpCreateUser" type="java.lang.Integer" >
+			<column name="PRDP_CREATE_USER" lenght="4" />
+		</property>
+		<property name="prdpUpdateUser" type="java.lang.Integer" >
+			<column name="PRDP_UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

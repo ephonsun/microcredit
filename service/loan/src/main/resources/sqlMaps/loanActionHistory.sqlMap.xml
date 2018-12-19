@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款操作历史表 -->
+	<sql id="insertActionHistory" >
+		INSERT INTO LOAN_ACTION_HISTORY (ID,LOAN_ID,LOAN_PROCESS_TYPE,ACTION_NAME,ACTION_CONTENT,ACTION_DATE,ACTION_USER_ACCOUNT,ACTION_USER_NAME) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$loanProcessType]</clause>
+		<clause prepend="," nvl="''" >[$actionName]</clause>
+		<clause prepend="," nvl="''" >[$actionContent]</clause>
+		<clause prepend="," nvl="NULL" >[$actionDate]</clause>
+		<clause prepend="," nvl="''" >[$actionUserAccount]</clause>
+		<clause prepend="," nvl="''" >[$actionUserName]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款操作历史表 -->
+	<sql id="updateActionHistory" >
+		UPDATE LOAN_ACTION_HISTORY 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanProcessType])" >LOAN_PROCESS_TYPE = [$loanProcessType]</clause>
+			<clause prepend="," assert="!isNull([actionName])" >ACTION_NAME = [$actionName]</clause>
+			<clause prepend="," assert="!isNull([actionContent])" >ACTION_CONTENT = [$actionContent]</clause>
+			<clause prepend="," assert="!isNull([actionDate])" >ACTION_DATE = [$actionDate]</clause>
+			<clause prepend="," assert="!isNull([actionUserAccount])" >ACTION_USER_ACCOUNT = [$actionUserAccount]</clause>
+			<clause prepend="," assert="!isNull([actionUserName])" >ACTION_USER_NAME = [$actionUserName]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款操作历史表 -->
+	<sql id="getActionHistoryById" >
+		SELECT * FROM LOAN_ACTION_HISTORY WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款操作历史表 -->
+	<sql id="deleteActionHistoryById" >
+		DELETE FROM LOAN_ACTION_HISTORY WHERE ID = [0]
+	</sql>
+
+	<!-- 查询贷款操作历史表 -->
+	<sql id="queryActionHistoryList" >
+		SELECT * FROM LOAN_ACTION_HISTORY 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanProcessType])" > LOAN_PROCESS_TYPE = '[loanProcessType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([actionName])" > ACTION_NAME = '[actionName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([actionContent])" > ACTION_CONTENT = '[actionContent]' </clause>
+			<clause parent="DateSpan" params="ACTION_DATE,actionDate,actionDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([actionUserAccount])" > ACTION_USER_ACCOUNT = '[actionUserAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([actionUserName])" > ACTION_USER_NAME = '[actionUserName]' </clause>
+		</where>
+	</sql>
+
+	<!-- 查询贷款操作历史表 -->
+	<sql id="queryHistoryListByLoanId" >
+		SELECT * FROM LOAN_ACTION_HISTORY WHERE LOAN_ID = [0] ORDER BY ACTION_DATE ASC,ID ASC
+	</sql>
+
+
+</banger>

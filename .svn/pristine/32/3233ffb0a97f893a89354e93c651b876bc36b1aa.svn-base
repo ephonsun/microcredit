@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增模板配置文件信息表，保存上传模板，合同相对应的路径 -->
+	<sql id="insertConfigFile" >
+		INSERT INTO MODE_CONFIG_FILE (ID,MODE_NAME,FILE_PATH,MODE_TYPE,DATA_TABLE,IS_DEL) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$modeName]</clause>
+		<clause prepend="," nvl="''" >[$filePath]</clause>
+		<clause prepend="," nvl="0" >[$modeType]</clause>
+		<clause prepend="," nvl="''" >[$dataTable]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		)
+	</sql>
+
+	<!-- 修改模板配置文件信息表，保存上传模板，合同相对应的路径 -->
+	<sql id="updateConfigFile" >
+		UPDATE MODE_CONFIG_FILE 
+		<set>
+			<clause prepend="," assert="!isNull([modeName])" >MODE_NAME = [$modeName]</clause>
+			<clause prepend="," assert="!isNull([filePath])" >FILE_PATH = [$filePath]</clause>
+			<clause prepend="," assert="!isNull([modeType])" >MODE_TYPE = [$modeType]</clause>
+			<clause prepend="," assert="!isNull([dataTable])" >DATA_TABLE = [$dataTable]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到模板配置文件信息表，保存上传模板，合同相对应的路径 -->
+	<sql id="getConfigFileById" >
+		SELECT * FROM MODE_CONFIG_FILE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除模板配置文件信息表，保存上传模板，合同相对应的路径 -->
+	<sql id="deleteConfigFileById" >
+		UPDATE MODE_CONFIG_FILE SET IS_DEL = 1 WHERE ID = [0]
+	</sql>
+
+	<!-- 查询模板配置文件信息表，保存上传模板，合同相对应的路径 -->
+	<sql id="queryConfigFileList" >
+		SELECT * FROM MODE_CONFIG_FILE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([modeName])" > MODE_NAME = '[modeName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > FILE_PATH = '[filePath]' </clause>
+			<clause prepend="and" assert="!isNull([modeType])" > MODE_TYPE = [modeType] </clause>
+			<clause prepend="and" assert="!isNull([$dataTable])" > DATA_TABLE = [dataTable] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+		</where>
+	</sql>
+
+</banger>

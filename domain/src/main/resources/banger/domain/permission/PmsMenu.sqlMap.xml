@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsMenu" table="PMS_MENU" >
+		<id name="menuId" type="java.lang.String" >
+			<column name="MENU_ID" lenght="120" />
+		</id>
+		<property name="menuName" type="java.lang.String" >
+			<column name="MENU_NAME" lenght="120" />
+		</property>
+		<property name="menuParentId" type="java.lang.String" >
+			<column name="MENU_PARENT_ID" lenght="60" />
+		</property>
+		<property name="menuUrl" type="java.lang.String" >
+			<column name="MENU_URL" lenght="300" />
+		</property>
+		<property name="menuSort" type="java.lang.Integer" >
+			<column name="MENU_SORT" lenght="4" />
+		</property>
+		<property name="menuIsdel" type="java.lang.Integer" >
+			<column name="MENU_ISDEL" lenght="4" />
+		</property>
+		<property name="menuModule" type="java.lang.String" >
+			<column name="MENU_MODULE" lenght="60" />
+		</property>
+		<property name="menuNeedConfirm" type="java.lang.Integer" >
+			<column name="MENU_NEED_CONFIRM" lenght="4" />
+		</property>
+		<property name="menuCreateDate" type="java.util.Date" >
+			<column name="MENU_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="menuUpdateDate" type="java.util.Date" >
+			<column name="MENU_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="menuCreateUser" type="java.lang.Integer" >
+			<column name="MENU_CREATE_USER" lenght="4" />
+		</property>
+		<property name="menuUpdateUser" type="java.lang.Integer" >
+			<column name="MENU_UPDATE_USER" lenght="4" />
+		</property>
+		<property name="menuDepth" type="java.lang.Integer" >
+			<column name="MENU_DEPTH" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

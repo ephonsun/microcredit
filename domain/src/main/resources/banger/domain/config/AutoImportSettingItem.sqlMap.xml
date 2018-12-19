@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoImportSettingItem" table="AUTO_IMPORT_SETTING_ITEM" >
+		<id name="itemId" type="java.lang.Integer" >
+			<column name="ITEM_ID" length="4" />
+		</id>
+		<property name="importCode" type="java.lang.String" >
+			<column name="IMPORT_CODE" length="20" />
+		</property>
+		<property name="settingId" type="java.lang.Integer" >
+			<column name="SETTING_ID" length="4" />
+		</property>
+		<property name="sourceTableColumn" type="java.lang.String" >
+			<column name="SOURCE_TABLE_COLUMN" length="60" />
+		</property>
+		<property name="sourceColumnIndex" type="java.lang.Integer" >
+			<column name="SOURCE_COLUMN_INDEX" length="4" />
+		</property>
+		<property name="sourceColumnDisplay" type="java.lang.String" >
+			<column name="SOURCE_COLUMN_DISPLAY" length="60" />
+		</property>
+		<property name="targetTableColumn" type="java.lang.String" >
+			<column name="TARGET_TABLE_COLUMN" length="60" />
+		</property>
+		<property name="targetTableName" type="java.lang.String" >
+			<column name="TARGET_TABLE_NAME" length="60" />
+		</property>
+		<property name="targetColumnType" type="java.lang.String" >
+			<column name="TARGET_COLUMN_TYPE" length="60" />
+		</property>
+		<property name="targetColumnDictName" type="java.lang.String" >
+			<column name="TARGET_COLUMN_DICT_NAME" length="60" />
+		</property>
+		<property name="isCovered" type="java.lang.Integer" >
+			<column name="IS_COVERED" length="4" />
+		</property>
+		<property name="isRequired" type="java.lang.Integer" >
+			<column name="IS_REQUIRED" length="4" />
+		</property>
+		<property name="targetColumnDisplay" type="java.lang.String" >
+			<column name="TARGET_COLUMN_DISPLAY" length="60" />
+		</property>
+		<property name="targetColumnId" type="java.lang.Integer" >
+			<column name="TARGET_COLUMN_ID" length="4" />
+		</property>
+	</class>
+</mapping>
+

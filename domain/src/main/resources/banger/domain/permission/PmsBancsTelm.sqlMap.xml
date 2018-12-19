@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsBancsTelm" table="BANCS_TELM" >
+		<property name="cwo8TellerNo" type="java.lang.String" >
+			<column name="CWO8_TELLER_NO" lenght="20" />
+		</property>
+		<property name="cwo8BrchNo" type="java.lang.String" >
+			<column name="CWO8_BRCH_NO" lenght="10" />
+		</property>
+		<property name="cwo8TellerName" type="java.lang.String" >
+			<column name="CWO8_TELLER_NAME" lenght="120" />
+		</property>
+		<property name="cwo8UserType" type="java.lang.String" >
+			<column name="CWO8_USER_TYPE" lenght="3" />
+		</property>
+		<property name="cwo8Capable" type="java.lang.String" >
+			<column name="CWO8_CAPABLE" lenght="2"/>
+		</property>
+		<property name="cwo8Stat" type="java.lang.String" >
+			<column name="CWO8_STAT" lenght="2"/>
+		</property>
+		<property name="importResult" type="java.lang.String" >
+			<column name="IMPORT_RESULT" lenght="10" />
+		</property>
+		<property name="importResultDetail" type="java.lang.String" >
+			<column name="IMPORT_RESULT_DETAIL" lenght="120" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="banger-app-mobile" />
+        <module name="banger-app-mobileIntf" />
+        <module name="banger-biz-core" />
+        <module name="banger-biz-customer" />
+        <module name="banger-biz-customerIntf" />
+        <module name="banger-biz-desktop" />
+        <module name="banger-biz-handOver" />
+        <module name="banger-biz-loan" />
+        <module name="banger-biz-loanIntf" />
+        <module name="banger-biz-permission" />
+        <module name="banger-biz-permissionIntf" />
+        <module name="banger-biz-product" />
+        <module name="banger-biz-productIntf" />
+        <module name="banger-biz-system" />
+        <module name="banger-biz-systemIntf" />
+        <module name="banger-biz-task" />
+        <module name="banger-biz-taskIntf" />
+        <module name="banger-biz-track" />
+        <module name="banger-biz-trackIntf" />
+        <module name="banger-biz-tranport" />
+        <module name="banger-biz-tranportIntf" />
+        <module name="banger-common" />
+        <module name="banger-credit-config" />
+        <module name="banger-credit-configIntf" />
+        <module name="banger-domain" />
+        <module name="banger-extra-interface" />
+        <module name="banger-framework-component" />
+        <module name="banger-framework-core" />
+        <module name="banger-framework-dao" />
+        <module name="banger-framework-sql" />
+        <module name="banger-framework-util" />
+        <module name="banger-framework-web" />
+        <module name="banger-pub-api" />
+        <module name="banger-pub-apiIntf" />
+        <module name="banger-pub-html5" />
+        <module name="banger-pub-html5Intf" />
+        <module name="banger-quartz" />
+        <module name="banger-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="banger-app-mobile" target="1.6" />
+      <module name="banger-app-mobileIntf" target="1.6" />
+      <module name="banger-biz-core" target="1.6" />
+      <module name="banger-biz-customer" target="1.6" />
+      <module name="banger-biz-customerIntf" target="1.6" />
+      <module name="banger-biz-desktop" target="1.6" />
+      <module name="banger-biz-handOver" target="1.6" />
+      <module name="banger-biz-loan" target="1.6" />
+      <module name="banger-biz-loanIntf" target="1.6" />
+      <module name="banger-biz-permission" target="1.6" />
+      <module name="banger-biz-permissionIntf" target="1.6" />
+      <module name="banger-biz-product" target="1.6" />
+      <module name="banger-biz-productIntf" target="1.6" />
+      <module name="banger-biz-system" target="1.6" />
+      <module name="banger-biz-systemIntf" target="1.6" />
+      <module name="banger-biz-task" target="1.6" />
+      <module name="banger-biz-taskIntf" target="1.6" />
+      <module name="banger-biz-track" target="1.6" />
+      <module name="banger-biz-trackIntf" target="1.6" />
+      <module name="banger-biz-tranport" target="1.6" />
+      <module name="banger-biz-tranportIntf" target="1.6" />
+      <module name="banger-common" target="1.6" />
+      <module name="banger-credit-config" target="1.6" />
+      <module name="banger-credit-configIntf" target="1.6" />
+      <module name="banger-domain" target="1.6" />
+      <module name="banger-extra-interface" target="1.6" />
+      <module name="banger-framework-component" target="1.6" />
+      <module name="banger-framework-core" target="1.6" />
+      <module name="banger-framework-dao" target="1.6" />
+      <module name="banger-framework-sql" target="1.6" />
+      <module name="banger-framework-util" target="1.6" />
+      <module name="banger-framework-web" target="1.6" />
+      <module name="banger-pub-api" target="1.6" />
+      <module name="banger-pub-apiIntf" target="1.6" />
+      <module name="banger-pub-html5" target="1.6" />
+      <module name="banger-pub-html5Intf" target="1.6" />
+      <module name="banger-quartz" target="1.6" />
+      <module name="banger-web" target="1.6" />
+      <module name="microcredit" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

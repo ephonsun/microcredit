@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+    <class id="pmsUserImport" name="banger.domain.permission.PmsUserImport" >
+        <property name="belongDeptCode" column="BELONG_DEPT_CODE" ></property>
+        <property name="roleName" column="ROLE_NAME" ></property>
+    </class>
+    <!-- 新增用户 -->
+    <sql id="insertUserImport" >
+        INSERT INTO PMS_USER (USER_ID,USER_DEPT_ID,USER_ACCOUNT,USER_PASSWORD,USER_PASSWORD_RESET,
+        <clause assert="!isNullOrEmpty([userPasswordDate])" >USER_PASSWORD_DATE,</clause>
+        <clause assert="!isNullOrEmpty([userLoginDate])" >USER_LOGIN_DATE,</clause>
+        USER_LOGIN_IP,USER_NAME,USER_ISDEL,USER_REMARK,USER_STATUS,USER_CREATE_DATE,USER_UPDATE_DATE,USER_CREATE_USER,USER_UPDATE_USER) VALUES ([$userId]
+        <clause prepend="," nvl="0" >[$userDeptId]</clause>
+        <clause prepend="," nvl="''" >[$userAccount]</clause>
+        <clause prepend="," nvl="''" >[$userPassword]</clause>
+        <clause prepend="," nvl="0" >[$userPasswordReset]</clause>
+        <clause prepend="," assert="!isNullOrEmpty([userPasswordDate])">[$userPasswordDate]</clause>
+        <clause prepend="," assert="!isNullOrEmpty([userLoginDate])">[$userLoginDate]</clause>
+        <clause prepend="," nvl="''" >[$userLoginIp]</clause>
+        <clause prepend="," nvl="''" >[$userName]</clause>
+        <clause prepend="," nvl="0" >[$userIsdel]</clause>
+        <clause prepend="," nvl="''" >[$userRemark]</clause>
+        <clause prepend="," nvl="0" >[$userStatus]</clause>
+        <clause prepend="," >[$userCreateDate]</clause>
+        <clause prepend="," >[$userUpdateDate]</clause>
+        <clause prepend="," nvl="0" >[$userCreateUser]</clause>
+        <clause prepend="," nvl="0" >[$userUpdateUser]</clause>
+        )
+    </sql>
+    <sql id="updateUserListByImport" >
+        UPDATE PMS_USER
+        <set>
+            <clause prepend="," assert="!isNull([userDeptId])" >USER_DEPT_ID = [$userDeptId]</clause>
+            <clause prepend="," assert="!isNull([userAccount])" >USER_ACCOUNT = [$userAccount]</clause>
+            <clause prepend="," assert="!isNull([userPassword])" >USER_PASSWORD = [$userPassword]</clause>
+            <clause prepend="," assert="!isNull([userPasswordStrength])" >USER_PASSWORD_STRENGTH = [$userPasswordStrength]</clause>
+            <clause prepend="," assert="!isNull([userCode])" >USER_CODE = [$userCode]</clause>
+            <clause prepend="," assert="!isNull([userPasswordReset])" >USER_PASSWORD_RESET = [$userPasswordReset]</clause>
+            <clause prepend="," assert="!isNull([userPasswordDate])" >USER_PASSWORD_DATE = [$userPasswordDate]</clause>
+            <clause prepend="," assert="!isNull([userLoginDate])" >USER_LOGIN_DATE = [$userLoginDate]</clause>
+            <clause prepend="," assert="!isNull([userLoginIp])" >USER_LOGIN_IP = [$userLoginIp]</clause>
+            <clause prepend="," assert="!isNull([userName])" >USER_NAME = [$userName]</clause>
+            <clause prepend="," assert="!isNull([userIsdel])" >USER_ISDEL = [$userIsdel]</clause>
+            <clause prepend="," assert="!isNull([userRemark])" >USER_REMARK = [$userRemark]</clause>
+            <clause prepend="," assert="!isNull([userStatus])" >USER_STATUS = [$userStatus]</clause>
+            <clause prepend="," assert="!isNull([userCreateDate])" >USER_CREATE_DATE = [$userCreateDate]</clause>
+            <clause prepend="," assert="!isNull([userUpdateDate])" >USER_UPDATE_DATE = [$userUpdateDate]</clause>
+            <clause prepend="," assert="!isNull([userCreateUser])" >USER_CREATE_USER = [$userCreateUser]</clause>
+            <clause prepend="," assert="!isNull([userUpdateUser])" >USER_UPDATE_USER = [$userUpdateUser]</clause>
+        </set>
+        <where>
+            USER_ID = [$userId]
+        </where>
+    </sql>
+    <!-- 通过用户账号查询已存用户 -->
+    <sql id="getExistUserListByUserAccounts" result="pmsUserImport" >
+        SELECT * FROM PMS_USER WHERE USER_ISDEL = 0 AND USER_ACCOUNT IN (<for in="[0]" split=",">'{item}'</for>)
+    </sql>
+    
+    <!-- 获得所有用户 -->
+    <sql id="getAllUserList" result="pmsUserImport" >
+        SELECT * FROM PMS_USER WHERE USER_ISDEL = 0
+    </sql>
+</banger>

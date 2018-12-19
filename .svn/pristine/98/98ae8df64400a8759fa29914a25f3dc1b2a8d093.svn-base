@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+    <class id="loanStatQuery" name="banger.domain.loan.LoanStatQuery" >
+        <property name="userName" column="USER_NAME" ></property>
+        <property name="groupName" column="TEAM_GROUP_NAME" ></property>
+		<property name="year" column="YEAR"></property>
+		<property name="month" column="MONTH"></property>
+		<property name="loanTotalNum" column="TOTAL"></property>
+		<property name="loanSuccessNum" column="SUCCESS"></property>
+		<property name="loanTotalMoney" column="SUMMONEY"></property>
+		<property name="loanHasClearance" column="JIEQING"></property>
+		<property name="approvalRefuse" column="JUJUE"></property>
+		<property name="allRefuse" column="ZJUJUE"></property>
+		<property name="loanAvgRatio" column="AVGLILV"></property>
+		<property name="loanAvgMoney" column="AVGMONEY"></property>
+		<property name="loanWeekNum" column="LOANWEEKNUM"></property>
+		<property name="loanWeekSum" column="LOANWEEKSUM"></property>
+    </class>
+
+	<!-- 按年月查询客户经理贷款任务-->
+	<sql id="queryLoanStatListByUserId"  result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,MONTH(LAI.LOAN_APPLY_DATE) AS MONTH,COUNT(*)AS TOTAL,
+		SUM( CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,U.USER_NAME,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN PMS_USER U ON U.USER_ID=LAI.LOAN_BELONG_ID
+		WHERE U.USER_ID=[userId]
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHose])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),MONTH(LAI.LOAN_APPLY_DATE),U.USER_NAME
+	</sql>
+
+	<!-- 按年季度查询客户经理贷款任务-->
+	<sql id="queryLoanStatListByUserIdAndQuarter"  result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,QUARTER(LAI.LOAN_APPLY_DATE) AS MONTH,COUNT(*)AS TOTAL,
+		SUM( CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,U.USER_NAME,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN PMS_USER U ON U.USER_ID=LAI.LOAN_BELONG_ID
+		WHERE U.USER_ID=[userId]
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),QUARTER(LAI.LOAN_APPLY_DATE),U.USER_NAME
+	</sql>
+
+	<!-- 按年查询客户经理贷款任务-->
+	<sql id="queryLoanStatListByUserIdAndYear"  result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,COUNT(*)AS TOTAL,
+		SUM( CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,U.USER_NAME,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN PMS_USER U ON U.USER_ID=LAI.LOAN_BELONG_ID
+		WHERE U.USER_ID=[userId]
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([teamGroupId])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),U.USER_NAME
+	</sql>
+
+	<!-- 按年月查询团队贷款任务-->
+	<sql id="queryLoanStatListByTeamGroupId" result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,MONTH(LAI.LOAN_APPLY_DATE) AS MONTH,COUNT(*)AS TOTAL,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,STG.TEAM_GROUP_NAME,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE STM.TEAM_GROUP_ID in([teamGroupId])
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),MONTH(LAI.LOAN_APPLY_DATE),STG.TEAM_GROUP_NAME
+
+	</sql>
+
+	<!-- 按年季度查询团队贷款任务-->
+	<sql id="queryLoanStatListByTeamGroupIdAndQuarter" result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,QUARTER(LAI.LOAN_APPLY_DATE) AS MONTH,COUNT(*)AS TOTAL,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,STG.TEAM_GROUP_NAME,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE STM.TEAM_GROUP_ID in([teamGroupId])
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),QUARTER(LAI.LOAN_APPLY_DATE),STG.TEAM_GROUP_NAME
+
+	</sql>
+
+	<!-- 按年查询团队贷款任务-->
+	<sql id="queryLoanStatListByTeamGroupIdAndYear" result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,COUNT(*)AS TOTAL,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,STG.TEAM_GROUP_NAME,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE STM.TEAM_GROUP_ID in([teamGroupId])
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),STG.TEAM_GROUP_NAME
+	</sql>
+
+    <sql id="queryCrossLoanStatByYear" result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,COUNT(*)AS TOTAL,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE STM.TEAM_GROUP_ID in([teamGroupId])
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE)
+	</sql>
+
+	<sql id="queryCrossLoanStatByMonth" result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,MONTH(LAI.LOAN_APPLY_DATE) AS MONTH,COUNT(*)AS TOTAL,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE STM.TEAM_GROUP_ID in([teamGroupId])
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),MONTH(LAI.LOAN_APPLY_DATE)
+	</sql>
+
+	<sql id="queryCrossLoanStatByQuarter" result="loanStatQuery">
+		SELECT YEAR(LAI.LOAN_APPLY_DATE) AS YEAR,QUARTER(LAI.LOAN_APPLY_DATE) AS MONTH,COUNT(*)AS TOTAL,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN 1 ELSE 0 END ) AS SUCCESS,
+		SUM(CASE WHEN (LAI.LOAN_PROCESS_TYPE='AfterLoan' or LAI.LOAN_PROCESS_TYPE='Clearance') THEN LAI.LOAN_CREDIT_AMOUNT ELSE 0 END) AS SUMMONEY,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Clearance' THEN 1 ELSE 0 END) AS JIEQING,
+		SUM(CASE WHEN LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS ZJUJUE,
+		SUM(CASE WHEN LAI.LOAN_PROCESS_TYPE='Approval' AND LAI.LOAN_REFUSE_USER>0 THEN 1 ELSE 0 END) AS JUJUE,
+		AVG(LLG.LOAN_AMOUNT) AS AVGMONEY,
+		AVG(LLG.LOAN_RATIO) AS AVGLILV,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then 1 else 0 end) AS LOANWEEKNUM,
+		sum(case when LAI.LOAN_CREDIT_DATE between '[weekStart]' and '[weekEnd]' then LAI.LOAN_CREDIT_AMOUNT else 0 end ) AS LOANWEEKSUM
+		FROM LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID = LLG.LOAN_ID
+		LEFT JOIN LBIZ_PERSONAL_INFO LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE STM.TEAM_GROUP_ID in([teamGroupId])
+		AND LAI.LOAN_APPLY_DATE BETWEEN <method name="toDate">[startDate]</method> AND <method name="toDate">[endDate]</method>
+		<clause prepend="and" assert="!isNullOrEmpty([isLocalPerson])" > LPI.IS_LOCAL = '[isLocalPerson]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([isHaveHouse])" > LPI.IS_HOUSE = '[isHaveHouse]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanType])" > LAI.LOAN_TYPE_ID = '[loanType]' </clause>
+		AND LPI.LOAN_PROCESS_TYPE='Investigate'
+		GROUP BY  YEAR(LAI.LOAN_APPLY_DATE),QUARTER(LAI.LOAN_APPLY_DATE)
+	</sql>
+
+</banger>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.system.SysMobileInfo" table="SYS_MOBILE_INFO" >
+		<id name="serialNo" type="java.lang.String" >
+			<column name="SERIAL_NO" lenght="128" />
+		</id>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="lastLoginTime" type="java.util.Date" >
+			<column name="LAST_LOGIN_TIME" lenght="11" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="22" />
+		</property>
+		<property name="mobileBrand" type="java.lang.String" >
+			<column name="MOBILE_BRAND" lenght="64" />
+		</property>
+		<property name="delFlag" type="java.lang.Integer" >
+			<column name="DEL_FLAG" lenght="22" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="22" />
+		</property>
+		<property name="lastUserId" type="java.lang.Integer" >
+			<column name="LAST_USER_ID" lenght="22" />
+		</property>
+		<property name="systemVersion" type="java.lang.String" >
+			<column name="SYSTEM_VERSION" lenght="64" />
+		</property>
+		<property name="mobileModel" type="java.lang.String" >
+			<column name="MOBILE_MODEL" lenght="64" />
+		</property>
+		<property name="appVersion" type="java.lang.String" >
+			<column name="APP_VERSION" lenght="64" />
+		</property>
+		<property name="isBind" type="java.lang.Integer" >
+			<column name="IS_BIND" lenght="22" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" lenght="22" />
+		</property>
+		<property name="loginLongitude" type="java.lang.Double" >
+			<column name="LOGIN_LONGITUDE" lenght="8" />
+		</property>
+		<property name="loginLatitude" type="java.lang.Double" >
+			<column name="LOGIN_LATITUDE" lenght="8" />
+		</property>
+	</class>
+</mapping>
+

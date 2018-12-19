@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="TrustedPaymentResult" name="banger.domain.loan.LoanTrustedPayment">
+		<property name="id" column="ID"></property>
+		<property name="loanId" column="LOAN_ID"></property>
+		<property name="loanProcessType" column="LOAN_PROCESS_TYPE"></property>
+		<property name="paymentId" column="PAYMENT_ID"></property>
+		<property name="paymentStatus" column="PAYMENT_STATUS"></property>
+		<property name="isBankAccount" column="IS_BANK_ACCOUNT"></property>
+		<property name="counterpartyAccount" column="COUNTERPARTY_ACCOUNT"></property>
+		<property name="counterpartyCardNumber" column="COUNTERPARTY_CARD_NUMBER"></property>
+		<property name="counterpartyName" column="COUNTERPARTY_NAME"></property>
+		<property name="counterpartyBankName" column="COUNTERPARTY_BANK_NAME"></property>
+		<property name="counterpartyBankNumber" column="COUNTERPARTY_BANK_NUMBER"></property>
+		<property name="paymentAmount" column="PAYMENT_AMOUNT"></property>
+		<property name="createDate" column="CREATE_DATE"></property>
+		<property name="updateDate" column="UPDATE_DATE"></property>
+		<property name="createUser" column="CREATE_USER"></property>
+		<property name="updateUser" column="UPDATE_USER"></property>
+	</class>
+
+
+	<class id="trustedPaymentQuery" name="banger.domain.loan.trusted.TrustedPayment">
+		<property name="id" column="ID"></property>
+		<property name="loanId" column="LOAN_ID"></property>
+		<property name="loanProcessType" column="LOAN_PROCESS_TYPE"></property>
+		<property name="isBankAccount" column="IS_BANK_ACCOUNT"></property>
+		<property name="counterpartyAccount" column="COUNTERPARTY_ACCOUNT"></property>
+		<property name="counterpartyCardNumber" column="COUNTERPARTY_CARD_NUMBER"></property>
+		<property name="counterpartyName" column="COUNTERPARTY_NAME"></property>
+		<property name="counterpartyBankName" column="COUNTERPARTY_BANK_NAME"></property>
+		<property name="counterpartyBankNumber" column="COUNTERPARTY_BANK_NUMBER"></property>
+		<property name="paymentAmount" column="PAYMENT_AMOUNT"></property>
+		<property name="createDate" column="CREATE_DATE"></property>
+		<property name="updateDate" column="UPDATE_DATE"></property>
+		<property name="createUser" column="CREATE_USER"></property>
+		<property name="updateUser" column="UPDATE_USER"></property>
+		<property name="paymentId" column="PAYMENT_ID"></property>
+		<property name="paymentStatus" column="PAYMENT_STATUS"></property>
+		<property name="loanUse" column="LOAN_USE"></property>
+		<property name="loanName" column="LOAN_NAME"></property>
+		<property name="loanIdentifyNum" column="LOAN_IDENTIFY_NUM"></property>
+		<property name="loanTelNum" column="LOAN_TEL_NUM"></property>
+	</class>
+
+	<!-- 新增授权支付 -->
+	<sql id="insertTrustedPaymentInfo" >
+		INSERT INTO LBIZ_TRUSTED_PAYMENY (ID,LOAN_ID,LOAN_PROCESS_TYPE,PAYMENT_ID,PAYMENT_STATUS,IS_BANK_ACCOUNT,COUNTERPARTY_ACCOUNT,COUNTERPARTY_CARD_NUMBER,COUNTERPARTY_NAME,COUNTERPARTY_BANK_NAME,COUNTERPARTY_BANK_NUMBER,PAYMENT_AMOUNT,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="''" >[$loanProcessType]</clause>
+		<clause prepend="," nvl="''" >[$paymentId]</clause>
+		<clause prepend="," nvl="''" >[$paymentStatus]</clause>
+		<clause prepend="," nvl="''" >[$isBankAccount]</clause>
+		<clause prepend="," nvl="''" >[$counterpartyAccount]</clause>
+		<clause prepend="," nvl="''" >[$counterpartyCardNumber]</clause>
+		<clause prepend="," nvl="''" >[$counterpartyName]</clause>
+		<clause prepend="," nvl="''" >[$counterpartyBankName]</clause>
+		<clause prepend="," nvl="''" >[$counterpartyBankNumber]</clause>
+		<clause prepend="," nvl="''" >[$paymentAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改授权支付 -->
+	<sql id="updateTrustedPaymentInfo" >
+		UPDATE LBIZ_TRUSTED_PAYMENY
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanProcessType])" >LOAN_PROCESS_TYPE = [$loanProcessType]</clause>
+			<clause prepend="," assert="!isNull([paymentId])" >PAYMENT_ID = [$paymentId]</clause>
+			<clause prepend="," assert="!isNull([paymentStatus])" >PAYMENT_STATUS = [$paymentStatus]</clause>
+			<clause prepend="," assert="!isNull([isBankAccount])" >IS_BANK_ACCOUNT = [$isBankAccount]</clause>
+			<clause prepend="," assert="!isNull([counterpartyAccount])" >COUNTERPARTY_ACCOUNT = [$counterpartyAccount]</clause>
+			<clause prepend="," assert="!isNull([counterpartyCardNumber])" >COUNTERPARTY_CARD_NUMBER = [$counterpartyCardNumber]</clause>
+			<clause prepend="," assert="!isNull([counterpartyName])" >COUNTERPARTY_NAME = [$counterpartyName]</clause>
+			<clause prepend="," assert="!isNull([counterpartyBankName])" >COUNTERPARTY_BANK_NAME = [$counterpartyBankName]</clause>
+			<clause prepend="," assert="!isNull([counterpartyBankNumber])" >COUNTERPARTY_BANK_NUMBER = [$counterpartyBankNumber]</clause>
+			<clause prepend="," assert="!isNull([paymentAmount])" >PAYMENT_AMOUNT = [$paymentAmount]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!--根据主键得到授权支付信息-->
+	<sql id="getTrustedPaymentInfoById">
+		SELECT * FROM LBIZ_TRUSTED_PAYMENY WHERE ID=[0]
+	</sql>
+
+	<!-- 得到客户贷款列表 -->
+	<sql id="getTrustedPaymentList" result="TrustedPaymentResult" >
+		SELECT * FROM LBIZ_TRUSTED_PAYMENY
+		<where>
+			<clause prepend="and" assert="!isNull([id])" >  ID= [id] </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanProcessType])" > LOAN_PROCESS_TYPE = '[loanProcessType]' </clause>
+			<clause prepend="and" assert="!isNull([paymentId])" > PAYMENT_ID = '[paymentId]' </clause>
+			<clause prepend="and" assert="!isNull([paymentStatus])" > PAYMENT_STATUS = '[paymentStatus]' </clause>
+			<clause prepend="and" assert="!isNull([isBankAccount])" > IS_BANK_ACCOUNT = '[isBankAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([counterpartyAccount])" > COUNTERPARTY_ACCOUNT = '[counterpartyAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([counterpartyCardNumber])" > COUNTERPARTY_CARD_NUMBER = '[counterpartyCardNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([counterpartyName])" > COUNTERPARTY_NAME = '[counterpartyName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([counterpartyBankName])" > COUNTERPARTY_BANK_NAME = '[counterpartyBankName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([counterpartyBankNumber])" > COUNTERPARTY_BANK_NUMBER = '[counterpartyBankNumber]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([paymentAmount])" > PAYMENT_AMOUNT = '[paymentAmount]' </clause>
+			<clause prepend="and" assert="!isNull([createDate])" >CREATE_DATE = '[createDate]'</clause>
+			<clause prepend="and" assert="!isNull([updateDate])" >UPDATE_DATE = '[updateDate]'</clause>
+			<clause prepend="and" assert="!isNull([createUser])" >CREATE_USER = '[createUser]' </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" >UPDATE_USER = '[updateUser]' </clause>
+		</where>
+	</sql>
+
+	<!-- 查询受托支付记录-->
+	<sql id="getTrustedPayment" result="trustedPaymentQuery">
+		select ltp.*,lai.loan_name,lai.loan_identify_num,lai.loan_tel_num from LBIZ_TRUSTED_PAYMENY ltp
+		left join loan_apply_info lai on ltp.loan_id = lai.loan_id
+		left join LBIZ_LOAN_GRANT llg on llg.loan_id = lai.loan_id
+		where lai.loan_process_type in ('AfterLoan') and llg.LOAN_MODE='02' and ltp.payment_status = '3'
+		<clause prepend="and" assert="!isNull([groupIds])">
+			lai.LOAN_BELONG_ID IN (
+			SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN	([groupIds])
+			)
+		</clause>
+		<clause prepend="and" assert="!isNull([customer])">lai.loan_name like '%[customer]%'</clause>
+		<!--and ltp.IS_BANK_ACCOUNT ='01'-->
+	</sql>
+</banger>

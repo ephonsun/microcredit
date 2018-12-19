@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.customer.CustCreditCheckFile" table="CUST_CREDIT_CHECK_FILE" >
+		<id name="creditCheckFileId" type="java.lang.Integer" >
+			<column name="CREDIT_CHECK_FILE_ID" lenght="22" />
+		</id>
+		<property name="smallFileName" type="java.lang.String" >
+			<column name="SMALL_FILE_NAME" lenght="64" />
+		</property>
+		<property name="smallFilePath" type="java.lang.String" >
+			<column name="SMALL_FILE_PATH" lenght="128" />
+		</property>
+		<property name="fileName" type="java.lang.String" >
+			<column name="FILE_NAME" lenght="64" />
+		</property>
+		<property name="fileType" type="java.lang.Integer" >
+			<column name="FILE_TYPE" lenght="22" />
+		</property>
+		<property name="custCreditCheckId" type="java.lang.Integer" >
+			<column name="CUST_CREDIT_CHECK_ID" lenght="22" />
+		</property>
+		<property name="fileSize" type="java.lang.Integer" >
+			<column name="FILE_SIZE" lenght="22" />
+		</property>
+		<property name="fileNameOld" type="java.lang.String" >
+			<column name="FILE_NAME_OLD" lenght="64" />
+		</property>
+		<property name="fileViewName" type="java.lang.String" >
+			<column name="FILE_VIEW_NAME" lenght="32" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="isDel" type="java.lang.Integer" >
+			<column name="IS_DEL" lenght="22" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="22" />
+		</property>
+		<property name="filePath" type="java.lang.String" >
+			<column name="FILE_PATH" lenght="256" />
+		</property>
+	</class>
+</mapping>
+

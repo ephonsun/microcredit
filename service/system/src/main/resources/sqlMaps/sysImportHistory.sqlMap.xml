@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="ImportHistoryResult" name="banger.domain.system.SysImportHistory">
+		<property name="userName" column="USER_NAME"></property>
+	</class>
+
+	<!-- 新增导入历史表 -->
+	<sql id="insertImportHistory" >
+		INSERT INTO SYS_IMPORT_HISTORY (ID,USER_ID,PROGRESS_CODE,PROGRESS_NAME,IMPORT_MODULE_NAME,IS_COMPLETE,IMPORT_TOTAL,REMARK,CREATE_DATE,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$userId]</clause>
+		<clause prepend="," nvl="''" >[$progressCode]</clause>
+		<clause prepend="," nvl="''" >[$progressName]</clause>
+		<clause prepend="," nvl="''" >[$importModuleName]</clause>
+		<clause prepend="," nvl="0" >[$isComplete]</clause>
+		<clause prepend="," nvl="0" >[$importTotal]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改导入历史表 -->
+	<sql id="updateImportHistory" >
+		UPDATE SYS_IMPORT_HISTORY 
+		<set>
+			<clause prepend="," assert="!isNull([userId])" >USER_ID = [$userId]</clause>
+			<clause prepend="," assert="!isNull([progressCode])" >PROGRESS_CODE = [$progressCode]</clause>
+			<clause prepend="," assert="!isNull([progressName])" >PROGRESS_NAME = [$progressName]</clause>
+			<clause prepend="," assert="!isNull([importModuleName])" >IMPORT_MODULE_NAME = [$importModuleName]</clause>
+			<clause prepend="," assert="!isNull([isComplete])" >IS_COMPLETE = [$isComplete]</clause>
+			<clause prepend="," assert="!isNull([importTotal])" >IMPORT_TOTAL = [$importTotal]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到导入历史表 -->
+	<sql id="getImportHistoryById" >
+		SELECT * FROM SYS_IMPORT_HISTORY WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除导入历史表 -->
+	<sql id="deleteImportHistoryById" >
+		DELETE FROM SYS_IMPORT_HISTORY WHERE ID = [0]
+	</sql>
+
+	<!-- 查询导入历史表 -->
+	<sql id="queryImportHistoryList" result="ImportHistoryResult" >
+		SELECT SIH.*,PU.USER_NAME FROM SYS_IMPORT_HISTORY SIH LEFT JOIN PMS_USER PU ON SIH.USER_ID = PU.USER_ID
+		<where>
+			<clause prepend="and" assert="!isNull([userId])" > SIH.USER_ID = [userId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([progressCode])" > SIH.PROGRESS_CODE = '[progressCode]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([progressName])" > SIH.PROGRESS_NAME = '[progressName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([importModuleName])" > SIH.IMPORT_MODULE_NAME = '[importModuleName]' </clause>
+			<clause prepend="and" assert="!isNull([isComplete])" > SIH.IS_COMPLETE = [isComplete] </clause>
+			<clause prepend="and" assert="!isNull([importTotal])" > SIH.IMPORT_TOTAL = [importTotal] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > SIH.REMARK = '[remark]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+		ORDER BY SIH.CREATE_DATE DESC
+	</sql>
+
+</banger>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.html5.IntoIntefaceRecord" table="INTO_INTEFACE_RECORD" >
+		<id name="requestId" type="java.lang.Integer" >
+			<column name="REQUEST_ID" length="4" />
+		</id>
+		<property name="interfaceType" type="java.lang.Integer" >
+			<column name="INTERFACE_TYPE" length="4" />
+		</property>
+		<property name="isSuccess" type="java.lang.Integer" >
+			<column name="IS_SUCCESS" length="4" />
+		</property>
+		<property name="errorType" type="java.lang.Integer" >
+			<column name="ERROR_TYPE" length="4" />
+		</property>
+		<property name="errorMessage" type="java.lang.String" >
+			<column name="ERROR_MESSAGE" length="500" />
+		</property>
+		<property name="applyId" type="java.lang.Integer" >
+			<column name="APPLY_ID" length="4" />
+		</property>
+		<property name="callTime" type="java.util.Date" >
+			<column name="CALL_TIME" length="10" scale="6" />
+		</property>
+	</class>
+</mapping>
+

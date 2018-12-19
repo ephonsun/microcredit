@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.face.FaceSetting" table="FACE_SETTING" >
+		<id name="faceId" type="java.lang.Integer" >
+			<column name="FACE_ID" length="4" />
+		</id>
+		<property name="faceAppKey" type="java.lang.String" >
+			<column name="FACE_APP_KEY" length="64" />
+		</property>
+		<property name="faceAppSecret" type="java.lang.String" >
+			<column name="FACE_APP_SECRET" length="64" />
+		</property>
+		<property name="faceAppUrl" type="java.lang.String" >
+			<column name="FACE_APP_URL" length="128" />
+		</property>
+		<property name="faceOcrKey" type="java.lang.String" >
+			<column name="FACE_OCR_KEY" length="64" />
+		</property>
+		<property name="faceOcrSecret" type="java.lang.String" >
+			<column name="FACE_OCR_SECRET" length="64" />
+		</property>
+		<property name="faceOcrUrl" type="java.lang.String" >
+			<column name="FACE_OCR_URL" length="128" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,37 @@
+<input type="hidden" name="loanId" id="loanId" value="$!loanId"/>
+<input type="hidden" name="showApply" id="showApply" value="$!showApply"/>
+<input type="hidden" name="repaymentMode" id="repaymentMode" value="$!repaymentMode"/>
+<input type="hidden" name="module" id="module" value="$!module"/>
+<input type="hidden" name="isManager" id="isManager" value="$!isManager"/>
+<div class="ui-layout-action">
+##    <span id="btnSynPlans" class="ui-button fr">
+##        <label class="ui-button-text">同步还款计划</label>
+##    </span>
+    <label id="loanBalanceAmount" class="fl" style="margin: 7px;">贷款余额：$!formatUtil.formatDecimal($!loanBalanceAmount)</label>
+    <label id="" class="fl" style="margin: 7px;">|</label>
+    <label id="loanAccountAmount" class="fl" style="margin: 7px;">还款账户余额：$!formatUtil.formatDecimal($!loanAccountAmount)</label>
+    #if(($!repaymentMode == "1") || ($!repaymentMode == "2") || ($!module == 'all'))
+    <span id="btnRefresh" class="ui-button fr">
+        <label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+    </span>
+    #else
+    <span id="btnRefresh" class="ui-button fr">
+        <label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+    </span>
+       #* #if($funcPermit.hasFuncCode("collectionAdd"))
+            <span id="btnAddLoanRepayPlanInfo" class="ui-button fl">
+            <label class="ui-button-text">$!pageConst.BTN_NEW</label>
+            </span>
+        #end*#
+    #end
+##    #if($!repaymentMode == "5")
+##        <span id="btnSynPlans" class="ui-closure-button mr15">
+##            <label class="ui-closure-button-text">同步还款计划</label>
+##        </span>
+##    #end
+
+</div>
+<table id="loanRepayPlanInfo"></table>
+<script>
+    var cdloanCollectionState = $!constantCodeUtil.cdloanCollectionState();
+</script>

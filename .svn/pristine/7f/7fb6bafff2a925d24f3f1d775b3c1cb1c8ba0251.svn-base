@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanAssetsInfo" table="LOAN_ASSETS_INFO" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="assetsTotalAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_TOTAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsCashAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_CASH_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsStockAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_STOCK_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsReceivableAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_RECEIVABLE_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsPaymentAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_PAYMENT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsOperatingAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_OPERATING_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsNonOperatingAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_NON_OPERATING_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsFixedAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_FIXED_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsOtherAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_OTHER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsInvestAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_INVEST_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsExternalClaims" type="java.math.BigDecimal" >
+			<column name="ASSETS_EXTERNAL_CLAIMS" length="18" scale="2" />
+		</property>
+		<property name="debtsTotalAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_TOTAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsPayableAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_PAYABLE_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsReceivedAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_RECEIVED_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsShortAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_SHORT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsLongAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_LONG_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsInvestAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_INVEST_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsSelfUserAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_SELF_USER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsConsumeAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_CONSUME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsOtherAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_OTHER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="offAssetsAmount" type="java.math.BigDecimal" >
+			<column name="OFF_ASSETS_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="offDebtsAmount" type="java.math.BigDecimal" >
+			<column name="OFF_DEBTS_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="offRemark" type="java.lang.String" >
+			<column name="OFF_REMARK" length="900" />
+		</property>
+		<property name="surveyDate" type="java.util.Date" >
+			<column name="SURVEY_DATE" length="10" scale="6" />
+		</property>
+		<property name="assetsAdvancePaymentAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_ADVANCE_PAYMENT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsBizOtherAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_BIZ_OTHER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

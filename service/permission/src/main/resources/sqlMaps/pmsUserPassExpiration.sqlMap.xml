@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增密码过期时间表 -->
+	<sql id="insertUserPassExpiration" >
+		INSERT INTO PMS_USER_PASS_EXPIRATION (EXPIRATION_ID,EXPIRATION_DAY,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$expirationId]
+		<clause prepend="," nvl="0" >[$expirationDay]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改密码过期时间表 -->
+	<sql id="updateUserPassExpiration" >
+		UPDATE PMS_USER_PASS_EXPIRATION 
+		<set>
+			<clause prepend="," assert="!isNull([expirationDay])" >EXPIRATION_DAY = [$expirationDay]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 EXPIRATION_ID = [$expirationId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到密码过期时间表 -->
+	<sql id="getUserPassExpirationById" >
+		SELECT * FROM PMS_USER_PASS_EXPIRATION WHERE EXPIRATION_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除密码过期时间表 -->
+	<sql id="deleteUserPassExpirationById" >
+		DELETE FROM PMS_USER_PASS_EXPIRATION WHERE EXPIRATION_ID = [0]
+	</sql>
+
+	<!-- 直接查询密码过期时间表 -->
+	<sql id="getUserPassExpiration" >
+		SELECT * FROM PMS_USER_PASS_EXPIRATION
+	</sql>
+
+
+	<!-- 查询密码过期时间表 -->
+	<sql id="queryUserPassExpirationList" >
+		SELECT * FROM PMS_USER_PASS_EXPIRATION
+		<where>
+			<clause prepend="and" assert="!isNull([expirationDay])" > EXPIRATION_DAY = [expirationDay] </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

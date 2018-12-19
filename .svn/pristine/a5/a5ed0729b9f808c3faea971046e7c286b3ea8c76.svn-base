@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增系统登录记录 -->
+	<sql id="insertMobileRecord" >
+		INSERT INTO SYS_MOBILE_RECORD (ID,SERIAL_NO,LOGIN_LONGITUDE,LOGIN_LATITUDE,LOGIN_DATE,LOGIN_IP,USER_ID) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$serialNo]</clause>
+		<clause prepend="," nvl="NULL" >[$loginLongitude]</clause>
+		<clause prepend="," nvl="NULL" >[$loginLatitude]</clause>
+		<clause prepend="," nvl="NULL" >[$loginDate]</clause>
+		<clause prepend="," nvl="''" >[$loginIp]</clause>
+		<clause prepend="," nvl="0" >[$userId]</clause>
+		)
+	</sql>
+
+	<!-- 修改系统登录记录 -->
+	<sql id="updateMobileRecord" >
+		UPDATE SYS_MOBILE_RECORD 
+		<set>
+			<clause prepend="," assert="!isNull([serialNo])" >SERIAL_NO = [$serialNo]</clause>
+			<clause prepend="," assert="!isNull([loginLongitude])" >LOGIN_LONGITUDE = [$loginLongitude]</clause>
+			<clause prepend="," assert="!isNull([loginLatitude])" >LOGIN_LATITUDE = [$loginLatitude]</clause>
+			<clause prepend="," assert="!isNull([loginDate])" >LOGIN_DATE = [$loginDate]</clause>
+			<clause prepend="," assert="!isNull([loginIp])" >LOGIN_IP = [$loginIp]</clause>
+			<clause prepend="," assert="!isNull([userId])" >USER_ID = [$userId]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到系统登录记录 -->
+	<sql id="getMobileRecordById">
+		SELECT * FROM SYS_MOBILE_RECORD WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除系统登录记录 -->
+	<sql id="deleteMobileRecordById" >
+		DELETE FROM SYS_MOBILE_RECORD WHERE ID = [0]
+	</sql>
+
+	<!-- 查询系统登录记录 -->
+	<sql id="queryMobileRecordList" result="mobileRecord_Query">
+		SELECT smr.*,pu.USER_NAME FROM SYS_MOBILE_RECORD smr join PMS_USER pu on smr.USER_ID=pu.USER_ID
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([serialNo])" > SERIAL_NO = '[serialNo]' </clause>
+			<clause parent="NumberSpan" params="LOGIN_LONGITUDE,loginLongitude,loginLongitudeEnd" ></clause>
+			<clause parent="NumberSpan" params="LOGIN_LATITUDE,loginLatitude,loginLatitudeEnd" ></clause>
+			<clause parent="DateSpan" params="LOGIN_DATE,loginDate,loginDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loginIp])" > LOGIN_IP = '[loginIp]' </clause>
+			<clause prepend="and" assert="!isNull([userId])" > USER_ID = [userId] </clause>
+		</where>
+		ORDER BY smr.LOGIN_DATE DESC
+	</sql>
+
+	<class id="mobileRecord_Query" name="banger.domain.system.SysMobileRecord">
+		<property name="userName" column="USER_NAME"></property>
+	</class>
+</banger>

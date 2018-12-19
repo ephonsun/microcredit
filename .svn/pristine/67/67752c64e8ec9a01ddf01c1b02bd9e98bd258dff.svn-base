@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsRoleFunc" table="PMS_ROLE_FUNC" >
+		<id name="prfRoleFuncId" type="java.lang.Integer" >
+			<column name="PRF_ROLE_FUNC_ID" lenght="4" />
+		</id>
+		<property name="prfRoleId" type="java.lang.Integer" >
+			<column name="PRF_ROLE_ID" lenght="4" />
+		</property>
+		<property name="prfFuncId" type="java.lang.String" >
+			<column name="PRF_FUNC_ID" lenght="120" />
+		</property>
+		<property name="prfCreateDate" type="java.util.Date" >
+			<column name="PRF_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="prfUpdateDate" type="java.util.Date" >
+			<column name="PRF_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="prfCreateUser" type="java.lang.Integer" >
+			<column name="PRF_CREATE_USER" lenght="4" />
+		</property>
+		<property name="prfUpdateUser" type="java.lang.Integer" >
+			<column name="PRF_UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

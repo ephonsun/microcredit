@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="LoanFieldExtend" name="banger.domain.loan.LoanFieldExtend">
+		<property name="fieldName" column="FIELD_NAME"></property>
+		<property name="tableName" column="TABLE_NAME"></property>
+		<property name="fieldType" column="FIELD_TYPE"></property>
+		<property name="fieldNumberUnit" column="FIELD_NUMBER_UNIT"></property>
+		<property name="fieldDictName" column="FIELD_DICT_NAME"></property>
+		<property name="fieldLength" column="FIELD_LENGTH"></property>
+		<property name="fieldColumn" column="FIELD_COLUMN"></property>
+		<property name="fieldColumnDisplay" column="FIELD_COLUMN_DISPLAY"></property>
+		<property name="fieldConstraintRule" column="FIELD_CONSTRAINT_RULE"></property>
+		<property name="popupUrl" column="POPUP_URL"></property>
+		<property name="isFixed" column="IS_FIXED"></property>
+		<property name="defaultValue" column="DEFAULT_VALUE"></property>
+	</class>
+
+	<class id="LoanTemplateExtend" name="banger.domain.loan.LoanTemplateExtend">
+		<property name="tableId" column="TABLE_ID"></property>
+		<property name="tableDbName" column="TABLE_DB_NAME"></property>
+		<property name="tableModuleName" column="TABLE_MODULE_NAME"></property>
+		<property name="tableDisplayName" column="TABLE_DISPLAY_NAME"></property>
+		<property name="tableType" column="TABLE_TYPE"></property>
+		<property name="isActived" column="IS_ACTIVED" ></property>
+		<property name="tableIsActived" column="TABLE_IS_ACTIVED" ></property>
+		<property name="fieldConstraintRule" column="FIELD_CONSTRAINT_RULE" ></property>
+	</class>
+
+	<!-- 根据贷款类型和过程查询显示字段 -->
+	<sql id="getLoanFieldList" result="LoanFieldExtend" >
+		SELECT C.FIELD_ID,C.TABLE_ID,C.TABLE_NAME,C.FIELD_NAME,C.FIELD_TYPE,C.FIELD_NUMBER_UNIT,
+		C.FIELD_COLUMN,C.FIELD_COLUMN_DISPLAY,C.FIELD_DICT_NAME,C.FIELD_LENGTH,c.FIELD_CONSTRAINT_RULE,c.POPUP_URL,C.DEFAULT_VALUE,
+		CASE WHEN F.ID IS NULL THEN C.FIELD_IS_REQUIRED ELSE F.FIELD_IS_REQUIRED END AS FIELD_IS_REQUIRED,
+		CASE WHEN F.ID IS NULL THEN C.FIELD_APP_IS_SHOW ELSE F.FIELD_APP_IS_SHOW END AS FIELD_APP_IS_SHOW,
+		CASE WHEN F.ID IS NULL THEN C.FIELD_WEB_IS_SHOW ELSE F.FIELD_WEB_IS_SHOW END AS FIELD_WEB_IS_SHOW
+		FROM AUTO_TABLE_COLUMN C 
+		LEFT JOIN 
+		( 
+		        SELECT * FROM LOAN_TYPE_TABLE_FIELD WHERE LOAN_TYPE_ID = [loanTypeId]
+				<clause prepend="and" assert="!isNull([precType])" > LOAN_PREC_TYPE = '[precType]' </clause>
+				<clause prepend="and" assert="!isNull([precTypes])" > LOAN_PREC_TYPE IN (<for in="[precTypes]" split=",">'{item}'</for>) </clause>
+		) F ON C.FIELD_ID = F.FIELD_ID
+		WHERE C.IS_ACTIVED = 1
+		<clause prepend="and" assert="!isNull([tableId])" > C.TABLE_ID = [tableId] </clause>
+		ORDER BY C.FIELD_SORTNO
+	</sql>
+
+	<!-- 根据贷款审批显示字段 -->
+	<sql id="getTemplateFieldListByProcessId" result="LoanFieldExtend" >
+		SELECT C.FIELD_ID,C.TABLE_ID,C.TABLE_NAME,C.FIELD_NAME,C.FIELD_TYPE,C.FIELD_NUMBER_UNIT,
+		C.FIELD_COLUMN,C.FIELD_COLUMN_DISPLAY,C.FIELD_DICT_NAME,C.FIELD_LENGTH,C.FIELD_CONSTRAINT_RULE,C.POPUP_URL,C.DEFAULT_VALUE,
+		CASE WHEN F.ID IS NULL THEN C.FIELD_IS_REQUIRED ELSE F.FIELD_IS_REQUIRED END AS FIELD_IS_REQUIRED,
+		CASE WHEN F.ID IS NULL THEN C.FIELD_APP_IS_SHOW ELSE F.FIELD_APP_IS_SHOW END AS FIELD_APP_IS_SHOW,
+		CASE WHEN F.ID IS NULL THEN C.FIELD_WEB_IS_SHOW ELSE F.FIELD_WEB_IS_SHOW END AS FIELD_WEB_IS_SHOW
+		FROM AUTO_TABLE_COLUMN C
+		LEFT JOIN
+		(
+		SELECT * FROM LOAN_AUDIT_TABLE_FIELD WHERE LOAN_AUDIT_PROCESS_ID = [processId]
+		) F ON C.FIELD_ID = F.FIELD_ID
+		WHERE C.TABLE_ID = [tableId]
+		ORDER BY C.FIELD_SORTNO
+	</sql>
+
+	<!-- 贷后审批 -->
+	<sql id="getLoanFieldListByTableId" result="LoanFieldExtend" >
+		SELECT C.FIELD_ID,C.TABLE_ID,C.TABLE_NAME,C.FIELD_NAME,C.FIELD_TYPE,C.FIELD_NUMBER_UNIT,
+		C.FIELD_COLUMN,C.FIELD_COLUMN_DISPLAY,C.FIELD_DICT_NAME,C.FIELD_LENGTH,C.FIELD_CONSTRAINT_RULE,C.POPUP_URL, C.DEFAULT_VALUE,
+		C.FIELD_IS_REQUIRED,
+		FIELD_APP_IS_SHOW,
+		FIELD_WEB_IS_SHOW
+		FROM AUTO_TABLE_COLUMN C
+		WHERE C.TABLE_ID = [0]
+		ORDER BY C.FIELD_SORTNO
+	</sql>
+	
+	<!-- 根据贷款类型和过程查询显示模板 -->
+	<sql id="getLoanTemplateList" result="LoanTemplateExtend" >
+		SELECT T.*,R.LOAN_PREC_TYPE,R.LOAN_TYPE_ID,R.IS_ACTIVED AS TABLE_IS_ACTIVED FROM LOAN_TYPE_REL_TABLE R
+		INNER JOIN AUTO_TABLE_INFO T ON R.TABLE_ID = T.TABLE_ID
+		WHERE R.LOAN_TYPE_ID = [loanTypeId]
+		<clause prepend="and" assert="!isNullOrEmpty([precType])" > R.LOAN_PREC_TYPE = '[precType]' </clause>
+		<clause prepend="and" assert="!isNull([precTypes])" > R.LOAN_PREC_TYPE IN (<for in="[precTypes]" split=",">'{item}'</for>) </clause>
+		<clause prepend="and" assert="!isNull([tableId])" > R.TABLE_ID = [tableId] </clause>
+		ORDER BY SORTNO 
+	</sql>
+	
+</banger>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertContractRelateItem" >
+		INSERT INTO LOAN_CONTRACT_RELATE_ITEM (ID,LOAN_TYPE_ID,TEMPLATE_FILE_ID,CREATE_USER,CREATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanTypeId]</clause>
+		<clause prepend="," nvl="0" >[$templateFileId]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateContractRelateItem" >
+		UPDATE LOAN_CONTRACT_RELATE_ITEM 
+		<set>
+			<clause prepend="," assert="!isNull([loanTypeId])" >LOAN_TYPE_ID = [$loanTypeId]</clause>
+			<clause prepend="," assert="!isNull([templateFileId])" >TEMPLATE_FILE_ID = [$templateFileId]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getContractRelateItemById" >
+		SELECT * FROM LOAN_CONTRACT_RELATE_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteContractRelateItemById" >
+		DELETE FROM LOAN_CONTRACT_RELATE_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 通过loantypeid删除 -->
+	<sql id="deleteContractRelateItemByLoanTypeId" >
+		DELETE FROM LOAN_CONTRACT_RELATE_ITEM WHERE LOAN_TYPE_ID = [0]
+	</sql>
+
+
+	<!-- 查询 -->
+	<sql id="queryContractRelateItemList" >
+		SELECT * FROM LOAN_CONTRACT_RELATE_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNull([loanTypeId])" > LOAN_TYPE_ID = [loanTypeId] </clause>
+			<clause prepend="and" assert="!isNull([templateFileId])" > TEMPLATE_FILE_ID = [templateFileId] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+		</where>
+		ORDER BY TEMPLATE_FILE_ID ASC
+	</sql>
+
+</banger>

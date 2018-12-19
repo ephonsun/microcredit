@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-lazy-init="true" default-autowire="byName">
+
+	<!-- 文件上传接收服务 -->
+	<bean id="loanAddedUploadService" class="banger.service.impl.LoanAddedUploadService" >
+		<property name="uploadPath" value="${file_root_path}" ></property>
+		<property name="infoAddedFilesDao" ref="infoAddedFilesDao" ></property>
+	</bean>
+
+	<bean id="loanMonitorInfoJobService" class="banger.service.impl.LoanMonitorInfoJobService"></bean>
+
+	<bean id="loanRepayPlanInfoJobService"  class="banger.service.impl.LoanRepayPlanInfoJobService"></bean>
+
+	<bean id="tmpLoanDataService"  class="banger.moduleImpl.TmpLoanDataService"></bean>
+
+	<bean id="operationCodeJobService"  class="banger.service.impl.OperationCodeJobService"></bean>
+
+	<bean id="trustedPaymentService" class="banger.service.impl.TrustedPaymentService"></bean>
+
+	<bean id="trustedPaymentJobService"  class="banger.service.impl.TrustedPaymentJobService"></bean>
+
+	<bean id="socketDemo"  class="banger.socket.SocketDemo"></bean>
+
+
+</beans>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>数据调试</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css" />
+</head>
+
+<body>
+    <span class="ui-closure-button ml5" onclick="btnSearch()">
+        <label class="ui-closure-button-text">查询</label>
+    </span>
+    <span class="ui-closure-button ml5" onclick="btnExecute()">
+        <label class="ui-closure-button-text">执行</label>
+    </span>
+    <span class="ui-closure-button ml5" onclick="btnReset()">
+        <label class="ui-closure-button-text">清空</label>
+    </span>
+
+    <div class="ui-textarea mt10 mb10">
+        <textarea id="sqlString" class="ui-textarea-text" style="height: 150px"></textarea>
+    </div>
+    <div id="sqlResultCount"></div>
+    <div id="sqlResultGrid" style="overflow: auto; white-space: nowrap; text-overflow: ellipsis; height: 250px; width: 100%;"></div>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?"></script>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+    <script type="text/javascript">
+
+        function btnSearch() {
+            var postJson = {};
+            postJson['sqlString'] = $('#sqlString').val();
+            $('#sqlResultGrid').html("");
+            $('#sqlResultCount').html("");
+            jQuery.ajax({
+                type : 'POST',
+                url: '../monitor/getSqlResultData.html?type=search',
+                data : postJson,
+                success : function(data) {
+                    if(data != '') {
+//                        $('#sqlResultGrid').append("<div class='mb10'><label>只显示前10条</label></div>");
+                        $('#sqlResultGrid').append(data);
+                    }
+                }
+            });
+            $('#sqlResultGrid').flexSearch(postJson);
+        }
+
+        function btnExecute() {
+            var postJson = {};
+            postJson['sqlString'] = $('#sqlString').val();
+            $('#sqlResultGrid').html("");
+            $('#sqlResultCount').html("");
+            jQuery.ajax({
+                type : 'POST',
+                url: '../monitor/getSqlResultData.html?type=execute',
+                data : postJson,
+                success : function(data) {
+                    if(data=='-1'){
+                        showConfirm({
+                            icon: 'warning',
+                            content: '无法执行该语句'
+                        });
+                        return false;
+                    }
+                    else
+                        $('#sqlResultCount').append(data);
+                }
+            });
+            $('#sqlResultGrid').flexSearch(postJson);
+        }
+
+        function btnReset(){
+            $('#sqlString').val("");
+        }
+
+
+
+        //网页打印时清空页眉页脚
+        function pagesetup_null() {
+            try {
+                var RegWsh = new ActiveXObject("WScript.Shell")
+                hkey_key = "header"
+                RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+                hkey_key = "footer"
+                RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+            } catch (e) {}
+        }
+        function pagesetup_default() {
+            try {
+                var RegWsh = new ActiveXObject("WScript.Shell")
+                hkey_key = "header"
+                RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "&w&b页码，&p/&P")
+                hkey_key = "footer"
+                RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "&u&b&d")
+            } catch (e) {
+            }
+        }
+        function printTable() {
+            try{
+                pagesetup_null();
+                var newwin = window.open("", "newwin", "height=" + window.screen.height + ",width=" + window.screen.width + ",toolbar=no,scrollbars=auto,menubar=no");
+                newwin.document.body.innerHTML = document.getElementById("sqlResultGrid").innerHTML;
+                newwin.window.print();
+                newwin.window.close();
+                pagesetup_default();
+            }catch(e){
+
+            }
+        }
+
+    </script>
+</body>
+</html>

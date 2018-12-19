@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 参考资料http://www.blogjava.net/hwpok/archive/2008/08/23/223893.html -->
+    <!-- 日志输出到控制台 -->
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="encoding" value="gbk" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="banger-error" class="com.hundsun.common.logging.spi.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log.dir}/error.log" />
+		<param name="encoding" value="gbk" />
+		<param name="Append" value="true" />
+		<param name="threshold" value="ERROR" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d [%X{requestURIWithQueryString}] %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="banger-sql" class="com.hundsun.common.logging.spi.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log.dir}/sql.log" />
+		<param name="Append" value="true" />
+		<param name="encoding" value="gbk" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="banger-default" class="com.hundsun.common.logging.spi.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log.dir}/default.log" />
+		<param name="Append" value="true" />
+		<param name="encoding" value="gbk" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	<!--                                   三方jar包只记录error日志                                                                                                                 -->
+	<logger name="org.apache">
+		<appender-ref ref="banger-error" />
+	</logger>
+	<!-- Suppress invalid warning messages from JSF -->
+	<logger name="org.apache.myfaces.shared_impl.renderkit.html">
+		<appender-ref ref="banger-error" />
+	</logger>
+	<logger name="org.springframework">
+		<appender-ref ref="banger-error" />
+	</logger>
+	<logger name="javax.servlet">
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<!--                                   应用系统日志     start 包路径名                                                                                                             -->
+	<logger name="banger.framework.sql">							<!-- sql -->
+		<level value="${dao.level}" />
+		<appender-ref ref="banger-sql" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<logger name="banger.controller">						<!-- action -->
+		<level value="${log.level}" />
+		<appender-ref ref="banger-default" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<logger name="banger.service">						<!-- service -->
+		<level value="${log.level}" />
+		<appender-ref ref="banger-default" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<logger name="banger.dao">							<!-- dao -->
+		<level value="${log.level}" />
+		<appender-ref ref="banger-default" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<logger name="banger.moduleImpl">					<!-- moduleImpl -->
+		<level value="${log.level}" />
+		<appender-ref ref="banger-default" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<logger name="banger.common">						<!-- common -->
+		<level value="${log.level}" />
+		<appender-ref ref="banger-default" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	
+	<logger name="banger.domain">						<!-- domain -->
+		<level value="${log.level}" />
+		<appender-ref ref="banger-default" />
+		<appender-ref ref="banger-error" />
+	</logger>
+	<!-- 应用系统日志     end -->
+	<root>
+		<level value="${log.level}" />
+		<!-- 需要在控制台上打印信息的请打开这个-->
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</log4j:configuration>
+
+
+

@@ -1,0 +1,36 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<style>
+.frameStyle {height:24px;}
+.innerStyle {float:right;}
+span {float:left;height:24px;line-height:24px;border:1px solid #bbb;background-color:#fff;text-align:center;padding:0px 5px;margin-left:5px;cursor:pointer;}
+label {font-size:12px;font-family:microsoft yahei;cursor:pointer;}
+</style>
+<body>
+<table>
+    <tr>
+    	<td>json格式为数组</td>
+        <td>
+        	<div style="padding:5px;background:#f5f5f5 url(../images/grid-head-bg.gif) repeat-x 0 -10px;">
+                <div class="frameStyle" >
+                    <div class="innerStyle" >
+                        <span><label>首页</label></span>
+                        <span><label>上一页</label></span>
+                        <span><label>下一页</label></span>
+                        <span><label>尾页</label></span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <tr>
+    	 		<td>json格式为对像</td><td></td>
+    	</tr>
+   	 	<tr>
+    			<td>自定义的字段名</td><td></td>
+    	</tr>
+    </tr>
+</table>
+</body>
+</html>

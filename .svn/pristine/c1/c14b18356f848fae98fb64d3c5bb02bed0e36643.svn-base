@@ -1,0 +1,239 @@
+###if($!flag=="1")##查看
+##    #set($fieldFlag=2)
+###elseif($customer.id)
+##    #set($fieldFlag=0)
+###else
+##    #set($fieldFlag=0)
+###end
+##<form id="baseForm">
+##    <div id="applyTemplate_$!module$!precType">
+##    </div>
+##</form>
+##<input style="display: none" id="potentialId" value="$!potentialId">
+##<div class="ui-layout-closure">
+####    #if($!module == 'all')
+####        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+####            <label class="ui-closure-button-text">关闭</label>
+####        </span>
+####    #end
+##    #if($!module == 'apply')
+##        #if($!loanId == '')
+##            #if($funcPermit.hasFuncCode("loanApplyAdd"))
+##                <span id="btnSaveApply" class="ui-closure-button">
+##                <label class="ui-closure-button-text">保存</label>
+##            </span>
+##            #end
+##            <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##            <label class="ui-closure-button-text">取消</label>
+##        </span>
+##        #end
+##        #if($!loanId != '')
+##            #if($!showApply == '1')
+##                #if($funcPermit.hasFuncCode("loanApplySubmit"))
+##                    <span id="btnSaveApplyContine" class="ui-closure-button">
+##                <label class="ui-closure-button-text">提交申请</label>
+##            </span>
+##                #end
+##                #if($funcPermit.hasFuncCode("loanApplyEdit"))
+##                    <span id="btnEditApply" class="ui-closure-button ml15">
+##                <label class="ui-closure-button-text">编辑</label>
+##            </span>
+##                #end
+##                <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##                <label class="ui-closure-button-text">关闭</label>
+##            </span>
+##                #if($funcPermit.hasFuncCode("loanApplyRefuse"))
+##                    <span id="btnRefuseApply" class="ui-button ml15">
+##                <label class="ui-closure-button-text">拒绝</label>
+##            </span>
+##                #end
+##            #end
+##            #if($!showApply != '1')
+##                #if($funcPermit.hasFuncCode("loanApplyEdit"))
+##                    <span id="btnSaveApply" class="ui-closure-button ml15">
+##                <label class="ui-closure-button-text">保存</label>
+##            </span>
+##                #end
+##                <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##                <label class="ui-closure-button-text">关闭</label>
+##            </span>
+##            #end
+##        #end
+##    #end
+##    #if($!module == 'allot')
+##        #if($funcPermit.hasFuncCode("loanAllotSave"))
+##            <span id="applyInfoSignBtn" class="ui-closure-button">
+##            <label class="ui-closure-button-text">分配贷款</label>
+##        </span>
+##        #end
+##        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##            <label class="ui-closure-button-text">关闭</label>
+##        </span>
+##        #if($funcPermit.hasFuncCode("loanAllotBack"))
+##            <span id="backApplyInfo" class="ui-closure-button ml15">
+##            <label class="ui-closure-button-text">回退</label>
+##        </span>
+##        #end
+##        #if($funcPermit.hasFuncCode("loanAllotRefuse"))
+##            <span id="btnRefuseApply" class="ui-button ml15">
+##            <label class="ui-closure-button-text">拒绝</label>
+##        </span>
+##        #end
+##    #end
+##    #if($!module == 'investigate' && $!precType == 'investigate')
+##        #if($!showApply == '1')
+##            #if($funcPermit.hasFuncCode("loanInvestigateSubmit"))
+##                <span id="investigateSubmitBtn" class="ui-closure-button">
+##                <label class="ui-closure-button-text">提交审批</label>
+##            </span>
+##            #end
+##            #if($funcPermit.hasFuncCode("loanInvestigateEdit"))
+##                <span id="btnEditApply" class="ui-closure-button ml15">
+##                <label class="ui-closure-button-text">编辑</label>
+##            </span>
+##            #end
+##            <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##                <label class="ui-closure-button-text">关闭</label>
+##            </span>
+##            #if($funcPermit.hasFuncCode("loanInvestigateBack"))
+##                <span id="backApplyInfo" class="ui-closure-button ml15">
+##                <label class="ui-closure-button-text">回退</label>
+##            </span>
+##            #end
+##            #if($funcPermit.hasFuncCode("loanInvestigateRefuse"))
+##                <span id="btnRefuseApply" class="ui-button ml15">
+##                    <label class="ui-closure-button-text">拒绝</label>
+##                </span>
+##            #end
+##        #end
+##        #if($!showApply != '1')
+##            <span id="investigateSaveBtn" class="ui-closure-button">
+##                <label class="ui-closure-button-text">保存</label>
+##            </span>
+##            <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##                <label class="ui-closure-button-text">关闭</label>
+##            </span>
+##        #end
+##    #end
+##    #if($!module == 'approval' && $!precType == 'approval')
+##    #end
+##    #if($!module == 'loan' && $!precType == 'loan')
+##        <span id="btnLoanMoneySave" class="ui-button">
+##            <label class="ui-closure-button-text">保存</label>
+##        </span>
+##        #if($funcPermit.hasFuncCode("loanGiveSave"))
+##            <span id="loanMoney" class="ui-closure-button ml15">
+##            <label class="ui-closure-button-text">放款</label>
+##        </span>
+##        #end
+##    ##        <span id="btnExportContract" class="ui-button ml15">
+##    ##            <label class="ui-closure-button-text">合同</label>
+##    ##        </span>
+##
+##        #if($funcPermit.hasFuncCode("loanGiveRefuse"))
+##            <span id="btnRefuseApply" class="ui-button ml15">
+##                <label class="ui-closure-button-text">拒绝</label>
+##            </span>
+##        #end
+##        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##            <label class="ui-closure-button-text">关闭</label>
+##        </span>
+##    #end
+##    #if($!module == 'afterLoan' && $!precType == 'afterLoan')
+##        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##            <label class="ui-closure-button-text">关闭</label>
+##        </span>
+##    #end
+##    #if($!module == 'collection' && $!precType == 'collection')
+##        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+##            <label class="ui-closure-button-text">关闭</label>
+##        </span>
+##    #end
+##
+##</div>
+##
+##<script type="text/javascript" >
+##    var loanTypeId = '$!loanTypeId';
+##    var applyId = '$!applyId';
+##    var potentialId = '$!potentialId';
+##    var customerId = '$!customerId';
+##    var loanId = '$!loanId';
+##    var cusId='$cusId';
+##    $(function () {
+##        refreshLoanApplyTemplate('applyTemplate_$!module$!precType', loanId, '$!loanTypeId', '$!module', '$!precType', '$!showApply', '$!applyId');
+##        if ('$!module' == '$!precType' || ('$!module' == 'allot' && '$!precType' == 'apply')) {
+##            // 保存信息
+##            $('#btnSaveApply').click(function() {
+##                saveApplyLoan(loanId,'Apply');
+##            });
+##            $('#btnEditApply').click(function() {
+##                editApply(loanId, '$!module');
+##            });
+##            // 提交申请
+##            $('#btnSaveApplyContine').click(function() {
+##                saveApplyLoan(loanId,'Allot');
+##            });
+##            // 分配贷款
+##            $('#applyInfoSignBtn').click(function() {
+##                applyInfoSign(loanId);
+##            });
+##            // 提交审批
+##            $('#investigateSubmitBtn').click(function() {
+##                investigateSubmit(loanId);
+##            });
+##            //贷款保存
+##            $('#investigateSaveBtn').click(function() {
+##                investigateSave(loanId);
+##            });
+##            // 放款保存
+##            $('#btnLoanMoneySave').click(function() {
+##                loanMoneySave(loanId);
+##            });
+##            // 放款
+##            $('#loanMoney').click(function() {
+##                loanMoney(loanId);
+##            });
+##            // 导出合同
+##//            $('#btnExportContract').click(function() {
+##//                exportContract(loanId,loanTypeId);
+##//            });
+##            // 回退贷款信息
+##            $('#backApplyInfo').click(function() {
+##                backApplyInfo(loanId, '$!module');
+##            });
+##            // 拒绝
+##            $('#btnRefuseApply').click(function() {
+##                refuseApply(loanId, '$!module');
+##            });
+##            //关闭
+##            $('#btnCloseApply').click(function() {
+##                showCancelConfirmForEdit(function(){
+##                    closeApplyTab();
+##                });
+##            });
+##        }
+##    });
+##    //加载模板表
+##    function refreshLoanApplyTemplate(divId, loanId, loanTypeId, processType, precType, showApply,applyId) {
+##        $('#'+divId).empty();
+##        var url = '../loan/getLoanTemplate.html';
+##        jQuery.ajax({
+##            type: 'post',
+##            url: url,
+##            async:false,
+##            data: {"applyId":applyId,"potentialId":potentialId,"cusId":cusId,"loanId":loanId,"loanTypeId":loanTypeId, "module" : processType, "precType" :precType, "showApply" : showApply, "showApply" : showApply },
+##            success: function (data) {
+##                $('#'+divId).append(data);
+##                if (processType == 'loan') {
+##                    $('#loanRatioDate').attr('mindateid', 'loanCreditDate');
+##                    $('#loanCreditDate').attr('maxdateid', 'loanRatioDate');
+##                }
+##                layout.initForms();
+##            }
+##        });
+##    }
+##
+##
+##</script>
+##
+##

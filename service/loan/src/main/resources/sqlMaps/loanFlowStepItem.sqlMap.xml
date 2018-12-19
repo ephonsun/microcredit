@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增流程步骤明细表 -->
+	<sql id="insertFlowStepItem" >
+		INSERT INTO LOAN_FLOW_STEP_ITEM (ID,FLOW_ID,SORT_NO,STEP_NAME,STEP_CONTENT,IS_DEL,CREATE_USER,UPDATE_USER,CREATE_DATE,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="0" >[$sortNo]</clause>
+		<clause prepend="," nvl="''" >[$stepName]</clause>
+		<clause prepend="," nvl="''" >[$stepContent]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改流程步骤明细表 -->
+	<sql id="updateFlowStepItem" >
+		UPDATE LOAN_FLOW_STEP_ITEM 
+		<set>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+			<clause prepend="," assert="!isNull([sortNo])" >SORT_NO = [$sortNo]</clause>
+			<clause prepend="," assert="!isNull([stepName])" >STEP_NAME = [$stepName]</clause>
+			<clause prepend="," assert="!isNull([stepContent])" >STEP_CONTENT = [$stepContent]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到流程步骤明细表 -->
+	<sql id="getFlowStepItemById" >
+		SELECT * FROM LOAN_FLOW_STEP_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除流程步骤明细表 -->
+	<sql id="deleteFlowStepItemById" >
+		UPDATE LOAN_FLOW_STEP_ITEM SET IS_DEL = 1 WHERE ID = [0]
+	</sql>
+
+	<!-- 查询流程步骤明细表 -->
+	<sql id="queryFlowStepItemList" >
+		SELECT * FROM LOAN_FLOW_STEP_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([sortNo])" > SORT_NO = [sortNo] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([stepName])" > STEP_NAME = '[stepName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([stepContent])" > STEP_CONTENT = '[stepContent]' </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+		ORDER BY SORT_NO
+	</sql>
+
+	<!--获取当前排序号-->
+	<sql id="getStepSortNum">
+		SELECT MAX(SORT_NO) FROM LOAN_FLOW_STEP_ITEM WHERE IS_DEL = 0
+	</sql>
+
+	<!--查询所有当前流程所有步骤-->
+	<sql id="queryAllFlowStepItem">
+		SELECT * FROM LOAN_FLOW_STEP_ITEM WHERE IS_DEL = 0 ORDER BY SORT_NO
+	</sql>
+
+</banger>

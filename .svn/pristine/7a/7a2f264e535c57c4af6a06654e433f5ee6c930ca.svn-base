@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增审批进程条件参数表 -->
+	<sql id="insertApproveConditionParams" >
+		INSERT INTO WF_APPROVE_CONDITION_PARAMS (PARAMS_ID,CONDITION_ID,FLOW_ID,PARAM_NO,PARAM1,PARAM2,PARAM3,PARAM4,IS_DEL,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$paramsId]
+		<clause prepend="," nvl="0" >[$conditionId]</clause>
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="0" >[$paramNo]</clause>
+		<clause prepend="," nvl="''" >[$param1]</clause>
+		<clause prepend="," nvl="''" >[$param2]</clause>
+		<clause prepend="," nvl="''" >[$param3]</clause>
+		<clause prepend="," nvl="''" >[$param4]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改审批进程条件参数表 -->
+	<sql id="updateApproveConditionParams" >
+		UPDATE WF_APPROVE_CONDITION_PARAMS 
+		<set>
+			<clause prepend="," assert="!isNull([conditionId])" >CONDITION_ID = [$conditionId]</clause>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+			<clause prepend="," assert="!isNull([paramNo])" >PARAM_NO = [$paramNo]</clause>
+			<clause prepend="," assert="!isNull([param1])" >PARAM1 = [$param1]</clause>
+			<clause prepend="," assert="!isNull([param2])" >PARAM2 = [$param2]</clause>
+			<clause prepend="," assert="!isNull([param3])" >PARAM3 = [$param3]</clause>
+			<clause prepend="," assert="!isNull([param4])" >PARAM4 = [$param4]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 PARAMS_ID = [$paramsId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到审批进程条件参数表 -->
+	<sql id="getApproveConditionParamsById" >
+		SELECT * FROM WF_APPROVE_CONDITION_PARAMS WHERE PARAMS_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批进程条件参数表 -->
+	<sql id="deleteApproveConditionParamsById" >
+		UPDATE WF_APPROVE_CONDITION_PARAMS SET IS_DEL = 1 WHERE PARAMS_ID = [0]
+	</sql>
+	
+	<!-- 通过流程ID删除审批进程条件参数表 -->
+	<sql id="deleteApproveConditionParamsByConditionId" >
+		UPDATE WF_APPROVE_CONDITION_PARAMS SET IS_DEL = 1 WHERE CONDITION_ID = [0]
+	</sql>
+
+	<!-- 查询审批进程条件参数表 -->
+	<sql id="queryApproveConditionParamsList" >
+		SELECT * FROM WF_APPROVE_CONDITION_PARAMS 
+		<where>
+			<clause prepend="and" assert="!isNull([conditionId])" > CONDITION_ID = [conditionId] </clause>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([paramNo])" > PARAM_NO = [paramNo] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([param1])" > PARAM1 = '[param1]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([param2])" > PARAM2 = '[param2]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([param3])" > PARAM3 = '[param3]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([param4])" > PARAM4 = '[param4]' </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+		ORDER BY PARAM_NO
+	</sql>
+
+	<!-- 通过条件查询审批进程条件参数表 -->
+	<sql id="getApproveConditionParamsByConditionId" >
+		SELECT * FROM WF_APPROVE_CONDITION_PARAMS WHERE IS_DEL = 0 AND CONDITION_ID = [0] ORDER BY PARAM_NO
+	</sql>
+
+</banger>

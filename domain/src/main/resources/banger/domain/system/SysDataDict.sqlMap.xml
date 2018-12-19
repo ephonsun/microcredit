@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.system.SysDataDict" table="SYS_DATA_DICT" >
+		<id name="dataDictId" type="java.lang.Integer" >
+			<column name="DATA_DICT_ID" lenght="22" />
+		</id>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="22" />
+		</property>
+		<property name="dictCnName" type="java.lang.String" >
+			<column name="DICT_CN_NAME" lenght="32" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="dictEnName" type="java.lang.String" >
+			<column name="DICT_EN_NAME" lenght="32" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="sysFlag" type="java.lang.Integer" >
+			<column name="SYS_FLAG" lenght="22" />
+		</property>
+		<property name="delFlag" type="java.lang.Integer" >
+			<column name="DEL_FLAG" lenght="22" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="22" />
+		</property>
+		<property name="isFixed" type="java.lang.Integer" >
+			<column name="IS_FIXED" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,844 @@
+    <form id="form">
+        <!--权益交叉检验-->
+    <div class="border" id="qy">
+        <label class="head-name"><strong>权益交叉检验</strong></label>
+        <input type="hidden" name="" value="$!lccq">
+        <table class="ui-form-fields tableParam"  >
+            <tbody>
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>应有权益：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.deservedRight)
+                            $!formatUtil.formatDecimal($!lccq.deservedRight ) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>实际权益：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.actualRight)
+                            $!formatUtil.formatDecimal($!lccq.actualRight) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>差别：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.deviation)
+                            $!formatUtil.formatDecimal($!lccq.deviation) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>偏差率：</label>
+                </td>
+                <td  width="18%">
+                    <span>
+                        #if($!lccq.deviationRatio)
+                            $!formatUtil.formatDecimal($!lccq.deviationRatio,"0.0#") %
+
+                        #else
+                            -- %
+                        #end
+                    </span>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>初始权益日：</label>
+                </td>
+                <td width="18%">
+                        <span>$!formatUtil.formatDate($!lccq.initRightDate,"yyyy-MM-dd")</span>
+
+                </td>
+
+                <td class="field" width="7%">
+                    <label>初始权益：</label>
+                </td>
+                <td width="18%">
+                    <span>
+
+                        #if($!lccq.initRight)
+                            $!formatUtil.formatDecimal($!lccq.initRight) 元
+
+                        #else
+                            -- 元
+                        #end
+
+                    </span>
+                </td>
+                <td class="field" width="7%"></td>
+                <td width="18%"></td>
+                <td class="field" width="7%"></td>
+                <td width="18%"></td>
+
+            </tr>
+
+            <tr>
+                <td class="field" width="7%">
+                    <label>初始权益说明：</label>
+                </td>
+                <td colspan="7" width="auto">
+                    <span>
+                        $!lccq.initRightDesc
+                    </span>
+                </td>
+
+            </tr>
+
+
+            <tr>
+                #if($!loanClassId==1)
+                <td class="field" width="7%">
+                    <label>期间利润：</label>
+                </td>
+                <td width="18%">
+                    <span>
+
+                        #if($!lccq.periodProfit)
+                            $!formatUtil.formatDecimal($!lccq.periodProfit) 元
+
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+
+                <td class="field" width="7%">
+                    <label>期间注资：</label>
+                </td>
+                <td width="18%">
+                    <span>
+
+                        #if($!lccq.periodInjection)
+                            $!formatUtil.formatDecimal($!lccq.periodInjection) 元
+
+                        #else
+                            -- 元
+                        #end
+
+                    </span>
+                </td>
+#else
+    <td class="field" width="7%">
+        <label>期间收入：</label>
+    </td>
+    <td width="18%">
+                    <span>
+
+                        #if($!lccq.periodInjection)
+                            $!formatUtil.formatDecimal($!lccq.periodInjection) 元
+
+                        #else
+                            -- 元
+                        #end
+
+                    </span>
+    </td>
+
+    #end
+
+                <td class="field" width="7%">
+                    <label>升值：</label>
+                </td>
+                <td width="18%">
+                    <span>
+
+                        #if($!lccq.appreciation)
+                            $!formatUtil.formatDecimal($!lccq.appreciation) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                </td>
+                <td width="18%"></td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label>增项说明：</label>
+                </td>
+                <td colspan="7" width="auto">
+                    <span>$!lccq.increaseDesc</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label>期间提取：</label>
+                </td >
+                <td width="18%">
+                    <span>
+
+                        #if($!lccq.periodExtract)
+                            $!formatUtil.formatDecimal($!lccq.periodExtract) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+                </td>
+                <td class="field" width="7%">
+                    <label>折旧/贬值：</label>
+                </td>
+                <td width="18%">
+
+                    <span>
+
+                        #if($!lccq.depreciation)
+                            $!formatUtil.formatDecimal($!lccq.depreciation) 元
+                        #else
+                            -- 元
+                        #end
+                    </span>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label>减项说明：</label>
+                </td>
+                <td colspan="7" width="auto">
+
+                    <span>$!lccq.reduceDesc</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+        #if($loanClassId==1)
+            <!--销售额检验-->
+            <div class="border" id="xse">
+                <label class="head-name"><strong>销售额检验</strong></label>
+                <div>
+                    <table class="ui-form-fields tableParam">
+                        <input type="hidden" name="" value="$!lccs">
+                        <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验销售额1：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+
+                                    #if($!lccs.checkSaleAmount1)
+                                        $!formatUtil.formatDecimal($!lccs.checkSaleAmount1) 元
+                                    #else
+                                        -- 元
+                                    #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccs.deviationRatio1)
+                                $!formatUtil.formatDecimal($!lccs.deviationRatio1,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+
+                            </td>
+
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+
+                                <span>$!lccs.infomation1</span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验销售额2：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+                                    #if($!lccs.checkSaleAmount2)
+                                        $!formatUtil.formatDecimal($!lccs.checkSaleAmount2) 元
+                                    #else
+                                        -- 元
+                                    #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccs.deviationRatio2)
+                                $!formatUtil.formatDecimal($!lccs.deviationRatio2,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                              <span>$!lccs.infomation2</span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验销售额3：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+                                    #if($!lccs.checkSaleAmount3)
+                                        $!formatUtil.formatDecimal($!lccs.checkSaleAmount3) 元
+                                    #else
+                                        -- 元
+                                    #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+
+                            #if($!lccs.deviationRatio3)
+                                $!formatUtil.formatDecimal($!lccs.deviationRatio3,"0.0#") %
+
+                            #else
+                               -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+                                <span>$!lccs.infomation3</span>
+                            </td>
+
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!--毛利检验-->
+            <div class="border" id="ml">
+                <label class="head-name"><strong>毛利检验</strong></label>
+                <div>
+                    <table class="ui-form-fields tableParam">
+                        <input type="hidden" name="" value="$!lccgp">
+                        <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验毛利率1：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+
+                                #if($!lccgp.checkGrossProfitRatio1)
+                                    $!formatUtil.formatDecimal($!lccgp.checkGrossProfitRatio1) %
+                                #else
+                                    -- 元
+                                #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccgp.deviationRatio1)
+                                $!formatUtil.formatDecimal($!lccgp.deviationRatio1,"0.0#") %
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+
+                                <span>$!lccgp.infomation1</span>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验毛利率2：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+
+                                    #if($!lccgp.checkGrossProfitRatio2)
+                                        $!formatUtil.formatDecimal($!lccgp.checkGrossProfitRatio2) %
+                                    #else
+                                        -- 元
+                                    #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccgp.deviationRatio2)
+                                $!formatUtil.formatDecimal($!lccgp.deviationRatio2,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+
+                                <span>$!lccgp.infomation2</span>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >检验毛利率3：</label>
+                            </td>
+                            <td width="18%">
+
+                                 <span>
+
+                                     #if($!lccgp.checkGrossProfitRatio3)
+                                         $!formatUtil.formatDecimal($!lccgp.checkGrossProfitRatio3) %
+                                     #else
+                                         -- 元
+                                     #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lccgp.deviationRatio3)
+                                $!formatUtil.formatDecimal($!lccgp.deviationRatio3,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+
+                                <span>$!lccgp.infomation3</span>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!--净利检验-->
+        <div class="border" id="jl">
+            <label class="head-name"><strong>净利检验</strong></label>
+            <div >
+                <table class="ui-form-fields tableParam">
+                    <input type="hidden" name="" value="$!lccnp">
+                    <tbody>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label >检验净利率1：</label>
+                        </td>
+                        <td width="18%">
+                            <span>
+
+                                #if($!lccnp.checkNetProfitRatio1)
+                                    $!formatUtil.formatDecimal($!lccnp.checkNetProfitRatio1) %
+                                #else
+                                    -- 元
+                                #end
+                            </span>
+                        </td>
+
+                        <td class="field" width="7%">
+                            <label> 偏差率：</label>
+                        </td>
+                        <td width="18%">
+                        <span>
+                            #if($!lccnp.deviationRatio1)
+                                $!formatUtil.formatDecimal($!lccnp.deviationRatio1,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                        </td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>说明：</label>
+                        </td>
+                        <td colspan="7" width="auto">
+
+                            <span>$!lccnp.infomation1</span>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label >检验净利率2：</label>
+                        </td>
+                        <td width="18%">
+
+                           <span>
+
+                               #if($!lccnp.checkNetProfitRatio2)
+                                   $!formatUtil.formatDecimal($!lccnp.checkNetProfitRatio2) %
+                               #else
+                                   -- 元
+                               #end
+                            </span>
+
+                        </td>
+
+                        <td class="field" width="7%">
+                            <label> 偏差率：</label>
+                        </td>
+                        <td width="18%">
+                        <span>
+                            #if($!lccnp.deviationRatio2)
+                                $!formatUtil.formatDecimal($!lccnp.deviationRatio2,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                        </td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>说明：</label>
+                        </td>
+                        <td colspan="7" width="auto">
+
+                            <span>$!lccnp.infomation2</span>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label >检验净利率3：</label>
+                        </td>
+                        <td width="18%">
+
+                           <span>
+
+                               #if($!lccnp.checkNetProfitRatio3)
+                                   $!formatUtil.formatDecimal($!lccnp.checkNetProfitRatio3) %
+                               #else
+                                   -- 元
+                               #end
+                            </span>
+
+                        </td>
+
+                        <td class="field" width="7%">
+                            <label> 偏差率：</label>
+                        </td>
+                        <td width="18%">
+                        <span>
+                            #if($!lccnp.deviationRatio3)
+                                $!formatUtil.formatDecimal($!lccnp.deviationRatio3,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                        </td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                        <td class="field" width="7%"></td>
+                        <td width="18%"></td>
+                    </tr>
+                    <tr>
+                        <td class="field" width="7%">
+                            <label>说明：</label>
+                        </td>
+                        <td colspan="7" width="auto">
+
+                            <span>$!lccnp.infomation3</span>
+
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <br>
+            #else
+                <!--收入检验-->
+            <div class="border" id="sr">
+                <label class="head-name"><strong>收入检验</strong></label>
+                <div >
+                    <table class="ui-form-fields tableParam">
+                        <input type="hidden" name="" value="$!lcci">
+                        <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >工资流水：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+                                #if($!lcci.wageFlow)
+                                    $!formatUtil.formatDecimal($!lcci.wageFlow) 元
+                                #else
+                                    -- 元
+                                #end
+                                </span>
+
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lcci.wageFlowDeviation)
+                                $!formatUtil.formatDecimal($!lcci.wageFlowDeviation,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >收入证明：</label>
+                            </td>
+                            <td width="18%">
+                                <span>
+                                    #if($!lcci.incomeCert)
+                                        $!formatUtil.formatDecimal($!lcci.incomeCert) 元
+                                    #else
+                                        -- 元
+                                    #end
+                                </span>
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lcci.incomeCertDeviation)
+                                $!formatUtil.formatDecimal($!lcci.incomeCertDeviation,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >个人税单：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+                                    #if($!lcci.personTax)
+                                        $!formatUtil.formatDecimal($!lcci.personTax) 元
+                                    #else
+                                        -- 元
+
+                                    #end
+                                </span>
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lcci.personTaxDeviation)
+                                $!formatUtil.formatDecimal($!lcci.personTaxDeviation,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="field" width="7%">
+                                <label >其他：</label>
+                            </td>
+                            <td width="18%">
+
+                                <span>
+                                    #if($!lcci.otherIncome)
+                                        $!formatUtil.formatDecimal($!lcci.otherIncome) 元
+                                    #else
+                                        -- 元
+                                    #end
+                                </span>
+                            </td>
+
+                            <td class="field" width="7%">
+                                <label> 偏差率：</label>
+                            </td>
+                            <td width="18%">
+                        <span>
+                            #if($!lcci.otherIncomeDeviation)
+                                $!formatUtil.formatDecimal($!lcci.otherIncomeDeviation,"0.0#") %
+
+                            #else
+                                -- %
+                            #end
+                        </span>
+                            </td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                            <td class="field" width="7%"></td>
+                            <td width="18%"></td>
+                        </tr>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>说明：</label>
+                            </td>
+                            <td colspan="7" width="auto">
+
+                                <span>$!lcci.infomation</span>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+        #end
+   </form>
+
+    </div>
+
+    <div id="taskGrid" ></div>
+

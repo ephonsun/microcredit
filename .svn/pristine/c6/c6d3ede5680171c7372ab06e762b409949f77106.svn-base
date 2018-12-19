@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanIndustryGuidelines" table="LOAN_INDUSTRY_GUIDELINES" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="gradeFirst" type="java.lang.String" >
+			<column name="GRADE_FIRST" length="60" />
+		</property>
+		<property name="gradeSecond" type="java.lang.String" >
+			<column name="GRADE_SECOND" length="60" />
+		</property>
+		<property name="gradeThird" type="java.lang.String" >
+			<column name="GRADE_THIRD" length="60" />
+		</property>
+		<property name="gradeTerms" type="java.lang.String" >
+			<column name="GRADE_TERMS" length="240" />
+		</property>
+		<property name="itemName" type="java.lang.String" >
+			<column name="ITEM_NAME" length="60" />
+		</property>
+		<property name="value1" type="java.math.BigDecimal" >
+			<column name="VALUE1" length="10" scale="2" />
+		</property>
+		<property name="value2" type="java.math.BigDecimal" >
+			<column name="VALUE2" length="10" scale="2" />
+		</property>
+		<property name="value3" type="java.math.BigDecimal" >
+			<column name="VALUE3" length="10" scale="2" />
+		</property>
+		<property name="value4" type="java.math.BigDecimal" >
+			<column name="VALUE4" length="10" scale="2" />
+		</property>
+		<property name="value5" type="java.math.BigDecimal" >
+			<column name="VALUE5" length="10" scale="2" />
+		</property>
+		<property name="valueType" type="java.lang.Integer" >
+			<column name="VALUE_TYPE" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+	</class>
+</mapping>
+

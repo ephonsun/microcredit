@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles { border:1px solid #b6c4d8; background-color:#f2f7fe; padding:10px; }
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+    </style>
+</head>
+
+<body>
+<form>
+<input type="hidden" id="dataDictId" name="dataDictId" value="$!dataDictCol.dataDictId"/>
+<input type="hidden" id="dictColId" name="dictColId" value="$!dataDictCol.dictColId"/>
+<table class="ui-form-fields">
+<tbody>
+<tr>
+    <td class="field" width="7%">
+        <label>数据源：</label>
+    </td>
+    <td >
+        <label>$!dataDict.dictCnName</label>
+    </td>
+</tr>
+<tr>
+    <td class="field" width="7%">
+        <label class="ui-star">选项：</label>
+    </td>
+    <td >
+        <div class="ui-text">
+            <input type="text" id="dictName" class="ui-text-text" name="dictName" value="$!dataDictCol.dictName" maxlength="20"/>
+        </div>
+    </td>
+</tr>
+#if("$!isShow"!="false")
+<tr>
+    <td class="field" width="7%">
+        <label class="">编号：</label>
+    </td>
+    <td>
+        <div class="ui-text">
+            <input type="text" id="dictCode" class="ui-text-text" name="dictCode" value="$!dataDictCol.dictCode" maxlength="20"/>
+        </div>
+    </td>
+</tr>
+#end
+
+</tbody>
+</table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnUpdate" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../system/js/dataDictColAdd.js?v=$!webAppVersion"></script>
+<script language="javascript" type="text/javascript">
+    //禁用Enter键表单自动提交
+    document.onkeydown = function(event) {
+        var target, code, tag;
+        if (!event) {
+            event = window.event; //针对ie浏览器
+            target = event.srcElement;
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "TEXTAREA") { return true; }
+                else { return false; }
+            }
+        }
+        else {
+            target = event.target; //针对遵循w3c标准的浏览器，如Firefox
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "INPUT") { return false; }
+                else { return true; }
+            }
+        }
+    };
+</script>
+</body>
+</html>

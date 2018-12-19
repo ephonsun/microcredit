@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.CommPeoInfo" table="COMMON_PEOPLE_INFO" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="itemId" type="java.lang.Integer" >
+			<column name="ITEM_ID" length="4" />
+		</property>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanProcessType" type="java.lang.String" >
+			<column name="LOAN_PROCESS_TYPE" length="64" />
+		</property>
+		<property name="commPeoName" type="java.lang.String" >
+			<column name="COMM_PEO_NAME" length="150" />
+		</property>
+		<property name="commPeoCerType" type="java.lang.String" >
+			<column name="COMM_PEO_CER_TYPE" length="150" />
+		</property>
+		<property name="commLicenseNo" type="java.lang.String" >
+			<column name="COMM_LICENSE_NO" length="150" />
+		</property>
+		<property name="commNo" type="java.lang.String" >
+			<column name="COMM_NO" length="150" />
+		</property>
+		<property name="commKeeperName" type="java.lang.String" >
+			<column name="COMM_KEEPER_NAME" length="150" />
+		</property>
+		<property name="corporation" type="java.lang.String" >
+			<column name="CORPORATION" length="150" />
+		</property>
+		<property name="telephone" type="java.lang.String" >
+			<column name="TELEPHONE" length="150" />
+		</property>
+		<property name="facsimile" type="java.lang.String" >
+			<column name="FACSIMILE" length="150" />
+		</property>
+		<property name="address" type="java.lang.String" >
+			<column name="ADDRESS" length="150" />
+		</property>
+		<property name="indivSpsName" type="java.lang.String" >
+			<column name="INDIV_SPS_NAME" length="150" />
+		</property>
+		<property name="indivSpsIdType" type="java.lang.String" >
+			<column name="INDIV_SPS_ID_TYPE" length="150" />
+		</property>
+		<property name="indivSpsIdCode" type="java.lang.String" >
+			<column name="INDIV_SPS_ID_CODE" length="150" />
+		</property>
+		<property name="indivSpsMobile" type="java.lang.String" >
+			<column name="INDIV_SPS_MOBILE" length="150" />
+		</property>
+		<property name="userId" type="java.lang.Integer" >
+			<column name="USER_ID" length="4" />
+		</property>
+
+	</class>
+</mapping>
+

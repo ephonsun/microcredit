@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="taskStatQuery" name="banger.domain.task.TskTaskStatQuery" >
+        <property name="userName" column="USER_NAME" ></property>
+        <property name="groupName" column="TEAM_GROUP_NAME" ></property> 
+        <property name="finishNum" column="FINISH_NUM" ></property>   
+        <property name="assignNum" column="ASSIGN_NUM" ></property>  
+        <property name="userId" column="USER_ID" ></property>
+		<property name="groupAssignNum" column="ASSIGN_TARGET"></property>
+		<property name="groupFinshNum" column="FINISH_NUM"></property>
+		<property name="taskMold" column="TASK_MOLD"></property>
+		<property name="tskLevel" column="TSK_LEVEL"></property>
+		<property name="taskSum" column="TASK_NUM"></property>
+		<property name="taskFinished" column="TASK_FINISH"></property>
+		<property name="taskNoFinished" column="TASK_NO_FINISH"></property>
+		<property name="taskIng" column="TASK_ING"></property>
+    </class>
+	<!--团队统计-->
+	<sql id="queryLoanTasksListForTeam" result="taskStatQuery">
+		SELECT STG.TEAM_GROUP_NAME ,STG.TEAM_GROUP_ID,COUNT(*) AS TASK_NUM,
+		SUM(CASE WHEN TGA.TASK_FINISH_STATUS = 2 THEN 1 ELSE 0 END) AS TASK_FINISH,
+		SUM(CASE WHEN TGA.TASK_FINISH_STATUS = 1 THEN 1 ELSE 0 END) AS TASK_NO_FINISH,
+		SUM(CASE WHEN TTI.START_DATE <![CDATA[<]]><method name="toDate">[nowDate]</method> AND <method name="toDate">[nowDate]</method> <![CDATA[<]]>TTI.END_DATE  THEN 1 ELSE 0 END) AS TASK_ING
+		FROM  TSK_GROUP_TASK_ASSIGN  TGA
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID = TGA.TEAM_GROUP_ID
+		LEFT JOIN TSK_TASK_INFO TTI ON TTI.TASK_ID =TGA.TASK_ID
+		WHERE TGA.IS_DEL = 0
+		<clause prepend="and" assert="!isNullOrEmpty([teamGroupId])">STG.TEAM_GROUP_ID IN([teamGroupId])</clause>
+		<!--<clause prepend="and" assert="!isNullOrEmpty([userId])" > U.USER_ID IN([userId]) </clause>-->
+		<clause prepend="and" assert="!isNullOrEmpty([taskLevel])" > TTI.TSK_LEVEL NOT IN([taskLevel]) </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+			TTI.START_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+		</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+			TTI.END_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+		</clause>
+		GROUP BY STG.TEAM_GROUP_NAME ,STG.TEAM_GROUP_ID
+	</sql>
+
+	<!--客户经理统计-->
+	<sql id="queryLoanTasksList" result="taskStatQuery">
+		SELECT STG.TEAM_GROUP_NAME,U.USER_NAME,U.USER_ID,TTM.TEAM_GROUP_ID,COUNT(*) AS TASK_NUM,
+		SUM(CASE WHEN TTM.TASK_FINISH_STATUS = 2 THEN 1 ELSE 0 END) AS TASK_FINISH,
+		SUM(CASE WHEN TTM.TASK_FINISH_STATUS = 1 THEN 1 ELSE 0 END) AS TASK_NO_FINISH,
+		SUM(CASE WHEN TTI.START_DATE <![CDATA[<]]><method name="toDate">[nowDate]</method> AND <method name="toDate">[nowDate]</method> <![CDATA[<]]>TTI.END_DATE THEN 1 ELSE 0 END) AS TASK_ING
+		FROM TSK_TEAM_MEMBER_TASK_ASSIGN TTM
+		LEFT JOIN PMS_USER U ON U.USER_ID = TTM.MEMBER_USER_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID = TTM.TEAM_GROUP_ID
+		LEFT JOIN TSK_TASK_INFO TTI ON TTI.TASK_ID = TTM.TASK_ID
+		WHERE TTM.IS_DEL = 0 AND U.USER_ISDEL = 0
+		<clause prepend="and" assert="!isNullOrEmpty([teamGroupId])">TTM.TEAM_GROUP_ID IN([teamGroupId])</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([userId])" > U.USER_ID IN([userId]) </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([taskLevel])" > TTI.TSK_LEVEL NOT IN([taskLevel]) </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+			TTI.START_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+		</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+			TTI.END_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+		</clause>
+		GROUP BY STG.TEAM_GROUP_NAME,U.USER_NAME,U.USER_ID,TTM.TEAM_GROUP_ID
+	</sql>
+
+    <!-- 查询团队和经理任务情况 -->
+    <sql id="queryTaskStatList"  result="taskStatQuery">
+		SELECT STG.TEAM_GROUP_NAME,TTI.TASK_MOLD,TTI.TSK_LEVEL,TTI.TASK_TARGET,TTM.ASSIGN_NUM,TTM.TEAM_GROUP_ID,TTM.FINISH_NUM,TTI.TASK_ID,TTI.TASK_TYPE, TTI.TASK_TITLE,U.USER_ID, U.USER_NAME  FROM TSK_TEAM_MEMBER_TASK_ASSIGN TTM
+		LEFT JOIN PMS_USER U ON U.USER_ID=TTM.MEMBER_USER_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=TTM.TEAM_GROUP_ID
+		LEFT JOIN TSK_TASK_INFO TTI ON TTI.TASK_ID=TTM.TASK_ID
+		<where>
+			<clause prepend="and"> TTM.IS_DEL = 0 AND U.USER_ISDEL=0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([teamGroupId])" > TTM.TEAM_GROUP_ID IN([teamGroupId]) </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([userId])" > U.USER_ID IN([userId]) </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([taskLevel])" > TTI.TSK_LEVEL NOT IN([taskLevel]) </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				TTI.START_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				TTI.END_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>
+		</where>
+		ORDER BY TTI.TSK_LEVEL , TTI.TASK_TITLE
+	</sql>
+
+    <sql id="queryAllGroupList" result="taskStatQuery">
+        SELECT TEAM_GROUP_ID,TEAM_GROUP_NAME from SYS_TEAM_GROUP
+    </sql>
+
+	<!--根据团队id查询团队下的经理 -->
+	<sql id="queryMemberByTeamGroupId" result="taskStatQuery">
+		SELECT U.USER_ID ,U.USER_NAME ,STG.TEAM_GROUP_NAME FROM SYS_TEAM_MEMBER STM
+		LEFT JOIN PMS_USER U ON STM.USER_ID=U.USER_ID
+		LEFT JOIN PMS_USER_ROLES PUR ON U.USER_ID=PUR.PUR_USER_ID
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=STM.TEAM_GROUP_ID
+		WHERE PUR.PUR_ROLE_ID=4 AND STM.TEAM_GROUP_ID IN ([0])
+		ORDER BY STM.TEAM_GROUP_ID
+	</sql>
+
+    <!-- 根据数据权限查询团队列表 -->
+	<sql id="queryGroupListByGroupPermit" result="taskStatQuery">
+		SELECT TEAM_GROUP_ID,TEAM_GROUP_NAME FROM SYS_TEAM_GROUP
+		WHERE  TEAM_GROUP_ID IN ([0])
+	</sql>
+    <!--根据权限查询跨团队列表-->
+	<sql id="queryCrossTeamList" result="taskStatQuery">
+		SELECT DISTINCT TTI.TASK_TITLE,TTI.TASK_MOLD,TTI.TSK_LEVEL,TTI.TASK_TARGET,TTI.TASK_ID,TTI.TASK_TYPE,STG.TEAM_GROUP_NAME,TTI.TEAM_GROUP_ID,TGT.ASSIGN_TARGET,TGT.FINISH_NUM
+		FROM TSK_GROUP_TASK_ASSIGN TGT
+		LEFT JOIN SYS_TEAM_GROUP STG ON STG.TEAM_GROUP_ID=TGT.TEAM_GROUP_ID
+		LEFT JOIN TSK_TASK_INFO TTI ON TGT.TASK_ID=TTI.TASK_ID
+		WHERE TGT.IS_DEL=0
+		AND TGT.TEAM_GROUP_ID IN ([0])
+		AND TTI.TEAM_GROUP_ID NOT IN ([0])
+		<clause prepend="and" assert="!isNullOrEmpty([1])">
+			TTI.START_DATE <![CDATA[>=]]><method name="beginDate">[1]</method>
+		</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([2])">
+			TTI.END_DATE <![CDATA[<]]><method name="endDate">[2]</method>
+		</clause>
+		ORDER BY TTI.TASK_TITLE
+	</sql>
+
+	<sql id="queryGroupAssignTargetByIds" result="taskStatQuery">
+		SELECT ASSIGN_TARGET FROM TSK_GROUP_TASK_ASSIGN
+		WHERE TASK_ID=[0] AND TEAM_GROUP_ID=[1]
+	</sql>
+	<sql id="queryCrossTaskTargetById" result="taskStatQuery">
+		SELECT TASK_TARGET FROM TSK_TASK_INFO WHERE TASK_ID=[0]
+	</sql>
+
+</banger>

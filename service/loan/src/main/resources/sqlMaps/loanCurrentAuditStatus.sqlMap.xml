@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增审批进度审核状态表 -->
+	<sql id="insertCurrentAuditStatus" >
+		INSERT INTO LOAN_CURRENT_AUDIT_STATUS (ID,LOAN_ID,FLOW_ID,PROCESS_ID,AUDIT_USER_ID,AUDIT_USER_NAME,AUDIT_RESULT,IS_VALID,AUDIT_RESOLUTION_ID,AUDIT_VERSION,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="0" >[$processId]</clause>
+		<clause prepend="," nvl="0" >[$auditUserId]</clause>
+		<clause prepend="," nvl="''" >[$auditUserName]</clause>
+		<clause prepend="," nvl="0" >[$auditResult]</clause>
+		<clause prepend="," nvl="0" >[$isValid]</clause>
+		<clause prepend="," nvl="0" >[$auditResolutionId]</clause>
+		<clause prepend="," nvl="''" >[$auditVersion]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改审批进度审核状态表 -->
+	<sql id="updateCurrentAuditStatus" >
+		UPDATE LOAN_CURRENT_AUDIT_STATUS
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+			<clause prepend="," assert="!isNull([processId])" >PROCESS_ID = [$processId]</clause>
+			<clause prepend="," assert="!isNull([auditUserId])" >AUDIT_USER_ID = [$auditUserId]</clause>
+			<clause prepend="," assert="!isNull([auditUserName])" >AUDIT_USER_NAME = [$auditUserName]</clause>
+			<clause prepend="," assert="!isNull([auditResult])" >AUDIT_RESULT = [$auditResult]</clause>
+			<clause prepend="," assert="!isNull([isValid])" >IS_VALID = [$isValid]</clause>
+			<clause prepend="," assert="!isNull([auditResolutionId])" >AUDIT_RESOLUTION_ID = [$auditResolutionId]</clause>
+			<clause prepend="," assert="!isNull([auditVersion])" >AUDIT_VERSION = [$auditVersion]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到审批进度审核状态表 -->
+	<sql id="getCurrentAuditStatusById" >
+		SELECT * FROM LOAN_CURRENT_AUDIT_STATUS WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批进度审核状态表 -->
+	<sql id="deleteCurrentAuditStatusById" >
+		DELETE FROM LOAN_CURRENT_AUDIT_STATUS WHERE ID = [0]
+	</sql>
+
+	<!-- 查询审批进度审核状态表 -->
+	<sql id="queryCurrentAuditStatusList" >
+		SELECT * FROM LOAN_CURRENT_AUDIT_STATUS 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([processId])" > PROCESS_ID = [processId] </clause>
+			<clause prepend="and" assert="!isNull([auditUserId])" > AUDIT_USER_ID = [auditUserId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([auditUserName])" > AUDIT_USER_NAME = '[auditUserName]' </clause>
+			<clause prepend="and" assert="!isNull([auditResult])" > AUDIT_RESULT = [auditResult] </clause>
+			<clause prepend="and" assert="!isNull([isValid])" > IS_VALID = [isValid] </clause>
+			<clause prepend="and" assert="!isNull([auditResolutionId])" > AUDIT_RESOLUTION_ID = [auditResolutionId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([auditVersion])" > AUDIT_VERSION = '[auditVersion]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<sql id="getLoanAuditStatusListById" >
+		SELECT * FROM LOAN_CURRENT_AUDIT_STATUS WHERE IS_VALID = 1 AND LOAN_ID = [0] AND PROCESS_ID = [1]
+	</sql>
+
+	<sql id="resetLoanFlowAuditStatusByFlowId" >
+		UPDATE LOAN_CURRENT_AUDIT_STATUS SET IS_VALID = 0 WHERE IS_VALID = 1 AND LOAN_ID IN (
+			SELECT LOAN_ID FROM LOAN_APPLY_INFO
+			WHERE IS_DEL = 0 AND LOAN_REFUSE_USER = 0 AND LOAN_PROCESS_TYPE = 'Approval' AND LOAN_AUDIT_FLOW_ID = [0]
+		)
+	</sql>
+
+	<sql id="resetLoanFlowAuditStatusByProcessId" >
+		UPDATE LOAN_CURRENT_AUDIT_STATUS SET IS_VALID = 0 WHERE IS_VALID = 1 AND LOAN_ID IN (
+		SELECT LOAN_ID FROM LOAN_APPLY_INFO
+		WHERE IS_DEL = 0 AND LOAN_REFUSE_USER = 0 AND LOAN_PROCESS_TYPE = 'Approval' AND LOAN_AUDIT_PROCESS_ID = [0]
+		)
+	</sql>
+
+	<sql id="updateAuditStatusByLoanId" >
+		UPDATE LOAN_CURRENT_AUDIT_STATUS SET IS_VALID = 0 WHERE LOAN_ID = [0]
+	</sql>
+
+	<sql id="deleteAuditStatusByLoanId" >
+		DELETE FROM LOAN_CURRENT_AUDIT_STATUS WHERE LOAN_ID = [0]
+	</sql>
+
+	<sql id="deleteApprovalResolution" >
+		delete from  LBIZ_APPROVAL_RESOLUTION WHERE LOAN_ID = [0]
+	</sql>
+
+</banger>

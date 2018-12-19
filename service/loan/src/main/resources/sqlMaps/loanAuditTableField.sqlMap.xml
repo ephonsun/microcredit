@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="LoanAuditTableFieldExtend" name="banger.domain.loan.LoanAuditTableFieldExtend">
+		<property name="auditFieldId" column="ID"></property>
+	</class>
+	<!-- 新增贷款审合表单字段配置 -->
+	<sql id="insertAuditTableField" >
+		INSERT INTO LOAN_AUDIT_TABLE_FIELD (ID,LOAN_TYPE_ID,LOAN_CODITION_ID,LOAN_PARAM_ID,LOAN_AUDIT_PROCESS_ID,TABLE_ID,FIELD_ID,FIELD_APP_IS_SHOW,FIELD_WEB_IS_SHOW,FIELD_IS_REQUIRED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanTypeId]</clause>
+		<clause prepend="," nvl="0" >[$loanCoditionId]</clause>
+		<clause prepend="," nvl="0" >[$loanParamId]</clause>
+		<clause prepend="," nvl="0" >[$loanAuditProcessId]</clause>
+		<clause prepend="," nvl="0" >[$tableId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="0" >[$fieldAppIsShow]</clause>
+		<clause prepend="," nvl="0" >[$fieldWebIsShow]</clause>
+		<clause prepend="," nvl="0" >[$fieldIsRequired]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款审合表单字段配置 -->
+	<sql id="updateAuditTableField" >
+		UPDATE LOAN_AUDIT_TABLE_FIELD 
+		<set>
+			<clause prepend="," assert="!isNull([loanTypeId])" >LOAN_TYPE_ID = [$loanTypeId]</clause>
+			<clause prepend="," assert="!isNull([loanCoditionId])" >LOAN_CODITION_ID = [$loanCoditionId]</clause>
+			<clause prepend="," assert="!isNull([loanParamId])" >LOAN_PARAM_ID = [$loanParamId]</clause>
+			<clause prepend="," assert="!isNull([loanAuditProcessId])" >LOAN_AUDIT_PROCESS_ID = [$loanAuditProcessId]</clause>
+			<clause prepend="," assert="!isNull([tableId])" >TABLE_ID = [$tableId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([fieldAppIsShow])" >FIELD_APP_IS_SHOW = [$fieldAppIsShow]</clause>
+			<clause prepend="," assert="!isNull([fieldWebIsShow])" >FIELD_WEB_IS_SHOW = [$fieldWebIsShow]</clause>
+			<clause prepend="," assert="!isNull([fieldIsRequired])" >FIELD_IS_REQUIRED = [$fieldIsRequired]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款审合表单字段配置 -->
+	<sql id="getAuditTableFieldById" >
+		SELECT * FROM LOAN_AUDIT_TABLE_FIELD WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款审合表单字段配置 -->
+	<sql id="deleteAuditTableFieldById" >
+		DELETE FROM LOAN_AUDIT_TABLE_FIELD WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款审合表单字段配置 -->
+	<sql id="deleteAuditTableFieldByLinkId" >
+		DELETE FROM LOAN_AUDIT_TABLE_FIELD WHERE [1] = [0]
+	</sql>
+
+	<!-- 查询贷款审合表单字段配置 -->
+	<sql id="queryAuditTableFieldList" >
+		SELECT * FROM LOAN_AUDIT_TABLE_FIELD 
+		<where>
+			<clause prepend="and" assert="!isNull([loanTypeId])" > LOAN_TYPE_ID = [loanTypeId] </clause>
+			<clause prepend="and" assert="!isNull([loanCoditionId])" > LOAN_CODITION_ID = [loanCoditionId] </clause>
+			<clause prepend="and" assert="!isNull([loanParamId])" > LOAN_PARAM_ID = [loanParamId] </clause>
+			<clause prepend="and" assert="!isNull([loanAuditProcessId])" > LOAN_AUDIT_PROCESS_ID = [loanAuditProcessId] </clause>
+			<clause prepend="and" assert="!isNull([tableId])" > TABLE_ID = [tableId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNull([fieldAppIsShow])" > FIELD_APP_IS_SHOW = [fieldAppIsShow] </clause>
+			<clause prepend="and" assert="!isNull([fieldWebIsShow])" > FIELD_WEB_IS_SHOW = [fieldWebIsShow] </clause>
+			<clause prepend="and" assert="!isNull([fieldIsRequired])" > FIELD_IS_REQUIRED = [fieldIsRequired] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+	<!-- 查询选择审批字段 -->
+	<sql id="queryAuditTableFieldSelect" result="LoanAuditTableFieldExtend" >
+		SELECT L.ID, C.FIELD_ID,C.TABLE_ID,C.TABLE_NAME,C.FIELD_NAME,C.FIELD_TYPE,C.FIELD_NUMBER_UNIT,
+		C.FIELD_COLUMN,C.FIELD_COLUMN_DISPLAY,C.FIELD_DICT_NAME,C.FIELD_LENGTH,C.FIELD_CONSTRAINT_RULE,C.DEFAULT_VALUE,
+		CASE WHEN L.LOAN_AUDIT_PROCESS_ID IS NULL THEN C.FIELD_IS_REQUIRED ELSE L.FIELD_IS_REQUIRED END AS FIELD_IS_REQUIRED,
+		CASE WHEN L.LOAN_AUDIT_PROCESS_ID IS NULL THEN C.FIELD_APP_IS_SHOW ELSE L.FIELD_APP_IS_SHOW END AS FIELD_APP_IS_SHOW,
+		CASE WHEN L.LOAN_AUDIT_PROCESS_ID IS NULL THEN C.FIELD_WEB_IS_SHOW ELSE L.FIELD_WEB_IS_SHOW END AS FIELD_WEB_IS_SHOW
+		FROM AUTO_TABLE_COLUMN C 
+		LEFT JOIN LOAN_AUDIT_TABLE_FIELD L
+		ON C.FIELD_ID = L.FIELD_ID AND L.LOAN_AUDIT_PROCESS_ID = [processId]
+		WHERE C.TABLE_NAME = 'LBIZ_APPROVAL_RESOLUTION' and c.IS_ACTIVED = 1 order by FIELD_SORTNO
+	</sql>
+</banger>

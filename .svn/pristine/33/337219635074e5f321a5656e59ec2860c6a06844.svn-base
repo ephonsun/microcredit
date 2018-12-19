@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>申请人</title>
+
+    <style>
+      	
+        body{font-size: 0.14rem;/*实际相当于14px*/}
+        body,*{
+            padding:0;
+            margin:0;
+        }
+        .headDiv{
+			width:100%;
+			height:1.6rem;
+			background:#109add;
+			text-align:center;
+			line-height:1.6rem;
+			vertical-align:middle;
+			}
+			
+		
+		.headDiv label{
+			font-size:0.5rem;
+			font-family:FZLTHJW--GB1-0;
+			text-align:center;
+			color:#FFF;
+			margin-right:1.2rem;
+			}
+			
+		.bodyDiv{
+			width:100%;
+			height:15.8rem;
+			background:#fff;
+			}
+		.bodyDiv form{
+			width:100%;
+			height:100%;		
+			}
+			
+		.bodyDiv ul{
+			margin-top:1.2rem;
+			margin-left:0.35rem;
+			
+			}
+			
+		.bodyDiv ul li{
+			list-style-type:none;
+			height:1.2rem;
+			line-height:1.2rem;
+			width:100%;
+		
+			}
+		
+			
+		.vaileLi{
+			margin-top:0.54rem;	
+			
+			}
+      	 .personDiv{
+			  display: inline-block;
+			   margin-left:0.4rem;
+			  width:7.5rem;
+			  height:1.2rem;
+			 text-align:center;
+			}
+			
+		  .idDiv{
+			  display: inline-block;
+			  margin-left:0.4rem;
+			  width:7.5rem;
+			  height:1.2rem;
+	 		  margin-left:0.4rem;
+				 text-align:center;
+			}
+
+
+        .phoneLab{
+			  display: inline-block;
+			  margin-left:0.1rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+           
+			 }
+		  .vaileLab{
+			  display: inline-block;
+			  margin-left:0.1rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+             
+			 }
+			 
+			 
+		 .phoneI{
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#f02b2b; 
+			  float:left;
+			   height:100%;
+			 line-height:100%;
+				margin-top:0.5rem;
+			 }
+
+        .numberMust{
+            font-size:0.42rem;
+            font-family:FZLTH--GB1-4;
+            color:#f02b2b;
+            float:left;
+            height:100%;
+            line-height:100%;
+            margin-top:0.5rem;
+        }
+
+        .vaileI{
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#f02b2b; 
+			  float:left;
+			 height:100%;
+			 line-height:100%;
+			 margin-top:0.1rem;
+			 }
+			 
+		 .nameCla{
+			 width:95%;
+			 height:95%;
+			 line-height:95%;
+			 font-size:0.42rem;
+			  -webkit-box-sizing: border-box;
+           	  -moz-box-sizing: border-box;
+          	  box-sizing: border-box;
+			 border:2px solid #a6a6a6;
+           	 border-radius:0.1rem;
+			 }
+		
+		   .nextDiv{
+			   width:100%;
+			   text-align:center;
+			   margin-top:10.12rem;
+			 
+			   }
+		  .nextStep{
+			  width:9.96rem;
+			  height:1.44rem;
+			  text-align:center;
+			  line-height:1.44rem;
+			  font-family:FZLTHJW--GB1-0;
+			  font-size:0.54rem;
+			  -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+			  border-radius:0.2rem;
+			  background:#dfdfdf;
+			  color:#b3b3b3;
+			  border:0px ;
+			  }
+			 .headSpan{
+				 float:left;
+			     display:-moz-inline-box;
+				 height:1.6rem;
+				 display:inline-block;
+				 background: url(../html5/intoApply/backIcon.png) no-repeat 0.1rem 0.45rem;
+				 width:1.6rem;
+				 line-height:1.6rem;
+				 }
+			 select::-ms-expand { display: none;}  
+			  .selectCla{						 
+					appearance:none;   
+					-moz-appearance:none;   
+					 -webkit-appearance:none;   	
+					 background: url(../html5/intoApply/select.png) no-repeat 6.5rem 0.54rem ;
+					  width:95%;
+					 height:95%;
+					 line-height:95%;
+					 font-size:0.42rem;
+					  -webkit-box-sizing: border-box;
+					  -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+					 border:2px solid #a6a6a6;
+					 border-radius:0.1rem;
+                  font-family: FZLTHJW--GB1-0;
+			
+				 }
+				 .option_1{
+					 width:100%;
+					 height:100%;
+					 line-height:100%;
+					 font-size:0.42rem;
+					 
+					 
+					 }
+			
+    </style>
+</head>
+<body>
+	<div class="headDiv"><span id="backstep" class="headSpan"></span><label>申请人</label></div>
+    <div class="bodyDiv">
+    	<form>
+        	<ul>
+            	<li class="phoneLi"><i class="phoneI">*</i><label class="phoneLab">贷款需求</label><div class="personDiv"><input type="text" name="loanNeed" id="loanNeed" class="nameCla" placeholder="请输入需要贷款的金额（元）"></div></li>
+
+				<li class="vaileLi">
+                    <div class="numberMust">
+                        <i class="vaileI">*</i>
+                        <label class="vaileLab">贷款用途</label>
+                    </div>
+                    <div class="idDiv">
+                        <select class="selectCla notNull" id="loanUserOption" name="">
+                            <option></option>
+							#datadict("","CD_LOAN_USER_OPTION")
+                        </select>
+##                        <select class="selectCla notNull" id="intoUse" name="">
+##                            <option class="option_1"></option>
+##                            #foreach($!use in $!loanUse)
+##                                <option value="$!use.useId" class="option_1">$!use.useSelect</option>
+##                            #end
+##                        </select>
+                    </div>
+                </li>
+             </ul>     
+ 			<div class="nextDiv"><button id="apply" class="nextStep" type="button">确定申请</button></div>
+    	</form>
+        <input type="hidden" name="phone" id="phone" value="$!phone">
+        <input type="hidden" name="address" id="address" value="$!address">
+        <input type="hidden" name="sex" id="sex" value="$!sex">
+        <input type="hidden" name="age" id="age" value="$!age">
+        <input type="hidden" name="cardNum" id="cardNum" value="$!cardNum">
+        <input type="hidden" name="name" id="name" value="$!name">
+        <input type="hidden" name="id1" id="id1" value="$!id1">
+        <input type="hidden" name="id2" id="id2" value="$!id2">
+        <input type="hidden" name="id3" id="id3" value="$!id3">
+        <input type="hidden" name="id4" id="id4" value="$!id4">
+        <input type="hidden" name="id5" id="id5" value="$!id5">
+        <input type="hidden" name="userAccount" id="userAccount" value="$!userAccount">
+    </div>
+
+    
+</body>
+<script type="text/javascript" charset="UTF-8" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/layer/layer.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/adaptive.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/applyPerson.js"></script>
+<script>
+    adpative(document, window);
+
+</script>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>模板信息列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public.css" />
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css" />
+    <link rel="stylesheet" type="text/css" href="../system/WebUploader/webuploader.css">
+</head>
+<body>
+
+    <table>
+        <tr>
+            <form id="uploadFiles" enctype="multipart/form-data">
+            <td colspan="3" style="padding-bottom: 20px;">
+
+                <div id="uploader" class="wu-example">
+                    <div class="btns">
+                        <div id="picker2" style="width: 110px;">选择调查报告
+                        ##                                <span style=" border: 1px #ccc solid; padding: 5px; margin: 0px; border-radius: 5px; cursor: pointer; ">选择调查报告</span>
+                        ##                                <span>支持2007版Excel文件格式，如果已保存过模板，则再次导入保存会替换原有模板</span>
+                        </div>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;<div id="thelist2" class="uploader-list"></div>
+                </div>
+            </td>
+            </form>
+        </tr>
+        <tr>
+            <form id="configForm">
+                <input type="hidden" id="id" name="id" value="$!configFile.id"/>
+                <input type="hidden" id="filePath" name="filePath"  value="$!configFile.filePath"/>
+                <td class="field" width="100px">
+                    <label class="ui-star">模型名称：</label>
+                </td>
+                <td width="200px">
+                    <div class="ui-text">
+                        <input type="text" id="modeName" class="ui-text-text" name="modeName"  value="$!configFile.modeName" maxlength="30" />
+                    </div>
+                </td>
+            </form>
+        </tr>
+    </table>
+
+<hr class="ui-line">
+<div id="importTable" >
+    $!importTable
+</div>
+<hr class="ui-line">
+<div class="ui-layout-closure">
+    <span id="btnSaveMode" class="ui-closure-button">
+        <label class="ui-closure-button-text">保存</label>
+    </span>
+    <span id="btnCloseMode" class="ui-closure-button ui-closure-button-cancel ml15">
+        <label class="ui-closure-button-text">取消</label>
+    </span>
+</div>
+
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+    <script type="text/javascript" src="../uploadify/swfobject.js"></script>
+    <script type="text/javascript" src="../uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.tabs.js"></script>
+    <script type="text/javascript" src="../system/WebUploader/webuploader.min.js"></script>
+    <script type="text/javascript" src="../config/js/modelConfig/reportImport.js"></script>
+</body>
+</html>

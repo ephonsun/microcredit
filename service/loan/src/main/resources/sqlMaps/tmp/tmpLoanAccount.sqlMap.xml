@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 查询贷款账户信息接口 -->
+	<sql id="queryTmpLoanAccountList" >
+		SELECT * FROM TMP_LOAN_ACCOUNT 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([loanStatus])" > LOAN_STATUS = '[loanStatus]' </clause>
+		</where>
+	</sql>
+
+	<!--  -->
+	<sql id="getTmpLoanAccountByLoanAccount" >
+		SELECT * FROM TMP_LOAN_ACCOUNT WHERE LOAN_ACCOUNT = '[0]'
+	</sql>
+
+</banger>

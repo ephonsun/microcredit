@@ -1,0 +1,35 @@
+<style type="text/css">
+    .img-middle-row { text-align: left; }
+    .img-middle-box { display: inline-block; }
+    .image-box { float: left; margin: 10px 5px;  }
+</style>
+<div class="img-middle-row">
+    <div class="img-middle-box">
+		#foreach($file in $list)
+            <div class="image-box">
+                <a data-magnify="gallery" href="../potentialCustomersFiles/potentialImage.html?id=$!file.id&isOriginal=1">
+                    <img style="height: 150px;" src="../potentialCustomersFiles/potentialImage.html?id=$!file.id" />
+                </a>
+				<div class="image-title"></div>
+			</div>
+		#end
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var options = {
+            'title': false,
+            'headToolbar':['maximize','close'],
+            'footToolbar':[
+                'zoomIn',
+                'zoomOut',
+                'prev',
+                'next',
+                'rotateLeft',
+                'rotateRight'
+            ],
+            'fixedContent': false
+        };
+        $('[data-magnify=gallery]').magnify(options);
+    });
+</script>

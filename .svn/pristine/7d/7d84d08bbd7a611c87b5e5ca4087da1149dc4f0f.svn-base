@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+</head>
+
+<body>
+<div class="ui-layout-statistics">
+    合同类型: $!precTypeName
+</div>
+	<div class="ui-layout-action">
+        <span id="btnAdd" class="ui-button fl">
+        	<label class="ui-button-text">$!pageConst.BTN_NEW</label>
+        </span>
+	</div>
+	<form>
+	<input type="hidden" id="typeId" name="typeId" value="${typeId}"/>
+	<input type="hidden" id="precType" name="precType" value="${precType}"/>
+	<input type="hidden" id="precTypeName" name="precTypeName" value="${precTypeName}"/>
+	<input type="hidden" id="loanType" name="loanType" value="${loanType}"/>
+	<input type="hidden" id="fixedTableIds" name="fixedTableIds" value="${fixedTableIds}"/>
+	</form>
+    <table id="tableInfolist"></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../loan/js/contractTypeRelTableList.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<sql id="getAllTableSyncList" >
+		SELECT * FROM AUTO_TABLE_SYNC 
+	</sql>
+
+</banger>

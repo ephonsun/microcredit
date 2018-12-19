@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="taskInfoQuery" name="banger.domain.task.TskTaskInfoQuery" >
+        <property name="createUserName" column="USER_NAME" ></property>
+		<property name="taskTarget" column="ASSIGN_NUM" ></property>
+		<property name="taskFinish" column="FINISH_NUM" ></property>
+
+	</class>
+	<class id="taskInfoQueryWeb" name="banger.domain.task.TskTaskInfoQuery" >
+		<property name="createUserName" column="USER_NAME" ></property>
+		<!--<property name="taskTarget" column="TASK_ASSIGN" ></property>-->
+		<!--<property name="taskFinish" column="FINISH_NUM" ></property>-->
+
+	</class>
+
+	<!-- 新增任务表 -->
+	<sql id="insertTaskInfo" >
+		INSERT INTO TSK_TASK_INFO (TASK_ID,TASK_TITLE,START_DATE,END_DATE,TASK_MOLD,TASK_TYPE,TASK_TARGET,REMARK,ASSIGN_USER_ID,FINISH_DATE,TASK_STATUS,TASK_FINISH,TASK_ASSIGN,IS_DEL,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,TEAM_GROUP_ID,TSK_LEVEL) VALUES ([$taskId]
+		<clause prepend="," nvl="''" >[$taskTitle]</clause>
+		<clause prepend="," nvl="NULL" >[$startDate]</clause>
+		<clause prepend="," nvl="NULL" >[$endDate]</clause>
+		<clause prepend="," nvl="0" >[$taskMold]</clause>
+		<clause prepend="," nvl="0" >[$taskType]</clause>
+		<clause prepend="," nvl="0" >[$taskTarget]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="0" >[$assignUserId]</clause>
+		<clause prepend="," nvl="NULL" >[$finishDate]</clause>
+		<clause prepend="," nvl="0" >[$taskStatus]</clause>
+		<clause prepend="," nvl="0" >[$taskFinish]</clause>
+		<clause prepend="," nvl="0" >[$taskAssign]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$teamGroupId]</clause>
+		<clause prepend="," nvl="0" >[$tskLevel]</clause>
+		)
+	</sql>
+
+	<!-- 修改任务表 -->
+	<sql id="updateTaskInfo" >
+		UPDATE TSK_TASK_INFO
+		<set>
+			<clause prepend="," assert="!isNull([taskTitle])" >TASK_TITLE = [$taskTitle]</clause>
+			<clause prepend="," assert="!isNull([startDate])" >START_DATE = [$startDate]</clause>
+			<clause prepend="," assert="!isNull([endDate])" >END_DATE = [$endDate]</clause>
+			<clause prepend="," assert="!isNull([taskMold])" >TASK_MOLD = [$taskMold]</clause>
+			<clause prepend="," assert="!isNull([taskType])" >TASK_TYPE = [$taskType]</clause>
+			<clause prepend="," assert="!isNull([taskTarget])" >TASK_TARGET = [$taskTarget]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([assignUserId])" >ASSIGN_USER_ID = [$assignUserId]</clause>
+			<clause prepend="," assert="!isNull([finishDate])" >FINISH_DATE = [$finishDate]</clause>
+			<clause prepend="," assert="!isNull([taskStatus])" >TASK_STATUS = [$taskStatus]</clause>
+			<clause prepend="," assert="!isNull([taskFinish])" >TASK_FINISH = [$taskFinish]</clause>
+			<clause prepend="," assert="!isNull([taskAssign])" >TASK_ASSIGN = [$taskAssign]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([teamGroupId])" >TEAM_GROUP_ID = [$teamGroupId]</clause>
+			<clause prepend="," assert="!isNull([tskLevel])" >TSK_LEVEL = [$tskLevel]</clause>
+		</set>
+		<where>
+			TASK_ID = [$taskId]
+		</where>
+	</sql>
+
+	<!--任务名称唯一性校验-->
+	<sql id="getTaskInfoByTitle" >
+		SELECT * FROM TSK_TASK_INFO WHERE TASK_TITLE = '[0]' and IS_DEL = 0
+	</sql>
+
+	<!-- 通过主键得到任务表 -->
+	<sql id="getTaskInfoById" >
+		SELECT * FROM TSK_TASK_INFO WHERE TASK_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除任务表 -->
+	<sql id="queryTaskList" result="taskInfoQueryWeb">
+
+		<clause assert="!isNull([assignUserId])" >
+			SELECT DISTINCT
+			TS.TASK_ID,
+			TS.TASK_TITLE,
+			TS.START_DATE,
+			TS.END_DATE,
+			TS.TASK_MOLD,
+			TS.TASK_TYPE,
+			CASE WHEN TS.TSK_LEVEL !=3 THEN TMTA.ASSIGN_NUM  ELSE TS.TASK_TARGET END TASK_TARGET,
+			TS.REMARK,
+			TS.ASSIGN_USER_ID,
+			TS.FINISH_DATE,
+			TMTA.TASK_FINISH_STATUS TASK_STATUS,
+			CASE WHEN TS.TSK_LEVEL !=3 THEN TMTA.FINISH_NUM  ELSE TS.TASK_FINISH END TASK_FINISH,
+			TS.TASK_ASSIGN,
+			TS.IS_DEL,
+			TS.CREATE_DATE,
+			TS.UPDATE_DATE,
+			TS.CREATE_USER,
+			TS.UPDATE_USER,
+			TS.TEAM_GROUP_ID,
+			TS.TSK_LEVEL,
+			U.USER_NAME
+			FROM TSK_TASK_INFO  TS
+			LEFT JOIN PMS_USER U ON  U.USER_ID=TS.CREATE_USER
+			LEFT JOIN TSK_TEAM_MEMBER_TASK_ASSIGN TMTA ON TMTA.TASK_ID=TS.TASK_ID
+			WHERE TS.IS_DEL = 0
+			<clause prepend="and" assert="isEqual([taskStatus],'1')" > TMTA.TASK_FINISH_STATUS != 2  </clause>
+			<clause prepend="and" assert="isEqual([taskStatus],'2')" > TMTA.TASK_FINISH_STATUS = 2 and TMTA.TASK_FINISH_STATUS IS NOT NULL </clause>
+		</clause><!--分配给客户经理的-->
+		<clause assert="!isNull([teamGroupId])" >
+			SELECT distinct  TS.*,U.USER_NAME
+			FROM TSK_TASK_INFO  TS
+			LEFT JOIN PMS_USER U ON  U.USER_ID=TS.CREATE_USER
+			LEFT JOIN TSK_GROUP_TASK_ASSIGN TTA ON 	TTA.TASK_ID=TS.TASK_ID
+			WHERE TS.IS_DEL = 0
+			<clause prepend="and" assert="isEqual([taskStatus],'1')" > TS.TASK_STATUS != 2  </clause>
+			<clause prepend="and" assert="isEqual([taskStatus],'2')" > TS.TASK_STATUS = 2 and TS.TASK_STATUS IS NOT NULL </clause>
+		</clause><!--分配给团队的-->
+
+
+		<clause prepend="and" assert="isNull([createUser])" > TS.IS_DEL = 2 </clause><!--用户id一定要传，不传直接返回空-->
+		<clause prepend="and" assert="!isNull([createUser])">
+			( TS.CREATE_USER = [createUser]
+			<clause prepend="or" assert="!isNull([assignUserId])" > ( TMTA.MEMBER_USER_ID=[assignUserId] and TMTA.IS_DEL = 0)</clause><!--分配给客户经理的-->
+			<!--or TMTA.MEMBER_USER_ID = [userId]-->
+			<clause prepend="or" assert="!isNull([teamGroupId])" > ( TTA.TEAM_GROUP_ID in ([teamGroupId]) and TTA.IS_DEL = 0 )</clause>
+			)
+		</clause>
+
+		<clause prepend="and" assert="!isNull([taskFinish])" > TS.TASK_FINISH = [taskFinish] </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([taskTitle])" > TS.TASK_TITLE like '%[taskTitle]%' </clause>
+		<clause prepend="and" assert="!isNull([taskTarget])" > TS.TASK_TARGET = [taskTarget] </clause>
+		<clause prepend="and" assert="!isNull([taskType])" > TS.TASK_TYPE = [taskType] </clause>
+
+		<clause prepend="and" assert="!isNull([taskAssign])" > TS.TASK_ASSIGN = [taskAssign] </clause>
+
+		<clause prepend="and" assert="isEqual([isOverDate],'1')" > TS.END_DATE <![CDATA[ >= ]]> <method name="toDate">[nowDate]</method> </clause>
+		<clause prepend="and" assert="isEqual([isOverDate],'2')" > TS.END_DATE <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause>
+
+		<clause prepend="and" assert="!isNullOrEmpty([startDate])" > TS.START_DATE <![CDATA[ >= ]]> <method name="beginDate">[startDate]</method> </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([endDate])" > TS.START_DATE <![CDATA[ < ]]> <method name="endDate">[endDate]</method> </clause>
+		<clause prepend="or"  assert="!isNullOrEmpty([tskLevel])" >
+			TS.TSK_LEVEL = [tskLevel] AND TS.IS_DEL = 0
+			<clause prepend="and" assert="isEqual([taskStatus],'1')" > TS.TASK_STATUS != 2  </clause>
+			<clause prepend="and" assert="isEqual([taskStatus],'2')" > TS.TASK_STATUS = 2 and TS.TASK_STATUS IS NOT NULL </clause>
+		</clause>
+
+		ORDER BY TASK_STATUS,TS.END_DATE
+	</sql>
+
+
+	<sql id="deleteTaskInfoById" >
+		UPDATE TSK_TASK_INFO SET IS_DEL = 1 WHERE TASK_ID = [0]
+	</sql>
+
+	<!--app端查看个人任务列表-->
+	<sql id="queryTaskInfoListForApp" result="taskInfoQueryWeb">
+		SELECT DISTINCT
+		TS.TASK_ID,
+		TS.TASK_TITLE,
+		TS.START_DATE,
+		TS.END_DATE,
+		TS.TASK_MOLD,
+		TS.TASK_TYPE,
+		CASE WHEN TS.TSK_LEVEL !=3 THEN TMTA.ASSIGN_NUM  ELSE TS.TASK_TARGET END TASK_TARGET,
+		TS.REMARK,
+		TS.ASSIGN_USER_ID,
+		TS.FINISH_DATE,
+		TMTA.TASK_FINISH_STATUS TASK_STATUS,
+		CASE WHEN TS.TSK_LEVEL !=3 THEN TMTA.FINISH_NUM  ELSE TS.TASK_FINISH END TASK_FINISH,
+		TS.TASK_ASSIGN,
+		TS.IS_DEL,
+		TS.CREATE_DATE,
+		TS.UPDATE_DATE,
+		TS.CREATE_USER,
+		TS.UPDATE_USER,
+		TS.TEAM_GROUP_ID,
+		TS.TSK_LEVEL
+		FROM TSK_TASK_INFO  TS
+		LEFT JOIN TSK_TEAM_MEMBER_TASK_ASSIGN TMTA ON TMTA.TASK_ID=TS.TASK_ID
+		WHERE TS.IS_DEL = 0
+		<clause prepend="and" assert="!isNullOrEmpty([taskTitle])" > TS.TASK_TITLE like '%[taskTitle]%' </clause>
+
+		<clause prepend="and" assert="!isNull([assignUserId])">
+			( TS.CREATE_USER = [createUser]
+			<clause prepend="or" assert="!isNull([assignUserId])" > ( TMTA.MEMBER_USER_ID=[assignUserId] and TMTA.IS_DEL = 0)</clause><!--分配给客户经理的-->
+			)
+		</clause>
+
+		<clause prepend="and" assert="isNull([assignUserId])" > TS.IS_DEL = 1 </clause>
+		<clause prepend="and" assert="isEqual([isOverDate],'1')" > TS.END_DATE <![CDATA[ >= ]]> <method name="toDate">[nowDate]</method> </clause>
+		<clause prepend="and" assert="isEqual([isOverDate],'2')" > TS.END_DATE <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause>
+		ORDER BY TS.END_DATE
+	</sql>
+</banger>

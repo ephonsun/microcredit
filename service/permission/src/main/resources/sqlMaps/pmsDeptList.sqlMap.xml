@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+    <!-- 通过主键得到机构 -->
+    <sql id="getDeptListById" result="pmsDept_Query">
+        SELECT * FROM PMS_DEPT WHERE DEPT_ID = [0]
+    </sql>
+    <sql id="getDeptListTree" >
+        SELECT * FROM PMS_DEPT WHERE DEPT_ISDEL =0
+        ORDER BY DEPT_PARENT_ID,DEPT_ID
+    </sql>
+    <sql id="getDeptByDeptId" >
+        SELECT * FROM PMS_DEPT WHERE DEPT_ID = [0] AND DEPT_ISDEL =0
+    </sql>
+    <!-- 通过主键得到机构 -->
+    <sql id="getDeptById" result="pmsDept_Query">
+        SELECT * FROM PMS_DEPT WHERE DEPT_ID = [0]
+    </sql>
+    <!-- 通过主键 上移下移 -->
+     <sql id="updateDeptSort" >
+       update PMS_DEPT p set p.DEPT_SORT = [$deptSort] where p.DEPT_ID=  [$deptId]
+    </sql>
+    <!-- 查找被动上移下移的DeptId -->
+    <sql id="selectSecondDeptId" result="pmsDept_Query">
+        SELECT * FROM PMS_DEPT P WHERE p.DEPT_PARENT_ID =[$deptParentId]  order BY P.DEPT_SORT
+    </sql>
+
+    <!-- 查找最上方部门list -->
+    <sql id="getTopDeptList" result="pmsDept_Query">
+        select * from pms_dept a
+        where not exists
+        (select * from pms_dept where a.dept_sort>dept_sort and a.dept_parent_id=dept_parent_id and dept_isdel=0)
+        and a.dept_isdel='0'
+    </sql>
+
+    <!-- 查找最下方部门list-->
+    <sql id="getBottomDeptList" result="pmsDept_Query">
+        select * from pms_dept a
+        where not exists
+        (select * from pms_dept where <![CDATA[  a.dept_sort< dept_sort ]]>  and a.dept_parent_id=dept_parent_id and dept_isdel=0)
+        and dept_isdel=0
+    </sql>
+</banger>

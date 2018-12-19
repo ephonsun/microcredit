@@ -1,0 +1,40 @@
+#if($list.size()==0)
+<p style="color:#4d4d4d;font-size:12px;margin:20px;text-align: center">查询无数据</p>
+#else
+<div class="flexgrid-box" style="height: auto">
+    <div class="flexgrid">
+        <table>
+            <thead>
+            <tr>
+                <th>银行行号</th>
+                <th>银行机构</th>
+                <th>操作</th>
+            ##            <th>简称</th>
+            ##            <th>地址</th>
+            ##            <th>电话</th>
+            ##            <th>邮编</th>
+            ##            <th>负责人</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                #foreach($body in $!list)
+                <tr>
+                    <td>$!body.bankNo</td>
+                    <td>$!body.bankCoffer</td>
+                    <td><a href="#" onclick="javascript:selectBank('$!body.bankNo','$!body.bankCoffer')">选择</a></td>
+                ##                <td>$!body.bankCofferAbbreviation</td>
+                ##                <td>$!body.address</td>
+                ##                <td>$!body.bankPhone1</td>
+                ##                <td>$!body.postalCode</td>
+                ##                <td>$!body.bankManagerName</td>
+
+                </tr>
+                #end
+
+            </tbody>
+        </table>
+    </div>
+</div>
+#end
+

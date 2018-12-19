@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.system.SysSocketLog" table="SYS_SOCKET_LOG" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="socketCode" type="java.lang.String" >
+			<column name="SOCKET_CODE" length="150" />
+		</property>
+		<property name="sendXml" type="java.lang.String" >
+			<column name="SEND_XML" length="1048576" />
+		</property>
+		<property name="returnMassage" type="java.lang.String" >
+			<column name="RETURN_MASSAGE" length="2000" />
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="REMARK" length="500" />
+		</property>
+	</class>
+</mapping>
+

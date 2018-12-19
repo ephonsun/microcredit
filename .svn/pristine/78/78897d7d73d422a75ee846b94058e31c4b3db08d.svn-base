@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../js/core.js" type="text/javascript" ></script>
+<script src="../js/ctrl.js" type="text/javascript" ></script>
+<script src="../js/widget.js" type="text/javascript" ></script>
+<script src="../js/graph/nff.graph.box.js" type="text/javascript" ></script>
+<script src="../js/graph/nff.graph.line.js" type="text/javascript" ></script>
+<script src="../js/graph/nff.graph.setting.js" type="text/javascript" ></script>
+<link href="../skin/css/blur.css" rel="stylesheet" type="text/css" ></link>
+<link href="../skin/css/graph.css" rel="stylesheet" type="text/css" ></link>
+</head>
+<script>
+</script>
+<body>
+<gbox id="10" width="150" height="40" text="申请" style="left:250px;top:100px;" ></gbox> 
+<gbox id="11" width="150" height="40" text="受理" style="left:250px;top:200px;" ></gbox>
+<gbox id="12" width="150" height="40" text="审核" style="left:150px;top:350px;" ></gbox>
+<gbox id="13" width="150" height="40" text="上级审核" style="left:350px;top:350px;" ></gbox> 
+<gline form="id:10;toward:down" to="id:11;toward:up" ></gline>
+<gline text="退回" form="id:11;toward:right" to="id:10;toward:right" ></gline>
+<gline text="小于5万" form="id:11;toward:down" to="id:12;toward:up" ></gline>
+<gline text="大于等于5万" form="id:11;toward:down" to="id:13;toward:up" ></gline>
+<span id="output" ></span>
+<script>$.ctrl.render()</script>
+</body>
+</html>

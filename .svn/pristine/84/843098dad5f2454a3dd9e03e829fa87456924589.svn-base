@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<!-- 得到所有功能 -->
+	<sql id="getAllFunc" >
+		SELECT * FROM PMS_FUNC WHERE FUNC_ISDEL = 0
+	</sql>
+	
+	<!-- 通过角色获得功能 -->
+	<sql id="getFuncsByRoleId" >
+		SELECT * FROM PMS_FUNC INNER JOIN PMS_ROLE_FUNC ON FUNC_ID = PRF_FUNC_ID AND FUNC_ISDEL = 0 AND PRF_ROLE_ID = [0]
+		ORDER BY FUNC_DEPTH
+	</sql>
+	
+	<!-- 通过角色获得功能 -->
+	<sql id="getFuncsByRoleIds" >
+		SELECT * FROM PMS_FUNC WHERE FUNC_ISDEL = 0 and FUNC_ID in (SELECT PRF_FUNC_ID FROM PMS_ROLE_FUNC WHERE PRF_ROLE_ID in ([0]))
+	</sql>
+
+</banger>

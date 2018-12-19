@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<class id="pmsDeptImport" name="banger.domain.permission.PmsDeptImport" >
+		<property name="parentDeptCode" column="PARENT_DEPT_CODE" ></property>
+  	</class>
+  	
+	<!-- 插入一批机构 -->
+	<sql id="insertDeptListByImport" >
+		INSERT INTO PMS_DEPT (DEPT_ID,DEPT_NAME,DEPT_PARENT_ID,DEPT_CODE,DEPT_SEARCH_CODE,DEPT_REMARK,DEPT_ISDEL,DEPT_SORT,DEPT_DEPTH,DEPT_CREATE_DATE,DEPT_UPDATE_DATE,DEPT_CREATE_USER,DEPT_UPDATE_USER) VALUES ([$deptId]
+		<clause prepend="," nvl="''" >[$deptName]</clause>
+		<clause prepend="," nvl="0" >[$deptParentId]</clause>
+		<clause prepend="," nvl="''" >[$deptCode]</clause>
+		<clause prepend="," nvl="''" >[$deptSearchCode]</clause>
+		<clause prepend="," nvl="''" >[$deptRemark]</clause>
+		<clause prepend="," nvl="0" >[$deptIsdel]</clause>
+		<clause prepend="," nvl="0" >[$deptSort]</clause>
+		<clause prepend="," nvl="0" >[$deptDepth]</clause>
+		<clause prepend="," >[$deptCreateDate]</clause>
+		<clause prepend="," >[$deptUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$deptCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$deptUpdateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改一批机构 -->
+	<sql id="updateDeptListByImport" >
+		UPDATE PMS_DEPT 
+		<set>
+			<clause prepend="," assert="!isNull([deptName])" >DEPT_NAME = [$deptName]</clause>
+			<clause prepend="," assert="!isNull([deptParentId])" >DEPT_PARENT_ID = [$deptParentId]</clause>
+			<clause prepend="," assert="!isNull([deptCode])" >DEPT_CODE = [$deptCode]</clause>
+			<clause prepend="," assert="!isNull([deptSearchCode])" >DEPT_SEARCH_CODE = [$deptSearchCode]</clause>
+			<clause prepend="," assert="!isNull([deptRemark])" >DEPT_REMARK = [$deptRemark]</clause>
+			<clause prepend="," assert="!isNull([deptUpdateDate])" >DEPT_UPDATE_DATE = [$deptUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([deptUpdateUser])" >DEPT_UPDATE_USER = [$deptUpdateUser]</clause>
+		</set>
+		<where>
+			 DEPT_ID = [$deptId] 
+		</where>
+	</sql>
+	
+	<!-- 通过机构编码查询已存机构 -->
+    <sql id="getExistDeptListByDeptCodes" result="pmsDeptImport" >
+        SELECT ppd.dept_code as PARENT_DEPT_CODE,pd.*
+        FROM PMS_DEPT pd
+        LEFT JOIN PMS_DEPT ppd
+        ON pd.dept_parent_id = ppd.dept_id
+        WHERE pd.DEPT_ISDEL = 0 AND pd.DEPT_CODE IN (<for in="[0]" split=",">'{item}'</for>)
+    </sql>
+	
+	<!-- 得到已存在的机构 -->
+	<sql id="getAllExistDeptList" result="pmsDeptImport" >
+		SELECT p.DEPT_CODE AS PARENT_DEPT_CODE,d.* FROM PMS_DEPT d LEFT JOIN PMS_DEPT p on d.DEPT_PARENT_ID=p.DEPT_ID WHERE d.DEPT_ISDEL = 0
+	</sql>
+
+	<!-- 得到已存在的机构 -->
+	<sql id="getExistDeptListByParentCode" result="pmsDeptImport" >
+		SELECT p.DEPT_CODE AS PARENT_DEPT_CODE,d.* FROM PMS_DEPT d LEFT JOIN PMS_DEPT p on d.DEPT_PARENT_ID=p.DEPT_ID WHERE d.DEPT_ISDEL = 0
+		and d.dept_parent_id = (select sdp.dept_id from PMS_DEPT sdp where sdp.dept_code= '[parentCode]')
+	</sql>
+</banger>

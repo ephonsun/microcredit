@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.product.ProdProductFile" table="PROD_PRODUCT_FILE" >
+		<id name="ppfId" type="java.lang.Integer" >
+			<column name="PPF_ID" lenght="22" />
+		</id>
+		<property name="ppfCutFileName" type="java.lang.String" >
+			<column name="PPF_CUT_FILE_NAME" lenght="90" />
+		</property>
+		<property name="ppfProductId" type="java.lang.Integer" >
+			<column name="PPF_PRODUCT_ID" lenght="22" />
+		</property>
+		<property name="ppfFileSize" type="java.lang.Integer" >
+			<column name="PPF_FILE_SIZE" lenght="22" />
+		</property>
+		<property name="ppfCreateUser" type="java.lang.Integer" >
+			<column name="PPF_CREATE_USER" lenght="22" />
+		</property>
+		<property name="ppfFilePath" type="java.lang.String" >
+			<column name="PPF_FILE_PATH" lenght="200" />
+		</property>
+		<property name="ppfFileName" type="java.lang.String" >
+			<column name="PPF_FILE_NAME" lenght="90" />
+		</property>
+		<property name="ppfFileNameOld" type="java.lang.String" >
+			<column name="PPF_FILE_NAME_OLD" lenght="90" />
+		</property>
+		<property name="ppfFileType" type="java.lang.Integer" >
+			<column name="PPF_FILE_TYPE" lenght="22" />
+		</property>
+		<property name="ppfIsdel" type="java.lang.Integer" >
+			<column name="PPF_ISDEL" lenght="22" />
+		</property>
+		<property name="ppfUpdateDate" type="java.util.Date" >
+			<column name="PPF_UPDATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="ppfUpdateUser" type="java.lang.Integer" >
+			<column name="PPF_UPDATE_USER" lenght="22" />
+		</property>
+		<property name="ppfCreateDate" type="java.util.Date" >
+			<column name="PPF_CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="ppfCutFilePath" type="java.lang.String" >
+			<column name="PPF_CUT_FILE_PATH" lenght="200" />
+		</property>
+	</class>
+</mapping>
+

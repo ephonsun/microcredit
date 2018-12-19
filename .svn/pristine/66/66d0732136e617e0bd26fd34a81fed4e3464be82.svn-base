@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>查询页面模板配置</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+	<link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+	<link type="text/css" rel="stylesheet" href="../core/js/webui/skin/css/blue.css" ></link>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+	#scriptLink("base")
+	
+	<style>
+		.column3-left { float:left; width:200px; }
+		.column3-right { margin-left:210px; -margin-left:257px; zoom:1; /* 解决ie6中的三像素BUG */ }
+		.ui-layout-grid-foot { height:24px; border-left:1px solid #b6c4d8;border-left:1px solid #b6c4d8;border-bottom:1px solid #b6c4d8; background-color:#e8eef7; padding:5px; }
+		.ui-layout-grid-foot .buttons { float:right; }
+	</style>
+	
+    <script>
+		jQuery.json.attach("DS",{"PageInfo":$!PageInfo});
+		jQuery.json.attach("TV",{"PageTree":$!PageTree});
+		jQuery.json.attach("TV",{"TableTree":$!TableTree});
+		jQuery.json.attach("DS",{"QueryColumnInfo":$!CellInfo});
+		jQuery.json.attach("DS",{"RecordColumnInfo":$!ColumnInfo});
+		jQuery.json.attach("DS",{"RecordOptionInfo":$!OptionInfo});
+		jQuery.json.attach("DS",{"RecordOptionItems":$!OptionItemInfo});
+		jQuery.json.attach("DS",{"ButtonItems":$!ButtonItems});
+		jQuery.json.attach("DS",{"CodeTables":$!CodeTables});
+		jQuery.json.attach("DS",{"RelationInfo":[]});
+		jQuery.json.attach("DV",{"ResultInfo":[]});
+		jQuery.json.attach("CD",{"TableInfo":$!TableInfo});
+		jQuery.json.attach("CD",{"ColumnWidth":{"60":60,"70":70,"80":80,"90":90,"100":100,"110":110,"120":120,"130":130,"140":140,"150":150,"160":160,"170":170,"180":180,"190":190,"200":200,"210":210,"220":220,"230":230,"240":240,"250":250,"260":260,"270":270,"280":280,"290":290,"300":300}});
+		jQuery.json.attach("CD",{"Controls":{"textbox":"文本框","datespan":"日期段","numspan":"数字段","combobox":"下拉框（单选）","combotree":"下拉树（单选）","combogrid":"下拉表（单选）","combobox2":"下拉框（多选）","combotree2":"下拉树（多选）","combogrid2":"下拉表（多选）","timespan":"时间段","textspan":"文本段"}});
+		jQuery.json.attach("CD",{"QueryType":{"equal":"精确查询","like":"模糊匹配","leftlike":"左匹配","rightlike":"右匹配"}});
+		jQuery.json.attach("CD",{"Formats":{"yyyy-MM-dd":"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss":"yyyy-MM-dd HH:mm:ss","xxx,xxx.xx":"xxx,xxx.xx"}});
+		jQuery.json.attach("CD",{"YesNo":[{"id":1,"name":"√"}]});
+		jQuery.json.attach("CD",{"Align":{"center":"居中","left":"居左","right":"居右"}});
+		jQuery.json.attach("CD",{"Options":[{"id":"view","name":"view","title":"查看"},{"id":"edit","name":"edit","title":"编辑"},{"id":"del","name":"del","title":"删除"},{"id":"disable","name":"disable","title":"禁用"},{"id":"enable","name":"enable","title":"启用"}]});
+		jQuery.json.attach("CD",{"Buttons":[{"id":"add","name":"add","title":"新增"},{"id":"del","name":"del","title":"删除"},{"id":"export","name":"export","title":"导出"},{"id":"import","name":"import","title":"导入"}]});
+		jQuery.json.attach("CD",{"ButtonSkins":{"blur":"蓝色","grey":"灰色","green":"绿色"}});
+		jQuery.json.attach("CD",{"CodeTableTypes":{"fixed":"常量","sql":"SQL"}});
+		jQuery.json.attach("CD",{"CtrlDataTypes":{"codetable":"代码表","treetable":"树型表","querytable":"查询表"}});
+		jQuery.json.attach("TV",{"OptionTree":[{"id":"openPage","pid":"","name":"页面"},{"id":"doAction","pid":"","name":"功能"},{"id":"openPageInTab","pid":"openPage","name":"打开页卡页面"},{"id":"openPageInDialog","pid":"openPage","name":"打开对话框页面"},{"id":"ajaxGetData","pid":"doAction","name":"请求数据"},{"id":"ajaxPostData","pid":"doAction","name":"提交数据"}]});
+		
+		$(function(){
+			showOnly("pagePart");
+		});
+		
+		
+	</script>
+</head>
+
+<body>
+	<div class="ui-layout-column2 clearfix">
+		<div class="column3-left">
+			<div class="column2-left-head">
+				<h4 class="head-title">页面内容</h4>
+				<div class="head-editor">
+					<!--
+                    <b class="editor-add" onclick="changeActive('insert')"></b>
+                    <b class="editor-up" onclick="changeActive('up')"></b>
+                    <b class="editor-down" onclick="changeActive('down')"></b>
+                    <b class="editor-delete" onclick="changeActive('delete')"></b>
+                    <b class="editor-edit" onclick="changeActive('update')"></b>
+					-->
+                </div>
+			</div>
+			<div class="column2-left-body">
+				<treebox id="pageTree" width="250" height="600" data="TV.PageTree;" onafternodeselected="nodeChange" style="border:0px;" multiselect="false"  ></treebox>
+			</div>
+		</div>
+		<div class="column3-right">
+			
+			<!-- 页面基本信息 -->
+		    <div id="pagePart" class="ui-layout-search">
+		    	<div class="ui-layout-search-body">
+		    		<forms id="forms" layout="table" columns="3" data="DS.PageInfo" >
+                        
+                        <cell title="ID" field="pageId" editor="textbox" readonly="true" ></cell>
+                        <cell title="页面标题" field="pageName" editor="textbox" maxlength="100" ></cell>
+						<cell title="创建人" field="pageAuthor" editor="textbox" maxlength="20" ></cell>
+						
+						<cell title="页面模板(vm)" field="pageView" editor="textbox" cols="3" maxlength="100" ></cell>
+						<cell title="引用页面(vm)" field="extraView" editor="textbox" cols="3" maxlength="100" ></cell>
+						<cell title="页面请求地址" field="pageUrl" editor="textbox" cols="3" maxlength="100" ></cell>
+						
+						<cell title="SqlId" field="sqlId" editor="textbox" maxlength="100" ></cell>
+						<cell title="主表" field="tableName" data="table:CD.TableInfo" editor="combobox" ></cell>
+						<cell title="启动生成的Sql" field="sqlEnable" editor="checkbox" ></cell>
+						
+						<cell title="生成的Sql语句" field="sqlString" editor="textarea" cols="3" height="200" maxlength="1000" ></cell>
+						<cell title="" field="" editor="gridbox" data="DS.RelationInfo" fields="table1,field1,join,table2,field2" columns="主表,主表字段,连接方式,关联表,关联字段" cols="3" ></cell>
+                    </forms>
+		    	</div>
+				<div class="ui-layout-search-foot">
+		    		<div class="buttons">
+						<button onclick="addTableRelation" skin="blur" value="添加表关联" ></button>
+						<button onclick="buildSql" skin="blur" value="生成Sql" ></button>
+		    			<button onclick="savePageInfo" skin="blur" value="保存" ></button>
+		    		</div>
+		    	</div>
+		    </div>
+			
+			<div id="gridPart" >
+    			<!-- 页面基本信息 -->
+    			<gridview id="recordGrid" style="height:250px;" data="DS.RecordColumnInfo" check="true" >
+                    <column field="name" title="字段名称" width="180" ></column>
+					<column field="property" title="属性名称" width="140" editor="textbox" ></column>
+                    <column field="type" title="数据类型" width="80" ></column>
+					<column field="length" title="字段长度" width="80" ></column>
+                    <column field="title" title="列名" editor="textbox" width="120" ></column>
+					<column field="format" title="格式化" data="CD.Formats" editor="combobox" width="160" ></column>
+					<column field="width" title="列宽度" data="CD.ColumnWidth" popupWidth="300" itemWidth="60" editor="combobox" ></column>
+					<column field="align" title="对齐" data="CD.Align" editor="combobox" width="60" ></column>
+					<column field="hide" title="隐藏" width="60" align="center" data="CD.YesNo" editor="checkbox" ></column>
+					<column title="操作" align="center" width="150" onclick="operRecordClick" >
+                    	<div class="gridview-options" ><span id="up" >上移</span><span id="down">下移</span><span id="del">删除</span></div>
+                    </column>
+                </gridview>
+				
+				<div class="ui-layout-grid-foot">
+		    		<div class="buttons">
+						<button id="recordColumnAdd" onclick="addColumn" skin="blur" value="添加" ></button>
+		    			<button onclick="savePageInfo" skin="blur" value="保存" ></button>
+		    		</div>
+		    	</div>
+			</div>
+			
+			<div id="formsPart" >
+    			<!-- 页面基本信息 -->
+    			<gridview id="queryGrid" style="height:250px;" data="DS.QueryColumnInfo" check="true" >
+                    <column field="name" title="字段名称" width="200" ></column>
+					<column field="property" title="属性名称" width="150" editor="textbox" ></column>
+                    <column field="type" title="数据类型" width="100" ></column>
+                    <column field="title" title="标题" editor="textbox" width="150" ></column>
+					<column field="ctrl" title="控件" width="100" data="CD.Controls" editor="combobox" popupWidth="360" itemWidth="120" ></column>
+					<column field="cols" title="列数" editor="numspin" width="60" ></column>
+					<column field="query" title="匹配方式" width="100" data="CD.QueryType" editor="combobox" ></column>
+					<column field="data" title="数据" width="100" align="center" ></column>
+					<column title="操作" align="center" width="160" onclick="operQueryClick" >
+                    	<div class="gridview-options" ><span id="data" >数据</span><span id="up" >上移</span><span id="down">下移</span><span id="del">删除</span></div>
+                    </column>
+                </gridview>
+				
+				<div class="ui-layout-grid-foot">
+		    		<div class="buttons">
+						<button id="queryColumnAdd" onclick="addColumn" skin="blur" value="添加" ></button>
+		    			<button onclick="savePageInfo" skin="blur" value="保存" ></button>
+		    		</div>
+		    	</div>
+			</div>
+			
+			<div id="optionPart" class="ui-layout-search">
+		    	<div class="ui-layout-search-body">
+		    		<forms id="option" layout="table" columns="3" data="DS.RecordOptionInfo" >
+                        <cell title="标题" field="title" editor="textbox" maxlength="100" ></cell>
+						<cell title="列宽度" field="width" data="CD.ColumnWidth" popupWidth="300" itemWidth="60" editor="combobox" ></cell>
+						<cell title="隐藏" field="hide" editor="checkbox" ></cell>
+					</forms>
+					<gridview id="optionItemGrid" style="height:200px;" data="DS.RecordOptionItems" check="true" >
+                        <column field="id" title="ID" width="200" editor="combobox" box="grid" data="CD.Options" fields="id,title" columns="ID,名称" onafteritemselected="optionItemSelect" popupwidth="300" ></column>
+    					<column field="title" title="操作项名称" width="200" editor="textbox" ></column>
+    					<column title="操作" align="center" width="200" onclick="operItemClick" >
+                        	<div class="gridview-options" ><span id="script">脚本</span><span id="up" >上移</span><span id="down">下移</span><span id="del">删除</span></div>
+                        </column>
+                    </gridview>
+		    	</div>
+				<div class="ui-layout-search-foot">
+		    		<div class="buttons">
+						<button onclick="addOptionItem" skin="blur" value="添加" ></button>
+		    			<button onclick="savePageInfo" skin="blur" value="保存" ></button>
+		    		</div>
+		    	</div>
+		    </div>
+			
+			<div id="buttonPart" class="ui-layout-search">
+		    	<div class="ui-layout-search-body">
+					<gridview id="buttonItemGrid" style="height:200px;" data="DS.ButtonItems" check="true" >
+                        <column field="id" title="ID" width="160" editor="combobox" box="grid" data="CD.Buttons" fields="id,title" columns="ID,名称" onafteritemselected="buttonItemSelect" popupwidth="300" ></column>
+    					<column field="title" title="按钮名称" width="200" editor="textbox" ></column>
+						<column field="skin" title="按钮样式" width="120" editor="combobox" data="CD.ButtonSkins" ></column>
+    					<column title="操作" align="center" width="200" onclick="buttonItemClick" >
+                        	<div class="gridview-options" ><span id="script">脚本</span><span id="up" >上移</span><span id="down">下移</span><span id="del">删除</span></div>
+                        </column>
+                    </gridview>
+		    	</div>
+				<div class="ui-layout-search-foot">
+		    		<div class="buttons">
+						<button onclick="addButtonItem" skin="blur" value="添加" ></button>
+		    			<button onclick="savePageInfo" skin="blur" value="保存" ></button>
+		    		</div>
+		    	</div>
+		    </div>
+			
+			<div id="codeTablePart" class="ui-layout-search">
+		    	<div class="ui-layout-search-body">
+					<gridview id="codeTableGrid" style="height:200px;" data="DS.CodeTables" check="true" >
+                        <column field="id" title="ID" width="160" editor="textbox" ></column>
+    					<column field="name" title="代码表名称" width="200" editor="textbox" ></column>
+						<column field="type" title="类型" width="120" editor="combobox" data="CD.CodeTableTypes" ></column>
+    					<column title="操作" align="center" width="200" onclick="codeTableClick" >
+                        	<div class="gridview-options" ><span id="edit">编辑</span><span id="up" >上移</span><span id="down">下移</span><span id="del">删除</span></div>
+                        </column>
+                    </gridview>
+		    	</div>
+				<div class="ui-layout-search-foot">
+		    		<div class="buttons">
+						<button onclick="addCodeTable" skin="blur" value="添加" ></button>
+		    			<button onclick="savePageInfo" skin="blur" value="保存" ></button>
+		    		</div>
+		    	</div>
+		    </div>
+			
+		</div>
+	</div>
+	
+	<dialog id="tableTreePanel" width="1000" height="600" visible="false" title="添加表字段" >
+    	<div style="float:left;">
+    		<treebox id="dbTree" width="300" height="566" multiselect="false" data="TV.TableTree" onafternodeselected="selectTable" ></treebox>
+    	</div>
+    	<div style="width:685px;float:left;margin-left:5px;" >
+    		<div class="ui-layout-search-foot">
+        		<div class="buttons">
+    				<button onclick="addSelectColumn" skin="blur" value="添加" ></button>
+        		</div>
+        	</div>
+    		<gridview id="resultGrid" style="height:400px;" data="DV.Result_Info" check="true" >
+                <column field="label" title="字段名称" width="200" ></column>
+    			<column field="comment" title="注解" width="200" ></column>
+                <column field="typeName" title="数据类型" width="100" ></column>
+    			<column field="length" title="字段长度" width="100" ></column>
+                <column field="precision" title="整数精度" width="100" ></column>
+    			<column field="scale" title="小数精度" width="100" ></column>
+            </gridview>
+    	</div>
+	</dialog>
+	
+	<dialog id="optionScriptPanel" width="800" height="400" visible="false" title="操作项脚本" >
+		<div class="ui-layout-search-body" >
+    		<forms id="scriptForms" layout="table" columns="2" >
+                
+                <cell id="optionType" title="操作类型" field="type" editor="combobox" data="TV.OptionTree" onafteritemselected="optionTypeSelect" box="tree" ></cell>
+                <cell id="optionMethod" title="函数名" field="method" editor="textbox" ></cell>
+				
+				<cell id="optionScript" title="脚本" field="script" editor="textarea" cols="2" height="250" ></cell>
+				
+            </forms>
+    	</div>
+		<div class="ui-layout-search-foot">
+    		<div class="buttons">
+				<button onclick="buildOptionScript" skin="blur" value="生成脚本" ></button>
+				<button onclick="saveOptionScript" skin="blur" value="确定" ></button>
+    		</div>
+    	</div>
+	</dialog>
+	
+	<dialog id="buttonScriptPanel" width="800" height="400" visible="false" title="按钮脚本" >
+		<div class="ui-layout-search-body" >
+    		<forms id="scriptForms" layout="table" columns="2" >
+                
+                <cell id="buttonType" title="操作类型" field="type" editor="combobox" data="TV.OptionTree" onafteritemselected="buttonTypeSelect" box="tree" ></cell>
+                <cell id="buttonMethod" title="函数名" field="method" editor="textbox" ></cell>
+				
+				<cell id="buttonScript" title="脚本" field="script" editor="textarea" cols="2" height="250" ></cell>
+				
+            </forms>
+    	</div>
+		<div class="ui-layout-search-foot">
+    		<div class="buttons">
+				<button onclick="buildButtonScript" skin="blur" value="生成脚本" ></button>
+				<button onclick="saveButtonScript" skin="blur" value="确定" ></button>
+    		</div>
+    	</div>
+	</dialog>
+	
+	<dialog id="codeTableItemPanel" width="600" height="400" visible="false" title="代码表项" >
+		<div class="ui-layout-search-body" >
+    		<gridview id="codeTableItemGrid" style="height:200px;" >
+                <column field="value" title="值" width="180" editor="textbox" ></column>
+    			<column field="text" title="文本" width="180" editor="textbox" ></column>
+				<column title="操作" align="center" width="200" onclick="codeTableItemClick" >
+                	<div class="gridview-options" ><span id="up" >上移</span><span id="down">下移</span><span id="del">删除</span></div>
+                </column>
+            </gridview>
+		</div>
+		<div class="ui-layout-search-foot">
+    		<div class="buttons">
+				<button onclick="addCodeTableItem" skin="blur" value="添加" ></button>
+				<button onclick="saveCodeTableItem" skin="blur" value="确定" ></button>
+    		</div>
+    	</div>
+    </dialog>
+	
+	<dialog id="dataSourcePanel" width="400" height="200" visible="false" title="数据源设置" >
+		<div class="ui-layout-search-body" >
+    		<forms id="ctrlDataForms" layout="table" columns="1" data="" >
+                <cell id="ctrlDataType" title="类型" field="type" editor="combobox" data="CD.CtrlDataTypes" ></cell>
+                <cell id="ctrlDateName" title="数据" field="data" editor="combobox" ></cell>
+            </forms>
+		</div>
+		<div class="ui-layout-closure" >
+			<button onclick="saveCtrlData" skin="blur" value="确定" ></button>
+    	</div>
+	</diglog>
+	
+	#scriptLink("webui")
+	<script type="text/javascript" src="../biz/js/buildCommon.js" ></script>
+	<script type="text/javascript" src="../biz/js/queryBuildSql.js" ></script>
+	<script type="text/javascript" src="../biz/js/queryPageBuilder.js" ></script>
+	<script>jQuery.ctrl.render()</script>
+</body>
+</html>

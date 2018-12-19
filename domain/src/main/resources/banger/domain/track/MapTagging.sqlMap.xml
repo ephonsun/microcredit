@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.track.MapTagging" table="MAP_TAGGING" >
+		<id name="tagId" type="java.lang.Integer" >
+			<column name="TAG_ID" length="4" />
+		</id>
+		<property name="tagLongitude" type="java.lang.Double" >
+			<column name="TAG_LONGITUDE" length="8" />
+		</property>
+		<property name="tagLatitude" type="java.lang.Double" >
+			<column name="TAG_LATITUDE" length="8" />
+		</property>
+		<property name="customerId" type="java.lang.Integer" >
+			<column name="CUSTOMER_ID" length="4" />
+		</property>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="40" />
+		</property>
+		<property name="columnName" type="java.lang.String" >
+			<column name="COLUMN_NAME" length="40" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="lbizId" type="java.lang.Integer" >
+			<column name="LBIZ_ID" length="4" />
+		</property>
+	</class>
+</mapping>
+

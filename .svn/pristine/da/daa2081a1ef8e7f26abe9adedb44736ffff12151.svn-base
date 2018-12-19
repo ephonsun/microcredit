@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>申请人</title>
+    <style>
+        body{font-size: 0.14rem;/*实际相当于14px*/}
+        body,*{
+            padding:0;
+            margin:0;
+        }
+        .headDiv{
+			width:100%;
+			height:1.6rem;
+			background:#109add;
+			text-align:center;
+			line-height:1.6rem;
+			}
+			
+		
+		.headDiv label{
+			font-size:0.5rem;
+			font-family:FZLTHJW--GB1-0;
+			text-align:center;
+			color:#FFF;
+			margin-right:1.2rem;
+			}
+			
+		.bodyDiv{
+			width:100%;
+			height:15.8rem;
+			background:#fff;
+			text-align:center;
+			}
+			.bodyDiv ul{
+			margin-top:1.2rem;
+			margin-left:0.35rem;
+			text-align:center;
+			}
+			
+		.bodyDiv ul li{
+			list-style-type:none;
+			height:1.2rem;
+			line-height:1.2rem;
+			width:9.95rem;
+			border:1px solid #d9d9d9;
+			border-radius:0.1rem;
+			}
+		.phoneLi{
+			boder-bottom:none;
+			
+			}
+				
+		
+		   .nextDiv{
+			   width:100%;
+			   text-align:center;
+			   margin-top:0.3rem;
+			 
+			   }
+			   
+		  .nameLab{
+			  display: inline-block;
+			  margin-left:0.7rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+			  float:left;
+			 }
+		  .nameLab_1{
+			  display: inline-block;
+			  margin-left:1.15rem;
+			  font-size:0.42rem;
+			  font-family:FZLTH--GB1-4;
+			  color:#333333;
+			  float:left;
+           	  
+			 }
+		 
+			 	
+		  .nextStep{
+			  width:9.96rem;
+			  height:1.44rem;
+			  text-align:center;
+			  line-height:1.44rem;
+			  font-family:FZLTHJW--GB1-0;
+			  font-size:0.54rem;
+			  -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+			  border-radius:0.2rem;
+			  background:#dfdfdf;
+			  color:#b3b3b3;
+			  border:0px ;
+			  }
+			 .headSpan{
+				 float:left;
+			     display:-moz-inline-box;
+				 height:1.6rem;
+				 display:inline-block;
+				 background: url(../html5/intoApply/backIcon.png)  no-repeat 0.1rem 0.45rem;
+				 width:1.6rem;
+				 line-height:1.6rem;
+				
+				 }
+			 .div_1{
+				 width:100%;
+				 height:6.5rem;				
+				  -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+				 }
+			 .div_2{
+				 width:100%;
+				 height:3rem;				
+				  -webkit-box-sizing: border-box;
+                  -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+				  margin-top:4.5rem;
+				 }
+			
+			
+			.image_1{
+				margin-top:0.6rem;
+				/*width:8.34rem;*/
+				height:8.78rem;
+				}
+			 
+			
+			 .p1{
+				 font-size:0.5rem;
+				 font-family:FZLTHJW--GB1-0;
+				 text-align:center;	
+				 margin-top:0.3rem; 
+				 color:#ff7800;
+				 }
+				 
+			  			 
+    </style>
+</head>
+<body>
+
+	<div class="headDiv"><span id="backstep" class="headSpan"></span><label>申请人</label></div>
+    <div class="bodyDiv">
+		 <div class="div_1">
+         	<label for="image">  <img src="../html5/intoApply/s6.png" id="image_1" class="image_1" ></label>
+            <p class="p1">请拍摄申请人正面清晰照片</p>
+         </div> 
+         <div class="div_2">
+         	<ul>
+            	<li class="phoneLi"><label class="nameLab">姓名</label><label id="name" class="nameLab_1">$!name</label></li>
+                <li class="vaileLi"><label class="nameLab">身份证</label><label id="cardId" class="nameLab">$!cardNum</label></li>
+             </ul> 
+         </div>     
+              	
+  		 <div class="nextDiv"><button id="nextStep" class="nextStep" disabled="true" type="button">下一步</button></div>
+    
+    </div>
+    <form action="" enctype="multipart/form-data" method="post" id="img">
+        <input type="file" name="image" id="image"  accept="image/*" capture="camera" style="display:none" />
+	</form>
+		<input type="hidden" name="phone" id="phone" value="$!phone">
+		<input type="hidden" name="address" id="address" value="$!address">
+		<input type="hidden" name="sex" id="sex" value="$!sex">
+		<input type="hidden" name="age" id="age" value="$!age">
+		<input type="hidden" name="cardNum" id="cardNum" value="$!cardNum">
+		<input type="hidden" name="name" id="name" value="$!name">
+		<input type="hidden" name="id1" id="id1" value="$!id1">
+		<input type="hidden" name="id2" id="id2" value="$!id2">
+		<input type="hidden" name="id4" id="id4" value="$id4">
+		<input type="text" name="imag" id="imag" style="display:none"/>
+    	<input type="text" name="fileName" id="fileName" style="display:none"/>
+   	 	<input type="text" name="imagType" id="imagType" style="display:none"/>
+    	<input type="text" name="imagName" id="imagName" style="display:none"/ >
+    	<canvas id="phone1" style="display: none;"></canvas>
+    	<input type="hidden" name="userAccount" id="userAccount" value="$!userAccount">
+</body>
+<script type="text/javascript" charset="UTF-8" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/layer/layer.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/adaptive.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/exif.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/checkIdentFace.js"></script>
+<script>
+
+    adpative(document, window);
+    var name ="$!name";
+    var cardId="$!cardNum";
+
+</script>
+</html>

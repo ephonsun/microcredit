@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.WfApproveConditionParams" table="WF_APPROVE_CONDITION_PARAMS" >
+		<id name="paramsId" type="java.lang.Integer" >
+			<column name="PARAMS_ID" lenght="4" />
+		</id>
+		<property name="conditionId" type="java.lang.Integer" >
+			<column name="CONDITION_ID" lenght="4" />
+		</property>
+		<property name="flowId" type="java.lang.Integer" >
+			<column name="FLOW_ID" lenght="4" />
+		</property>
+		<property name="paramNo" type="java.lang.Integer" >
+			<column name="PARAM_NO" lenght="4" />
+		</property>
+		<property name="param1" type="java.lang.String" >
+			<column name="PARAM1" lenght="100" />
+		</property>
+		<property name="param2" type="java.lang.String" >
+			<column name="PARAM2" lenght="100" />
+		</property>
+		<property name="param3" type="java.lang.String" >
+			<column name="PARAM3" lenght="100" />
+		</property>
+		<property name="param4" type="java.lang.String" >
+			<column name="PARAM4" lenght="100" />
+		</property>
+		<property name="isDel" type="java.lang.Integer" >
+			<column name="IS_DEL" lenght="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

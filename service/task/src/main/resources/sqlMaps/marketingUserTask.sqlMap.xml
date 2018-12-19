@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+    <class id="MarketingUserTaskQuery" name="banger.domain.task.MarketingUserTask" >
+		<property name="marketingTotal" column="MARKETING_TOTAL" ></property>
+		<property name="userId" column="USER_ID" ></property>
+		<property name="groupId" column="GROUP_ID" ></property>
+    </class>
+
+	<!-- 统计个人营销数量 -->
+	<sql id="getMarketingUserTaskAmountByCondtion" result="MarketingUserTaskQuery">
+		SELECT COUNT(*) AS MARKETING_TOTAL,CREATE_USER AS USES_ID FROM CUST_POTENTIAL_CUSTOMERS
+		WHERE RECORD_TYPE = 1
+		<clause prepend="and" assert="!isNull([userId])" > CREATE_USER = [userId] </clause>
+		<clause prepend="and" assert="!isNull([groupId])" > CREATE_USER_TEAM = [groupId] </clause>
+		<clause parent="DateSpan" params="CREATE_DATE,beginDate,endDate" ></clause>
+		GROUP BY CREATE_USER
+	</sql>
+
+	<!-- 统计团队营销数量 -->
+	<sql id="getMarketingGroupTaskAmountByCondtion" result="MarketingUserTaskQuery">
+		SELECT COUNT(*) AS MARKETING_TOTAL,CREATE_USER_TEAM AS GROUP_ID FROM CUST_POTENTIAL_CUSTOMERS
+		WHERE RECORD_TYPE = 1
+		<clause prepend="and" assert="!isNull([groupId])" > CREATE_USER_TEAM = [groupId] </clause>
+		<clause parent="DateSpan" params="CREATE_DATE,beginDate,endDate" ></clause>
+		GROUP BY CREATE_USER_TEAM
+	</sql>
+
+</banger>

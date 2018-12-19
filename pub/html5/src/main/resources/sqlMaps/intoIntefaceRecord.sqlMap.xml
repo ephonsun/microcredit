@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件接口记录表 -->
+	<sql id="insertIntefaceRecord" >
+		INSERT INTO INTO_INTEFACE_RECORD (REQUEST_ID,INTERFACE_TYPE,IS_SUCCESS,ERROR_TYPE,ERROR_MESSAGE,APPLY_ID,CALL_TIME) VALUES ([$requestId]
+		<clause prepend="," nvl="0" >[$interfaceType]</clause>
+		<clause prepend="," nvl="0" >[$isSuccess]</clause>
+		<clause prepend="," nvl="0" >[$errorType]</clause>
+		<clause prepend="," nvl="''" >[$errorMessage]</clause>
+		<clause prepend="," nvl="0" >[$applyId]</clause>
+		<clause prepend="," nvl="NULL" >[$callTime]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件接口记录表 -->
+	<sql id="updateIntefaceRecord" >
+		UPDATE INTO_INTEFACE_RECORD 
+		<set>
+			<clause prepend="," assert="!isNull([interfaceType])" >INTERFACE_TYPE = [$interfaceType]</clause>
+			<clause prepend="," assert="!isNull([isSuccess])" >IS_SUCCESS = [$isSuccess]</clause>
+			<clause prepend="," assert="!isNull([errorType])" >ERROR_TYPE = [$errorType]</clause>
+			<clause prepend="," assert="!isNull([errorMessage])" >ERROR_MESSAGE = [$errorMessage]</clause>
+			<clause prepend="," assert="!isNull([applyId])" >APPLY_ID = [$applyId]</clause>
+			<clause prepend="," assert="!isNull([callTime])" >CALL_TIME = [$callTime]</clause>
+		</set>
+		<where>
+			 REQUEST_ID = [$requestId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件接口记录表 -->
+	<sql id="getIntefaceRecordById" >
+		SELECT * FROM INTO_INTEFACE_RECORD WHERE REQUEST_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除进件接口记录表 -->
+	<sql id="deleteIntefaceRecordById" >
+		DELETE FROM INTO_INTEFACE_RECORD WHERE REQUEST_ID = [0]
+	</sql>
+
+	<!-- 查询进件接口记录表 -->
+	<sql id="queryIntefaceRecordList" >
+		SELECT * FROM INTO_INTEFACE_RECORD 
+		<where>
+			<clause prepend="and" assert="!isNull([interfaceType])" > INTERFACE_TYPE = [interfaceType] </clause>
+			<clause prepend="and" assert="!isNull([isSuccess])" > IS_SUCCESS = [isSuccess] </clause>
+			<clause prepend="and" assert="!isNull([errorType])" > ERROR_TYPE = [errorType] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([errorMessage])" > ERROR_MESSAGE = '[errorMessage]' </clause>
+			<clause prepend="and" assert="!isNull([applyId])" > APPLY_ID = [applyId] </clause>
+			<clause parent="DateSpan" params="CALL_TIME,callTime,callTimeEnd" ></clause>
+		</where>
+	</sql>
+
+	<!-- 查询进件接口记录表Query -->
+	<sql id="queryIntefaceRecordListQuery"  result="IntefaceRecordListQuery">
+		SELECT request_id,INTERFACE_TYPE,IS_SUCCESS,ERROR_TYPE,ERROR_MESSAGE,APPLY_ID,CALL_TIME,
+		char(INTERFACE_TYPE) as faceInto_Type,
+		char(IS_SUCCESS) as is_Successed,
+		char(CALL_TIME) as time
+		FROM INTO_INTEFACE_RECORD
+		<where>
+			<clause prepend="and" assert="!isNull([interfaceType])" > INTERFACE_TYPE = [interfaceType] </clause>
+			<clause prepend="and" assert="!isNull([isSuccess])" > IS_SUCCESS = [isSuccess] </clause>
+			<clause prepend="and" assert="!isNull([errorType])" > ERROR_TYPE = [errorType] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([errorMessage])" > ERROR_MESSAGE = '[errorMessage]' </clause>
+			<clause prepend="and" assert="!isNull([applyId])" > APPLY_ID = [applyId] </clause>
+
+			<clause prepend="and" assert="!isNull([txtStartDate])" ><![CDATA[ CALL_TIME >= '[txtStartDate]'  ]]></clause>
+			<clause prepend="and" assert="!isNull([txtEndDate])"  ><![CDATA[  CALL_TIME <= '[txtEndDate]'  ]]></clause>
+
+			<clause parent="DateSpan" params="CALL_TIME,callTime,callTimeEnd" ></clause>
+		</where>
+	</sql>
+	<class id="IntefaceRecordListQuery" name="banger.domain.html5.IntoIntefaceRecordQuery">
+		<property name="faceIntoType" column="FACEINTO_TYPE"></property>
+		<property name="isSuccessed" column="IS_SUCCESSED"></property>
+		<property name="time" column="TIME"></property>
+	</class>
+	<sql id="IntoIntefaceRecordQuery" result="IntefaceRecordListQuery">
+		SELECT request_id,INTERFACE_TYPE,IS_SUCCESS,ERROR_TYPE,ERROR_MESSAGE,APPLY_ID,CALL_TIME,
+		char(INTERFACE_TYPE) as faceInto_Type,
+		char(IS_SUCCESS) as is_Successed,
+		char(CALL_TIME) as time
+		FROM INTO_INTEFACE_RECORD
+		WHERE REQUEST_ID = [0]
+
+	</sql>
+</banger>

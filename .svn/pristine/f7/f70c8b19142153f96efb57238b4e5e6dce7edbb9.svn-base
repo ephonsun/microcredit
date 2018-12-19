@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <title>详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+        html{height: 100%;}
+        body,#allmap{padding:0; margin:0; width: 100%; height: 100%;}
+    </style>
+</head>
+<body >
+<div class="map-search-box">
+    <input type="text" id="address" name="address" placeholder="输入地址进行搜索" class="ui-text-text">
+    <div id="btnClean" class="close-input">
+        <img src="../core/imgs/icon/close-input.png">
+    </div>
+    <span id="btnSearch" class="ui-search-button">
+        <label class="ui-search-button-text">搜索</label>
+    </span>
+    <div id="search-result"></div>
+</div>
+<div id="allmap"></div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" s3rc="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+
+<script type="text/javascript" src="http://$!mapjs"></script>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var tagId = '$!tagging.tagId';
+    var locationw = '$!tagging.tagLatitude';
+    var locationj = '$!tagging.tagLongitude';
+    var defaultw = '$!lat';
+    var defaultj = '$!lng';
+    var zoom = '$!zoom';
+    var point = new BMap.Point(defaultj, defaultw);
+    map.centerAndZoom(point, zoom);
+    var local = new BMap.LocalSearch(map, {
+        renderOptions:{map: map}
+    });
+    var address = '';
+    var j,w;
+    $(function () {
+        map.addEventListener("click", showInfo);
+        if (locationw != '' && locationj != '') {
+            j = locationj;
+            w = locationw;
+            var pt = new BMap.Point(locationj, locationw);
+            var gc = new BMap.Geocoder();
+            var myIcon = new BMap.Icon("../core/imgs/icon/customer.png", new BMap.Size(30,55));
+            //获取地址的数据地址
+            gc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                address = addComp.province +  addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+//                if ($.setTagging) setTagging(tagId, j, w, address);
+                window.ydwd.setTagging(tagId, j, w, address)
+                var marker = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+                var label = new BMap.Label(address,{offset:new BMap.Size(0,-20)});
+                marker.setLabel(label);
+                map.addOverlay(marker);              // 将标注添加到地图中
+            });
+        }
+        map.enableScrollWheelZoom(true)   ;     //开启鼠标滚轮缩放
+        $('#btnClean').click(function() {
+            $("input[name='address']").val('');
+            setTimeout(function(){$("input[name='address']").focus();},100);
+            setTimeout(function(){$("input[name='address']").blur();},100);
+        });
+        $('#btnSearch').click(function () {
+            var addressd = $("input[name='address']").val();
+            local.search(addressd);
+        });
+    });
+
+    function showInfo(e){
+        map.clearOverlays();
+        j = e.point.lng;
+        w = e.point.lat;
+        var pt = new BMap.Point(j, w);
+        var myIcon = new BMap.Icon("../core/imgs/icon/customer.png", new BMap.Size(30,55));
+        var gc = new BMap.Geocoder();
+        //获取地址的数据地址
+        gc.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            address = addComp.province +  addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+//            if ($.setTagging) setTagging(tagId, j, w, address);
+            window.ydwd.setTagging(tagId, j, w, address)
+            var marker = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+            var label = new BMap.Label(address,{offset:new BMap.Size(0,-20)});
+            marker.setLabel(label);
+            map.addOverlay(marker);              // 将标注添加到地图中
+        });
+    }
+</script>
+
+</body>
+</html>

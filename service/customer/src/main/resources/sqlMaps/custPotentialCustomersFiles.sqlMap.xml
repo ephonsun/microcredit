@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="custPotentialCustomersFilesQuery" name="banger.domain.customer.CustPotentialCustomersFilesQuery" >
+		<property name="createUserName" column="USER_NAME" ></property>
+	</class>
+	<!-- 新增潜在客户附件文件表 -->
+	<sql id="insertPotentialCustomersFiles" >
+		INSERT INTO CUST_POTENTIAL_CUSTOMERS_FILES (ID,POTENTIAL_ID,IS_DEL,FILE_ID,FILE_TYPE,FILE_FIX,FILE_NAME,FILE_PATH,FILE_SIZE,FILE_SRC_NAME,FILE_THUMB_IMAGE_NAME,FILE_THUMB_IMAGE_PATH,CALL_TIME,BEGIN_TIME,END_TIME,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$potentialId]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="''" >[$fileId]</clause>
+		<clause prepend="," nvl="''" >[$fileType]</clause>
+		<clause prepend="," nvl="''" >[$fileFix]</clause>
+		<clause prepend="," nvl="''" >[$fileName]</clause>
+		<clause prepend="," nvl="''" >[$filePath]</clause>
+		<clause prepend="," nvl="0" >[$fileSize]</clause>
+		<clause prepend="," nvl="''" >[$fileSrcName]</clause>
+		<clause prepend="," nvl="''" >[$fileThumbImageName]</clause>
+		<clause prepend="," nvl="''" >[$fileThumbImagePath]</clause>
+		<clause prepend="," nvl="0" >[$callTime]</clause>
+		<clause prepend="," nvl="NULL" >[$beginTime]</clause>
+		<clause prepend="," nvl="NULL" >[$endTime]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改潜在客户附件文件表 -->
+	<sql id="updatePotentialCustomersFiles" >
+		UPDATE CUST_POTENTIAL_CUSTOMERS_FILES 
+		<set>
+			<clause prepend="," assert="!isNull([potentialId])" >POTENTIAL_ID = [$potentialId]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([fileId])" >FILE_ID = [$fileId]</clause>
+			<clause prepend="," assert="!isNull([fileType])" >FILE_TYPE = [$fileType]</clause>
+			<clause prepend="," assert="!isNull([fileFix])" >FILE_FIX = [$fileFix]</clause>
+			<clause prepend="," assert="!isNull([fileName])" >FILE_NAME = [$fileName]</clause>
+			<clause prepend="," assert="!isNull([filePath])" >FILE_PATH = [$filePath]</clause>
+			<clause prepend="," assert="!isNull([fileSize])" >FILE_SIZE = [$fileSize]</clause>
+			<clause prepend="," assert="!isNull([fileSrcName])" >FILE_SRC_NAME = [$fileSrcName]</clause>
+			<clause prepend="," assert="!isNull([fileThumbImageName])" >FILE_THUMB_IMAGE_NAME = [$fileThumbImageName]</clause>
+			<clause prepend="," assert="!isNull([fileThumbImagePath])" >FILE_THUMB_IMAGE_PATH = [$fileThumbImagePath]</clause>
+			<clause prepend="," assert="!isNull([callTime])" >CALL_TIME = [$callTime]</clause>
+			<clause prepend="," assert="!isNull([beginTime])" >BEGIN_TIME = [$beginTime]</clause>
+			<clause prepend="," assert="!isNull([endTime])" >END_TIME = [$endTime]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到潜在客户附件文件表 -->
+	<sql id="getPotentialCustomersFilesById" >
+		SELECT * FROM CUST_POTENTIAL_CUSTOMERS_FILES WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除潜在客户附件文件表 -->
+	<sql id="deletePotentialCustomersFilesById" >
+		UPDATE CUST_POTENTIAL_CUSTOMERS_FILES SET IS_DEL = 1 WHERE ID = [0]
+	</sql>
+
+	<!-- 查询潜在客户附件文件表 -->
+	<sql id="queryPotentialCustomersFilesList" >
+		SELECT * FROM CUST_POTENTIAL_CUSTOMERS_FILES 
+		<where>
+			<clause prepend="and" assert="!isNull([potentialId])" > POTENTIAL_ID = [potentialId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileId])" > FILE_ID = '[fileId]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileType])" > FILE_TYPE = '[fileType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileFix])" > FILE_FIX = '[fileFix]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileName])" > FILE_NAME = '[fileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > FILE_PATH = '[filePath]' </clause>
+			<clause prepend="and" assert="!isNull([fileSize])" > FILE_SIZE = [fileSize] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileSrcName])" > FILE_SRC_NAME = '[fileSrcName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImageName])" > FILE_THUMB_IMAGE_NAME = '[fileThumbImageName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImagePath])" > FILE_THUMB_IMAGE_PATH = '[fileThumbImagePath]' </clause>
+			<clause prepend="and" assert="!isNull([callTime])" > CALL_TIME = [callTime] </clause>
+			<clause parent="DateSpan" params="BEGIN_TIME,beginTime,beginTimeEnd" ></clause>
+			<clause parent="DateSpan" params="END_TIME,endTime,endTimeEnd" ></clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+		order by CREATE_DATE desc
+	</sql>
+
+
+
+	<!-- 查询潜在客户附件文件表子类 -->
+	<sql id="queryPotentialCustomersFilesQueryList" result="custPotentialCustomersFilesQuery">
+		SELECT * FROM CUST_POTENTIAL_CUSTOMERS_FILES
+		<where>
+			<clause prepend="and" assert="!isNull([potentialId])" > POTENTIAL_ID = [potentialId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileId])" > FILE_ID = '[fileId]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileType])" > FILE_TYPE = '[fileType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileFix])" > FILE_FIX = '[fileFix]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileName])" > FILE_NAME = '[fileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > FILE_PATH = '[filePath]' </clause>
+			<clause prepend="and" assert="!isNull([fileSize])" > FILE_SIZE = [fileSize] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileSrcName])" > FILE_SRC_NAME = '[fileSrcName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImageName])" > FILE_THUMB_IMAGE_NAME = '[fileThumbImageName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileThumbImagePath])" > FILE_THUMB_IMAGE_PATH = '[fileThumbImagePath]' </clause>
+			<clause prepend="and" assert="!isNull([callTime])" > CALL_TIME = [callTime] </clause>
+			<clause parent="DateSpan" params="BEGIN_TIME,beginTime,beginTimeEnd" ></clause>
+			<clause parent="DateSpan" params="END_TIME,endTime,endTimeEnd" ></clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+		<link sqlId="getLinkUserNameByIds" pkey="CREATE_USER" fkey="USER_ID" >
+			<column name="USER_NAME" alias="USER_NAME" />
+		</link>
+		order by CREATE_DATE desc
+	</sql>
+
+</banger>

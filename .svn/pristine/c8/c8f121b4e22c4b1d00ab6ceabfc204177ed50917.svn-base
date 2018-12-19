@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增系统数据字典表 -->
+	<sql id="insertDataDict" >
+		INSERT INTO SYS_DATA_DICT (DATA_DICT_ID,UPDATE_USER,DICT_CN_NAME,CREATE_DATE,DICT_EN_NAME,UPDATE_DATE,SYS_FLAG,DEL_FLAG,CREATE_USER,IS_FIXED) VALUES ([$dataDictId]
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="''" >[$dictCnName]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," nvl="''" >[$dictEnName]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$sysFlag]</clause>
+		<clause prepend="," nvl="0" >[$delFlag]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$isFixed]</clause>
+		)
+	</sql>
+
+	<!-- 修改系统数据字典表 -->
+	<sql id="updateDataDict" >
+		UPDATE SYS_DATA_DICT 
+		<set>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([dictCnName])" >DICT_CN_NAME = [$dictCnName]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([dictEnName])" >DICT_EN_NAME = [$dictEnName]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([sysFlag])" >SYS_FLAG = [$sysFlag]</clause>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([isFixed])" >IS_FIXED = [$isFixed]</clause>
+		</set>
+		<where>
+			 DATA_DICT_ID = [$dataDictId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到系统数据字典表 -->
+	<sql id="getDataDictById" >
+		SELECT * FROM SYS_DATA_DICT WHERE DATA_DICT_ID = [0]
+	</sql>
+	
+	<!-- 通过正文名得到系统数据字典表 -->
+	<sql id="getDataDictByCnName" >
+		SELECT * FROM SYS_DATA_DICT WHERE DICT_CN_NAME = '[0]'
+	</sql>
+	
+	<!-- 通过英文名得到系统数据字典表 -->
+	<sql id="getDataDictByEnName" >
+		SELECT * FROM SYS_DATA_DICT WHERE DICT_EN_NAME = '[0]'
+	</sql>
+
+	<!-- 通过主键删除系统数据字典表 -->
+	<sql id="deleteDataDictById" >
+		UPDATE SYS_DATA_DICT 
+		<set>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+		</set>
+		<where>
+			 DATA_DICT_ID = [$dataDictId] 
+		</where>
+	</sql>
+
+	<!-- 查询系统数据字典表 -->
+	<sql id="queryDataDictList" >
+		SELECT * FROM SYS_DATA_DICT 
+		<where>
+			DEL_FLAG = 0
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictCnName])" > DICT_CN_NAME = '[dictCnName]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictEnName])" > DICT_EN_NAME = '[dictEnName]' </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([sysFlag])" > SYS_FLAG = [sysFlag] </clause>
+			<clause prepend="and" assert="!isNull([delFlag])" > DEL_FLAG = [delFlag] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+		</where>
+		ORDER BY DATA_DICT_ID
+	</sql>
+	
+	<sql id="getDataDictCountByName" >
+		SELECT COUNT(*) FROM SYS_DATA_DICT WHERE DEL_FLAG = 0 AND DICT_EN_NAME = '[0]'
+	</sql>
+	
+	<sql id="queryDataDictCount" >
+		SELECT COUNT(*) FROM SYS_DATA_DICT 
+		<where>
+			<clause prepend="and"> DEL_FLAG = [delFlag] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictCnName])"> DICT_CN_NAME = '[dictCnName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictEnName])"> DICT_EN_NAME = '[dictEnName]' </clause>
+			<clause prepend="and" assert="!isNull([dataDictId])"> <![CDATA[ DATA_DICT_ID <> [dataDictId] ]]></clause>
+		</where>
+	</sql>
+	
+	<sql id="sysModelLevelSelect">
+		SELECT * FROM SYS_DATA_DICT
+	</sql>
+</banger>

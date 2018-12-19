@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<sql id="innsertPadClentDevice">
+		INSERT INTO PAD_CLENT_DEVICE (ID, ACCOUNT, DEVICEID, LOCALIP, VERSION, CREATE_TIME, LAST_TIME) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$account]</clause>
+		<clause prepend="," nvl="''" >[$deviceId]</clause>
+		<clause prepend="," nvl="''" >[$localIp]</clause>
+		<clause prepend="," nvl="''" >[$version]</clause>
+		<clause prepend="," >[$createTime]</clause>
+		<clause prepend="," >[$lastTime]</clause>
+		)
+	</sql>
+
+	<sql id="updatePadClentDevice" >
+		UPDATE PAD_CLENT_DEVICE 
+		<set>
+			<clause prepend="," assert="!isNull([account])" >ACCOUNT = [$account]</clause>
+			<!-- <clause prepend="," assert="!isNull([deviceId])" >DEVICEID = [$deviceId]</clause> -->
+			<clause prepend="," assert="!isNull([localIp])" >LOCALIP = [$localIp]</clause>
+			<clause prepend="," assert="!isNull([version])" >VERSION = [$version]</clause>
+			<clause prepend="," assert="!isNull([createTime])" >CREATE_TIME = [$createTime]</clause>
+			<clause prepend="," assert="!isNull([lastTime])" >LAST_TIME = [$lastTime]</clause>
+		</set>
+		<where>
+			 DEVICEID = [$deviceId] 
+		</where>
+	</sql>
+	
+	<sql id="queryPadClentDeviceList" >
+		SELECT * FROM PAD_CLENT_DEVICE
+        <where>
+            <clause prepend="and" assert="!isNullOrEmpty([account])" >ACCOUNT = [$account]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([deviceId])" >DEVICEID LIKE '%[deviceId]%'</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([localIp])" >LOCALIP LIKE '%[localIp]%'</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([version])" >VERSION LIKE '%[version]%'</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([createTime])" >CREATE_TIME = [$createTime]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([lastTime])" >LAST_TIME = [$lastTime]</clause>
+        </where>
+		order by CREATE_TIME
+	</sql>
+	
+	<sql id="getPadClentDeviceInfo" >
+		SELECT * FROM PAD_CLENT_DEVICE
+        <where>
+			<clause prepend="and" assert="!isNullOrEmpty([deviceId])" >DEVICEID LIKE '%[deviceId]%'</clause>
+        </where>
+		order by CREATE_TIME
+	</sql>
+    
+</banger>

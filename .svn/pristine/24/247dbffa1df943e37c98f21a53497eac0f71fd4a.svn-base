@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsBancsBrhm" table="BANCS_BRHM" >
+		<property name="oro1BrNo" type="java.lang.String" >
+			<column name="ORO1_BR_NO" lenght="60" />
+		</property>
+		<property name="oro1ProvBrNo" type="java.lang.String" >
+			<column name="ORO1_PROV_BR_NO" lenght="60" />
+		</property>
+	</class>
+</mapping>
+

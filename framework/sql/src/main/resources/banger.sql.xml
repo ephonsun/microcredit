@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<import resource="classpath:banger.core.xml" />
+	
+	<bean id="DbConfigFactory" class="banger.framework.sql.config.DefaultConfigFactory" />
+	
+	<bean id="DriverProviderBuilder" class="banger.framework.sql.driver.DataProviderBuilder" >
+	    <property name="dbConfigFactory"  ref="DbConfigFactory" />
+    </bean>
+    
+    <bean id="AbstractSqlMap" class="banger.framework.sql.mapping.SqlMap" abstract="true" >
+		<property name="contexts">
+			<set>
+				<ref bean="SqlContext"></ref>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="SqlContext" class="banger.framework.sql.mapping.SqlContext" >
+		<property name="resources" >
+			<set>
+				<value>banger.sqlMap.xml</value>
+			</set>
+		</property>
+		<property name="asserts" >
+			<set>
+				<ref bean="isNull" />
+				<ref bean="isNotEmpty" />
+				<ref bean="isAllNotEmpty" />
+				<ref bean="isNullOrEmpty" />
+				<ref bean="isEqual" />
+				<ref bean="isGreater" />
+				<ref bean="isLess" />
+				<ref bean="isGreaterOrEqual" />
+				<ref bean="isLessOrEqual" />
+				<ref bean="hasTime" />
+				<ref bean="hasValue" />
+				<ref bean="isDbType" />
+			</set>
+		</property>
+		<property name="methods" >
+			<set>
+				<ref bean="beginDate" />
+				<ref bean="endDate" />
+				<ref bean="toDate" />
+				<ref bean="toTimeSecond" />
+				<ref bean="currentDate" />
+				<ref bean="currentDateTime" />
+				<ref bean="currentTime" />
+				<ref bean="like" />
+				<ref bean="rlike" />
+				<ref bean="llike" />
+				<ref bean="getSqlValue" />
+				<ref bean="quote"/>
+			</set>
+		</property>
+	</bean>
+	
+	<!-- 判断为空 isNull(p1) -->
+	<bean id="isNull" class="banger.framework.sql.mapping.asserts.IsNull" />
+	<!-- 判断不为空或不为空字符串  isNotEmpty(p1) -->
+	<bean id="isNotEmpty" class="banger.framework.sql.mapping.asserts.IsNotEmpty" />
+	<!-- 判断都不为空或都不为空字符串  isAllNotEmpty(p1) -->
+	<bean id="isAllNotEmpty" class="banger.framework.sql.mapping.asserts.IsAllNotEmpty" />
+	<!-- 判断为空或空字符串  isNullOrEmpty(p1) -->
+	<bean id="isNullOrEmpty" class="banger.framework.sql.mapping.asserts.IsNullOrEmpty" />
+	<!-- 判断是否相等 isEqual(p1,p2) -->
+	<bean id="isEqual" class="banger.framework.sql.mapping.asserts.IsEqual" />
+	<!-- 判断是否大于 isGreater(p1,p2) -->
+	<bean id="isGreater" class="banger.framework.sql.mapping.asserts.IsGreater" />
+	<!-- 判断是否小于 isLess(p1,p2) -->
+	<bean id="isLess" class="banger.framework.sql.mapping.asserts.IsLess" />
+	<!-- 判断是否大于或等于 isGreaterOrEqual(p1,p2) -->
+	<bean id="isGreaterOrEqual" class="banger.framework.sql.mapping.asserts.IsGreaterOrEqual" />
+	<!-- 判断是否小于或等于 isLessOrEqual(p1,p2) -->
+	<bean id="isLessOrEqual" class="banger.framework.sql.mapping.asserts.IsLessOrEqual" />
+	<!-- 判断是否包含时间  -->
+	<bean id="hasTime" class="banger.framework.sql.mapping.asserts.HasTime" />
+	<!-- 是否包含某个值 hasValue(p1,p2)  -->
+	<bean id="hasValue" class="banger.framework.sql.mapping.asserts.HasValue" />
+	<!-- 判断数据库的类型 isDbType('DB2') -->
+	<bean id="isDbType" class="banger.framework.sql.mapping.asserts.IsDbType" />
+	
+	<!-- 得到一天的开始时刻 23:59:59 -->
+	<bean id="beginDate" class="banger.framework.sql.mapping.methods.BeginDate" />
+	<!-- 得到一天的结束时刻 00:00:00-->
+	<bean id="endDate" class="banger.framework.sql.mapping.methods.EndDate" />
+	<!-- 根据数据库不同转化为相应的日期格式 -->
+	<bean id="toDate" class="banger.framework.sql.mapping.methods.ToDate" />
+	<!-- 把时间转化为秒数 -->
+	<bean id="toTimeSecond" class="banger.framework.sql.mapping.methods.ToTimeSecond" />
+	<!-- 当前日期 -->
+	
+	<bean id="currentDate" class="banger.framework.sql.mapping.methods.CurrentDate" />
+	<!-- 当前日期时间 -->
+	<bean id="currentDateTime" class="banger.framework.sql.mapping.methods.CurrentDateTime" />
+	<!-- 当前时间 -->
+	<bean id="currentTime" class="banger.framework.sql.mapping.methods.CurrentTime" />
+	<!-- 模糊配置 '%text%' -->
+	<bean id="like" class="banger.framework.sql.mapping.methods.Like" />
+	<!-- 模糊配置 'text%' -->
+	<bean id="rlike" class="banger.framework.sql.mapping.methods.RLike" />
+	<!-- 模糊配置 '%text' -->
+	<bean id="llike" class="banger.framework.sql.mapping.methods.LLike" />
+	<!-- 调Sql返回值 -->
+	<bean id="getSqlValue" class="banger.framework.sql.mapping.methods.GetSqlValue" />
+	<!-- 字符串外添加开闭符 -->
+	<bean id="quote" class="banger.framework.sql.mapping.methods.Quote" />
+	
+	<!-- 精确查询 -->
+	<bean id="equal" class="banger.framework.sql.condition.EqualCondition" />
+	<!-- 多项精确查询 -->
+	<bean id="equals" class="banger.framework.sql.condition.EqualsCondition" />
+	<!-- 模糊查询 -->
+	<bean id="fuzzy" class="banger.framework.sql.condition.FuzzyCondition" />
+	<!-- 模糊查询,左匹配 -->
+	<bean id="lfuzzy" class="banger.framework.sql.condition.FuzzyLeftCondition" />
+	<!-- 模糊查询,右匹配 -->
+	<bean id="rfuzzy" class="banger.framework.sql.condition.FuzzyRightCondition" />
+	<!-- 日期段查询 -->
+	<bean id="datespan" class="banger.framework.sql.condition.DateSpanCondition" />
+	<!-- 数字段查询 -->
+	<bean id="numspan" class="banger.framework.sql.condition.NumberSpanCondition" />
+	
+ </beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<cache id="SDicCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertSDic" />
+	  </cache>
+	<!-- 新增字典表,同步信贷 -->
+	<sql id="insertSDic" >
+		INSERT INTO SYS_S_DIC (PK1,CNNAME,ENNAME,TYPE1,PROPERTY,MEMO,FLAG) VALUES ([$pk1]
+		<clause prepend="," nvl="''" >[$cnname]</clause>
+		<clause prepend="," nvl="''" >[$enname]</clause>
+		<clause prepend="," nvl="''" >[$type1]</clause>
+		<clause prepend="," nvl="''" >[$property]</clause>
+		<clause prepend="," nvl="''" >[$memo]</clause>
+		<clause prepend="," nvl="''" >[$flag]</clause>
+		)
+	</sql>
+
+	<!-- 修改字典表,同步信贷 -->
+	<sql id="updateSDic" >
+		UPDATE SYS_S_DIC 
+		<set>
+			<clause prepend="," assert="!isNull([cnname])" >CNNAME = [$cnname]</clause>
+			<clause prepend="," assert="!isNull([enname])" >ENNAME = [$enname]</clause>
+			<clause prepend="," assert="!isNull([type1])" >TYPE1 = [$type1]</clause>
+			<clause prepend="," assert="!isNull([property])" >PROPERTY = [$property]</clause>
+			<clause prepend="," assert="!isNull([memo])" >MEMO = [$memo]</clause>
+			<clause prepend="," assert="!isNull([flag])" >FLAG = [$flag]</clause>
+		</set>
+		<where>
+			 PK1 = [$pk1] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到字典表,同步信贷 -->
+	<sql id="getSDicById" >
+		SELECT * FROM SYS_S_DIC WHERE PK1 = [0]
+	</sql>
+
+	<!-- 通过主键删除字典表,同步信贷 -->
+	<sql id="deleteSDicById" >
+		DELETE FROM SYS_S_DIC WHERE PK1 = [0]
+	</sql>
+
+	<!-- 查询字典表,同步信贷 -->
+	<sql id="querySDicList" cache="SDicCache">
+		SELECT * FROM SYS_S_DIC 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([cnname])" > CNNAME = '[cnname]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([enname])" > ENNAME = '[enname]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([type1])" > TYPE1 = '[type1]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([property])" > PROPERTY = '[property]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([memo])" > MEMO = '[memo]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([flag])" > FLAG = '[flag]' </clause>
+		</where>
+		ORDER BY MEMO 
+	</sql>
+	
+	<sql id="querySDicItems" cache="SDicCache">
+		SELECT * FROM SYS_S_DIC WHERE TYPE1 = '[0]'
+	</sql>
+</banger>

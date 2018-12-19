@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>贷款明细报表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css" />
+</head>
+<body>
+<form id="form" action="" onsubmit="return false;">
+    <input type="hidden" id="role" name="role" value="$!role" />
+    <input type="hidden" id="groupPermit" name="groupPermit" value="$!groupPermit" />
+    <input type="hidden" id="gp" name="gp" value="$!gp" />
+    <input type="hidden" id="userName" name="userName" value="$!userName" />
+    <input type="hidden" id="loginUserId" name="loginUserId" value="$!userId" />
+    <input type="hidden" id="teamGroupID" name="teamGroupID" value="$!teamGroupID" />
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields">
+            <tr>
+                <td class="field" width="7%">
+                    <label>统计对象：</label>
+                </td>
+                #if(!$teamGroupID&&$role==1&&$gp.length()==0)
+                    <td width="20%">
+                        <select id="userIdSelect" name="userId">
+                            <option value="$userId">自己</option>
+                        </select>
+                    </td>
+                    <td width="76%"></td>
+                #else
+                    <td width="20%">
+                        <select id="taskObj" name="taskObj">
+                            #if($!role==1&& $gp.length()>1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                                <option value="3">所有</option>
+                            #elseif($!role==1&& $gp.length()==1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                            #elseif($!role==1&&$gp.length()==0&&$teamGroupID)
+                                <option value="1">客户经理</option>
+                            #elseif($!role==2&& $gp.length()==1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                            #elseif($!role==2&& $gp.length()>1)
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                                <option value="3">所有</option>
+                            #elseif($!role==3&&$gp.length()==0)
+                                <option value="3"></option>
+                            #else
+                                <option value="1">客户经理</option>
+                                <option value="2">团队</option>
+                                <option value="3">所有</option>
+                            #end
+                        </select>
+                    </td>
+                    <td width="20%">
+                        <div id="hh">
+                            <select id="teamGroupId" name="teamGroupId" >
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="20%" >
+                        <div id="gg">
+                            <select id="userIdSelect" name="userId">
+                                <option></option>
+                            </select>
+                        </div>
+                    </td>
+                    <td width="36%" >
+                    </td>
+
+                </tr>
+                #end
+                <tr>
+                    <td class="field" width="7%">
+                        <label>申请时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="applyStartDate" class="ui-text-text" name="applyStartDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="applyEndDate" class="ui-text-text" name="applyEndDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>调查时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="investStartDate" class="ui-text-text" name="investStartDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="investEndDate" class="ui-text-text" name="investEndDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>审批结束时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="approvalStartDate" class="ui-text-text" name="approvalStartDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="approvalEndDate" class="ui-text-text" name="approvalEndDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>放款时间：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields-cell">
+                            <tbody>
+                            <tr>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="loanStartDate" class="ui-text-text" name="loanStartDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                                <td width="20">-</td>
+                                <td width="150">
+                                    <div class="ui-text">
+                                        <input type="text" id="loanEndDate" class="ui-text-text" name="loanEndDate" value=""/>
+                                        <i class="ui-text-icon ui-text-date"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field" width="7%">
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                    <td width="20%"></td>
+                </tr>
+            </table>
+        </div>
+        <!-- 搜索刷新按钮-->
+        <div class="ui-layout-search-foot">
+            <span id="btnExport" style="display: none" class="ui-button fl" >
+                <label class="ui-button-text">导出</label>
+                </span>
+            <div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+    	            <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="queryGrid" style="overflow: auto; white-space: nowrap; text-overflow: ellipsis; width: 100%;"></div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/third/highCharts/js/highcharts.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/third/highCharts/js/exporting.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/third/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    var r= $('#role').val();
+    $("#taskObj").val(r);
+</script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/queryReport.js?v=$!webAppVersion"></script>
+</body>
+</html>

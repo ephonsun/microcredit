@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="columnFormulaParamsCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertColumnFormula" />
+		<flushOnExecute statement="updateColumnFormula" />
+		<flushOnExecute statement="deleteColumnFormulaById" />
+	</cache>
+
+	<!-- 新增自定义字段合计项公式参数 -->
+	<sql id="insertColumnFormulaParams" >
+		INSERT INTO AUTO_COLUMN_FORMULA_PARAMS (ID,FORMULA_ID,TABLE_NAME,FIELD_COLUMN,FORMULA_PARAM,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$formulaId]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$fieldColumn]</clause>
+		<clause prepend="," nvl="''" >[$formulaParam]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改自定义字段合计项公式参数 -->
+	<sql id="updateColumnFormulaParams" >
+		UPDATE AUTO_COLUMN_FORMULA_PARAMS 
+		<set>
+			<clause prepend="," assert="!isNull([formulaId])" >FORMULA_ID = [$formulaId]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([fieldColumn])" >FIELD_COLUMN = [$fieldColumn]</clause>
+			<clause prepend="," assert="!isNull([formulaParam])" >FORMULA_PARAM = [$formulaParam]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到自定义字段合计项公式参数 -->
+	<sql id="getColumnFormulaParamsById" >
+		SELECT * FROM AUTO_COLUMN_FORMULA_PARAMS WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除自定义字段合计项公式参数 -->
+	<sql id="deleteColumnFormulaParamsById" >
+		DELETE FROM AUTO_COLUMN_FORMULA_PARAMS WHERE ID = [0]
+	</sql>
+
+	<!-- 查询自定义字段合计项公式参数 -->
+	<sql id="queryColumnFormulaParamsList" cache="columnFormulaParamsCache" >
+		SELECT * FROM AUTO_COLUMN_FORMULA_PARAMS 
+		<where>
+			<clause prepend="and" assert="!isNull([formulaId])" > FORMULA_ID = [formulaId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldColumn])" > FIELD_COLUMN = '[fieldColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([formulaParam])" > FORMULA_PARAM = '[formulaParam]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

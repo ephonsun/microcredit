@@ -1,0 +1,263 @@
+    <style type="text/css">
+        #assetAnalysisBox{
+            font-size: 12px;
+        }
+        #assetAnalysisBox table tr td:first-child{
+            width: 15px;
+        }
+        #assetAnalysisBox table tr td:nth-child(2){
+            width: 86px;
+        }
+        #assetAnalysisBox .text{
+            font-size: 16px;
+            margin: 25px;
+        }
+        #solvency_biz{
+            margin: 20px 0 0px 25px;
+        }
+        #assetAnalysisBox p{
+            margin: 10px !important;
+            font-weight: bold;
+        }
+        .number{
+            font-size: 28px;
+            color: #3366FF;
+            vertical-align: middle;
+        }
+        .grade{
+            color: white;
+            line-height: 26px;
+            text-align: center;
+            border-radius: 6px;
+            display: inline-block;
+            width: 46px !important;
+            min-width: 46px !important;
+            height: 26px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+        .great{
+            background-color: #3366FF;
+        }
+        .good{
+            background-color: #85A3FF;
+        }
+        .well{
+            background-color: #009900;
+        }
+        .bad{
+            background-color: #FFD89E;
+        }
+        .trouble{
+            background-color: #FF8533;
+        }
+
+        .explain{
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        #assetAnalysis_left,#assetAnalysis_right,#assetAnalysis_top table{
+            display: inline-block;
+            width: 50%;
+        }
+        #assetAnalysis_top_right{
+            display: inline-block;
+            width: 49%;
+        }
+        #assetAnalysis_top_left{
+            display: inline-block;
+            width: 50%;
+        }
+        #breakEvenAnalysistable{
+            vertical-align: top;
+            display: inline-block;
+            width:30%;
+        }
+        #breakEvenAnalysisPie{
+            display: inline-block;
+            /*width:70%;*/
+        }
+
+        #assetAnalysis table,#breakEvenAnalysisTable,#breakEvenAnalysisTable_left,#breakEvenAnalysisTable_right {
+            border-collapse: separate;
+            border-spacing: 10px;
+
+        }
+        #assetAnalysis_top{
+            margin: 0 0 50px 50px
+        }
+        #breakEvenAnalysistable table,#assetAnalysis_top_left table ,#assetAnalysis_top_left table {
+            margin-left: 14px;
+        }
+        #breakEvenAnalysistable table {
+            margin: 25px 0 0 50px
+        }
+        #assetAnalysisBox table tr {
+            margin:5px;
+        }
+        #assetAnalysis_right{
+           /* float: right;
+            position:absolute;*/
+        }
+        #assetAnalysis,#breakEvenAnalysis,#solvencyAnalysis,#turnoverRatioAnalysis {
+            border: 1px solid #d7d7d7;
+            margin-top: 10px;
+        }
+        #solvency_biz div{
+            margin-left: 30px;
+        }
+        #breakEven_returnOnEquity div,#breakEven_netInterestRate div{
+              margin: 0 8px;
+          }
+        #assetAnalysisBox .ratio{
+            margin-left: 200px !important;
+        }
+        #assetAnalysisBox .cell{
+            width: 15px;
+            height: 15px;
+            background: inherit;
+        }
+
+        /*#assetTurnover_grade,#inventoryTurnover_grade{*/
+            /*margin-left: 32px;*/
+        /*}*/
+        #turnoverRatioAnalysis div div,#assetAnalysis_foot div,#breakEven_netInterestRate div
+        #breakEven_returnOnEquity div,#breakEven_con div,#solvencyAnalysis div div{
+            display: inline-block;
+            margin: 0 8px;
+            /*width: 130px;*/
+        }
+        #assetAnalysis_foot div {
+            display: inline;
+        }
+        #turnoverRatioAnalysis_assetTurnover div,#turnoverRatioAnalysis_accountsTeceivableTurnover div,
+        #turnoverRatioAnalysis_inventoryTurnover div,#solvencyAnalysis_grades div,#breakEven_biz div div,#breakEven_con div{
+            min-width: 144px;
+        }
+        #breakEven_returnOnEquity div,#breakEven_netInterestRate div{
+            display: inline-block;
+        }
+        .fontMiddle{
+            vertical-align: middle;
+        }
+    </style>
+    <input type="hidden" id="isloaded"/>
+    <input type="hidden" id="loanId" name="loanId" value="$!loanId" />
+    <input type="hidden" id="loanClassId" name="loanClassId" value="$!loanClassId" />
+    <style>
+        table.tableLayout th { height: 35px !important;line-height: 13px !important; font-size: 12px !important; }
+    </style>
+    <div id="assetAnalysisBox">
+        <div id="assetAnalysis" style="min-width:auto;height:auto;">
+            <p>资产分析</p>
+            #if("$!loanClassId" == "1")
+                <div id="assetAnalysis_top_left">
+                    #*<table id="assetAnalysis_table1" align="left"><table>*#
+                    <div id="assetAnalysis_left"></div>
+                </div>
+                <div id="assetAnalysis_top_right">
+                    <table id="assetAnalysis_table2" align="left"></table>
+                    <div id="assetAnalysis_right"></div>
+                </div>
+            #end
+            #if("$!loanClassId" == "2")
+                <div id="assetAnalysis_top">
+                    <table id="assetAnalysis_table1" align="left"><table>
+                    <table id="assetAnalysis_table2" align="right"></table>
+                </div>
+                <div id="assetAnalysis_left">
+                </div>
+                <div id="assetAnalysis_right" style="float: right;position:absolute;"></div>
+            #end
+            <div id="assetAnalysis_foot" class="text">
+                <div style="width:50%;">
+                    <div class="fontMiddle">实际权益（元）</div><div id="actualInterest" class="number"></div>
+                </div>
+                <div style="width:47%;float: right;">
+                    <div class="fontMiddle">资产负债率</div><div id="assetLiabilityRatio" class="number"></div>
+                    <div id="assetAnalysis_grade" class="grade" style="display: inline-block"></div>
+                    <div id="assetAnalysis_grade_exp" class="explain"></div>
+                </div>
+    ##        #if("$!loanClassId == 1")
+    ##            <div id="assetLiability_grade"  class="grade"></div>
+    ##            <div id="assetLiability_grade_exp" class="explain"></div>
+    ##        #end
+            </div>
+        </div>
+        <div id="breakEvenAnalysis" style="min-width:auto;height:auto;">
+            <p>损益分析</p>
+            #if("$!loanClassId" == "1")
+                <div id="breakEvenAnalysistable" style="width: 50%;display: inline-block">
+                    <table id="breakEvenAnalysisTable_left" align="left" style="margin-left: 14px;margin-top: 8px;"></table>
+                    <div id="breakEvenAnalysisPie"></div>
+                </div>
+                <div style="width: 48%;display: inline-block;margin-top: 8px;">
+                    <table id="breakEvenAnalysisTable_right">
+                    </table>
+                </div>
+                <div id="breakEven_biz">
+                    <div id="breakEven_netInterestRate"  class="text">
+                        <div id="" class="fontMiddle">净利率</div><div id="netInterestRate" class="number"></div>
+                        <div id="netInterestRate_grade" class="grade"></div>
+                        <div id="netInterestRate_grade_exp" class="explain" style="width: auto"></div>
+                    </div>
+                    <div id="breakEven_returnOnEquity"  class="text">
+                        <div id="" class="fontMiddle">净资产收益率</div><div id="returnOnEquity" class="number"></div>
+                        <div id="returnOnEquity_grade" class="grade"></div>
+                        <div id="returnOnEquity_grade_exp" class="explain" style="width: auto"></div>
+                    </div>
+                </div>
+            #elseif("$!loanClassId" == "2")
+                <div id="breakEvenAnalysistable">
+                    <table id="breakEvenAnalysisTable"></table>
+                </div>
+                <div id="breakEvenAnalysisPie"></div>
+                <div id="breakEven_con" class="text">
+                    <div id="" class="fontMiddle">总收入（元）</div><div id="grossIncome" class="number"></div>
+                    <div id="" class="fontMiddle">月平均月可支（元）</div><div id="monthlyAverageAvailable" class="number"></div>
+                </div>
+            #end
+        </div>
+        <div id="solvencyAnalysis" style="min-width:auto;height:auto;">
+            <p>偿还能力分析</p>
+            #if("$!loanClassId" == "1")
+                <div id="solvency_biz" >
+                    <div id="">现金比</div><div id="cashRatio"></div>
+                    <div class="ratio">流动比</div><div id="flowRatio"></div>
+                    <div class="ratio">销货比</div><div id="salesRatio"></div>
+                </div>
+                <div id="solvencyAnalysis_grades" class="text">
+                    <div id="" class="fontMiddle">速动比</div><div id="quickRatio" class="number"></div>
+                    <div id="solvencyAnalysis_grade" class="grade"></div>
+                    <div id="solvencyAnalysis_grade_exp" class="explain" style="width: auto"></div>
+                </div>
+            #else
+                <div id="solvencyAnalysis_grades" class="text">
+                    <div id="" class="fontMiddle">现金比</div><div id="quickRatio" class="number"></div>
+                </div>
+            #end
+        </div>
+    #if("$!loanClassId" == "1")
+        <div id="turnoverRatioAnalysis" style="min-width:auto;height:auto;">
+            <p>周转率分析</p>
+            <div id="turnoverRatioAnalysis_assetTurnover" class="text">
+                <div id="" class="fontMiddle">资产周转率</div><div id="assetTurnover" class="number"></div>
+                <div id="assetTurnover_grade" class="grade"></div>
+                <div id="assetTurnover_grade_exp" class="explain"></div>
+                <div>周转天数</div><div id="assetTurnoverDays"></div>
+            </div>
+            <div id="turnoverRatioAnalysis_accountsTeceivableTurnover" class="text">
+                <div id="" class="fontMiddle">应收账款周转率</div><div id="accountsTeceivableTurnover" class="number"></div>
+                <div id="accountsTeceivableTurnover_grade" class="grade"></div>
+                <div id="accountsTeceivableTurnover_grade_exp" class="explain"></div>
+                <div>周转天数</div><div id="daysSalesOutstanding"></div>
+            </div>
+            <div id="turnoverRatioAnalysis_inventoryTurnover" class="text">
+                <div id="" class="fontMiddle">存货周转率</div><div id="inventoryTurnover" class="number"></div>
+                <div id="inventoryTurnover_grade" class="grade"></div>
+                <div id="inventoryTurnover_grade_exp" class="explain"></div>
+                <div>周转天数</div><div id="inventoryTurnoverDays"></div>
+            </div>
+        </div>
+    #end
+</div>

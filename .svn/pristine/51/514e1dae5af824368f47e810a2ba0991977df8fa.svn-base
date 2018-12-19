@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+<class id="loanUseExtend" name="banger.domain.config.IntoLoanUseExtend">
+	<property name="loanTypeName" column="LOAN_TYPE_NAME"></property>
+</class>
+	<!-- 新增进件贷款用途 -->
+	<sql id="insertLoanUse" >
+		INSERT INTO INTO_LOAN_USE (USE_ID,USE_SELECT,LOAN_TYPE_ID,RULE_ID,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$useId]
+		<clause prepend="," nvl="''" >[$useSelect]</clause>
+		<clause prepend="," nvl="0" >[$loanTypeId]</clause>
+		<clause prepend="," nvl="''" >[$ruleId]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件贷款用途 -->
+	<sql id="updateLoanUse" >
+		UPDATE INTO_LOAN_USE 
+		<set>
+			<clause prepend="," assert="!isNull([useSelect])" >USE_SELECT = [$useSelect]</clause>
+			<clause prepend="," assert="!isNull([loanTypeId])" >LOAN_TYPE_ID = [$loanTypeId]</clause>
+			<clause prepend="," assert="!isNull([ruleId])" >RULE_ID = [$ruleId]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 USE_ID = [$useId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件贷款用途 -->
+	<sql id="getLoanUseById" >
+		SELECT * FROM INTO_LOAN_USE WHERE USE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除进件贷款用途 -->
+	<sql id="deleteLoanUseById" >
+		DELETE FROM INTO_LOAN_USE WHERE USE_ID = [0]
+	</sql>
+
+	<!-- 查询进件贷款用途 -->
+	<sql id="queryLoanUseList" >
+		SELECT * FROM INTO_LOAN_USE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([useSelect])" > USE_SELECT = '[useSelect]' </clause>
+			<clause prepend="and" assert="!isNull([loanTypeId])" > LOAN_TYPE_ID = [loanTypeId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ruleId])" > RULE_ID = '[ruleId]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<sql id="queryIntoLoanUseList" result="loanUseExtend">
+		SELECT U.USE_ID,U.USE_SELECT ,T.LOAN_TYPE_NAME,U.RULE_ID
+		FROM INTO_LOAN_USE U
+		LEFT JOIN LOAN_TYPE  T ON U.LOAN_TYPE_ID=T.TYPE_ID
+	</sql>
+
+</banger>

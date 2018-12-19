@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.track.MapTrajectory" table="MAP_TRAJECTORY" >
+		<id name="traId" type="java.lang.Integer" >
+			<column name="TRA_ID" length="4" />
+		</id>
+		<property name="traLongitude" type="java.lang.Double" >
+			<column name="TRA_LONGITUDE" length="8" />
+		</property>
+		<property name="traLatitude" type="java.lang.Double" >
+			<column name="TRA_LATITUDE" length="8" />
+		</property>
+		<property name="deviceId" type="java.lang.String" >
+			<column name="DEVICE_ID" length="60" />
+		</property>
+		<property name="clientTime" type="java.util.Date" >
+			<column name="CLIENT_TIME" length="10" scale="6" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

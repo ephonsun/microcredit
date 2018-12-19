@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-lazy-init="true" default-autowire="byName">
+
+	<!--<bean id="systemModuleImpl" class="banger.moduleImpl.SystemModuleImpl" scope="singleton" lazy-init="false">-->
+		<!--<property name="sysOpeventLogService">-->
+			<!--<ref bean="sysOpeventLogService" />-->
+		<!--</property>-->
+		<!--<property name="basicConfigService">-->
+			<!--<ref bean="basicConfigService" />-->
+		<!--</property>-->
+	<!--</bean>-->
+
+	<!--<bean id="sysOpeventLogService" class="banger.service.impl.SysOpeventLogService" scope="singleton" >-->
+		<!--<property name="sysOpeventLogDao">-->
+			<!--<ref bean="sysOpeventLogDao" />-->
+		<!--</property>	-->
+	<!--</bean>-->
+
+	<!-- 基础配置-->
+	<bean id="basicConfigService" class="banger.service.impl.BasicConfigService" scope="singleton"/>
+
+	<bean id="systemModuleImpl" class="banger.moduleImpl.SystemModuleImpl" scope="singleton"/>
+</beans>

@@ -1,0 +1,796 @@
+package banger.service.impl;
+
+import banger.common.tools.ServerRealPathUtil;
+import banger.common.tools.StringUtil;
+import banger.dao.intf.IActionHistoryDao;
+import banger.dao.intf.IApplyInfoDao;
+import banger.dao.intf.IRepayPlanInfoDao;
+import banger.dao.intf.ISysSocketLogDao;
+import banger.domain.config.AutoBaseField;
+import banger.domain.config.AutoBaseTemplate;
+import banger.domain.config.AutoFieldWrapper;
+import banger.domain.enumerate.*;
+import banger.domain.loan.LoanActionHistory;
+import banger.domain.loan.LoanApplyInfo;
+import banger.domain.loan.LoanRepayPlanInfoExtend;
+import banger.framework.collection.DataColumn;
+import banger.framework.collection.DataRow;
+import banger.framework.collection.DataTable;
+import banger.framework.reader.Reader;
+import banger.framework.spring.SpringContext;
+import banger.framework.util.DateUtil;
+import banger.framework.util.FormatUtil;
+import banger.moduleIntf.IConfigService;
+import banger.service.intf.IApplyInfoService;
+import banger.service.intf.ITrustedPaymentService;
+import banger.socket.SocketDemo;
+import banger.util.SocketUtil;
+import banger.util.constant.BaseXmlBeanEnum;
+import banger.util.constant.Socket_99CHNCMI1043;
+import banger.util.constant.Socket_99CHNCMI4041;
+import banger.util.constant.Socket_99COR017022;
+import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/**
+ * Created by panl on 2018/4/8.
+ */
+public class TrustedPaymentJobService implements Job {
+//    private String socketIp = "125.0.182.162";
+
+
+    private static final Logger log = LoggerFactory.getLogger(TrustedPaymentJobService.class);
+    private String socketIp = "125.0.167.122";
+    private String socketPort = "30001";
+//    private String socketIp = "125.0.182.162";
+//    private String socketPort = "40002";
+
+    private String globalProperties = ServerRealPathUtil.getServerRealPath() + "WEB-INF" + File.separator + "classes" + File.separator + "globalConfig.properties";
+
+
+
+
+    IApplyInfoDao applyInfoDao = (IApplyInfoDao) SpringContext.instance().get("applyInfoDao");
+//    IApplyInfoService applyInfoService = (IApplyInfoService) SpringContext.instance().get("applyInfoService");
+    IRepayPlanInfoDao repayPlanInfoDao = (IRepayPlanInfoDao) SpringContext.instance().get("repayPlanInfoDao");
+    ISysSocketLogDao sysSocketLogDao = (ISysSocketLogDao) SpringContext.instance().get("sysSocketLogDao");
+    IConfigService configService = (IConfigService) SpringContext.instance().get("configServiceImpl");
+    ITrustedPaymentService trustedPaymentService = (ITrustedPaymentService) SpringContext.instance().get("trustedPaymentService");
+    SocketDemo socketDemo = (SocketDemo) SpringContext.instance().get("socketDemo");
+    IActionHistoryDao actionHistoryDao = (IActionHistoryDao) SpringContext.instance().get("ActionHistoryDao");
+
+
+    @SuppressWarnings("deprecation")
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+        Map<String,Object> condition = new HashMap<String, Object>();
+        List<LoanApplyInfo> applyInfoList;
+        LoanActionHistory actionHistory = new LoanActionHistory();
+        try {
+            //查抵押物核心入库状态
+            condition.put("loanProcessType","Loan");
+            applyInfoList = applyInfoDao.queryApplyInfoList(condition);
+            for(LoanApplyInfo loanApplyInfo:applyInfoList){
+                DataTable dataTable = applyInfoDao.getPledgeDataTableByLoanId(LoanProcessTypeEnum.INVESTIGATE.type, loanApplyInfo.getLoanId(), null);
+                if(null!=dataTable){
+                    for (final DataRow dataRow:dataTable.getRows()){
+                        Integer id = null;
+                        for (final DataColumn dataColumn:dataRow.getTable().getColumns()){
+                            if("ID".equals(dataColumn.getName())){
+                                id = (Integer)dataColumn.getValues()[dataRow.getIndex()];
+                            }
+                            if("WARRANTY_NUM".equals(dataColumn.getName())){
+                                final String gurId = (String)dataColumn.getValues()[dataRow.getIndex()];
+                                if(StringUtil.isNotEmpty(gurId)){
+                                    Map<String,String> map = new HashMap<String, String>(){{put("核心查询交易码",TradeCodeEnum.CODE_600052.tradeCode);put("押品编号",gurId);}};
+                                    String returnStr = relatedDataQuery(loanApplyInfo.getLoanId(), map, SocketCodeTypeEnum.CHNCMI4036);
+                                    JSONObject jsonObject = JSONObject.fromObject(returnStr);
+                                    if(jsonObject.getBoolean("success")){
+                                        applyInfoDao.updatePledgeStatusById(id,"3");
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            log.error("查抵押物核心入库状态",e);
+        }
+
+
+        try{
+            //查询未出账状态的贷款&&没有贷款帐号的&&借据号不！=null    //更新贷款帐号 更新贷款阶段
+            log.info("============================ 更新贷款帐号 begin========================");
+//            Map<String,Object> condition = new HashMap<String, Object>();
+            condition.clear();
+            condition.put("loanProcessType","Undisclosed");
+            condition.put("loanAccountNotExist","true");
+            applyInfoList = applyInfoDao.queryApplyInfoList(condition);
+            for (LoanApplyInfo loanApplyInfo:applyInfoList){
+                if (StringUtil.isNotEmpty(loanApplyInfo.getIouNum())){
+                    String loanAccountNo = selectLoanAccountInfo(loanApplyInfo.getIouNum(),loanApplyInfo.getLoanId());
+                    if (StringUtil.isNotEmpty(loanAccountNo)){
+                        loanApplyInfo.setLoanAccountNo(loanAccountNo);
+                        applyInfoDao.updateApplyInfo(loanApplyInfo);
+                        //放款授权后，当查询到贷款账号（核心已开户）则更新合同累积放款金额
+                        //有贷款账号  先同步还款计划
+                        if("5".equals(loanApplyInfo.getRepaymentMode())){
+                            syncRepaymentPlan(loanApplyInfo.getLoanId(),RepayPlanOption.ADD);
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            log.error("查询贷款帐号",e);
+        }
+
+
+        try{
+            condition.clear();
+            condition.put("loanProcessType", "Undisclosed");
+            condition.put("loanAccountExist","true");
+            applyInfoList = applyInfoDao.queryApplyInfoList(condition);
+            for(final LoanApplyInfo loanApplyInfo:applyInfoList){
+
+                HashMap<String,String> map = new HashMap<String,String>(){{ put("贷款帐号",loanApplyInfo.getLoanAccountNo()); }};
+                String returnStr = queryCusInfo(loanApplyInfo.getLoanId(), map, SocketCodeTypeEnum.QRY10400);
+                JSONObject jsonObject = JSONObject.fromObject(returnStr);
+                if(jsonObject.getBoolean("success")){
+//                    if("核准".equals(jsonObject.getString("lon_state").trim())){
+//                        //核准的需要更新借款合同的可用余额
+//                        Map<String,String> m = getLoanInfoMap(loanApplyInfo.getLoanId());
+//                        Document document_99CHNCMI2003 = sendSocketPost(loanApplyInfo.getLoanId(), Socket_99CHNCMI2003.getSocketCode(), Socket_99CHNCMI2003.getAllElement(), m, map.get("合同号"),map.get("个人信息.客户编码"));
+//                    }
+                    if("全额发放".equals(jsonObject.getString("lon_state").trim())||"部分发放".equals(jsonObject.getString("lon_state").trim())){
+                        loanApplyInfo.setLoanProcessType(LoanProcessTypeEnum.AFTER_LOAN.type);
+                        loanApplyInfo.setLoanStatus(jsonObject.getString("lon_state").trim());
+                        applyInfoDao.updateApplyInfo(loanApplyInfo);
+                        //更新操作历史记录
+                        actionHistory.setLoanId(loanApplyInfo.getLoanId());
+                        actionHistory.setLoanProcessType(LoanProcessTypeEnum.AFTER_LOAN.type);
+                        actionHistory.setActionName(LoanOperationType.PAYMENT_CONFIRM.typeName);
+                        actionHistory.setActionDate(new Date());
+                        actionHistoryDao.insertActionHistory(actionHistory);
+//                        applyInfoService.sendLoanMsg(loanApplyInfo,null);
+
+                    }
+//                    if("取消".equals(jsonObject.getString("lon_state").trim())){
+//                        loanApplyInfo.setLoanProcessType(LoanProcessTypeEnum.LOAN.type);
+//                        loanApplyInfo.setSyncStatus(-2);
+//                        applyInfoDao.updateApplyInfo(loanApplyInfo);
+//                    }
+                }
+            }
+        }catch (Exception e){
+            log.error("更新贷款台帐状态",e);
+        }
+
+
+        try{
+            log.info("============================ 更新贷款帐号 end, 新贷款数据、同步受托支付、更新受托支付状态 begin========================");
+            condition.clear();
+//            condition.put("loanProcessType","Undisclosed");
+            condition.put("UndisclosedORAfter", "true");
+            condition.put("loanAccountExist","true");
+            applyInfoList = applyInfoDao.queryApplyInfoList(condition);
+            for (LoanApplyInfo loanApplyInfo:applyInfoList){
+
+                //查询延时10s
+                Thread.sleep(10);
+
+                //查询贷后状态贷款&&有贷款帐号的   根据查询贷款id受托支付 如果有0待同步的 则同步受托支付
+                syncTrustedPayment(loanApplyInfo.getLoanId(),loanApplyInfo.getLoanAccountNo());
+
+                //查询已同步的受托支付  调用接口查询受托支付状态并更新
+                updateTrustedPayment(loanApplyInfo.getLoanId(),loanApplyInfo.getIouNum());
+
+                // 每天早上8点中午14 点更新 //查询贷后状态贷款&&有贷款帐号的   根据贷款账号更新贷款账户数据
+                if(isExecute()){
+                    updateLoanAccount(loanApplyInfo,loanApplyInfo.getLoanAccountNo(),loanApplyInfo.getAccountNum());
+                }
+            }
+            log.info("============================ 更新贷款数据、同步受托支付、更新受托支付状态 end========================");
+            //查询受托支付状态
+//            log.info("============================ 查询受托支付状态 start========================");
+//            List<LoanTrustedPayment> list = trustedPaymentService.getTrustedPaymentList(null);
+//            for (LoanTrustedPayment loanTrustedPayment:list){
+//                if ("2".equals(loanTrustedPayment.getPaymentStatus())){
+//                    continue;
+//                }
+//                Map<String,String> map = getLoanInfoMap(loanTrustedPayment.getLoanId());
+//                map.put("受托支付.支付ID号",loanTrustedPayment.getPaymentId());
+//                Map<String,Object> result =  socketDemo.getTrustedPayment(map,loanTrustedPayment.getLoanId());
+//                if ("success".equals(result.get("code"))){
+//                    String status = map.get("data");
+//                    if ("00".equals(status)) {
+//                        loanTrustedPayment.setPaymentStatus("2");
+//                        trustedPaymentService.updateTrustedPaymentInfo(loanTrustedPayment);
+//                    }else if ("07".equals(status)){
+//                        loanTrustedPayment.setPaymentStatus("3");
+//                        trustedPaymentService.updateTrustedPaymentInfo(loanTrustedPayment);
+//                    }
+//                }
+//            }
+//            log.info("============================ 查询受托支付状态 end========================");
+        }catch (Exception e){
+            log.error("受托支付",e);
+        }
+    }
+
+
+    /**
+     * 根据贷款账号更新贷款账户数据
+     * @param loanApplyInfo
+     * @return
+     */
+    private void updateLoanAccount(LoanApplyInfo loanApplyInfo, final String loanAccountNo,final String accountNum){
+        try{
+            String acc_bal,lon_bal,lon_state,next_amt,qf_bal,qf_amt,qf_term,next_day;
+            HashMap<String,String> map = new HashMap<String,String>(){{ put("贷款帐号",loanAccountNo); }};
+
+            if(!banger.common.tools.StringUtil.isNullOrEmpty(accountNum)){
+                HashMap<String,String> map2 = new HashMap<String,String>(){{ put("账户",accountNum); }};
+                String returnString = socketDemo.queryCusInfo(loanApplyInfo.getLoanId(), map2, SocketCodeTypeEnum.QRY00400);
+
+                JSONObject jsonObject = JSONObject.fromObject(returnString);
+                if(jsonObject.getBoolean("success")){
+                    acc_bal = jsonObject.getString("bal");
+                    if(!banger.common.tools.StringUtil.isNullOrEmpty(acc_bal)){
+                        loanApplyInfo.setLoanAccountAmount(new BigDecimal(acc_bal));
+                    }
+                }
+            }
+            String returnStr = socketDemo.queryCusInfo(loanApplyInfo.getLoanId(), map, SocketCodeTypeEnum.QRY10400);
+            JSONObject jsonObject = JSONObject.fromObject(returnStr);
+            if(jsonObject.getBoolean("success")){
+                lon_bal = jsonObject.getString("lon_bal");//贷款余额
+                lon_state = jsonObject.getString("lon_state");//贷款状态
+                next_amt = jsonObject.getString("next_amt");//下次还款金额
+                qf_bal = jsonObject.getString("qf_bal");//欠本金额
+                qf_amt = jsonObject.getString("qf_amt");//欠息金额
+                qf_term = jsonObject.getString("qf_term");//欠息金额
+//                next_day = jsonObject.getString("next_day");//欠息金额
+                if(!banger.common.tools.StringUtil.isNullOrEmpty(lon_bal)){
+                    loanApplyInfo.setLoanBalanceAmount(BigDecimal.valueOf(Double.valueOf(lon_bal)));
+                }
+                if(!banger.common.tools.StringUtil.isNullOrEmpty(lon_state)){
+                    loanApplyInfo.setLoanStatus(lon_state);
+                    if("结清".equals(lon_state.trim())){
+                        loanApplyInfo.setLoanProcessType(LoanProcessTypeEnum.CLEARANCE.type);
+                    }
+                }
+                if(!banger.common.tools.StringUtil.isNullOrEmpty(next_amt)){
+                    loanApplyInfo.setNextRepaymentAmount(BigDecimal.valueOf(Double.valueOf(next_amt)));
+                }
+                if(!banger.common.tools.StringUtil.isNullOrEmpty(qf_bal)){
+                    loanApplyInfo.setLoanArrears(BigDecimal.valueOf(Double.valueOf(qf_bal)));
+                }
+                if (!banger.common.tools.StringUtil.isNullOrEmpty(qf_amt)){
+                    loanApplyInfo.setLoanIrrevocableInterest(BigDecimal.valueOf(Double.valueOf(qf_amt)));
+                }
+                if (!banger.common.tools.StringUtil.isNullOrEmpty(qf_term)){
+                    loanApplyInfo.setOverdueLimit(Integer.parseInt(qf_term));
+                }
+            }
+            applyInfoDao.updateApplyInfo(loanApplyInfo);
+        }catch (Exception e){
+            log.error("更新贷款账户出错：" + e);
+        }
+
+    }
+
+    private boolean isExecute(){
+        Calendar ca = Calendar.getInstance();
+        int hour = ca.get(Calendar.HOUR_OF_DAY);
+        int minute = ca.get(Calendar.MINUTE);
+        if((hour==7||hour==13)&&minute>=50){
+            return true;
+        }
+        return false;
+    }
+
+    private void updateTrustedPayment(Integer loanId, String iouNum) {
+
+        try {
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("借据号",iouNum);
+
+            //查询已同步的受托支付列表  0待同步 1已同步 2支付成功  3支付失败
+//            AutoBaseTemplate template = configService.getTemplateListByTable("LBIZ_TRUSTED_PAYMENY");
+            DataTable datatable = applyInfoDao.getTrustedDataTableByLoanId(LoanProcessTypeEnum.LOAN.type, loanId, 1);
+            if(datatable==null || datatable.rowSize()<=0){
+                return ;
+            }
+            for (int r = 0; r < datatable.rowSize(); r++) {
+                String id = "0";
+                DataRow row = datatable.getRow(r);
+                id = (String)row.get("ID");
+                map.put("支付ID号",(String)row.get("PAYMENT_ID"));
+//                template.setData(datatable.getRows()[r]);
+//                List<AutoBaseField> fieldList = template.getFields();
+                //追加支付ID和支付状态
+//                setPaymentIdAndStatus(fieldList);
+//                String id = "0";
+//                for (int i = 0; i < fieldList.size(); i++) {
+//                    AutoFieldWrapper field = (AutoFieldWrapper)fieldList.get(i);
+//                    Object value = "";
+//                    if(null!=template.getData()){
+//                        value = banger.framework.reader.Reader.objectReader().getValue(template.getData(), field.getColumn());
+//                    }
+//                    if(null!=value&&field.getColumn().equals("ID")){
+//                        id = value.toString();
+//                    }
+////                    String key = template.getName() + "." + field.getFieldName();
+//                    String key = field.getFieldName();
+//                    map.put(key, null!=value?value.toString():"");
+//                }
+
+                //查询受托支付状态 0录入状态 1已确认 2支付成功  3支付失败 4支付退汇
+                String returnStr = queryCusInfo(loanId, map, SocketCodeTypeEnum.CMI0230054);
+                JSONObject jsonObject = JSONObject.fromObject(returnStr);
+                if(jsonObject.getBoolean("success")) {
+                    String pay_state = jsonObject.getString("pay_state");
+//                    00 --支付成功 01 --录入状态 02 --已校验 03 --已确认 04 --待支付 05 --支付中 06 --支付退汇 07 --已作废
+                    if(null!=pay_state){
+                        if(pay_state.equals("00")){
+                            // 更新受托支付状态为已同步  支付状态  0待同步 1已同步 2支付成功  3支付失败 4支付退汇
+                            applyInfoDao.updateTrustedDataTableById(LoanProcessTypeEnum.LOAN.type, id, 2);
+                        }else if(pay_state.equals("06")){
+                            // 更新受托支付状态为已同步  支付状态  0待同步 1已同步 2支付成功  3支付失败 4支付退汇
+                            applyInfoDao.updateTrustedDataTableById(LoanProcessTypeEnum.LOAN.type, id, 4);
+                        }else if(pay_state.equals("07")){
+                            // 更新受托支付状态为已同步  支付状态  0待同步 1已同步 2支付成功  3支付失败 4支付退汇
+                            applyInfoDao.updateTrustedDataTableById(LoanProcessTypeEnum.LOAN.type, id, 3);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+
+    }
+
+
+
+    private String selectLoanAccountInfo(final String iouNum, Integer loanId){
+        try {
+            Map<String,String> map = new HashMap<String, String>(){{ put("借据号",iouNum);put("当前日期", getStringDate(new Date(), "yyyy-MM-dd"));put("请求方日期", getStringDate(new Date(), "yyyyMMdd"));
+                put("请求方时间", getStringDate(new Date(), "HHmmss"));put("请求方流水号", "122"+String.valueOf(System.currentTimeMillis()));}};
+            Document document_99CHNCMI4041 = sendSocketPost(loanId, Socket_99CHNCMI4041.getSocketCode(), Socket_99CHNCMI4041.getAllElement(), map);
+            if(StringUtil.isNotEmpty(document_99CHNCMI4041.getRootElement().element("Body").element("loan_account").getText()) && StringUtil.isNumber(document_99CHNCMI4041.getRootElement().element("Body").element("loan_account").getText())){
+                return document_99CHNCMI4041.getRootElement().element("Body").element("loan_account").getText();
+            }else{
+                return "";
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return "";
+        }
+    }
+
+    private void syncTrustedPayment(Integer loanId, String accountNum){
+        try {
+            Map<String,String> map = getLoanInfoMap(loanId);
+            if("02".equals(MapUtils.getString(map,"放贷信息.放款方式"))){
+                map.put("贷款账号",accountNum);
+                //查询未同步的受托支付列表
+                AutoBaseTemplate template = configService.getTemplateListByTable("LBIZ_TRUSTED_PAYMENY");
+                DataTable datatable = applyInfoDao.getTrustedDataTableByLoanId(LoanProcessTypeEnum.LOAN.type, loanId, 0);
+                if(datatable==null || datatable.rowSize()<=0){
+                    return ;
+                }
+                for (int r = 0; r < datatable.getRows().length; r++) {
+                    template.setData(datatable.getRows()[r]);
+                    List<AutoBaseField> fieldList = template.getFields();
+                    //追加支付ID和支付状态
+                    setPaymentIdAndStatus(fieldList);
+                    String id = "0";
+                    for (int i = 0; i < fieldList.size(); i++) {
+                        AutoFieldWrapper field = (AutoFieldWrapper)fieldList.get(i);
+                        Object value = "";
+                        if(null!=template.getData()){
+                            value = banger.framework.reader.Reader.objectReader().getValue(template.getData(), field.getColumn());
+                        }
+                        if(null!=value&&field.getColumn().equals("ID")){
+                            id = value.toString();
+                        }
+                        String key = template.getName() + "." + field.getFieldName();
+                        map.put(key, null!=value?value.toString():"");
+                    }
+                    Document document_99CHNCMI1043 = sendSocketPost(loanId, Socket_99CHNCMI1043.getSocketCode(), Socket_99CHNCMI1043.getAllElement(), map);
+                    if(null!=document_99CHNCMI1043){
+                        // 更新受托支付状态为已同步  支付状态  0待同步 1已同步 2支付成功  3支付失败
+                        applyInfoDao.updateTrustedDataTableById(LoanProcessTypeEnum.LOAN.type, id, 1);
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private Document sendSocketPost(Integer loanId, String socketCode, List<BaseXmlBeanEnum> bodyList, Map<String, String> map)  {
+
+        String sendXml = "", returnMassage = "", remark = "success";
+        try {
+            sendXml = SocketUtil.getSocketXml(socketCode, bodyList, map);
+            log.info("===================socket:"+socketCode+", 请求报文："+sendXml+"===================");
+            returnMassage = SocketUtil.socketPost(socketIp, socketPort, sendXml);
+            log.info("===================socket:"+socketCode+", 返回报文："+returnMassage+"===================");
+            Document document = DocumentHelper.parseText(returnMassage.substring(18));
+            String repCode = document.getRootElement().element("Body").element("rep_code").getText();
+            String repMsg = document.getRootElement().element("Body").element("rep_msg").getText();
+            if(repCode.equals("00000")||repCode.equals("0000")){
+                return document;
+            }else{
+                remark = "原因："+repMsg;
+                throw new Exception(remark);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            remark = e.getMessage();
+        } finally {
+//            sysSocketLogDao.addSysSocketLog(loanId, socketCode, sendXml, returnMassage, remark);
+        }
+        return null;
+    }
+
+    private Map<String, String> getLoanInfoMap(Integer loanId) {
+        Map<String, String> map = new HashMap<String, String>();
+        //查询所有表单
+        List<AutoBaseTemplate> templateList = configService.getTemplateListByTables(new String[]{"LBIZ_LOAN_GRANT"});
+        if (CollectionUtils.isEmpty(templateList)) {
+            return map;
+        }
+        for (AutoBaseTemplate template : templateList) {
+            if (TableInputType.LIST.type.equals(template.getType())) {
+                continue;
+            }
+            DataTable datatable = null;
+            datatable = applyInfoDao.getDataTableByLoanId(template.getTableName(), "", loanId);
+            DataRow[] rows = null;
+            if (datatable != null && datatable.rowSize() > 0) {
+                rows = datatable.getRows();
+            }
+
+            if (null == rows) {
+                rows = new DataRow[1];
+//				rows[0] = new DataRow(0);
+            }
+
+            for (int r = 0; r < rows.length; r++) {
+                template.setData(rows[r]);
+                List<AutoBaseField> fieldList = template.getFields();
+                for (int i = 0; i < fieldList.size(); i++) {
+                    AutoFieldWrapper field = (AutoFieldWrapper) fieldList.get(i);
+//					Object value = field.getValue(template.getData());
+                    Object value = "";
+                    String display = "";
+                    if (null != template.getData()) {
+                        value = Reader.objectReader().getValue(template.getData(), field.getColumn());
+                    }
+                    if (null != value) {
+                        display = value.toString();
+                        if(field.getType().equalsIgnoreCase("Date")) {
+                            display = FormatUtil.formatDate(value, "yyyy-MM-dd");
+                        }
+                    }
+
+                    //
+                    String key = template.getName() + "." + field.getFieldName();
+                    map.put(key, display);
+
+                }
+
+            }
+
+        }
+
+        //贷款主表
+        LoanApplyInfo loanApplyInfo = applyInfoDao.getApplyInfoById(loanId);
+        if (null != loanApplyInfo) {
+
+            map.put("合同类型", String.valueOf(loanApplyInfo.getLoanContractTypeId()));
+            map.put("合同号", loanApplyInfo.getLoanContractNumber());
+            map.put("合同编码", loanApplyInfo.getContractCode());
+            map.put("保证人合同号", loanApplyInfo.getGuaranteeContractNo());
+            map.put("保证人合同编码", loanApplyInfo.getGuaranteeContractCode());
+            map.put("抵押合同号", loanApplyInfo.getMortgageContractNo());
+            map.put("抵押合同编码", loanApplyInfo.getMortgageContractCode());
+            map.put("质押合同号", loanApplyInfo.getPledgeContractNo());
+            map.put("质押合同编码", loanApplyInfo.getPledgeContractCode());
+            map.put("借据号", loanApplyInfo.getIouNum());
+            map.put("授权码", loanApplyInfo.getAuthorizationCode());
+            map.put("交易码","11120002");                  // 交易码为固定值
+            map.put("贷款账号",loanApplyInfo.getLoanAccountNo());
+
+        }
+
+        //其他 报文头 时间
+        map.put("请求方日期", getStringDate(new Date(), "yyyyMMdd"));
+        map.put("请求方时间", getStringDate(new Date(), "HHmmss"));
+        map.put("请求方流水号", "122"+String.valueOf(System.currentTimeMillis()));
+
+
+        return map;
+    }
+    private String getStringDate(Date date, String pattern) {
+        try{
+            if(null!=date){
+                SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+                return sdf.format(date);
+            }else{
+                return "";
+            }
+        }catch (Exception e){
+            return "";
+        }
+    }
+    private List<AutoBaseField> setPaymentIdAndStatus(List<AutoBaseField> autoBaseFields){
+        AutoBaseField autoBaseField = new AutoFieldWrapper(3101,"paymentId","PAYMENT_ID","支付ID号","Text","",true,150,true,true,"paymentId",null,null);
+        AutoBaseField autoBaseField1 = new AutoFieldWrapper(3102,"paymentStatus","PAYMENT_STATUS","支付状态","Text","",true,150,true,true,"paymentStatus",null,null);
+        AutoBaseField autoBaseField2 = new AutoFieldWrapper(0,"id","ID","主键","Text","",true,150,true,true,"id",null,null);
+        autoBaseFields.add(autoBaseField);
+        autoBaseFields.add(autoBaseField1);
+        autoBaseFields.add(autoBaseField2);
+        return autoBaseFields;
+    }
+
+    //查询接口
+    private String queryCusInfo(Integer loanId,Map<String,String> map,SocketCodeTypeEnum socketCodeTypeEnum){
+        try {
+            //查询延时5s
+            Thread.sleep(5000);
+            StringBuffer v = new StringBuffer("banger.util.constant");
+            Class<?> cla = Class.forName(v.append(".").append(socketCodeTypeEnum.socketClassName).toString());
+            addSocketHeadMap(map);
+            Document document = sendSocketPost2Query(loanId, cla.getMethod("getSocketCode").invoke(null).toString(), (List<BaseXmlBeanEnum>)cla.getMethod("getAllElement").invoke(null), map);
+            return bodyElement2Json(document);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            JSONObject json = new JSONObject();
+            json.put("success",false);
+            json.put("code",-1);
+            json.put("msg",socketCodeTypeEnum.socketClassName+"查询失败:"+e.getMessage());
+            return json.toString();
+        }
+    }
+
+    public void addSocketHeadMap(Map<String,String> map){
+        map.put("请求方日期", getStringDate(new Date(), "yyyyMMdd"));
+        map.put("请求方时间", getStringDate(new Date(), "HHmmss"));
+        map.put("请求方流水号", "122"+String.valueOf(System.currentTimeMillis()));
+        map.put("交易码","11120002");
+    }
+
+    //查询接口
+    private Document sendSocketPost2Query(Integer loanId, String socketCode, List<BaseXmlBeanEnum> bodyList, Map<String, String> map) throws Exception{
+        String sendXml = "", returnMassage = "", remark = "success";
+        try {
+            sendXml = SocketUtil.getSocketXml(socketCode, bodyList, map);
+            log.info("===================socket:"+socketCode+", 请求报文："+sendXml+"===================");
+            returnMassage = SocketUtil.socketPost(socketIp, socketPort, sendXml);
+            log.info("===================socket:"+socketCode+", 返回报文："+returnMassage+"===================");
+            Document document = DocumentHelper.parseText(returnMassage.substring(18));
+//            String repCode = document.getRootElement().element("Body").element("code").getText().trim();
+//            String repMsg = document.getRootElement().element("Body").element("msg").getText().trim();
+//            if(!repCode.equals("0000")){
+//                remark = "原因："+repMsg;
+//                throw  new Exception(remark);
+//            }
+            return document;
+        } catch (Exception e) {
+//            remark = e.getMessage();
+            throw new Exception(e.getMessage());
+        } finally {
+//            if("99CMI0230054".equals(socketCode)){
+//                sysSocketLogDao.addSysSocketLog(loanId, socketCode, sendXml, returnMassage, remark,"","");
+//            }
+        }
+    }
+    //省信贷查询接口
+    public String relatedDataQuery(Integer loanId,Map<String,String> map,SocketCodeTypeEnum socketCodeTypeEnum){
+        try {
+            //查询延时5s
+            Thread.sleep(5000);
+            StringBuffer v = new StringBuffer("banger.util.constant");
+            Class<?> cla = Class.forName(v.append(".").append(socketCodeTypeEnum.socketClassName).toString());
+            addSocketHeadMap(map);
+            Document document = sendSocketPost2Query(loanId, cla.getMethod("getSocketCode").invoke(null).toString(), (List<BaseXmlBeanEnum>)cla.getMethod("getAllElement").invoke(null), map);
+            JSONObject json = new JSONObject();
+            getElement(document.getRootElement().element("Body"),json);
+            String code = json.getString("rep_code");
+            if("00000".equals(code)){
+                json.put("success",true);
+            }else{
+                json.put("success",false);
+                json.put("rep_msg",json.getString("rep_msg"));
+            }
+            return json.toString();
+        }catch (Exception e){
+            log.error(e.getMessage());
+            JSONObject json = new JSONObject();
+            json.put("success",false);
+            json.put("rep_code",-1);
+            json.put("rep_msg",socketCodeTypeEnum.socketClassName+"查询失败:"+e.getMessage());
+            return json.toString();
+        }
+    }
+    //返回报文的body里xml转json
+    public String bodyElement2Json(Document document) throws Exception{
+        try {
+            JSONObject json = new JSONObject();
+            getElement(document.getRootElement().element("Body"),json);
+            String code = json.getString("code");
+            if("0000".equals(code)){
+                json.put("success",true);
+            }else{
+                json.put("success",false);
+                json.put("msg",json.getString("msg"));
+            }
+            return json.toString();
+        }catch (Exception e){
+            throw new Exception("解析失败</br>"+e.getMessage());
+        }
+    }
+
+    public String getElement(Element element, JSONObject jsonObject){
+        Iterator<Element> iterator = element.elementIterator();
+        while (iterator.hasNext()){
+            Element e = iterator.next();
+            jsonObject.put(e.getName(),e.getStringValue().trim());
+            if(e.elements().size()>0){
+                JSONObject json = new JSONObject();
+                getElement(e,json);
+            }else{
+                jsonObject.put(e.getName(),e.getStringValue().trim());
+            }
+        }
+        return jsonObject.toString();
+    }
+
+    //还款计划接口
+    public String syncRepaymentPlan(Integer loanId,RepayPlanOption option){
+        String returnStr = "";
+        try {
+            switch (option){
+                case ADD:
+                case UPDATE:
+                    returnStr = synRepaymentPlanInfo(loanId,option.type);
+                    break;
+                case SELECT:
+                    returnStr = selectRepaymentPlanInfo(loanId,option.type);
+            }
+        }catch (Exception e){
+            returnStr = e.getMessage();
+        }
+
+        return returnStr;
+    }
+
+    private String synRepaymentPlanInfo(Integer loanId,String option){
+        try {
+            LoanApplyInfo applyInfo = applyInfoDao.getApplyInfoById(loanId);
+            String loanAccountNo = applyInfo.getLoanAccountNo();
+            if(banger.framework.util.StringUtil.isNullOrEmpty(loanAccountNo)){
+                return returnText(false, "该贷款无贷款账号，无法" + RepayPlanOption.getTypeNameByType(option) + "还款计划!", "");
+            }
+//            List<LoanRepayPlanInfoExtend> list = repayPlanInfoService.queryLoanRepayPlanInfoByLoanId(loanId);
+            List<LoanRepayPlanInfoExtend> list = repayPlanInfoDao.queryLoanRepayPlanInfoByLoanId(loanId,"5",LoanProcessTypeEnum.LOAN.type);
+            if(CollectionUtils.isNotEmpty(list)){
+                List<List<LoanRepayPlanInfoExtend>> planList = averageAssign(list,15);
+                for(int recNo=1;recNo<=planList.size();recNo++){
+                    Map<String,String> map = new HashMap<String, String>();
+                    map.put("帐号",loanAccountNo);
+                    map.put("选项",option);
+                    map.put("屏数",recNo+"");
+                    if(planList.size()>1&&recNo!=planList.size()){
+                        //N 下一页 P 上一页
+                        map.put("上一页下一页","N");
+                    }
+                    List<LoanRepayPlanInfoExtend> subList = planList.get(recNo-1);
+                    for(int i=0;i<subList.size();i++){
+                        LoanRepayPlanInfoExtend plan = subList.get(i);
+                        map.put("还款起始日"+(i+1), DateUtil.format(plan.getLoanRepayPlanDate(), "ddMMyyyy"));
+                        map.put("次数"+(i+1),"001");
+                        map.put("类型"+(i+1),"M");
+                        map.put("还款类型"+(i+1),"P");
+                        map.put("还款金额"+(i+1),plan.getLoanPrincipalAmount().toString());
+                    }
+                    addSocketHeadMap(map);
+                    Document document_Socket_99COR017022 = sendSocketPost(loanId, Socket_99COR017022.getSocketCode(),Socket_99COR017022.getAllElement(),map);
+                }
+                return returnText(true,RepayPlanOption.getTypeNameByType(option)+"成功","");
+            }else{
+                return returnText(false,"还款计划为空，无法同步","");
+            }
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return returnText(false,"还款计划" + RepayPlanOption.getTypeNameByType(option) + "失败!原因：" + e.getMessage(),"");
+        }
+    }
+
+    private String selectRepaymentPlanInfo(Integer loanId,String option){
+        //还款计划查询
+        try {
+            LoanApplyInfo applyInfo = applyInfoDao.getApplyInfoById(loanId);
+            String loanAccountNo = applyInfo.getLoanAccountNo();
+            if(banger.framework.util.StringUtil.isNullOrEmpty(loanAccountNo)){
+                return returnText(false, "该贷款无贷款账号，无法" + RepayPlanOption.getTypeNameByType(option) + "还款计划!", "");
+            }
+//            List<LoanRepayPlanInfoExtend> list = repayPlanInfoService.queryLoanRepayPlanInfoByLoanId(loanId);
+            List<LoanRepayPlanInfoExtend> list = repayPlanInfoDao.queryLoanRepayPlanInfoByLoanId(loanId,"5",LoanProcessTypeEnum.LOAN.type);
+            if(CollectionUtils.isNotEmpty(list)){
+                int remaider=list.size()%15,number=list.size()/15;
+                int pages = remaider==0?number:(number+1);
+                List<LoanRepayPlanInfoExtend> data = new ArrayList<LoanRepayPlanInfoExtend>();
+                for(int recNo=1;recNo<=pages;recNo++){
+                    Map<String,String> map = new HashMap<String, String>();
+                    map.put("帐号",loanAccountNo);
+                    map.put("选项",option);
+                    map.put("屏数",recNo+"");
+                    Document document = sendSocketPost(loanId, Socket_99COR017022.getSocketCode(), Socket_99COR017022.getAllElement(), map);
+                    int size = recNo==pages?remaider:15;
+                    Element body = document.getRootElement().element("Body");
+                    for(int j=1;j<=size;j++){
+                        LoanRepayPlanInfoExtend plan = new LoanRepayPlanInfoExtend();
+                        plan.setLoanRepayPlanDate(DateUtil.parser(body.element("return_begin_date"+j).getStringValue(),"ddMMyyyy"));
+                        plan.setLoanPrincipalAmount(new BigDecimal(body.element("return_sum"+j).getStringValue()));
+                        data.add(plan);
+                    }
+                }
+                return returnText(true,RepayPlanOption.getTypeNameByType(option)+"成功",data);
+            }else{
+                return returnText(false,"还款计划为空，无法同步","");
+            }
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return returnText(false,"还款计划" + RepayPlanOption.getTypeNameByType(option) + "失败!原因：" + e.getMessage(),"");
+        }
+    }
+
+    public static <T> List<List<T>> averageAssign(List<T> source,int n){
+        List<List<T>> result=new ArrayList<List<T>>();
+        int remaider=source.size()%n;
+        int number=source.size()/n;
+        int pages = remaider==0?number:(number+1);
+        for(int i=0;i<pages;i++){
+            List<T> value=null;
+            if(remaider==0){
+                value = source.subList(i*n, (i+1)*n);
+            }else{
+                value = source.subList(i*n, i+1==pages?source.size():(i+1)*n);
+            }
+            result.add(value);
+        }
+        return result;
+    }
+
+    public String returnText(boolean success,String msg,Object data){
+        JSONObject jo = new JSONObject();
+        jo.put("success",success);
+        jo.put("msg",msg);
+        jo.put("data",data);
+        return jo.toString();
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.SysFormSettings" table="SYS_FORM_SETTINGS" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="controlForm" type="java.lang.String" >
+			<column name="CONTROL_FORM" length="60" />
+		</property>
+		<property name="controlFormName" type="java.lang.String" >
+			<column name="CONTROL_FORM_NAME" length="60" />
+		</property>
+		<property name="controlItem" type="java.lang.String" >
+			<column name="CONTROL_ITEM" length="60" />
+		</property>
+		<property name="controlItemName" type="java.lang.String" >
+			<column name="CONTROL_ITEM_NAME" length="60" />
+		</property>
+		<property name="controlValue" type="java.lang.String" >
+			<column name="CONTROL_VALUE" length="300" />
+		</property>
+		<property name="controlValueName" type="java.lang.String" >
+			<column name="CONTROL_VALUE_NAME" length="300" />
+		</property>
+		<property name="hiddenForm" type="java.lang.String" >
+			<column name="HIDDEN_FORM" length="60" />
+		</property>
+		<property name="hiddenFormName" type="java.lang.String" >
+			<column name="HIDDEN_FORM_NAME" length="60" />
+		</property>
+		<property name="controlItemColumn" type="java.lang.String" >
+			<column name="CONTROL_ITEM_COLUMN" length="60" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+	</class>
+</mapping>
+

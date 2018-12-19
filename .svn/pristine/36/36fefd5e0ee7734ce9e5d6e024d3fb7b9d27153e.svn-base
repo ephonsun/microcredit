@@ -1,0 +1,57 @@
+<style type="text/css">
+    .potentialFilesTabs .ui-tabs-head {  height: 35px;  margin-top: 5px;}
+	.potentialFilesTabs .ui-tabs-items {margin-left: 10px;}
+    .potentialFilesTabs ul, #potentialFilesTabs li { border: 0; background: #fff;}
+    .potentialFilesTabs li{padding: 0px;    margin-left: 5px;}
+    .potentialFilesTabs .ui-tabs-items h4 {   width: 30px;  }
+    .potentialFilesTabs h4 i {   width: 30px; height: 30px; display: block;  cursor: pointer;}
+    .potentialFilesTabs h4 i.file-show{background: url('../core/imgs/icon/file-show-grey.png') no-repeat;}
+    .potentialFilesTabs h4 i.file-list{background: url('../core/imgs/icon/file-list-grey.png') no-repeat;}
+    .potentialFilesTabs .ui-tabs-iframes{margin-top: 0px;}
+    .potentialFilesTabs .ui-tabs-active i.file-show{background: url('../core/imgs/icon/file-show.png') no-repeat;}
+    .potentialFilesTabs .ui-tabs-active i.file-list{background: url('../core/imgs/icon/file-list.png') no-repeat;}
+</style>
+<link type="text/css" rel="stylesheet" href="../core/css/third/jqueryMagnify/jquery.magnify.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/third/jqueryMagnify/font-awesome.min.css" />
+<div id="potentialFilesTabs" class="potentialFilesTabs ui-tabs" style="height: 100%;">
+    <div class="ui-tabs-head">
+        <div class="ui-tabs-items">
+            <ul >
+            </ul>
+        </div>
+    </div>
+    <div isbody="1" class="ui-tabs-iframes">
+        <div class="ui-tabs-iframe">
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../core/js/third/jqueryMagnify/jquery.magnify.js"></script>
+    <script type="text/javascript">
+        var potentialFilesTtems = [];
+        $(function () {
+            var potentialFilesShow = {
+                display: '<i class="file-show"></i>',
+                refreshOnClick:true,
+                url:'../potentialCustomersFiles/getPotentialCustomersFilesPage/Show.html?potentialId=$potentialId',
+                loadType: 'tab.click'
+            };
+            var potentialFilesList = {
+                display: '<i class="file-list"></i>',
+                url:'../potentialCustomersFiles/getPotentialCustomersFilesPage/List.html?potentialId=$potentialId',
+                loadType: 'tab.click',
+                refreshOnClick:true,
+                loadReady: function (item, page) {
+                    includeJs('../customer/js/potentialCustomer/potentialCustomerFilesList.js');
+                }
+            };
+            potentialFilesTtems.push(potentialFilesShow);
+            potentialFilesTtems.push(potentialFilesList);
+            iniTabsForPotentialFiles();
+        });
+        //初始化tab页
+        function iniTabsForPotentialFiles(){
+            $('#potentialFilesTabs').tabs({
+                items: potentialFilesTtems
+            });
+        }
+    </script>

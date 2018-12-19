@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+</head>
+
+<body>
+<form id="form" >
+    <input type="hidden" id="modeId" name="modeId" value="$!modeId"/>
+    <tbody>
+    <table class="ui-form-fields">
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">模型：</label>
+            </td>
+            <td >
+            <td >
+                <select id="copyModeId">
+                    <option value="0">全新模型</option>
+                    #foreach($!m in $!copyModels)
+                        <option value="$!m.modeId">$!m.modeName</option>
+                    #end
+                </select>
+            </td>
+            </td>
+        </tr>
+    </table>
+    </tbody>
+</form>
+<div style="margin-top: 210px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../config/js/model/copyModelScoreInfo.js?v=$!webAppVersion"></script>
+</body>
+</html>

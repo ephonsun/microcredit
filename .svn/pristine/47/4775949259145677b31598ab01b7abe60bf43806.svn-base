@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款资料附件分类表 -->
+	<sql id="insertInfoAddedClass" >
+		INSERT INTO LOAN_INFO_ADDED_CLASS (CLASS_ID,CLASS_NAME,OWNER_ID,SORT_NO,IS_DEL,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$classId]
+		<clause prepend="," nvl="''" >[$className]</clause>
+		<clause prepend="," nvl="0" >[$ownerId]</clause>
+		<clause prepend="," nvl="0" >[$sortNo]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款资料附件分类表 -->
+	<sql id="updateInfoAddedClass" >
+		UPDATE LOAN_INFO_ADDED_CLASS 
+		<set>
+			<clause prepend="," assert="!isNull([className])" >CLASS_NAME = [$className]</clause>
+			<clause prepend="," assert="!isNull([ownerId])" >OWNER_ID = [$ownerId]</clause>
+			<clause prepend="," assert="!isNull([sortNo])" >SORT_NO = [$sortNo]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 CLASS_ID = [$classId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款资料附件分类表 -->
+	<sql id="getInfoAddedClassById" >
+		SELECT * FROM LOAN_INFO_ADDED_CLASS WHERE CLASS_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款资料附件分类表 -->
+	<sql id="deleteInfoAddedClassById" >
+		UPDATE LOAN_INFO_ADDED_CLASS SET IS_DEL = 1 WHERE CLASS_ID = [0]
+	</sql>
+	
+	<!-- 通过主键得到贷款资料附件分类表 -->
+	<sql id="getAllInfoAddedClassList" >
+		SELECT * FROM LOAN_INFO_ADDED_CLASS WHERE IS_DEL = 0 AND IS_ACTIVED = 1
+	</sql>
+
+	<!-- 查询贷款资料附件分类表 -->
+	<sql id="queryInfoAddedClassList" >
+		SELECT * FROM LOAN_INFO_ADDED_CLASS 
+		<where>
+			<clause prepend="and" assert="!isNull([classId])" > CLASS_ID = [classId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([className])" > CLASS_NAME = '[className]' </clause>
+			<clause prepend="and" assert="!isNull([ownerId])" > OWNER_ID = [ownerId] </clause>
+			<clause prepend="and" assert="!isNull([sortNo])" > SORT_NO = [sortNo] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<sql id="queryInfoAddedClassListByOwnerIds" >
+	SELECT * FROM LOAN_INFO_ADDED_CLASS
+		<where>
+			<clause prepend="and" assert="!isNull([ownerIds])" > OWNER_ID IN (<for in="[ownerIds]" split=",">{item}</for>) </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+		<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+		</where>
+	</sql>
+
+	<sql id="queryMaxOrderNumByOwnerId">
+		SELECT MAX(SORT_NO) FROM LOAN_INFO_ADDED_CLASS WHERE OWNER_ID = [ownerId]
+	</sql>
+
+	<sql id="queryCLassOrderByOwnerId">
+		SELECT * FROM LOAN_INFO_ADDED_CLASS WHERE OWNER_ID = [ownerId] AND IS_DEL = 0 ORDER BY SORT_NO
+	</sql>
+
+</banger>

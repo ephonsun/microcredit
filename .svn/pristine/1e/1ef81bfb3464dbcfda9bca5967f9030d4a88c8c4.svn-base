@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertFamilyInfo" >
+		INSERT INTO CUST_FAMILY_INFO (ID,HOUSE_PLACE,HOUSE_AREA
+		<clause prepend="," assert="!isNull([beginLiveTime])" >BEGIN_LIVE_TIME</clause>
+		,DECORATION_STATUS,HOUSE_LAYOUT,FAMILY_MEMBER_NUM,SUPPORT_MEMBER_NUM,CHILDREN_SITUATION,PARENT_SITUATION) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$housePlace]</clause>
+		<clause prepend="," nvl="0" >[$houseArea]</clause>
+		<clause prepend="," assert="!isNull([beginLiveTime])" >[$beginLiveTime]</clause>
+		<clause prepend="," nvl="''" >[$decorationStatus]</clause>
+		<clause prepend="," nvl="''" >[$houseLayout]</clause>
+		<clause prepend="," nvl="0" >[$familyMemberNum]</clause>
+		<clause prepend="," nvl="0" >[$supportMemberNum]</clause>
+		<clause prepend="," nvl="''" >[$childrenSituation]</clause>
+		<clause prepend="," nvl="''" >[$parentSituation]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateFamilyInfo" >
+		UPDATE CUST_FAMILY_INFO
+		<set>
+			<clause prepend="," assert="!isNull([housePlace])" >HOUSE_PLACE = [$housePlace]</clause>
+			<clause prepend="," assert="!isNull([houseArea])" >HOUSE_AREA = [$houseArea]</clause>
+			<clause prepend="," assert="!isNull([beginLiveTime])" >BEGIN_LIVE_TIME = [$beginLiveTime]</clause>
+			<clause prepend="," assert="!isNull([decorationStatus])" >DECORATION_STATUS = [$decorationStatus]</clause>
+			<clause prepend="," assert="!isNull([houseLayout])" >HOUSE_LAYOUT = [$houseLayout]</clause>
+			<clause prepend="," assert="!isNull([familyMemberNum])" >FAMILY_MEMBER_NUM = [$familyMemberNum]</clause>
+			<clause prepend="," assert="!isNull([supportMemberNum])" >SUPPORT_MEMBER_NUM = [$supportMemberNum]</clause>
+			<clause prepend="," assert="!isNull([childrenSituation])" >CHILDREN_SITUATION = [$childrenSituation]</clause>
+			<clause prepend="," assert="!isNull([parentSituation])" >PARENT_SITUATION = [$parentSituation]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getFamilyInfoById" >
+		SELECT * FROM CUST_FAMILY_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteFamilyInfoById" >
+		DELETE FROM CUST_FAMILY_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryFamilyInfoList" >
+		SELECT * FROM CUST_FAMILY_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([housePlace])" > HOUSE_PLACE = '[housePlace]' </clause>
+			<clause prepend="and" assert="!isNull([houseArea])" > HOUSE_AREA = [houseArea] </clause>
+			<clause parent="DateSpan" params="BEGIN_LIVE_TIME,beginLiveTime,beginLiveTimeEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([decorationStatus])" > DECORATION_STATUS = '[decorationStatus]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([houseLayout])" > HOUSE_LAYOUT = '[houseLayout]' </clause>
+			<clause prepend="and" assert="!isNull([familyMemberNum])" > FAMILY_MEMBER_NUM = [familyMemberNum] </clause>
+			<clause prepend="and" assert="!isNull([supportMemberNum])" > SUPPORT_MEMBER_NUM = [supportMemberNum] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([childrenSituation])" > CHILDREN_SITUATION = '[childrenSituation]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([parentSituation])" > PARENT_SITUATION = '[parentSituation]' </clause>
+		</where>
+	</sql>
+
+</banger>

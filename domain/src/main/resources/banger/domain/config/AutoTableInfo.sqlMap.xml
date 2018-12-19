@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoTableInfo" table="AUTO_TABLE_INFO" >
+		<id name="tableId" type="java.lang.Integer" >
+			<column name="TABLE_ID" lenght="4" />
+		</id>
+		<property name="tableDbName" type="java.lang.String" >
+			<column name="TABLE_DB_NAME" lenght="60" />
+		</property>
+		<property name="tableModuleName" type="java.lang.String" >
+			<column name="TABLE_MODULE_NAME" lenght="100" />
+		</property>
+		<property name="tableDisplayName" type="java.lang.String" >
+			<column name="TABLE_DISPLAY_NAME" lenght="100" />
+		</property>
+		<property name="tableComment" type="java.lang.String" >
+			<column name="TABLE_COMMENT" lenght="100" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" lenght="4" />
+		</property>
+		<property name="isFixed" type="java.lang.Integer" >
+			<column name="IS_FIXED" lenght="4" />
+		</property>
+		<property name="tableType" type="java.lang.Integer" >
+			<column name="TABLE_TYPE" lenght="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="4" />
+		</property>
+		<property name="tableModule" type="java.lang.String" >
+			<column name="TABLE_MODULE" lenght="100" />
+		</property>
+	</class>
+</mapping>
+

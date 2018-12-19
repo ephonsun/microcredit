@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.banger.microcredit</groupId>
+		<artifactId>microcredit</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	
+	<artifactId>banger-quartz</artifactId>
+	<packaging>jar</packaging>
+
+	<name>banger application - banger-quartz</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+		<!--<plugins>-->
+			<!--<plugin>  -->
+				<!--<artifactId>maven-antrun-plugin</artifactId>-->
+				<!--<version>1.7</version>-->
+				<!--<executions>  -->
+					<!--<execution>-->
+						<!--<phase>compile</phase>  -->
+						<!--<goals>  -->
+							<!--<goal>run</goal>  -->
+						<!--</goals> -->
+						<!--<configuration>  -->
+							<!--<tasks> -->
+								<!--<delete file="../web/src/main/resources/quartz-job.xml" />  -->
+								<!--<copy file="../web/src/main/resources/quartz-job-${env}.xml" tofile="../web/src/main/resources/quartz-job.xml"/>  -->
+							<!--</tasks>  -->
+						<!--</configuration>  -->
+					<!--</execution>  -->
+				<!--</executions>  -->
+			<!--</plugin>  -->
+		<!--</plugins>-->
+	</build>
+	
+	<dependencies>
+		<dependency>
+		  <groupId>${project.parent.groupId}</groupId>
+		  <artifactId>banger-framework-core</artifactId>
+		  <version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+</project>

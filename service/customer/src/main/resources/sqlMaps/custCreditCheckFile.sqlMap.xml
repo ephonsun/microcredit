@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增客户征信调查附件表 -->
+	<sql id="insertCustCreditCheckFile" >
+		INSERT INTO CUST_CREDIT_CHECK_FILE (CREDIT_CHECK_FILE_ID,FILE_NAME,FILE_TYPE,CUST_CREDIT_CHECK_ID,FILE_SIZE,FILE_NAME_OLD,FILE_VIEW_NAME,CREATE_DATE,IS_DEL,CREATE_USER,FILE_PATH) VALUES ([$creditCheckFileId]
+		<clause prepend="," nvl="''" >[$fileName]</clause>
+		<clause prepend="," nvl="0" >[$fileType]</clause>
+		<clause prepend="," nvl="0" >[$custCreditCheckId]</clause>
+		<clause prepend="," nvl="0" >[$fileSize]</clause>
+		<clause prepend="," nvl="''" >[$fileNameOld]</clause>
+		<clause prepend="," nvl="''" >[$fileViewName]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="''" >[$filePath]</clause>
+		)
+	</sql>
+
+	<!-- 修改客户征信调查附件表 -->
+	<sql id="updateCustCreditCheckFile" >
+		UPDATE CUST_CREDIT_CHECK_FILE 
+		<set>
+			<clause prepend="," assert="!isNull([smallFileName])" >SMALL_FILE_NAME = [$smallFileName]</clause>
+			<clause prepend="," assert="!isNull([smallFilePath])" >SMALL_FILE_PATH = [$smallFilePath]</clause>
+			<clause prepend="," assert="!isNull([fileName])" >FILE_NAME = [$fileName]</clause>
+			<clause prepend="," assert="!isNull([fileType])" >FILE_TYPE = [$fileType]</clause>
+			<clause prepend="," assert="!isNull([custCreditCheckId])" >CUST_CREDIT_CHECK_ID = [$custCreditCheckId]</clause>
+			<clause prepend="," assert="!isNull([fileSize])" >FILE_SIZE = [$fileSize]</clause>
+			<clause prepend="," assert="!isNull([fileNameOld])" >FILE_NAME_OLD = [$fileNameOld]</clause>
+			<clause prepend="," assert="!isNull([fileViewName])" >FILE_VIEW_NAME = [$fileViewName]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([filePath])" >FILE_PATH = [$filePath]</clause>
+		</set>
+		<where>
+			 CREDIT_CHECK_FILE_ID = [$creditCheckFileId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到客户征信调查附件表 -->
+	<sql id="getCustCreditCheckFileById" >
+		SELECT * FROM CUST_CREDIT_CHECK_FILE WHERE CREDIT_CHECK_FILE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除客户征信调查附件表 -->
+	<sql id="deleteCustCreditCheckFileById" >
+		UPDATE CUST_CREDIT_CHECK_FILE SET IS_DEL = 1 WHERE CREDIT_CHECK_FILE_ID = [0]
+	</sql>
+
+	<!-- 查询客户征信调查附件表 -->
+	<sql id="queryCustCreditCheckFileList" >
+		SELECT * FROM CUST_CREDIT_CHECK_FILE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([fileNameOld])" > FILE_NAME_OLD = '[fileNameOld]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fileName])" > FILE_NAME = '[fileName]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and"> IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNull([fileType])" > FILE_TYPE = [fileType] </clause>
+			<clause prepend="and" assert="!isNull([customerCreditCheckId])" > CUST_CREDIT_CHECK_ID = [customerCreditCheckId] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([fileSize])" > FILE_SIZE = [fileSize] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([filePath])" > FILE_PATH = '[filePath]' </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<!-- 得到所有菜单 -->
+	<sql id="getAllMenu" >
+		SELECT * FROM PMS_MENU WHERE MENU_ISDEL = 0 ORDER BY MENU_DEPTH,MENU_SORT
+	</sql>
+	
+	<!-- 通过角色获得菜单 -->
+	<sql id="getMenusByRoleId" >
+		SELECT * FROM PMS_MENU INNSER JOIN PMS_ROLE_MENU ON MENU_ID = PRM_MENU_ID AND MENU_ISDEL = 0 AND PRM_ROLE_ID = [0]
+		ORDER BY MENU_DEPTH,MENU_SORT
+	</sql>
+	
+	<!-- 通过角色获得功能 -->
+	<sql id="getMenusByRoleIds" >
+		SELECT * FROM PMS_MENU WHERE MENU_ISDEL = 0 and MENU_ID in (SELECT PRM_MENU_ID FROM PMS_ROLE_MENU WHERE PRM_ROLE_ID in ([0]))
+	</sql>
+
+</banger>

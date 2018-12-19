@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion"/>
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion"/>
+    <style type="text/css">
+        .roles {
+            border: 1px solid #b6c4d8;
+            background-color: #f2f7fe;
+            padding: 10px;
+        }
+
+        .roles .ui-form-fields .field {
+            padding-left: 0;
+            padding-right: 2px;
+        }
+    </style>
+</head>
+
+<body>
+<form>
+    <input type="hidden" id="id" name="id" value="$!pledg.id"/>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="7%">
+                <label>他项权证号：</label>
+            </td>
+            <td>
+                <div class="ui-text">
+                    <input type="text" id="txqzh" class="ui-text-text" name="txqzh" value="$!pledg.txqzh"
+                           maxlength="20"/>
+                </div>
+            </td>
+            <td class="field" width="7%">
+                <label>登记日期：</label>
+            </td>
+            <td>
+                <div class="ui-text ui-datepicker">
+                    <input id="djrq" name="djrq" type="text" value="$!formatUtil.formatDate($!pledg.djrq,"yyyy-MM-dd")" class="ui-text-text" dateFlag="true"/>
+                    <i class="ui-text-icon ui-text-date">&nbsp;</i>
+                </div>
+##                <div class="ui-text">
+##                    <input type="text" id="djrq" class="ui-text-text" name="djrq" value="$!pledg.djrq" maxlength="20"/>
+##                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>权属登记机关：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-text">
+                    <input type="text" id="qsdjjg" class="ui-text-text" name="qsdjjg" value="$!pledg.qsdjjg"
+                           maxlength="30"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="field" width="7%">
+                <label>登记机构：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-text">
+                    <input type="text" id="djjg" class="ui-text-text" name="djjg" value="$!pledg.djjg" maxlength="30"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>登记人：</label>
+            </td>
+            <td>
+                <div class="ui-text">
+                    <input type="text" id="djr" class="ui-text-text" name="djr" value="$!pledg.djr" maxlength="20"/>
+                </div>
+            </td>
+            <td class="field" width="7%">
+                <label>投保险种：</label>
+            </td>
+            <td>
+                <div class="ui-text">
+                    <input type="text" id="tbxz" class="ui-text-text" name="tbxz" value="$!pledg.tbxz" maxlength="20"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>保单编号：</label>
+            </td>
+            <td>
+                <div class="ui-text">
+                    <input type="text" id="dbbh" class="ui-text-text" name="dbbh" value="$!pledg.dbbh" maxlength="20"/>
+                </div>
+            </td>
+            <td class="field" width="7%">
+                <label>保险金额：</label>
+            </td>
+            <td>
+                <div class="ui-text">
+                    <input type="text" id="dbje" class="ui-text-text" name="dbje" value="$!pledg.dbje" maxlength="20"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>保险公司名称：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-text">
+                    <input type="text" id="dbgsmc" class="ui-text-text" name="dbgsmc" value="$!pledg.dbgsmc"
+                           maxlength="30"/>
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>投保日期：</label>
+            </td>
+            <td>
+
+                <div class="ui-text ui-datepicker">
+                    <input id="tbrq" name="tbrq" type="text" value="$!formatUtil.formatDate($!pledg.tbrq,"yyyy-MM-dd")" class="ui-text-text" dateFlag="true"/>
+                    <i class="ui-text-icon ui-text-date">&nbsp;</i>
+                </div>
+##                <div class="ui-text">
+##                    <input type="text" id="tbrq" class="ui-text-text" name="tbrq" value="$!pledg.tbrq" maxlength="20"/>
+##                </div>
+            </td>
+            <td class="field" width="7%">
+                <label>保险到期日期：</label>
+            </td>
+            <td>
+                <div class="ui-text ui-datepicker">
+                    <input id="tbdqrq" name="tbdqrq" type="text" value="$!formatUtil.formatDate($!pledg.tbdqrq,"yyyy-MM-dd")" class="ui-text-text" dateFlag="true"/>
+                    <i class="ui-text-icon ui-text-date">&nbsp;</i>
+                </div>
+##                <div class="ui-text">
+##                    <input type="text" id="tbdqrq" class="ui-text-text" name="tbdqrq" value="$!pledg.tbdqrq"
+##                           maxlength="20"/>
+##                </div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 25px"></div>
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+	<span id="btnUpdate" class="ui-closure-button">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+
+<script language="javascript" type="text/javascript">
+    $(function () {
+
+
+        $('#djrq').datepicker();
+        $('#tbrq').datepicker({
+            maxDate: '#F{$dp.$D(\'tbdqrq\')}'
+        });
+        $('#tbdqrq').datepicker({
+            minDate: '#F{$dp.$D(\'tbrq\')}'
+        });
+
+
+
+        $('#btnCancel').click(function () {
+            var dialog = getDialog('getPledgEidtPage');
+            dialog.close();
+        });
+
+        $('#btnUpdate').click(function () {
+            var postJson = getPostFields();
+            jQuery.ajax({
+                type: 'post',
+                dataType:'json',
+                url: '../loan/updatePledg.html',
+                data: postJson,
+                success: function (result) {
+                    if (result.success) {
+                        showConfirm({
+                            icon: 'succeed',
+                            content: result.cause
+                        });
+                        closeDialog();
+                    } else {
+                        showConfirm({
+                            icon: 'warning',
+                            content: result.cause
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+    //关闭dialog
+    function closeDialog() {
+        var dialog = getDialog('getPledgEidtPage');
+        var win = tabs.getIframeWindow(dialog.config.tabId);
+        win.location.reload(true);
+        setTimeout(function () {
+            dialog.close();
+        }, 0);
+    }
+</script>
+</body>
+</html>

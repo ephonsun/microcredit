@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.customer.CustPotentialCustomers" table="CUST_POTENTIAL_CUSTOMERS" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="productId" type="java.lang.Integer" >
+			<column name="PRODUCT_ID" length="4" />
+		</property>
+		<property name="customerName" type="java.lang.String" >
+			<column name="CUSTOMER_NAME" length="90" />
+		</property>
+		<property name="telephoneNumber" type="java.lang.String" >
+			<column name="TELEPHONE_NUMBER" length="150" />
+		</property>
+		<property name="productCode" type="java.lang.String" >
+			<column name="PRODUCT_CODE" length="150" />
+		</property>
+		<property name="cardType" type="java.lang.String" >
+			<column name="CARD_TYPE" length="30" />
+		</property>
+		<property name="cardNumber" type="java.lang.String" >
+			<column name="CARD_NUMBER" length="150" />
+		</property>
+		<property name="customerSex" type="java.lang.String" >
+			<column name="CUSTOMER_SEX" length="30" />
+		</property>
+		<property name="age" type="java.lang.Integer" >
+			<column name="AGE" length="4" />
+		</property>
+		<property name="address" type="java.lang.String" >
+			<column name="ADDRESS" length="300" />
+		</property>
+		<property name="loanIntention" type="java.lang.Integer" >
+			<column name="LOAN_INTENTION" length="4" />
+		</property>
+		<property name="intentionDate" type="java.util.Date" >
+			<column name="INTENTION_DATE" length="10" scale="6" />
+		</property>
+		<property name="loanUse" type="java.lang.String" >
+			<column name="LOAN_USE" length="150" />
+		</property>
+		<property name="attributionTeam" type="java.lang.Integer" >
+			<column name="ATTRIBUTION_TEAM" length="4" />
+		</property>
+		<property name="attributionManager" type="java.lang.Integer" >
+			<column name="ATTRIBUTION_MANAGER" length="4" />
+		</property>
+		<property name="marketingSuccess" type="java.lang.Integer" >
+			<column name="MARKETING_SUCCESS" length="4" />
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="REMARK" length="300" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="recordType" type="java.lang.Integer" >
+			<column name="RECORD_TYPE" length="4" />
+		</property>
+		<property name="createUserTeam" type="java.lang.Integer" >
+			<column name="CREATE_USER_TEAM" length="4" />
+		</property>
+	</class>
+</mapping>
+

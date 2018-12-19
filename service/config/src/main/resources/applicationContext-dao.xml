@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-lazy-init="true" default-autowire="byName">
+    <!--   default-autowire="byName"自动配置bean注入 可以不用显示的set -->
+    <!--   default-lazy-init="true" sping不会再去加载整个对象实例图 加快spring启动 -->
+
+    <!-- sqlMaps模块总配 -->
+    <bean id="autoSqlMap" class="banger.framework.sql.mapping.SqlContext" >
+        <property name="resources">
+            <set>
+                <value>sqlMaps/autoColumnDict.sqlMap.xml</value>
+                <value>sqlMaps/autoTableColumn.sqlMap.xml</value>
+                <value>sqlMaps/autoTableDict.sqlMap.xml</value>
+                <value>sqlMaps/autoTableInfo.sqlMap.xml</value>
+                <value>sqlMaps/autoTableSync.sqlMap.xml</value>
+                <value>sqlMaps/autoTableColumnSync.sqlMap.xml</value>
+                <value>sqlMaps/modeConfigFile.sqlMap.xml</value>
+                <value>sqlMaps/modeTemplateInfo.sqlMap.xml</value>
+                <value>sqlMaps/modeTemplateField.sqlMap.xml</value>
+                <value>sqlMaps/modeScoreInfo.sqlMap.xml</value>
+                <value>sqlMaps/modeScoreField.sqlMap.xml</value>
+                <value>sqlMaps/modeScoreFieldParams.sqlMap.xml</value>
+                <value>sqlMaps/autoImportSetting.sqlMap.xml</value>
+                <value>sqlMaps/autoImportSettingItem.sqlMap.xml</value>
+                <value>sqlMaps/intoTemplatesField.sqlMap.xml</value>
+                <value>sqlMaps/intoTemplatesInfo.sqlMap.xml</value>
+                <value>sqlMaps/intoLoanUse.sqlMap.xml</value>
+                <value>sqlMaps/intoTrialRuleDetail.sqlMap.xml</value>
+                <value>sqlMaps/intoTrialRuleInfo.sqlMap.xml</value>
+                <value>sqlMaps/intoTrialRuleParams.sqlMap.xml</value>
+                <value>sqlMaps/sysFormSettings.sqlMap.xml</value>
+                <value>sqlMaps/autoColumnFormula.sqlMap.xml</value>
+                <value>sqlMaps/autoColumnFormulaParams.sqlMap.xml</value>
+
+                <value>sqlMaps/intoAutoTableColumn.sqlMap.xml</value>
+            </set>
+        </property>
+        <!--        <property name="methods" >
+                    <set>
+                        <ref bean="deptDataPermit" />
+                    </set>
+                </property>-->
+    </bean>
+
+    <bean id="procedureDao" class="banger.dao.impl.ProcedureDao" scope="singleton">
+    </bean>
+
+    <bean id="importSettingItemDao" class="banger.dao.impl.ImportSettingItemDao" scope="singleton">
+    </bean>
+
+    <bean id="importSettingDao" class="banger.dao.impl.ImportSettingDao"></bean>
+
+    <bean id="tableInfoDao" class="banger.dao.impl.TableInfoDao"></bean>
+    <bean id="tableColumnDao" class="banger.dao.impl.TableColumnDao"></bean>
+
+    <!-- 查询合同模版类型 -->
+    <bean id="cdTableColumnDisplay" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+        <property name="dao" ref="tableColumnDao"/>
+        <property name="sqlId" value="getNumberFieldByTableName" />
+        <property name="value" value="FIELD_COLUMN" />
+        <property name="name" value="FIELD_COLUMN_DISPLAY" />
+    </bean>
+
+</beans>

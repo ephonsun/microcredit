@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles { border:1px solid #b6c4d8; background-color:#f2f7fe; padding:10px; }
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+        #multipleContainer .ui-checkbox-box{
+            overflow: scroll;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+<body>
+<form style="height: 200px;">
+<table class="ui-form-fields">
+<input type="hidden" id="fieldId" name="fieldId" value="$!tableColumn.fieldId"/>
+<tbody>
+<tr>
+    <td class="field" width="7%">
+        <label class="ui-star">显示名称：</label>
+    </td>
+    <td >
+        <div class="ui-text">
+            <input type="text" id="fieldColumnDisplay" class="ui-text-text" name="fieldColumnDisplay" value="$!tableColumn.fieldColumnDisplay" maxlength="15"/>
+        </div>
+    </td>
+</tr>
+
+    #if ("Decimal" == $!tableColumn.fieldType || "Number" == $!tableColumn.fieldType || "Float" == $!tableColumn.fieldType )
+    <tr>
+    <td class="field" width="7%">
+        <label class="ui-star">单位：</label>
+    </td>
+       <td >
+        <div class="ui-text">
+            <input type="text" id="fieldNumberUnit" class="ui-text-text" name="fieldNumberUnit" value="$!tableColumn.fieldNumberUnit" maxlength="10"/>
+        </div>
+    </td>
+    #end
+</tr>
+    #if ("Number" == $!tableColumn.fieldType &&("" == $!tableColumn.fieldConstraintRule ||"positiveInteger" == $!tableColumn.fieldConstraintRule ||"integer" == $!tableColumn.fieldConstraintRule||"decimal" == $!tableColumn.fieldConstraintRule))
+    <tr id="numberSelect" >
+        <td class="field" width="7%">
+            <label>格式：</label>
+        </td>
+        <td width="20%" colspan="3">
+            <select id="fieldConstraintRule" name="fieldConstraintRule"  >
+                <option></option>
+                <option value="positiveInteger"
+                #if('positiveInteger'==$!tableColumn.fieldConstraintRule)
+                        selected
+                #end
+                >正整数</option>
+                <option value="integer"
+                    #if('integer'==$!tableColumn.fieldConstraintRule)
+                        selected
+                    #end
+                >整数</option>
+            </select>
+        </td>
+    </tr>
+    #end
+<tr>
+    #if ($!AllList)
+    <tr>
+        <td class="field" width="7%">
+            <label class="ui-star">数据源：</label>
+        </td>
+        <td >
+            <select id="fieldDictName" #if($!tableColumn.isFixed == 1) disabled
+            #end>
+                <option></option>
+                #foreach($l in $AllList)
+                    <option value="$!l.dictEnName"
+                    #if($!tableColumn.fieldDictName == $l.dictEnName)
+                        selected
+                    #end
+                    >$!l.dictCnName</option>
+                #end
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="field" width="7%">
+            <label class="">默认值：</label>
+        </td>
+        <td >
+            #if("MultipleSelect" == $!tableColumn.fieldType)
+                <div class="ui-text" id="multipleContainer">
+                    <input type="hidden" id="defaultValue" name="defaultValue" value="$!tableColumn.defaultValue" />
+                    <input type="text" class="ui-text-text" multiselect="true" id="mutlDefaultValue" />
+                    <i class="ui-text-icon ui-text-select"></i>
+                    <div style="display: none;">
+                        <select id="selectContainer" style="display:none;" >
+                            #foreach($option in $options)
+                                <option value ="$option.value" >$option.name</option>
+                            #end
+                        </select>
+                    </div>
+                </div>
+            #else
+                <select id="defaultValue" name="defaultValue">
+                    <option></option>
+                    #foreach($option in $options)
+                        #if($option.value == $!tableColumn.defaultValue)
+                            <option SELECTED value ="$option.value" >$option.name</option>
+                        #else
+                            <option value ="$option.value" >$option.name</option>
+                        #end
+                    #end
+##                    #options("cdDictColByName","",$!tableColumn.fieldDictName)
+                </select>
+            #end
+        </td>
+    </tr>
+    #else
+        #if("TextArea" != $!tableColumn.fieldType && "Date" != $!tableColumn.fieldType && "YesNo" != $!tableColumn.fieldType)
+        <tr>
+            <td class="field" width="7%">
+                <label class="">默认值：</label>
+            </td>
+            <td >
+                <div class="ui-text">
+                    #if($!tableColumn.fieldType == "Decimal" || $!tableColumn.fieldType == "Float" || $!tableColumn.fieldType == "Ratio")
+                        <input type="text" id="defaultValue" class="ui-text-text" name="defaultValue" value="$!tableColumn.defaultValue" maxlength="10"/>
+                    #else
+                        <input type="text" id="defaultValue" class="ui-text-text" name="defaultValue" value="$!tableColumn.defaultValue" maxlength=$!fieldLength />
+                    #end
+                </div>
+            </td>
+        </tr>
+        #elseif("TextArea" != $!tableColumn.fieldType && "Date" == $!tableColumn.fieldType)
+            #if ("Date" == $!tableColumn.fieldType )
+            <tr>
+                <td class="field" width="7%">
+                    <label class="">日期：</label>
+                </td>
+                <td>
+                        <select id="defaultValueDate" name="defaultValueDate" onchange="defaultDate()">
+                            <option></option>
+                            <option #if("0" == $!tableColumn.defaultValue) SELECTED #end value ="0" >昨天</option>
+                            <option #if("1" == $!tableColumn.defaultValue) SELECTED #end value ="1" >今天</option>
+                            <option #if("2" == $!tableColumn.defaultValue) SELECTED #end value ="2" >明天</option>
+                            <option #if(""!="$!tableColumn.defaultValue"&&"0"!="$!tableColumn.defaultValue"&&"1"!="$!tableColumn.defaultValue"&&"2"!="$!tableColumn.defaultValue") SELECTED #end value ="3" >特定</option>
+                        </select>
+                </td>
+            </tr>
+            #end
+        <tr id="defaultValueDate1" style="display: none">
+            <td class="field" width="7%">
+                <label class="">默认值：</label>
+            </td>
+            <td width="">
+                <div class="ui-text">
+                    <input type="text" id="defaultValue" class="ui-text-text" name="defaultValue"#if("0"!= $!tableColumn.defaultValue&&"1"!= $!tableColumn.defaultValue&&"2"!= $!tableColumn.defaultValue&&"3"!= $!tableColumn.defaultValue)
+                           value="$!tableColumn.defaultValue" #end />
+                    <i class="ui-text-icon ui-text-date"></i>
+                </div>
+            </td>
+        </tr>
+        #elseif("YesNo" == $!tableColumn.fieldType)
+        <tr>
+            <td class="field" width="7%">
+                <label class="">默认值：</label>
+            </td>
+            <td width="">
+                <select id="defaultValue" name="defaultValue">
+                    <option></option>
+                    <option #if("1" == $!tableColumn.defaultValue) SELECTED #end value ="1" >是</option>
+                    <option #if("0" == $!tableColumn.defaultValue) SELECTED #end value ="0" >否</option>
+                </select>
+            </td>
+        </tr>
+        #end
+    #end
+</tbody>
+</table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnUpdate" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../config/js/tableColumnInfoUpdate.js?v=$!webAppVersion"></script>
+<script type="application/javascript">
+    var fieldType = "$!tableColumn.fieldType";
+    $(function () {
+        // 加载操作时间
+        if ("TextArea" != "$!tableColumn.fieldType" && "Date" == "$!tableColumn.fieldType") {
+            $('#defaultValue').datepicker({});
+        }
+
+        if ("$!AllList" == "") {
+            if(fieldType == "Decimal" || fieldType == "Float" || fieldType == "Ratio"){
+                banger.verify('#defaultValue',[
+                    {name: 'posiZeroDecimal', tips: '默认值必须必须为浮点数(包含0)'}
+                ]);
+            }
+
+            if(fieldType == "Number"){
+                banger.verify('#defaultValue',[
+                    {name: 'integer', tips: '默认值必须为整数'}
+                ]);
+            }
+        } else {
+            $("#fieldDictName").selectbox().change(function () {
+                getDefaultValueByFieldDictName();
+            });
+            checkDefaultValueByFieldType();
+        }
+        //修改日期默认值的时候日期那行显示
+        if(""!="$!tableColumn.defaultValue"&&"0"!="$!tableColumn.defaultValue"&&"1"!="$!tableColumn.defaultValue"&&"2"!="$!tableColumn.defaultValue"){
+            $("#defaultValueDate1").show();
+        }
+    });
+    function defaultDate() {
+        var obj = $("#defaultValueDate").val();
+        if("3"==obj){
+            $("#defaultValueDate1").show();
+        }else{
+            $("#defaultValueDate1").hide();
+        }
+    }
+    //通过字段类型校验相应的默认值
+    function checkDefaultValueByFieldType(){
+        if("MultipleSelect" == fieldType) {
+            mutlDefaultValue();
+        }
+    }
+    //通过字典列名查询数据源的子元素
+    function getDefaultValueByFieldDictName() {
+        $("#ndefaultValue").val("");
+        var fieldDictName = $("#fieldDictName").val();
+        if(fieldDictName == ""){
+            $("#defaultvalue").empty();
+            return;
+        }
+        var url = '../tableColumn/getDefaultValueByFieldDictName.html';
+        jQuery.ajax({
+            type : 'post',
+            url : url,
+            dataType:'json',
+            async : false,
+            data : {"dictName":fieldDictName},
+            success : function(data) {
+                var comment = "<option></option>";
+                var list = data.rows;
+                for(var i = 0;i < list.length; i++){
+                    comment +="<option value =" + list[i].cols.value +" >" + list[i].cols.name + "</option>";
+                }
+                if("MultipleSelect" == fieldType){
+                    $("#selectContainer").empty().append(comment);
+                    $('#defaultValue , #mutlDefaultValue').val("");
+                }else{
+                    $("#defaultValue").empty().append(comment);
+                }
+            }
+        });
+        checkDefaultValueByFieldType();
+    }
+    //多选下拉处理
+    function mutlDefaultValue() {
+        var setting = {};
+        var elem = $("#mutlDefaultValue");
+        var selOption = $("#selectContainer");
+        if(selOption){
+            setting["options"] = [];
+            var selValues = "," + $('#defaultValue').val() + ",";
+
+            $("#selectContainer option").each(function () {
+                var op = $(this);
+                if(op.val()) {
+                    var checked = selValues.indexOf(","+op.val()+",") > -1 ? true : false;
+                    setting["options"].push({"text": op.text(), "value": op.val(), "checked": checked});
+                }
+            });
+//            selOption.remove();
+        }else{
+            setting["options"] = eval("");
+        }
+
+        //解析多选下拉对应的选择值
+        var selVal = $('#defaultValue').val();
+        if (selVal) {
+            var selValues = selVal.split(',');
+            setting["selected"] = selValues;
+            var curOpts = setting["options"];
+            var selText = '';
+            for (var i = 0; i < curOpts.length; i++) {
+                for (var j = 0; j < selValues.length; j++) {
+                    if (curOpts[i].value == selValues[j]) {
+                        selText = selText + curOpts[i].text + ',';
+                    }
+                }
+            }
+            selText = selText.substring(0, selText.length - 1);
+            elem.val(selText);
+        }
+
+        setting["onCheck"] = function (text, value) {
+            $('#defaultValue').val(value);
+        };
+        $(elem).checkbox(setting);
+    };
+</script>
+</body>
+</html>

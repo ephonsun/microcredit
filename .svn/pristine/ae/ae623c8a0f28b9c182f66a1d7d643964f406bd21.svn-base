@@ -1,0 +1,10 @@
+url=http\://192.168.1.45\:9090
+#Call Module config
+call.uploadDelayTime=500
+call.IPPBXServerIP=192.168.1.5
+call.IPPBXServerPort=5060
+call.ftpIp=192.168.1.129
+call.ftpPort=21
+call.ftpUser=banger
+call.ftpPwd=banger
+call.snRecordDir=                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

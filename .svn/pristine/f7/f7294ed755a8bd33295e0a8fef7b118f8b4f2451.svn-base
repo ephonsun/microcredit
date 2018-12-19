@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .roles .ui-form-fields .field{ padding-left:0; padding-right:2px; }
+    </style>
+</head>
+
+<body>
+##<input id="controlItem1" type="hidden" value="$!gradeSecond" />
+<form id="form" style="height:200px;">
+    <tbody>
+    <table class="ui-form-fields">
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">所属模板：</label>
+            </td>
+            <td width="43%">
+                <input type="hidden" id="fieldId" name="fieldId" value="$!intoAutoTableColumn.fieldId">
+                <select id="tableName" name="tableName" onchange="queryTableName(this.value,false)">
+                        <option></option>
+                        #foreach($!til in $!tableInfoList)
+                            <option value="$!til.tableDbName" #if($!intoAutoTableColumn.tableName==$!til.tableDbName) selected  #end>$!til.tableDisplayName</option>
+                        #end
+                </select>
+            </td>
+            <td class="field" width="7%">
+                <label class="ui-star">字段：</label>
+            </td>
+            <td width="43%">
+##                <input type="hidden" id="controlItemName" name="controlItemName" value="">
+                <input type="hidden" id="fieldColumn1" name="fieldColumn1" value=$!intoAutoTableColumn.fieldColumn>
+                <select id="fieldColumn" name="fieldColumn">
+                    <option value="$!intoAutoTableColumn.fieldColumn">$!intoAutoTableColumn.fieldColumnDisplay</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label class="ui-star">是否必填：</label>
+            </td>
+            <td width="43%">
+##                <div class="ui-text">
+##                    <input type="hidden" id="defaultValue" name="controlValue"/>
+##                    <input type="text" class="ui-text-text" multiselect="true" id="mutlDefaultValue" name="controlValueName" readonly="readonly"/>
+##                    <i class="ui-text-icon ui-text-select"></i>
+##                    <div id="ctrlValDiv" style="display: none;">
+                        <select id="fieldIsRequired" name="fieldIsRequired">
+                                <option></option>
+                                <option value="1" #if($!intoAutoTableColumn.fieldIsRequired==1) selected #end>是</option>
+                                <option value="0" #if($!intoAutoTableColumn.fieldIsRequired==0) selected #end>否</option>
+                        </select>
+##                    </div>
+##                </div>
+            </td>
+        </tr>
+    </table>
+    </tbody>
+</form>
+<div style="margin-top: 25px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../config/js/into/intoInfoAdd.js"></script>
+<script language="javascript" type="text/javascript">
+//    //禁用Enter键表单自动提交
+//    document.onkeydown = function(event) {
+//        var target, code, tag;
+//        if (!event) {
+//            event = window.event; //针对ie浏览器
+//            target = event.srcElement;
+//            code = event.keyCode;
+//            if (code == 13) {
+//                tag = target.tagName;
+//                if (tag == "TEXTAREA") { return true; }
+//                else { return false; }
+//            }
+//        }
+//        else {
+//            target = event.target; //针对遵循w3c标准的浏览器，如Firefox
+//            code = event.keyCode;
+//            if (code == 13) {
+//                tag = target.tagName;
+//                if (tag == "INPUT") { return false; }
+//                else { return true; }
+//            }
+//        }
+//    };
+//    $('#allotTarget').change(function () {
+//        var i=$(this).val()
+//        if(i==1){
+//            $('#isAutoAllot').val(1);
+//            $('#nisAutoAllot').val('是')
+//            $('#isAutoAllot').attr("disabled",true);
+//            $('#nisAutoAllot').css("color", "#B3B3B3");
+//        }else{
+//            $('#isAutoAllot').removeAttr("disabled",true);
+//            $('#nisAutoAllot').removeAttr("style");
+//            $('#isAutoAllot').val(0)
+//            $('#nisAutoAllot').val('否')
+//        }
+//    });
+//    $(window).load(function () {
+//        if($('#allotTarget').val()==0){
+//            $('#isAutoAllot').val(0);
+//            $('#nisAutoAllot').val('否');
+//        }
+//    });
+</script>
+</body>
+</html>

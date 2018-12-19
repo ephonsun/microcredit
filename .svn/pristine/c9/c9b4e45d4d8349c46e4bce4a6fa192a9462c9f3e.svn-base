@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件二维码配置表 -->
+	<sql id="insertQrcodeSetting" >
+		INSERT INTO INTO_QRCODE_SETTING (QR_ID,ACCESS_PATH,IMA_PATH,IMA_NAME,IMA_SIZE) VALUES ([$qrId]
+		<clause prepend="," nvl="''" >[$accessPath]</clause>
+		<clause prepend="," nvl="''" >[$imaPath]</clause>
+		<clause prepend="," nvl="''" >[$imaName]</clause>
+		<clause prepend="," nvl="0" >[$imaSize]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件二维码配置表 -->
+	<sql id="updateQrcodeSetting" >
+		UPDATE INTO_QRCODE_SETTING 
+		<set>
+			<clause prepend="," assert="!isNull([accessPath])" >ACCESS_PATH = [$accessPath]</clause>
+			<clause prepend="," assert="!isNull([imaPath])" >IMA_PATH = [$imaPath]</clause>
+			<clause prepend="," assert="!isNull([imaName])" >IMA_NAME = [$imaName]</clause>
+			<clause prepend="," assert="!isNull([imaSize])" >IMA_SIZE = [$imaSize]</clause>
+		</set>
+		<where>
+			 QR_ID = [$qrId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件二维码配置表 -->
+	<sql id="getQrcodeSettingById" >
+		SELECT * FROM INTO_QRCODE_SETTING WHERE QR_ID = [0]
+	</sql>
+
+	<!-- 查询进件二维码配置表 -->
+	<sql id="queryQrcodeSetting" >
+		SELECT * FROM INTO_QRCODE_SETTING
+	</sql>
+
+	<!-- 通过主键删除进件二维码配置表 -->
+	<sql id="deleteQrcodeSettingById" >
+		DELETE FROM INTO_QRCODE_SETTING WHERE QR_ID = [0]
+	</sql>
+
+	<!-- 查询进件二维码配置表 -->
+	<sql id="queryQrcodeSettingList" >
+		SELECT * FROM INTO_QRCODE_SETTING 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([accessPath])" > ACCESS_PATH = '[accessPath]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([imaPath])" > IMA_PATH = '[imaPath]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([imaName])" > IMA_NAME = '[imaName]' </clause>
+			<clause prepend="and" assert="!isNull([imaSize])" > IMA_SIZE = [imaSize] </clause>
+		</where>
+	</sql>
+
+</banger>

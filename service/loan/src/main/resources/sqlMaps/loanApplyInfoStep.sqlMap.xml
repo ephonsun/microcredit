@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="QueryApplyInfoResult" name="banger.domain.loan.LoanApplyInfo_Query">
+		<property name="belongUserName" column="USER_NAME" ></property>
+	</class>
+
+	<class id="LoanAuditProcess" name="banger.domain.loan.LoanAuditProcess" >
+		<property name="processId" column="PROCESS_ID" ></property>
+		<property name="paramId" column="PARAM_ID" ></property>
+		<property name="loanId" column="LOAN_ID" ></property>
+		<property name="totalCount" column="TOTAL_COUNT" ></property>
+		<property name="passCount" column="PASS_COUNT" ></property>
+	</class>
+
+	<!-- 新建贷款申请 -->
+	<sql id="insertApplyInfoStepApply" >
+		INSERT INTO LOAN_APPLY_INFO (LOAN_ID,LOAN_TYPE_ID,LOAN_PROCESS_TYPE,LOAN_AUDIT_PROCESS_ID,LOAN_AUDIT_FLOW_ID,LOAN_AUDIT_PARAM_ID,LOAN_NAME,LOAN_IDENTIFY_TYPE,LOAN_IDENTIFY_NUM,LOAN_TEL_NUM,LOAN_APPLY_DATE,LOAN_APPLY_AMOUNT,LOAN_PROCESS_TABS,LOAN_APPLY_USER_ID,LOAN_INVESTIGATION_USER_ID,LOAN_GROUP_NAME,LOAN_BELONG_NAME,LOAN_AFTER_STATE,IS_DEL,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$loanId]
+		<clause prepend="," nvl="0" >[$loanTypeId]</clause>
+		<clause prepend="," nvl="''" >[$loanProcessType]</clause>
+		<clause prepend="," nvl="0" >[$loanAuditProcessId]</clause>
+		<clause prepend="," nvl="0" >[$loanAuditFlowId]</clause>
+		<clause prepend="," nvl="0" >[$loanAuditParamId]</clause>
+		<clause prepend="," nvl="''" >[$loanName]</clause>
+		<clause prepend="," nvl="''" >[$loanIdentifyType]</clause>
+		<clause prepend="," nvl="''" >[$loanIdentifyNum]</clause>
+		<clause prepend="," nvl="''" >[$loanTelNum]</clause>
+		<clause prepend="," >[$loanApplyDate]</clause>
+		<clause prepend="," nvl="0" >[$loanApplyAmount]</clause>
+		<clause prepend="," nvl="''" >[$loanProcessTabs]</clause>
+		<clause prepend="," nvl="0" >[$loanApplyUserId]</clause>
+		<clause prepend="," nvl="0" >[$loanInvestigationUserId]</clause>
+		<clause prepend="," nvl="''" >[$loanGroupName]</clause>
+		<clause prepend="," nvl="''" >[$loanBelongName]</clause>
+		<clause prepend="," nvl="''" >[$loanAfterState]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+	
+	<!-- 查询贷款申请表 -->
+	<sql id="getLoanApplyList" result="QueryApplyInfoResult" >
+		SELECT * FROM (
+			SELECT
+			lai.LOAN_ID,
+			lai.LOAN_TYPE_ID,
+			lai.LOAN_AUDIT_PROCESS_ID,
+			lai.LOAN_AUDIT_FLOW_ID,
+			lai.LOAN_AUDIT_PARAM_ID,
+			lai.LOAN_NAME,
+			lai.LOAN_AGE,
+			lai.LOAN_SEX,
+			lai.LOAN_IDENTIFY_TYPE,
+			lai.LOAN_IDENTIFY_NUM,
+			lai.LOAN_TEL_NUM,
+			lai.LOAN_APPLY_DATE,
+			lai.LOAN_ASSIGNMENT_DATE,
+			lai.LOAN_INVESTIGATION_DATE,
+			lai.LOAN_AUDIT_DATE,
+			lai.LOAN_CREDIT_DATE,
+			lai.LOAN_REFUSE_DATE,
+			lai.LOAN_APPLY_AMOUNT,
+			lai.LOAN_PROPOSE_AMOUNT,
+			lai.LOAN_RESULT_AMOUNT,
+			lai.LOAN_REFUSE_TYPE,
+			lai.LOAN_REFUSE_REASON,
+			lai.LOAN_REFUSE_USER,
+			lai.LOAN_REFUSE_REMARK,
+			lai.LOAN_COLLECTION_STATE,
+			lai.LOAN_MONITOR_STATE,
+			lai.LOAN_MONITOR_DATE,
+			lai.LOAN_REPAY_AMOUNT,
+			lai.LOAN_REPAY_DATE,
+			lai.LOAN_MONITOR_TYPE,
+			lai.LOAN_PROCESS_TABS,
+			lai.LOAN_APPLY_USER_ID,
+			lai.LOAN_INVESTIGATION_USER_ID,
+			lai.LOAN_ALLOT_USER_ID,
+			lai.LOAN_CREDIT_USER_ID,
+			lai.LOAN_AFTER_GROUP_ID,
+			lai.LOAN_BELONG_ID,
+			lai.LOAN_AFTER_STATE,
+			lai.REPAYMENT_MODE,
+			lai.LOAN_CUSTOMER_ID,
+			lai.CLIENT_TIME,
+			lai.IS_DEL,
+			lai.LOAN_AUDIT_STATE,
+			lai.LOAN_AUDITORS,
+			lai.CREATE_DATE,
+			lai.UPDATE_DATE,
+			lai.CREATE_USER,
+			lai.UPDATE_USER,
+			lai.LOAN_CLASS_ID,
+			lai.LOAN_BUSINESS_CATALOG,
+			lai.MODEL_SCORE,
+			lai.LOAN_CREDIT_AMOUNT,
+			lai.POTENTIAL_CUSTOMER_ID,
+			lai.LOAN_ACCOUNT_NO,
+			lai.LOAN_ACCOUNT_AMOUNT,
+			lai.LOAN_CONTRACT_NUMBER,
+			lai.LOAN_BALANCE_AMOUNT,
+			lai.OVERDUE_LIMIT,
+			lai.NEXT_REPAYMENT_AMOUNT,
+			CASE
+			WHEN lai.LOAN_REFUSE_USER > 0
+			THEN 'Refuse'
+			ELSE lai.LOAN_PROCESS_TYPE
+			END LOAN_PROCESS_TYPE,
+			pu.USER_NAME
+			FROM LOAN_APPLY_INFO lai
+			LEFT JOIN PMS_USER pu ON lai.LOAN_BELONG_ID=pu.USER_ID
+			<clause assert="!isNullOrEmpty([auditUserId])" >left join LOAN_CURRENT_AUDIT_STATUS l on l.LOAN_ID = lai.LOAN_ID  	 </clause>
+			WHERE lai.IS_DEL = 0
+			<clause prepend="and" assert="!isNull([loanName])" > (lai.LOAN_NAME LIKE '%[loanName]%' OR lai.LOAN_IDENTIFY_NUM LIKE UPPER('%[loanName]%') OR lai.LOAN_TEL_NUM LIKE '%[loanName]%') </clause>
+			<!--
+			<clause assert="hasValue([roleIds],4)" >
+				<clause prepend="and" assert="isNullOrEmpty([loanProcessTypes])" > lai.LOAN_PROCESS_TYPE not in ('Allot') </clause>
+			</clause>
+			-->
+			<clause prepend="and" assert="!isNullOrEmpty([loanTypeIds])" > lai.LOAN_TYPE_ID in (<for in="[loanTypeIds]" split=",">{item}</for>) </clause>
+
+			<!--是否逾期 1是 0否-->
+			<clause assert="!isNullOrEmpty([isOverdue])" >
+				<clause prepend="and" assert="isEqual([isOverdue],'1')" > lai.OVERDUE_LIMIT <![CDATA[ > ]]> 0 </clause>
+				<clause prepend="and" assert="isEqual([isOverdue],'0')" > (lai.OVERDUE_LIMIT <![CDATA[ <= ]]> 0 OR lai.OVERDUE_LIMIT <![CDATA[ = ]]> null ) </clause>
+			</clause>
+
+			<!--还款账户余额 是否充足 1是 0否        loanAccountAmount  nextRepaymentAmount-->
+			<clause assert="!isNullOrEmpty([isEnough])" >
+				<clause prepend="and" assert="isEqual([isEnough],'1')" > lai.LOAN_ACCOUNT_AMOUNT <![CDATA[ >= ]]> lai.NEXT_REPAYMENT_AMOUNT </clause>
+				<clause prepend="and" assert="isEqual([isEnough],'0')" > lai.LOAN_ACCOUNT_AMOUNT <![CDATA[ < ]]> lai.NEXT_REPAYMENT_AMOUNT </clause>
+			</clause>
+
+			<!-- 所有贷款权限 -->
+			<clause prepend="and" assert="isAllNotEmpty([userId],[roleIds])" >
+				<clause assert="hasValue([roleIds],4)" ><!-- 客户经理 -->
+					lai.LOAN_BELONG_ID = [userId]
+				</clause>
+				<clause assert="!hasValue([roleIds],4)" ><!-- 除了客户经理其他角色 -->
+					(
+					lai.LOAN_BELONG_ID = [userId] or
+					lai.LOAN_BELONG_ID IN (
+					SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+					SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId]
+					) or TEAM_GROUP_ID IN (<method name="getSqlValue" >getUserGroupIdsByUserId,[userId]</method>)
+					)
+					)
+				</clause>
+			</clause>
+
+			<!-- 待审批列表权限 -->
+			<clause prepend="and" assert="!isNullOrEmpty([auditUserId])" > l.audit_user_id = [auditUserId] and l.is_valid=1 AND l.AUDIT_RESULT=0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([contractCheckUser])" > lai.CONTRACT_CHECK_USER = [contractCheckUser] </clause>
+
+			<!--<clause prepend="and" assert="!isNull([refuseUser])" > lai.LOAN_REFUSE_USER > [refuseUser] </clause>-->
+			<clause prepend="and" assert="!isNull([loanRefuseUser])" > lai.LOAN_REFUSE_USER = [loanRefuseUser] </clause>
+			<!--<clause prepend="and" assert="!isNullOrEmpty([loanCollectionState])" > lai.LOAN_COLLECTION_STATE = '[loanCollectionState]' </clause>-->
+			<clause prepend="and" assert="!isNullOrEmpty([loanMonitorState])" > lai.LOAN_MONITOR_STATE = '[loanMonitorState]'  </clause>
+
+			<!--<clause assert="isEqual([loanCollectionState],'Collection')" >-->
+				<!--<clause prepend="and" assert="!isNullOrEmpty([collectionDate])" >-->
+					<!--lai.LOAN_REPAY_DATE  <![CDATA[<=]]> <method name="toDate">[collectionDate]</method>-->
+				<!--</clause>-->
+				<!--<clause prepend="and" assert="isEqual([collectionType],'1')" > lai.LOAN_REPAY_DATE <![CDATA[ >= ]]> <method name="toDate">[nowDate]</method> </clause>-->
+				<!--<clause prepend="and" assert="isEqual([collectionType],'2')" > lai.LOAN_REPAY_DATE <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause>-->
+			<!--</clause>-->
+			<clause parent="NumberSpan" params="lai.LOAN_APPLY_AMOUNT,loanApplyAmount,loanApplyAmountEnd" ></clause>
+			<clause parent="DateSpan" params="lai.CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="lai.UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		)
+		WHERE 1=1
+		<clause prepend="and" assert="!isNullOrEmpty([loanProcessTypes])" > LOAN_PROCESS_TYPE in (<for in="[loanProcessTypes]" split=",">'{item}'</for>)</clause>
+		<clause assert="!isNullOrEmpty([orderby])" >
+			[orderby]
+		</clause>
+		<clause assert="isNullOrEmpty([orderby])" >
+			ORDER BY CREATE_DATE DESC
+		</clause>
+	</sql>
+
+	<!-- 查询贷款 -->
+	<sql id="getLoanAuditProcessByLoanId" result="LoanAuditProcess" >
+		SELECT MAX(LOAN_ID) AS LOAN_ID,MAX(PROCESS_ID) AS PROCESS_ID,COUNT(*) AS TOTAL_COUNT,SUM(AUDIT_RESULT) AS PASS_COUNT FROM LOAN_CURRENT_AUDIT_STATUS WHERE LOAN_ID=[0] AND IS_VALID=1 GROUP BY PROCESS_ID
+	</sql>
+
+</banger>

@@ -1,0 +1,214 @@
+$(function () {
+
+    // 加载操作时间
+    $('#applyStartDate').datepicker({
+        maxDate: '#F{$dp.$D(\'applyEndDate\')}'
+    });
+    $('#applyEndDate').datepicker({
+        minDate: '#F{$dp.$D(\'applyStartDate\')}'
+    });
+    $('#investStartDate').datepicker({
+        maxDate: '#F{$dp.$D(\'investEndDate\')}'
+    });
+    $('#investEndDate').datepicker({
+        minDate: '#F{$dp.$D(\'investStartDate\')}'
+    });
+    $('#approvalStartDate').datepicker({
+        maxDate: '#F{$dp.$D(\'approvalEndDate\')}'
+    });
+    $('#approvalEndDate').datepicker({
+        minDate: '#F{$dp.$D(\'approvalStartDate\')}'
+    });
+    $('#loanStartDate').datepicker({
+        maxDate: '#F{$dp.$D(\'loanEndDate\')}'
+    });
+    $('#loanEndDate').datepicker({
+        minDate: '#F{$dp.$D(\'loanStartDate\')}'
+    });
+    var r = $('#role').val();
+    var roleId = $('#role').val();
+    if (roleId == 3) {
+        $('#hh').hide();
+        $('#gg').hide();
+    } else if(roleId == 2) {
+        $('#gg').hide();
+    }else{
+        $('#hh').show();
+        $('#gg').show();
+    }
+
+    //一级下拉选change事件
+    $('#taskObj').change(
+        function () {
+            roleId = $(this).val();
+            if (roleId == 3) {
+                $('#hh').hide();
+                $('#gg').hide();
+            } else if (roleId == 2) {
+                $('#hh').show();
+                $('#gg').hide();
+                $('#teamGroupId').val('');
+                $('#userIdSelect').val('');
+                $('select').selectbox({});
+            } else if (roleId == 1) {
+                $("#hh").show();
+                $("#gg").show();
+                $('#teamGroupId').val('');
+                $('#userIdSelect').val('');
+                $('select').selectbox({});
+            }
+        });
+    //二级下拉选change事件
+    $('#teamGroupId').change(
+        function () {
+            var groupId = $('#teamGroupId').val();
+            $('#userIdSelect').val('')
+            $('select').selectbox({});
+            $.getJSON("../taskStat/queryMemberByTeamGroupId.html", {teamGroupId: groupId}, function (data) {
+                $('#userIdSelect').empty();
+                $('#userIdSelect').append("<option></option>");
+                if($('#gp').val()==""){
+                    $('#userIdSelect').append("<option value=" + $("#loginUserId").val() + ">" + $("#userName").val() + "</option>");
+                }else{
+                    for (var index in data.data) {
+                        $('#userIdSelect').append("<option value=" + data.data[index].userId + ">" + data.data[index].userName + "</option>");
+                    }}
+            });
+        });
+    // 搜索按钮
+    $('#btnSearch').click(function () {
+        pd(roleId);
+    });
+    $('select').selectbox({});
+    // 清空搜索条件
+    $('#btnClean').click(function () {
+        $('#btnExport').hide();
+        toCleanForm('#form');
+        $('#t1').show();
+        $('#t2').hide();
+        $('#t3').hide();
+        $('#taskObj').val(r);
+        roleId = r;
+        if (roleId == 3) {
+            $('#hh').hide();
+            $('#gg').hide();
+        } else if(roleId == 2) {
+            $('#gg').hide();
+        }else{
+            $('#hh').show();
+            $('#gg').show();
+        }
+        $('select').selectbox({});
+    });
+
+    //导出
+    $('#btnExport').click(function () {
+        var applyStartDate= jQuery.trim($('#applyStartDate').val());
+        var applyEndDate = jQuery.trim($('#applyEndDate').val());
+        var investStartDate = jQuery.trim($('#investStartDate').val());
+        var investEndDate = jQuery.trim($('#investEndDate').val());
+        var approvalStartDate = jQuery.trim($('#approvalStartDate').val());
+        var approvalEndDate = jQuery.trim($('#approvalEndDate').val());
+        var loanStartDate= jQuery.trim($('#loanStartDate').val());
+        var loanEndDate = jQuery.trim($('#loanEndDate').val());
+        var role = roleId;
+        var userId="";
+        var teamGroupId="";
+        var groupPermit="";
+        if(role==1){
+            userId = jQuery.trim($('#userIdSelect').val());
+        }
+        if(role==2){
+            teamGroupId = jQuery.trim($('#teamGroupId').val());
+        }
+        if(role==3){
+            groupPermit = jQuery.trim($('#groupPermit').val());
+        }
+        window.location.href ="../queryReport/exportFile.html?"+ "applyStartDate="+applyStartDate+"&applyEndDate="+applyEndDate
+        +"&investStartDate="+investStartDate+"&investEndDate="+investEndDate
+        +"&approvalStartDate="+approvalStartDate+"&approvalEndDate"+approvalEndDate
+        +"&loanStartDate="+loanStartDate+"&loanEndDate="+loanEndDate
+        +"&role="+role+"&userId="+userId+"&teamGroupId="+teamGroupId+"&groupPermit="+groupPermit;
+
+
+    });
+});
+
+
+//加载经理
+function loadGrid(role) {
+    var postJson = getPostFields();
+    postJson['applyStartDate'] = jQuery.trim($('#applyStartDate').val());
+    postJson['applyEndDate'] = jQuery.trim($('#applyEndDate').val());
+    postJson['investStartDate'] = jQuery.trim($('#investStartDate').val());
+    postJson['investEndDate'] = jQuery.trim($('#investEndDate').val());
+    postJson['approvalStartDate'] = jQuery.trim($('#approvalStartDate').val());
+    postJson['approvalEndDate'] = jQuery.trim($('#approvalEndDate').val());
+    postJson['loanStartDate'] = jQuery.trim($('#loanStartDate').val());
+    postJson['loanEndDate'] = jQuery.trim($('#loanEndDate').val());
+    postJson['role'] = role;
+    if(role==1){
+        postJson['userId'] = jQuery.trim($('#userIdSelect').val());
+    }
+    if(role==2){
+        postJson['teamGroupId'] = jQuery.trim($('#teamGroupId').val());
+    }
+    if(role==3){
+        postJson['groupPermit'] = jQuery.trim($('#groupPermit').val());
+    }
+    $.post("../queryReport/getQueryReportData.html", postJson,
+        function (data) {
+            $("#queryGrid").html(data);
+        }, "html")
+}
+
+
+
+//根据roleId判断加载统计表
+function pd(roleId) {
+    if (roleId == 1 && $("#userIdSelect").val() != "" && $('#teamGroupId').val() != "") {
+        $('#btnExport').show();
+        loadGrid(1);
+    } else if (roleId == 1 && $("#teamGroupId").val() == "") {
+        showConfirm({
+            icon: 'warning',
+            content: '请选择团队'
+        });
+    } else if (roleId == 1 && $("#userIdSelect").val() == "") {
+        showConfirm({
+            icon: 'warning',
+            content: '请选择客户经理'
+        });
+    }
+    if (roleId == 2 && $("#teamGroupId").val() != "") {
+        $('#btnExport').show();
+        loadGrid(2);
+    } else if (roleId == 2 && $("#teamGroupId").val() == "") {
+        showConfirm({
+            icon: 'warning',
+            content: '请选择团队'
+        });
+    }
+    if (roleId == 3&&$('#gp').val()=="") {
+        showConfirm({
+            icon: 'warning',
+            content: '没有权限，请添联系管理员添加权限'
+        });
+    }else if(roleId == 3){
+        $('#btnExport').show();
+        loadGrid(3);
+    }
+}
+
+
+//根据权限加载团队列表
+$(window).load(function () {
+    $.getJSON("../taskStat/queryGroupListByGroupPermit.html", {groupPermit: $('#groupPermit').val()},
+        function (data) {
+            if(data!=null){
+                for (var index in data.data) {
+                    $('#teamGroupId').append("<option value=" + data.data[index].teamGroupId + ">" + data.data[index].groupName + "</option>");
+                }
+            }
+        });
+});

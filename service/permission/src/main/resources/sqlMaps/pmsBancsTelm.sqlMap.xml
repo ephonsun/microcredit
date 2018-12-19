@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+    <!-- 新增用户 -->
+    <sql id="insertBancsTelm" >
+        INSERT INTO BANCS_TELM (CWO8_TELLER_NO,CWO8_BRCH_NO,CWO8_TELLER_NAME,CWO8_USER_TYPE,CWO8_CAPABLE,IMPORT_RESULT,IMPORT_RESULT_DETAIL,CWO8_STAT)
+        VALUES (
+        <clause nvl="''" >[$cwo8TellerNo]</clause>
+        <clause prepend="," nvl="''" >[$cwo8BrchNo]</clause>
+        <clause prepend="," nvl="''" >[$cwo8TellerName]</clause>
+        <clause prepend="," nvl="''" >[$cwo8UserType]</clause>
+        <clause prepend="," nvl="''" >[$cwo8Capable]</clause>
+        <clause prepend="," nvl="''" >[$importResult]</clause>
+        <clause prepend="," nvl="''" >[$importResultDetail]</clause>
+        <clause prepend="," nvl="''" >[$cwo8Stat]</clause>
+        )
+    </sql>
+    <sql id="updateBancsTelm" >
+        UPDATE BANCS_TELM
+        <set>
+            <clause prepend="," assert="!isNull([importResult])" >IMPORT_RESULT = [$importResult]</clause>
+            <clause prepend="," assert="!isNull([importResultDetail])" >IMPORT_RESULT_DETAIL = [$importResultDetail]</clause>
+        </set>
+        <where>
+            CWO8_TELLER_NO = [$cwo8TellerNo]
+        </where>
+    </sql>
+
+    <sql id="deleteBancsTelm" >
+        TRUNCATE TABLE BANCS_TELM
+    </sql>
+
+    <!-- 通过中间表获取柜员信息 -->
+    <sql id="getBancsTelmInfo">
+        SELECT case when length(t.CWO8_TELLER_NO) &gt; 7  then  substr(t.CWO8_TELLER_NO,-7)
+        else t.CWO8_TELLER_NO end as CWO8_TELLER_NO,t.CWO8_BRCH_NO,t.CWO8_TELLER_NAME,
+        t.CWO8_USER_TYPE,t.CWO8_CAPABLE,t.IMPORT_RESULT,t.IMPORT_RESULT_DETAIL
+        FROM bancs_telm t
+        INNER JOIN bancs_brhm t1 on
+        t.CWO8_BRCH_NO = t1.ORO1_BR_NO
+        where t1.ORO1_PROV_BR_NO='00002'
+        and t.CWO8_CAPABLE = '05'
+        and t.CWO8_USER_TYPE in ('001','002','003','004','005','030','031','032','033','034','035','050','051','052','053','060','061','062','063','071','070','715','716')
+    </sql>
+</banger>

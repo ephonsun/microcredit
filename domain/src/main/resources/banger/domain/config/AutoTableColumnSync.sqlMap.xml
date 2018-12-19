@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoTableColumnSync" table="AUTO_TABLE_COLUMN_SYNC" >
+		<property name="tableDisplay" type="java.lang.String" >
+			<column name="TABLE_DISPLAY" length="100" />
+		</property>
+		<property name="tableColumnDisplay" type="java.lang.String" >
+			<column name="TABLE_COLUMN_DISPLAY" length="100" />
+		</property>
+		<id name="sourceTable" type="java.lang.String" >
+			<column name="SOURCE_TABLE" length="100" />
+		</id>
+		<property name="sourceTableColumn" type="java.lang.String" >
+			<column name="SOURCE_TABLE_COLUMN" length="100" />
+		</property>
+		<property name="targetTable" type="java.lang.String" >
+			<column name="TARGET_TABLE" length="100" />
+		</property>
+		<property name="targetTableColumn" type="java.lang.String" >
+			<column name="TARGET_TABLE_COLUMN" length="100" />
+		</property>
+		<property name="actionName" type="java.lang.String" >
+			<column name="ACTION_NAME" length="30" />
+		</property>
+	</class>
+</mapping>
+

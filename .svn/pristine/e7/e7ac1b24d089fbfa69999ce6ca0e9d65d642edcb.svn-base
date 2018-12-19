@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件客户团队分配表 -->
+	<sql id="insertCustomerGroup" >
+		INSERT INTO INTO_CUSTOMER_GROUP (TEAM_GROUP_ID,CUSTOMER_ID,SIGN_USER_ID,SIGN_DATE,IS_DEL) VALUES ([$teamGroupId]
+		<clause prepend="," nvl="0" >[$customerId]</clause>
+		<clause prepend="," nvl="0" >[$signUserId]</clause>
+		<clause prepend="," nvl="NULL" >[$signDate]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件客户团队分配表 -->
+	<sql id="updateCustomerGroup" >
+		UPDATE INTO_CUSTOMER_GROUP 
+		<set>
+			<clause prepend="," assert="!isNull([customerId])" >CUSTOMER_ID = [$customerId]</clause>
+			<clause prepend="," assert="!isNull([signUserId])" >SIGN_USER_ID = [$signUserId]</clause>
+			<clause prepend="," assert="!isNull([signDate])" >SIGN_DATE = [$signDate]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+		</set>
+		<where>
+		</where>
+	</sql>
+
+	<!-- 查询进件客户团队分配表 -->
+	<sql id="queryCustomerGroupList" >
+		SELECT * FROM INTO_CUSTOMER_GROUP 
+		<where>
+			<clause prepend="and" assert="!isNull([customerId])" > CUSTOMER_ID = [customerId] </clause>
+			<clause prepend="and" assert="!isNull([signUserId])" > SIGN_USER_ID = [signUserId] </clause>
+			<clause parent="DateSpan" params="SIGN_DATE,signDate,signDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,6 @@
+
+jdbc.driverClassName=com.ibm.db2.jcc.DB2Driver
+jdbc.url=jdbc:db2://192.168.1.84:50000/CSRCCOLP
+jdbc.username=db2admin
+jdbc.password=888888
+

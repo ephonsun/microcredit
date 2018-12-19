@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>选择合同模版</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../core/js/third/zTree/css/metroStyle/metroStyle.css" />
+
+    <style type="text/css">
+    	.w200 { width:200px; }
+    </style>
+</head>
+<body>
+	<input type="hidden" id="loanTypeId" name="loanTypeId" value="$!loanTypeId" />
+	<table id="groupTab" class="ui-form-fields">
+    	<tbody>
+        	<tr>
+##                <td class="field" valign="top">
+##                    <label class="ui-star">合同：</label>
+##                </td>
+                <td>
+                    <div class="user-tree-body">
+                        <div class="body-inner" style="width: 100%; text-align: center;display: none;" id="lableDiv">
+                            <div style="margin-top: 30%;color: orangered">该贷款类型未设置合同模板，请联系管理员！</div>
+                        </div>
+                        <div class="body-inner" id="treeDiv" style="width: 100%">
+                            <ul id="selectTree" class="ztree"></ul>
+                        </div>
+                    </div>
+                </td>
+
+			</tr>
+        </tbody>
+    </table>
+    <hr class="ui-line" />
+    <div class="ui-layout-closure">
+    	<span id="btnSave" class="ui-closure-button">
+        	<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+        </span>
+        <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+        	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+        </span>
+    </div>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+##    <script type="text/javascript" src="../permission/js/addSysTeamGroup.js"></script>
+	<script type="text/javascript">
+
+        $(function() {
+
+            refreshSelectList();
+
+            $("#btnSave").click(function() {
+                save();
+            });
+
+            $('#btnCancel').click(function() {
+                closeDia();
+            });
+
+        });
+
+
+        function save(){
+
+            var treeObj=$.fn.zTree.getZTreeObj("selectTree"), nodes=treeObj.getCheckedNodes(true), v="";
+            for(var i=0;i<nodes.length;i++){
+                if(nodes[i].level!=0){
+                    v+=nodes[i].id+",";
+                }
+            }
+
+            if(v==""){
+                showConfirm({
+                    icon: 'warning',
+                    content: "请选择合同模版！"
+                });
+                return;
+            }
+
+            var postJson = {};
+            postJson['templateFileIds'] = v;
+            postJson['loanTypeId'] = $("#loanTypeId").val();
+            jQuery.ajax({
+                type : "post",
+                url : "../contract/saveContractTemplateRelate.html",
+                data : postJson,
+                async : false,
+                success : function(result) {
+
+                    var resultJson = jQuery.parseJSON(result);
+                    if(resultJson.success != true){
+                        showConfirm({
+                            icon: 'warning',
+                            content: resultJson.cause
+                        });
+                    }else{
+                        showConfirm({
+                            icon: 'succeed',
+                            content: '保存成功'
+                        });
+//                        refreshSelectList();
+                        closeDia();
+                    }
+                }
+            });
+
+        }
+
+
+        function refreshSelectList(){
+            var loanTypeId = $("#loanTypeId").val();
+            getSelectFile($("#selectTree"), selectSetting,loanTypeId);
+        }
+
+        function getSelectFile(treeObj,setting,loanTypeId){
+            jQuery.ajax({
+                type: 'post',
+                url:  '../contract/getTemplateSelectFileList.html',
+                async:false,
+                data: {loanTypeId:loanTypeId},
+                success: function (data) {
+                    var jo = $.parseJSON(data);
+                    if(null==jo||""==jo){
+                        $("#lableDiv").show();
+                        $("#treeDiv").hide();
+                        $("#btnSave").hide();
+                    }else{
+                        $("#lableDiv").hide();
+                        $("#treeDiv").show();
+                        $("#btnSave").show();
+                    }
+
+                    $.fn.zTree.init(treeObj, setting, jo);
+                }
+            });
+        }
+
+        var selectSetting = {
+            view : {
+//                selectedMulti: true,
+                fontCss: setFontCss
+            },
+            data : {
+                simpleData : {
+                    enable : true
+                }
+            },
+            check: {
+                enable: setCheckFlag,
+                chkStyle: "checkbox"
+            },
+            callback: {
+//                onDblClick: selectUser
+            }
+        };
+
+        function setFontCss(treeId, treeNode) {
+            return treeNode.level == 0 ? {"font-weight":"bold"} : {};
+        };
+
+        function setCheckFlag(treeId, treeNode) {
+            return treeNode.level == 0 ? false : true;
+        };
+
+        function closeDia(){
+            // 关闭弹出框
+            var dialog = getDialog('loanTemplateRelatePage');
+            dialog.close();
+        }
+    </script>
+</body>
+</html>

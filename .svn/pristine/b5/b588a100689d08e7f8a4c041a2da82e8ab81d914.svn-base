@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quartz>
+    <trigger>
+        <day>
+            <job-name>loanMonitorInfoJobService</job-name>
+            <job-bean>loanMonitorInfoJobService</job-bean>
+            <time>00:00</time>
+                <!--<round>-->
+                    <!--<minute>1</minute>-->
+                <!--</round>-->
+        </day>
+    </trigger>
+    <trigger>
+        <day>
+            <job-name>loanRepayPlanInfoJobService</job-name>
+            <job-bean>loanRepayPlanInfoJobService</job-bean>
+            <time>00:00</time>
+            <!--<round>-->
+                <!--<minute>2</minute>-->
+            <!--</round>-->
+        </day>
+    </trigger>
+    <trigger>
+        <day>
+            <job-name>tmpLoanDataJob</job-name>
+            <job-bean>tmpLoanDataJob</job-bean>
+            <time>23:30</time>
+            <!--<round>-->
+                <!--<minute>1</minute>-->
+            <!--</round>-->
+        </day>
+    </trigger>
+    <trigger>
+        <day>
+            <job-name>writeLendLoanJob</job-name>
+            <job-bean>writeLendLoanJob</job-bean>
+            <time>23:40</time>
+            <!--<round>-->
+                <!--<minute>1</minute>-->
+            <!--</round>-->
+        </day>
+    </trigger>
+    <trigger>
+        <day>
+            <job-name>procedureJobService</job-name>
+            <job-bean>procedureJobService</job-bean>
+            <time>00:00</time>
+           <!-- <round>
+                <minute>3</minute>
+            </round>-->
+        </day>
+
+    </trigger>
+    <trigger>
+        <day>
+            <job-name>operationCodeJobService</job-name>
+            <job-bean>operationCodeJobService</job-bean>
+            <time>01:00</time>
+        </day>
+    </trigger>
+    <trigger>
+        <day>
+            <job-name>trustedPaymentJobService</job-name>
+            <job-bean>trustedPaymentJobService</job-bean>
+            <time>00:00</time>
+            <round>
+                <minute>10</minute>
+            </round>
+        </day>
+    </trigger>
+
+
+</quartz>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增产品附件 -->
+	<sql id="insertProductFile" >
+		INSERT INTO PROD_PRODUCT_FILE (PPF_ID,PPF_CUT_FILE_NAME,PPF_PRODUCT_ID,PPF_FILE_SIZE,PPF_CREATE_USER,PPF_FILE_PATH,PPF_FILE_NAME,PPF_FILE_NAME_OLD,PPF_FILE_TYPE,PPF_ISDEL,PPF_UPDATE_DATE,PPF_UPDATE_USER,PPF_CREATE_DATE,PPF_CUT_FILE_PATH) VALUES ([$ppfId]
+		<clause prepend="," nvl="''" >[$ppfCutFileName]</clause>
+		<clause prepend="," nvl="0" >[$ppfProductId]</clause>
+		<clause prepend="," nvl="0" >[$ppfFileSize]</clause>
+		<clause prepend="," nvl="0" >[$ppfCreateUser]</clause>
+		<clause prepend="," nvl="''" >[$ppfFilePath]</clause>
+		<clause prepend="," nvl="''" >[$ppfFileName]</clause>
+		<clause prepend="," nvl="''" >[$ppfFileNameOld]</clause>
+		<clause prepend="," nvl="0" >[$ppfFileType]</clause>
+		<clause prepend="," nvl="0" >[$ppfIsdel]</clause>
+		<clause prepend="," >[$ppfUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$ppfUpdateUser]</clause>
+		<clause prepend="," >[$ppfCreateDate]</clause>
+		<clause prepend="," nvl="''" >[$ppfCutFilePath]</clause>
+		)
+	</sql>
+
+	<!-- 修改产品附件 -->
+	<sql id="updateProductFile" >
+		UPDATE PROD_PRODUCT_FILE 
+		<set>
+			<clause prepend="," assert="!isNull([ppfCutFileName])" >PPF_CUT_FILE_NAME = [$ppfCutFileName]</clause>
+			<clause prepend="," assert="!isNull([ppfProductId])" >PPF_PRODUCT_ID = [$ppfProductId]</clause>
+			<clause prepend="," assert="!isNull([ppfFileSize])" >PPF_FILE_SIZE = [$ppfFileSize]</clause>
+			<clause prepend="," assert="!isNull([ppfCreateUser])" >PPF_CREATE_USER = [$ppfCreateUser]</clause>
+			<clause prepend="," assert="!isNull([ppfFilePath])" >PPF_FILE_PATH = [$ppfFilePath]</clause>
+			<clause prepend="," assert="!isNull([ppfFileName])" >PPF_FILE_NAME = [$ppfFileName]</clause>
+			<clause prepend="," assert="!isNull([ppfFileNameOld])" >PPF_FILE_NAME_OLD = [$ppfFileNameOld]</clause>
+			<clause prepend="," assert="!isNull([ppfFileType])" >PPF_FILE_TYPE = [$ppfFileType]</clause>
+			<clause prepend="," assert="!isNull([ppfIsdel])" >PPF_ISDEL = [$ppfIsdel]</clause>
+			<clause prepend="," assert="!isNull([ppfUpdateDate])" >PPF_UPDATE_DATE = [$ppfUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([ppfUpdateUser])" >PPF_UPDATE_USER = [$ppfUpdateUser]</clause>
+			<clause prepend="," assert="!isNull([ppfCreateDate])" >PPF_CREATE_DATE = [$ppfCreateDate]</clause>
+			<clause prepend="," assert="!isNull([ppfCutFilePath])" >PPF_CUT_FILE_PATH = [$ppfCutFilePath]</clause>
+		</set>
+		<where>
+			 PPF_ID = [$ppfId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到产品附件 -->
+	<sql id="getProductFileById" >
+		SELECT * FROM PROD_PRODUCT_FILE WHERE PPF_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除产品附件 -->
+	<sql id="deleteProductFileById" >
+		UPDATE PROD_PRODUCT_FILE SET PPF_ISDEL = 1 WHERE PPF_ID = [0]
+	</sql>
+
+	<!-- 查询产品附件 -->
+	<sql id="queryProductFileList" >
+		SELECT * FROM PROD_PRODUCT_FILE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([ppfCutFileName])" > PPF_CUT_FILE_NAME = '[ppfCutFileName]' </clause>
+			<clause prepend="and" assert="!isNull([ppfProductId])" > PPF_PRODUCT_ID = [ppfProductId] </clause>
+			<clause prepend="and" assert="!isNull([ppfFileSize])" > PPF_FILE_SIZE = [ppfFileSize] </clause>
+			<clause prepend="and" assert="!isNull([ppfCreateUser])" > PPF_CREATE_USER = [ppfCreateUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ppfFilePath])" > PPF_FILE_PATH = '[ppfFilePath]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ppfFileName])" > PPF_FILE_NAME = '[ppfFileName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ppfFileNameOld])" > PPF_FILE_NAME_OLD = '[ppfFileNameOld]' </clause>
+			<clause prepend="and" assert="!isNull([ppfFileType])" > PPF_FILE_TYPE = [ppfFileType] </clause>
+			<clause prepend="and" assert="!isNull([ppfIsdel])" > PPF_ISDEL = [ppfIsdel] </clause>
+			<clause parent="DateSpan" params="PPF_UPDATE_DATE,ppfUpdateDate,ppfUpdateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([ppfUpdateUser])" > PPF_UPDATE_USER = [ppfUpdateUser] </clause>
+			<clause parent="DateSpan" params="PPF_CREATE_DATE,ppfCreateDate,ppfCreateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([ppfCutFilePath])" > PPF_CUT_FILE_PATH = '[ppfCutFilePath]' </clause>
+		</where>
+	</sql>
+
+</banger>

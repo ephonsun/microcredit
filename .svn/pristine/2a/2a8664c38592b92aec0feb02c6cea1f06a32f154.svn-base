@@ -1,0 +1,505 @@
+#if($!flag=="1")##查看
+    #set($fieldFlag=2)
+#elseif($customer.id)
+    #set($fieldFlag=0)
+#else
+    #set($fieldFlag=0)
+#end
+<form id="baseForm">
+    #if($!precType=='contract')
+        <div class="border">
+            <label class="head-name"><strong>合同类型</strong></label>
+            <input style="display: none" id="potentialId" value="$!potentialId">
+            <table class="ui-form-fields">
+                <tbody>
+                <tr>
+                    <td width="7%" class="field">
+                        <input type="hidden" value="$!potentialId" id="potentialId"/>
+                        <input type="hidden" value="$!loanId" id="loanId"/>
+                        <label class="ui-star">合同类型：</label>
+                    </td>
+                    <td width="18%" id="loanContractTypeVal" style="display: none"></td>
+                    <td width="18%" id="loanContractTypeName">
+                        <select id="loanTypeId" name="loanTypeId">
+                            <option value=""></option>
+                            #foreach($item in $typeList)
+                                #if($item.typeId && $item.typeId == $loanContractType)
+                                    <option value="$item.typeId" selected="selected">$item.loanTypeName</option>
+                                #else
+                                    <option value="$item.typeId" >$item.loanTypeName</option>
+                                #end
+                            #end
+                        </select>
+                    </td>
+                    <td  width="55%" >
+                    <span id="btnLoanContractType" class="ui-button">
+                        <label class="ui-button-text">确定</label>
+                    </span>
+                        <span id="btnContractTypeReset" class="ui-button" style="display: none">
+                        <label class="ui-button-text">重置</label>
+                    </span>
+                        </span>
+##                    <span id="btnAccountBank" class="ui-closure-button ml15" style="margin-left: 10px;display: none;">
+##                        <label class="ui-button-text">选择开户行</label>
+##                    </span>
+##                    <span id="btnLoanOrientation" class="ui-closure-button" style="margin-left: 10px;">
+##                        <label class="ui-button-text">贷款投向</label>
+##                    </span>
+                    </td>
+                    #if($!contractCheckValue != '')
+                    <td width="7%" class="field">
+                        <label class="ui-star">签订人：</label>
+                    </td>
+                    <td width="13%">$!contractCheckValue</td>
+                    #end
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <br/><br/>
+    #end
+    <div id="applyTemplate_$!module$!precType">
+
+    </div>
+</form>
+<hr class="ui-line"></hr>
+<input style="display: none" id="potentialId" value="$!potentialId">
+##客户id,和customerTabs.vm共用
+<input style="display: none" id="id" value="$!customerId">
+<input type="hidden" id="queryCusId" value="" />
+<div class="ui-layout-closure">
+    #if($!module == 'contract' && $!precType == 'contract')
+        #if($!showApply != '1')
+        <span id="btnLoanContractSave" class="ui-button">
+            <label class="ui-closure-button-text">保存</label>
+        </span>
+        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+            <label class="ui-closure-button-text">关闭</label>
+        </span>
+        #end
+        #if($!showApply == '1')
+            #if($funcPermit.hasFuncCode("loanContractSubmit"))
+                <span id="btnLoanContractSubmit" class="ui-closure-button">
+                <label class="ui-closure-button-text">提交</label>
+            </span>
+            #end
+            #if($funcPermit.hasFuncCode("loanContractEdit"))
+                <span id="btnEditApply" class="ui-closure-button ml15">
+                <label class="ui-closure-button-text">编辑</label>
+            </span>
+            #end
+            #if($funcPermit.hasFuncCode("loanContractBack"))
+                <span id="btnContractGiveBack" class="ui-closure-button ml15">
+                <label class="ui-closure-button-text">驳回</label>
+            </span>
+            #end
+            <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+                <label class="ui-closure-button-text">关闭</label>
+            </span>
+
+        #end
+
+    #end
+    #if(($!precType == 'contract' && $!contractSyncStatus=='1' && $!btnContractCancel =='show')||$!contCancelShow=='true')
+        #if($funcPermit.hasFuncCode("loanContractCancel"))
+        <span id="btnContractCancel" class="ui-closure-button ui-closure-button-cancel ml15">
+                <label class="ui-closure-button-text">合同注销</label>
+        </span>
+        #end
+    #end
+##    #if( $!contractApplyShow=='show' && $!btnContractCancel =='show')
+##        <span  class="ui-closure-button ml15" onclick="contractLoanApply($!loanId)">
+##                <label class="ui-closure-button-text">申请贷款</label>
+##        </span>
+##    #end
+    #if($!signShow =='show')
+        #if($funcPermit.hasFuncCode("contractSignSubmit"))
+            <span id="btnContractSign" class="ui-closure-button">
+                <label class="ui-closure-button-text">签订</label>
+            </span>
+        #end
+        #if($funcPermit.hasFuncCode("contractSignBack"))
+            <span id="btnSignGiveBack" class="ui-closure-button ml15">
+                <label class="ui-closure-button-text">退回</label>
+            </span>
+        #end
+        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+                <label class="ui-closure-button-text">关闭</label>
+            </span>
+    #end
+
+    #if($!module == 'collection' && $!precType == 'collection')
+        <span id="btnCloseApply" class="ui-closure-button ui-closure-button-cancel ml15">
+            <label class="ui-closure-button-text">关闭</label>
+        </span>
+    #end
+##    #if($!syncStatus == 2  && $funcPermit.hasFuncCode("loanAuthorizationCancel"))
+##        <span id="authorizationCancel" class="ui-button ml15">
+##                <label class="ui-closure-button-text">授权取消</label>
+##        </span>
+##    #end
+
+</div>
+
+<script type="text/javascript" >
+##    var module = '$!module';
+    var contCancelShow = '$!contCancelShow';
+    var loanTypeId = '$!loanTypeId';
+    var applyId = '$!applyId';
+    var potentialId = '$!potentialId';
+    var customerId = '$!customerId';
+    var loanId = '$!loanId';
+    var loanContractType = '$!loanContractType';
+    var idCard = '$!idCard';
+    var loanName = '$!loanName';
+    var baseRatio = '$!baseRatio';
+    var resultLimit = '$!resultLimit';
+    var loanAmount='$!loanAmount';
+    var repayMode = '$!repayMode';
+    var loanRatio = '$!loanRatio';
+    $(function () {
+        if('$!precType'=='contract'){
+            if('$!module'=='contract'){
+                if('$!showApply' == '1'){
+                    btnLoanTypeHide(0);
+                 }else{
+                    if(loanContractType != ''){btnLoanTypeHide(1);}
+                }
+
+            }else{
+                btnLoanTypeHide(0);
+            }
+            layout.initForms();
+            refreshLoanApplyTemplate('applyTemplate_$!module$!precType', loanId, loanContractType, '$!module', '$!precType', '$!showApply', '$!applyId');
+        }
+        else{
+            refreshLoanApplyTemplate('applyTemplate_$!module$!precType', loanId, '$!loanTypeId', '$!module', '$!precType', '$!showApply', '$!applyId');
+        }
+        if ('$!module' == '$!precType' || ('$!module' == 'allot' && '$!precType' == 'apply')||('$!precType'=='contract' && '$!module' == 'all')||('$!precType'=='contract' && '$!module' == 'sign')) {
+            $('#btnEditApply').click(function() {
+                editApply(loanId, '$!module');
+
+            });
+            //贷款合同保存
+            $('#btnLoanContractSave').click(function() {
+                contractSave(loanId,loanContractType);
+            });
+            //贷款合同提交
+            $('#btnLoanContractSubmit').click(function() {
+                contractSubmit(loanId);
+            });
+            //贷款合同驳回
+            $('#btnContractGiveBack').click(function() {
+                contractGiveBack(loanId);
+            });
+            //合同注销
+            $('#btnContractCancel').click(function() {
+                contractCancel(loanId,contCancelShow);
+            });
+            //合同注销后申请贷款
+            $('#contractLoanApply_$!precType').click(function() {
+                contractLoanApply(loanId);
+            });
+            //合同签订
+            $('#btnContractSign').click(function() {
+                contractSignSubmit(loanId);
+            });
+            //签订退回
+            $('#btnSignGiveBack').click(function() {
+                contractSignBack(loanId);
+            });
+
+            //选择开户行
+            $('#btnAccountBank').click(function() {
+                selectAccountBank(loanId);
+            });
+            //贷款投向
+            $('#btnLoanOrientation').click(function() {
+                selectLoanOrientation(loanId);
+            });
+
+            //关闭
+            $('#btnCloseApply').click(function() {
+                showCancelConfirmForEdit(function(){
+                    closeApplyTab();
+                });
+            });
+
+
+
+            //选择合同类型
+            $('#btnLoanContractType').click(function() {
+                var nloanType = $("#loanTypeId").val();
+                loanContractType = nloanType;
+                if (nloanType == '') {
+                    showConfirm({
+                        icon: 'warning',
+                        content: '请选择合同类型'
+                    });
+                    return false;
+                }
+                btnLoanTypeHide(1);
+                refreshLoanApplyTemplate('applyTemplate_$!module$!precType', loanId, nloanType, '$!module', '$!precType', '$!showApply', '$!applyId');
+
+            });
+
+            //重置
+            $('#btnContractTypeReset').click(function() {
+                $('#btnLoanContractType').show();
+                $('#btnContractTypeReset').hide();
+                $("#loanContractTypeName").find("option:selected").removeAttr('selected');
+                $("#loanContractTypeName input").val('');
+                $("#loanContractTypeName").show();
+                $("#loanContractTypeVal").hide();
+                refreshLoanApplyTemplate('applyTemplate_$!module$!precType', loanId, '', '$!module', '$!precType', '$!showApply', '$!applyId');
+            });
+
+        }
+    });
+    //固定利率的隐藏联动
+    function hideRatioField(){
+        var type = $('#intRateType').val();
+        if(type=='1'){
+            $('#calFloatingRate').parents('td').hide();
+            $('#calFloatingRate').parents('td').prev().hide();
+            $('#realityIrY').parents('td').hide();
+            $('#realityIrY').parents('td').prev().hide();
+            $('#fixedRate').parents('td').show();
+            $('#fixedRate').parents('td').prev().show();
+        }
+        if(type=='2'){
+            $('#calFloatingRate').parents('td').show();
+            $('#calFloatingRate').parents('td').prev().show();
+            $('#realityIrY').parents('td').show();
+            $('#realityIrY').parents('td').prev().show();
+            $('#fixedRate').parents('td').hide();
+            $('#fixedRate').parents('td').prev().hide();
+        }
+    }
+
+    //隐藏确认按钮
+    function btnLoanTypeHide (type) {
+        if(type==1) {
+            $('#btnLoanContractType').hide();
+            $('#btnContractTypeReset').show();
+            var loanTypeName = $("#loanTypeId").find("option:selected").text();
+            $("#loanContractTypeVal").html(loanTypeName);
+            $("#loanContractTypeName").hide();
+            $("#loanContractTypeVal").show();
+        }else{
+            var loanTypeName = $("#loanTypeId").find("option:selected").text();
+            $("#loanContractTypeName").html(loanTypeName);
+            $('#btnLoanContractType').hide();
+            $('#btnContractTypeReset').hide();
+            $('#btnAccountBank').hide();
+            $('#btnLoanOrientation').hide();
+        }
+    }
+    //加属性
+    function addReadOnlyAttr(){
+//        $('#accountBank').attr('readonly',true);
+//        $('#bankNo').attr('readonly',true);
+        $('#loanOrientation').attr('readonly',true);
+        $('#orientationName').attr('readonly',true);
+        $('#rulingIr').attr('readonly',true);
+        $('#realityIrY').attr('readonly',true);
+        //借款人、贷款金额、还款方式、期限
+        $('#contractLoanCusName').attr('readonly',true);
+        $('#contractLoanAmount').attr('readonly',true);
+        $('#contractRepaymentMode').attr('disabled',true);
+        $('#contractLoanLimit').attr('readonly',true);
+        $('#fixedRate').attr('readonly',true);
+        $('#loanContractEnd').attr('readonly',true);
+        $('#loanContractEnd').removeAttr('dateflag');
+
+    }
+    //根据卡号/存款帐号查询客户信息- 99QRY00400
+    function queryCusInfo(o1,o2,o3,o4){
+        var acc_no;
+        if(o3){
+            acc_no = o3.val();
+        }else{
+            acc_no = o1.val();
+        }
+            if(acc_no && acc_no != ''){
+                jQuery.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '../contract/checkCusInfoData.html',
+                    data: {
+                        accNo:acc_no,
+                        loanId:loanId
+                    },
+                    async: false,
+                    success: function (result) {
+                        if(result.success) {
+                            if(o3){
+                                if(result.cus_name){$('#contractEnterAccountName').val(result.cus_name);}
+                            }else{
+                                if (result.id != idCard) {
+                                    showConfirm({
+                                        icon: 'warning',
+                                        content: '该卡号的账户信息（'+result.cus_name+'）为与借款人（' + loanName + '）证件信息不一致'
+                                    });
+                                    return false;
+                                } else {
+                                    if(result.cus_name){$('#householdName').val(result.cus_name);}else{$('#householdName').val(loanName);}
+                                    if (result.brch_name) {$('#accountBank').val(result.brch_name)}
+                                    if (result.acc_no&&o4) {o2.val(result.acc_no)}
+                                    if (result.cus_id) {$('#queryCusId').val(result.cus_id);}
+                                }
+                            }
+                        }else{
+                                showConfirm({
+                                    icon: 'warning',
+                                    content: result.msg
+                                });
+                        }
+
+                    }
+                });
+            }
+    }
+    //加载模板表
+    function refreshLoanApplyTemplate(divId, loanId, loanTypeId, processType, precType, showApply,applyId) {
+        $('#'+divId).empty();
+        var url = '../loan/getLoanTemplate.html';
+        jQuery.ajax({
+            type: 'post',
+            url: url,
+            async:false,
+            data: {"applyId":applyId,"potentialId":potentialId,"customerId":customerId,"loanId":loanId,"loanTypeId":loanTypeId, "module" : processType, "precType" :precType, "showApply" : showApply, "showApply" : showApply },
+            success: function (data) {
+                $('#'+divId).append(data);
+                if (processType == 'loan') {
+                    $('#loanRatioDate').attr('mindateid', 'loanCreditDate');
+                    $('#loanCreditDate').attr('maxdateid', 'loanRatioDate');
+                }
+                if(processType == 'contract'){
+                    addReadOnlyAttr();
+                    // 借款起始日期不能小于今天
+                    $('#loanContractBegin').datepicker({minDate:new Date()});
+                    if($('#loanContractEnd').val()==''){
+                        $('#loanContractEnd').val(addMouth($('#loanContractBegin').val(),resultLimit));
+                    }
+                    if($('#rulingIr')){
+                        $('#rulingIr').val(baseRatio);
+                    }
+                    if($('#contractLoanCusName')){$('#contractLoanCusName').val(loanName)};
+                    if($('#contractLoanAmount')){$('#contractLoanAmount').val(loanAmount)};
+                    if($('#contractRepaymentMode')){$('#contractRepaymentMode').val(repayMode)};
+                    if($('#contractLoanLimit')){$('#contractLoanLimit').val(resultLimit)};
+                    if($('#fixedRate')){$('#fixedRate').val(loanRatio)};
+                    //起始日期
+                    $('#loanContractBegin').blur(function(){
+                        if($(this).val()){
+                            var o = addMouth($(this).val(),resultLimit);
+                            $('#loanContractEnd').val(o);
+                        }
+                    });
+//                    //终止日期
+//                    $('#loanContractEnd').blur(function(){
+//                        if($(this).val()){
+//                            var o = AddMouth($(this).val(),-resultLimit);
+//                            $('#loanContractBegin').val(o);
+//                        }
+//                    });
+                    //还款卡号
+                    $('#repaymentCardNum').change(function(){
+                        queryCusInfo($(this),$('#accountNum'),false,true);
+
+                    });
+                    //还款账号
+                    $('#accountNum').change(function(){
+                        queryCusInfo($(this),$('#repaymentCardNum'),false,false);
+                    });
+                    //入账账号
+                    $('#enterAccount').change(function(){
+                        queryCusInfo(false,false,$(this));
+                    });
+                    //固定利率
+                    $('#intRateType').change(function(){
+                        hideRatioField();
+                    });
+                    $('#calFloatingRate').change(function(){
+                        var type = $('#intRateType').val();
+                        //浮动利率
+                        if(type == '2'){
+                            var floatRatio = $(this).val();
+                            var baseRate = $('#rulingIr').val();
+                            var reslut = (parseFloat(floatRatio/100)+1)*(parseFloat(baseRate));
+                            $('#realityIrY').val(parseFloat(reslut).toFixed(4));
+                        }
+                    });
+                    $('#loanOrientation').mousedown(function(){
+                        selectLoanOrientation(loanId);
+                    });
+                }
+                layout.initForms();
+            }
+        });
+        hideRatioField();
+    }
+
+    function addMouth(date, num) {
+        if(null!=date&&""!=date&&''!=date&&undefined!=date){
+            //date为格式化后的日期字符yyyy-MM-dd,num为增加的月份
+            var mouthnum = parseInt(num);
+            var year = parseInt(date.substring(0, 4));
+            var mouth = parseInt(date.substring(5, 7));
+            var day = parseInt(date.substring(8, 10));
+//            console.log('year:'+year+' month:'+mouth+' day:'+day);
+            if (mouth + mouthnum > 12)
+            {
+                var n = parseInt((mouth + mouthnum)/12);
+                var left = (mouth+mouthnum)%12;
+                var p = left==0?(n-1):n;
+                var newyear = year + p;
+                var newmouth = mouth + mouthnum - 12*p;
+                var newday = day;
+            }
+            else
+            {
+                var newyear = year
+                var newmouth = mouth + mouthnum;
+                var newday = day;
+            }
+            if(newmouth<10){newmouth='0'+newmouth}
+            if(newday<10){newday='0'+newday}
+            var newdate = newyear + "-" + newmouth + "-" + newday;
+            return newdate;
+        }
+        return "";
+    }
+
+///*********处理表单显隐**********************/
+    function hideAllCtrlForm() {
+        var hideMap = {};
+        $("select[hideflag='true']").each(function () {
+            var hideitem = $(this).attr("hideitem");
+            var hidevalue = $(this).attr("hidevalue");
+            var selValue = $(this).val();
+            if(hideitem && hidevalue && selValue) {
+                var hidevalues = hidevalue.split(",");
+                for(var i = 0; i < hidevalues.length;i++) {
+                    if(selValue == hidevalues[i])
+                        hideMap[hideitem] = true;
+                }
+            }
+        })
+        $("div.template").each(function () {
+            var templateName = $(this).attr("name");
+            if(hideMap[templateName]){
+                $(this).hide();
+            }else if($(this).is(":hidden")){
+                $(this).show();
+                //如果全局渲染selectbox导致页面太卡了
+                $(this).find('select').selectbox();
+            }
+
+        })
+    }
+</script>
+
+

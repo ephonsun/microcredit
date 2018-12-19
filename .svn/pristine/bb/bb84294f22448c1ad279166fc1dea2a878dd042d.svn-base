@@ -1,0 +1,61 @@
+<input type="hidden" name="loanId" id="loanId" value="$!loanId"/>
+
+<div class="ui-layout-action">
+    <span id="btnRefresh_RepaymentList" class="ui-button fr">
+        <label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+    </span>
+</div>
+<table id="loanRepaymentList"></table>
+<script>
+    // 页面加载完成时...
+    $(function(){
+
+        $("#btnRefresh_RepaymentList").click(function(){
+            refresh();
+        });
+
+        // 加载
+        $('#loanRepaymentList').flexigrid({
+            height: 500,
+            url: '../loanRepayPlanInfo/queryLoanRepaymentList.html?loanId=' + $("#loanId").val(),
+            usePage: true,
+            fields: [
+                {display: '还款日期', field: 'date', width: 100, align: 'center'},
+                {display: '还款金额（元）', field: 'amt', width: 100, align: 'center'},
+                {display: '贷款余额', field: 'loan_bal', width: 100, align: 'center'},
+//                {display: '还款类型', field: 'loanRepayState', width: 100, align: 'center', data: {0: "本金", 1: "利息"}},
+                {display: '还款类型', field: 'type', width: 100, align: 'center', data: {25: "本息"}},
+                {display: '摘要信息', field: 'sumry', width: 200, align: 'center'}
+            ],
+//            action: {
+//                display: '操作',
+//                width: 100,
+//                align: 'center',
+//                buttons: [
+//                    {
+//                        display: '编辑',
+//                        onClick: function (tr, data) {
+//                            updateLoanRepayPlanInfo(data);
+//                        },
+//                        isDisabled: function (data) {
+//                            if($("#showApply").val() == 1){
+//                                return true;
+//                            }else{
+//                                if(data.cols.autoRepay == true)
+//                                    return (!data.cols.collection);
+//                                else
+//                                    return !data.cols.autoRepay;
+//                            }
+//
+//                        }
+//                    }
+//                ]
+//            },
+            usePage: false
+        });
+    });
+
+    function refresh(){
+        $('#loanRepaymentList').flexReload();
+    }
+</script>

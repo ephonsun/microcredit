@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanProfitBizIncomeItem" table="LOAN_PROFIT_BIZ_INCOME_ITEM" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="columnName" type="java.lang.String" >
+			<column name="COLUMN_NAME" length="64" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="64" />
+		</property>
+		<property name="itemName" type="java.lang.String" >
+			<column name="ITEM_NAME" length="90" />
+		</property>
+		<property name="averageAmount" type="java.math.BigDecimal" >
+			<column name="AVERAGE_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="totalAmount" type="java.math.BigDecimal" >
+			<column name="TOTAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="REMARK" length="300" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

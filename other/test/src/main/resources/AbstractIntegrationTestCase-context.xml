@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+     http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+     http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+<import resource="classpath*:/applicationContext-resources.xml"/>
+<import resource="classpath*:/applicationContext-dao.xml"/>
+<import resource="classpath*:/applicationContext-service.xml"/>
+<import resource="classpath*:/**/banger.core.xml"/>
+<import resource="classpath*:/**/banger.sql.xml"/>
+<import resource="classpath*:/**/banger.dao.xml"/>
+    <!--
+    <import resource="classpath*:/applicationContext-listener.xml"/>
+    <import resource="classpath*:/**/applicationContext.xml"/>
+    -->
+
+        <!-- 加载sqlMap 节点bean
+        <bean id="SqlMap" parent="AbstractSqlMap" >
+            <property name="contexts" >
+                <set merge="true">
+                    <ref bean="pmsSqlMap"></ref>
+                </set>
+            </property>
+        </bean>
+        -->
+</beans>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanProfitLossRatioItem" table="LOAN_PROFIT_LOSS_RATIO_ITEM" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="columnName" type="java.lang.String" >
+			<column name="COLUMN_NAME" length="64" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="64" />
+		</property>
+		<property name="productCategory" type="java.lang.String" >
+			<column name="PRODUCT_CATEGORY" length="90" />
+		</property>
+		<property name="salePrice" type="java.math.BigDecimal" >
+			<column name="SALE_PRICE" length="18" scale="2" />
+		</property>
+		<property name="costPrice" type="java.math.BigDecimal" >
+			<column name="COST_PRICE" length="18" scale="2" />
+		</property>
+		<property name="crossProfit" type="java.math.BigDecimal" >
+			<column name="CROSS_PROFIT" length="18" scale="2" />
+		</property>
+		<property name="profitRatio" type="java.math.BigDecimal" >
+			<column name="PROFIT_RATIO" length="8" scale="2" />
+		</property>
+		<property name="saleRatio" type="java.math.BigDecimal" >
+			<column name="SALE_RATIO" length="8" scale="2" />
+		</property>
+		<property name="weightingProfitRatio" type="java.math.BigDecimal" >
+			<column name="WEIGHTING_PROFIT_RATIO" length="8" scale="2" />
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="REMARK" length="300" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="AllLoanTypeCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertType" />
+		<flushOnExecute statement="updateType" />
+		<flushOnExecute statement="deleteTypeById" />
+	</cache>
+
+	<!-- 新增贷款类型 -->
+	<sql id="insertType" >
+		INSERT INTO LOAN_TYPE (TYPE_ID,LOAN_TYPE_NAME,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,IS_DEL,SORTNO,REMARK,LOAN_CLASS_ID,MODE_ID,IS_AUTO_ALLOT,ALLOT_TARGET,MODE_CONFIG_ID,FLOW_ID,IS_CONTRACT_TYPE) VALUES ([$typeId]
+		<clause prepend="," nvl="''" >[$loanTypeName]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$sortno]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="0" >[$modeId]</clause>
+		<clause prepend="," nvl="0" >[$isAutoAllot]</clause>
+		<clause prepend="," nvl="0" >[$allotTarget]</clause>
+		<clause prepend="," nvl="0" >[$modeConfigId]</clause>
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="0" >[$isContractType]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款类型 -->
+	<sql id="updateType" >
+		UPDATE LOAN_TYPE
+		<set>
+			<clause prepend="," assert="!isNull([loanTypeName])" >LOAN_TYPE_NAME = [$loanTypeName]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([sortno])" >SORTNO = [$sortno]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([modeId])" >MODE_ID = [$modeId]</clause>
+			<clause prepend="," assert="!isNull([isAutoAllot])" >IS_AUTO_ALLOT = [$isAutoAllot]</clause>
+			<clause prepend="," assert="!isNull([allotTarget])" >ALLOT_TARGET = [$allotTarget]</clause>
+			<clause prepend="," assert="!isNull([modeConfigId])" >MODE_CONFIG_ID = [$modeConfigId]</clause>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+		</set>
+		<where>
+			TYPE_ID = [$typeId]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款类型 -->
+	<sql id="getTypeById" >
+		SELECT * FROM LOAN_TYPE WHERE TYPE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款类型 -->
+	<sql id="deleteTypeById" >
+		UPDATE LOAN_TYPE SET IS_DEL = 1 WHERE TYPE_ID = [0]
+	</sql>
+	
+	<!-- 得到贷款下拉类型 -->
+	<sql id="getAllActivedLoanType" >
+		SELECT * FROM LOAN_TYPE WHERE IS_ACTIVED = 1 AND IS_DEL = 0 AND IS_CONTRACT_TYPE=0 ORDER BY SORTNO
+	</sql>
+	<!-- 得到贷款状态下拉类型 -->
+	<sql id="getLoanAfterState" >
+		SELECT * FROM SYS_DATA_DICT_COL WHERE DATA_DICT_NAME = 'D' ORDER BY ORDER_NO
+	</sql>
+
+	<!-- 查询贷款类型 -->
+	<sql id="queryTypeList" >
+		SELECT * FROM LOAN_TYPE
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([loanTypeName])" > LOAN_TYPE_NAME = '[loanTypeName]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([sortno])" > SORTNO = [sortno] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > REMARK = '[remark]' </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNull([modeId])" > MODE_ID = [modeId] </clause>
+			<clause prepend="and" assert="!isNull([isAutoAllot])" > IS_AUTO_ALLOT = [isAutoAllot] </clause>
+			<clause prepend="and" assert="!isNull([allotTarget])" > ALLOT_TARGET = [allotTarget] </clause>
+			<clause prepend="and" assert="!isNull([modeConfigId])" > MODE_CONFIG_ID = [modeConfigId] </clause>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNull([isContractType])" > IS_CONTRACT_TYPE = [isContractType] </clause>
+		</where>
+	</sql>
+
+	<sql id="getAllLoanTypeList" cache="AllLoanTypeCache" >
+		SELECT * FROM LOAN_TYPE WHERE IS_DEL = 0 AND IS_ACTIVED = 1 AND IS_CONTRACT_TYPE=0
+	</sql>
+	
+	<!-- 查询最大牌序号 -->
+	<sql id="queryLoanTypeMaxOrderNum" >
+		select max(SORTNO) from LOAN_TYPE WHERE IS_CONTRACT_TYPE=0
+	</sql>
+
+	<!-- 查询合同最大牌序号 -->
+	<sql id="queryLoanContractTypeMaxOrderNum" >
+		select max(SORTNO) from LOAN_TYPE WHERE IS_CONTRACT_TYPE=1
+	</sql>
+</banger>

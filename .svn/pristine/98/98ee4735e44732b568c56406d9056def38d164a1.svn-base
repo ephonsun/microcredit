@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>添加审批环节</title>
+<link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+<link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+<style type="text/css">
+</style>
+</head>
+
+<body>
+	<form id="form">
+		<input type="hidden" id="flowId" name="flowId" value="$!flowId"/>
+		<input type="hidden" id="paramId" name="paramId" value="$!paramId"/>
+        <input type="hidden" id="paramName" name="paramName" value="$!paramName"/>
+        <input type="hidden" id="paramValue" name="paramValue" value="$!paramValue"/>
+        <input type="hidden" id="paramNo" name="paramNo" value="$!paramNo"/>
+		<input type="hidden" id="orderNo" name="orderNo" value="$!approveProcess.orderNo"/>
+		<input type="hidden" id="processId" name="processId" value="$!processId"/>
+        <input type="hidden" id="conditionId" name="conditionId" value="$!conditionId"/>
+		<br/>
+		<label><span style="font-weight:bold;">$!processName</span></label>
+
+		<!-- 容器DIV -->
+		<div id="coDiv" >
+			#foreach($review in $reviewList)
+			#if($velocityCount==1)
+                <div style="height:20px">
+                    <label class="head-add-icon fr" ></label>
+                </div>
+			#else
+                <div style="height:20px">
+                    <label class="head-reduce-icon fr" table_id="table_$!review.id" ></label>
+                </div>
+			#end
+			<table class="ui-form-fields" id="table_$!review.id" >
+				<tbody>
+					<tr>
+                        <input type="hidden" id="reviewId" name="reviewId" value="$!review.id"/>
+						<td class="field" width="5%">
+							<label class="ui-star">审批角色：</label>
+						</td>
+						<td width="20%">
+							<select id="revievRoleId" name="revievRoleId">
+								<option></option>
+								#options("cdCanApprovalRole","$!review.revievRoleId","")
+							</select>
+						</td>
+						<td class="field" width="5%">
+							<label class="ui-star">数据权限：</label>
+						</td>
+						<td width="20%">
+							<select id="reviewDataPower" name="reviewDataPower">
+								<option></option>
+								<option value="TEAM" #if($!review.reviewDataPower=='TEAM') selected="selected" #end>团队</option>
+								<option value="ALL" #if($!review.reviewDataPower=='ALL') selected="selected" #end>全部</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="field" width="5%">
+							<label class="ui-star">审批人数：</label>
+						</td>
+						<td width="20%">
+							<div class="ui-text">
+								<input type="text" id="reviewCount" class="ui-text-text" name="reviewCount" value="$!review.reviewCount" maxlength="1"/>
+							</div>
+						</td>
+						<td class="field" width="5%">
+							<label class="ui-star">分配方式：</label>
+						</td>
+						<td width="20%">
+							<select id="reviewMode" name="reviewMode">
+								<option></option>
+								<option value="RANDOM_USER" #if($!review.reviewMode=='RANDOM_USER') selected="selected" #end>系统随机</option>
+								<option value="SELECT_USER" #if($!review.reviewMode=='SELECT_USER') selected="selected" #end>提交人员指定</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="field" width="5%">
+							<label class="ui-star">额度控制：</label>
+						</td>
+						<td width="20%">
+							<select id="isLimitControl" name="isLimitControl">
+								<option value="0" #if($!review.isLimitControl==0) selected="selected" #end>否</option>
+								<option value="1" #if($!review.isLimitControl==1) selected="selected" #end>是</option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			#end
+        </div>
+	</form>
+
+    <!-- 克隆DIV -->
+    <div id="cloneDiv" style="display:none;" >
+        <div style="height:20px">
+            <label class="head-reduce-icon fr" ></label>
+		</div>
+        <table class="ui-form-fields">
+            <tbody>
+            <tr>
+                <input type="hidden" id="reviewId" name="reviewId" value=""/>
+                <td class="field" width="5%">
+                    <label class="ui-star">审批角色：</label>
+                </td>
+                <td width="20%">
+                    <select id="revievRoleId" name="revievRoleId">
+                        <option></option>
+						#options("cdCanApprovalRole","$!approveProcess.revievRoleId","")
+                    </select>
+                </td>
+                <td class="field" width="5%">
+                    <label class="ui-star">数据权限：</label>
+                </td>
+                <td width="20%">
+                    <select id="reviewDataPower" name="reviewDataPower">
+                        <option></option>
+                        <option value="TEAM" #if($!approveProcess.reviewDataPower=='TEAM') selected="selected" #end>团队</option>
+                        <option value="ALL" #if($!approveProcess.reviewDataPower=='ALL') selected="selected" #end>全部</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="5%">
+                    <label class="ui-star">审批人数：</label>
+                </td>
+                <td width="20%">
+                    <div class="ui-text">
+                        <input type="text" id="reviewCount" class="ui-text-text" name="reviewCount" value="$!approveProcess.reviewCount" maxlength="1"/>
+                    </div>
+                </td>
+                <td class="field" width="5%">
+                    <label class="ui-star">分配方式：</label>
+                </td>
+                <td width="20%">
+                    <select id="reviewMode" name="reviewMode">
+                        <option></option>
+                        <option value="RANDOM_USER" #if($!approveProcess.reviewMode=='RANDOM_USER') selected="selected" #end>系统随机</option>
+                        <option value="SELECT_USER" #if($!approveProcess.reviewMode=='SELECT_USER') selected="selected" #end>提交人员指定</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="5%">
+                    <label class="ui-star">额度控制：</label>
+                </td>
+                <td width="20%">
+                    <select id="isLimitControl" name="isLimitControl">
+                        <option value="0" #if($!approveProcess.isLimitControl==0) selected="selected" #end>否</option>
+                        <option value="1" #if($!approveProcess.isLimitControl==1) selected="selected" #end>是</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+##    <div style="margin-top: 90px"></div>
+		<hr class="ui-line" />
+    <div class="ui-layout-closure">
+		<span id="btnSave" class="ui-closure-button">
+			<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+		</span> 
+		<span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+	</div>
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<!-- //初始化脚本 -->
+	<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../loan/js/approveProcessSave.js?v=$!webAppVersion"></script>
+</body>
+</html>

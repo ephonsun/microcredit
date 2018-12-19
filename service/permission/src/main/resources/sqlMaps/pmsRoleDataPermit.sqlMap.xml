@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertRoleDataPermit" >
+		INSERT INTO PMS_ROLE_DATA_PERMIT (PRDP_ID,PRDP_PERMIT_ID,PRDP_ROLE_ID,PRDP_CREATE_DATE,PRDP_UPDATE_DATE,PRDP_CREATE_USER,PRDP_UPDATE_USER) VALUES ([$prdpId]
+		<clause prepend="," nvl="0" >[$prdpPermitId]</clause>
+		<clause prepend="," nvl="0" >[$prdpRoleId]</clause>
+		<clause prepend="," >[$prdpCreateDate]</clause>
+		<clause prepend="," >[$prdpUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$prdpCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$prdpUpdateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateRoleDataPermit" >
+		UPDATE PMS_ROLE_DATA_PERMIT 
+		<set>
+			<clause prepend="," assert="!isNull([prdpPermitId])" >PRDP_PERMIT_ID = [$prdpPermitId]</clause>
+			<clause prepend="," assert="!isNull([prdpRoleId])" >PRDP_ROLE_ID = [$prdpRoleId]</clause>
+			<clause prepend="," assert="!isNull([prdpCreateDate])" >PRDP_CREATE_DATE = [$prdpCreateDate]</clause>
+			<clause prepend="," assert="!isNull([prdpUpdateDate])" >PRDP_UPDATE_DATE = [$prdpUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([prdpCreateUser])" >PRDP_CREATE_USER = [$prdpCreateUser]</clause>
+			<clause prepend="," assert="!isNull([prdpUpdateUser])" >PRDP_UPDATE_USER = [$prdpUpdateUser]</clause>
+		</set>
+		<where>
+			 PRDP_ID = [$prdpId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getRoleDataPermitById" >
+		SELECT * FROM PMS_ROLE_DATA_PERMIT WHERE PRDP_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteRoleDataPermitById" >
+		DELETE FROM PMS_ROLE_DATA_PERMIT WHERE PRDP_ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryRoleDataPermitList" >
+		SELECT * FROM PMS_ROLE_DATA_PERMIT 
+		<where>
+			<clause prepend="and" assert="!isNull([prdpPermitId])" > PRDP_PERMIT_ID = [prdpPermitId] </clause>
+			<clause prepend="and" assert="!isNull([prdpRoleId])" > PRDP_ROLE_ID = [prdpRoleId] </clause>
+			<clause parent="DateSpan" params="PRDP_CREATE_DATE,prdpCreateDate,prdpCreateDateEnd" ></clause>
+			<clause parent="DateSpan" params="PRDP_UPDATE_DATE,prdpUpdateDate,prdpUpdateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([prdpCreateUser])" > PRDP_CREATE_USER = [prdpCreateUser] </clause>
+			<clause prepend="and" assert="!isNull([prdpUpdateUser])" > PRDP_UPDATE_USER = [prdpUpdateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

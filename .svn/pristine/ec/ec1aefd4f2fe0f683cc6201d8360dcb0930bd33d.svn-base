@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.product.ProdIntentCustomer" table="PROD_INTENT_CUSTOMER" >
+		<id name="picId" type="java.lang.Integer" >
+			<column name="PIC_ID" lenght="22" />
+		</id>
+		<property name="picAddress" type="java.lang.String" >
+			<column name="PIC_ADDRESS" lenght="300" />
+		</property>
+		<property name="picIsdel" type="java.lang.Integer" >
+			<column name="PIC_ISDEL" lenght="22" />
+		</property>
+		<property name="picCertificateNum" type="java.lang.String" >
+			<column name="PIC_CERTIFICATE_NUM" lenght="50" />
+		</property>
+		<property name="picUpdateUser" type="java.lang.Integer" >
+			<column name="PIC_UPDATE_USER" lenght="22" />
+		</property>
+		<property name="picPhone" type="java.lang.String" >
+			<column name="PIC_PHONE" lenght="50" />
+		</property>
+		<property name="picUpdateDate" type="java.util.Date" >
+			<column name="PIC_UPDATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="picCertificateType" type="java.lang.String" >
+			<column name="PIC_CERTIFICATE_TYPE" lenght="50" />
+		</property>
+		<property name="picName" type="java.lang.String" >
+			<column name="PIC_NAME" lenght="50" />
+		</property>
+		<property name="picCreateDate" type="java.util.Date" >
+			<column name="PIC_CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="picGender" type="java.lang.String" >
+			<column name="PIC_GENDER" lenght="50" />
+		</property>
+		<property name="picRemark" type="java.lang.String" >
+			<column name="PIC_REMARK" lenght="1000" />
+		</property>
+		<property name="picCreateUser" type="java.lang.Integer" >
+			<column name="PIC_CREATE_USER" lenght="22" />
+		</property>
+		<property name="picProductId" type="java.lang.Integer" >
+			<column name="PIC_PRODUCT_ID" lenght="22" />
+		</property>
+		<property name="picProductName" type="java.lang.String" >
+			<column name="PIC_PRODUCT_NAME" lenght="100" />
+		</property>
+	</class>
+</mapping>
+

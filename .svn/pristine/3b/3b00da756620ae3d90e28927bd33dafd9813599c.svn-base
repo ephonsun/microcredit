@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+    <class id="queryReport_Query" name="banger.domain.loan.QueryReport_Query" >
+		<property name="loanStatus" column="LOANSTATUS" ></property>
+		<property name="creditDate" column="CREDITDATE" ></property>
+		<property name="customerName" column="CUSTOMERNAME" ></property>
+		<property name="approvalMoney" column="APPROVALMONEY" ></property>
+		<property name="creditMoney" column="CREDITMONEY" ></property>
+		<property name="loanLimit" column="LOANLIMIT" ></property>
+		<property name="loanRatio" column="LOANRATIO" ></property>
+		<property name="repayWay" column="REPAYWAY" ></property>
+		<property name="guarantorWay" column="GUARANTORWAY" ></property>
+		<property name="applyUserName" column="APPLYUSERNAME" ></property>
+		<property name="investigateUserName" column="INVESTIGATEUSERNAME" ></property>
+		<property name="productName" column="PRODUCTNAME" ></property>
+		<property name="loanType" column="LOANTYPE" ></property>
+		<property name="isNew" column="ISNEW" ></property>
+		<property name="isAgriculture" column="ISAGRICULTURE" ></property>
+		<property name="customerLevel" column="CUSTOMERLEVEL" ></property>
+		<property name="industryCode" column="INDUSTRYCODE" ></property>
+		<property name="businessScope" column="BUSINESSSCOPE" ></property>
+		<property name="isReferred" column="ISREFERRED" ></property>
+		<property name="referredUser" column="REFERREDUSER" ></property>
+		<property name="referredDept" column="REFERREDDEPT" ></property>
+		<property name="loanContractNum" column="LOANCONTRACTNUM" ></property>
+		<property name="loanAccountNo" column="LOANACCOUNTNO" ></property>
+		<property name="loanContractBegin" column="LOANCONTRACTBEGIN" ></property>
+		<property name="loanContractEnd" column="LOANCONTRACTEND" ></property>
+    </class>
+
+	<!-- 按姓名和合同号查询-->
+	<sql id="queryReportByCondition" result="queryReport_Query">
+		SELECT  LAI.LOAN_PROCESS_TYPE LOANSTATUS,
+		LLG.LOAN_CREDIT_DATE CREDITDATE,
+		LAI.LOAN_NAME AS CUSTOMERNAME,
+		LAR.RESULT_AMOUNT APPROVALMONEY,
+		LLG.LOAN_AMOUNT CREDITMONEY,
+		CASE WHEN LLG.LOAN_LIMIT IS NULL THEN LAR.RESULT_LIMIT ELSE LLG.LOAN_LIMIT END  LOANLIMIT,
+		CASE WHEN LLG.LOAN_RATIO IS NULL THEN LAR.RESULT_RATIO ELSE  LLG.LOAN_RATIO END  LOANRATIO,
+		CASE WHEN LLG.LOAN_BACK_MODE IS NULL THEN LAR.REPAYMENT_MODE ELSE LLG.LOAN_BACK_MODE END  REPAYWAY,
+		LAR.GUARANTEE_MODE GUARANTORWAY,
+		LAI.LOAN_APPLY_USER_ID APPLYUSERNAME,
+		LAI.LOAN_INVESTIGATION_USER_ID INVESTIGATEUSERNAME,
+		LAR.PRODUCT_TYPE PRODUCTNAME,
+		LT.LOAN_TYPE_NAME LOANTYPE,
+		LSR.IS_NEW ISNEW,
+		LSR.IS_AGRICULTURE ISAGRICULTURE,
+		LPI.CUSTOMER_LEVEL CUSTOMERLEVEL,
+		LPI.INDUSTRY_CODE INDUSTRYCODE,
+		LBS.BUSINESS_SCOPE BUSINESSSCOPE,
+		LSR.IS_REFERRED ISREFERRED,
+		LSR.REFERRED_USER REFERREDUSER,
+		LSR.REFERRED_DEPT REFERREDDEPT,
+		LAI.LOAN_CONTRACT_NUMBER LOANCONTRACTNUM,
+		LAI.LOAN_ACCOUNT_NO LOANACCOUNTNO,
+		LAI.LOAN_CONTRACT_BEGIN LOANCONTRACTBEGIN,
+		LAI.LOAN_CONTRACT_END LOANCONTRACTEND
+		FROM
+		LOAN_APPLY_INFO LAI
+		LEFT JOIN LBIZ_LOAN_GRANT LLG ON LAI.LOAN_ID=LLG.LOAN_ID
+		LEFT JOIN LOAN_TYPE LT ON LAI.LOAN_TYPE_ID=LT.TYPE_ID
+		LEFT JOIN LOAN_CURRENT_AUDIT_STATUS LCAS ON LCAS.PROCESS_ID=LAI.LOAN_AUDIT_PROCESS_ID AND LCAS.LOAN_ID=LAI.LOAN_ID AND LCAS.IS_VALID=1 AND  LCAS.AUDIT_RESULT=1 AND LCAS.AUDIT_RESOLUTION_ID != 0
+		LEFT JOIN LBIZ_APPROVAL_RESOLUTION LAR ON LAR.ID=LCAS.AUDIT_RESOLUTION_ID AND LAR.LOAN_ID=LCAS.LOAN_ID
+		LEFT JOIN LBIZ_SURVEY_RESULT LSR ON LSR.LOAN_ID=LAI.LOAN_ID
+		LEFT JOIN (SELECT * FROM LBIZ_PERSONAL_INFO WHERE ID IN (SELECT  MAX(ID) FROM LBIZ_PERSONAL_INFO LPI GROUP BY LPI.LOAN_ID)) LPI ON LAI.LOAN_ID=LPI.LOAN_ID
+		LEFT JOIN (SELECT * FROM LBIZ_BUSINESS_SUBJECT WHERE ID IN (SELECT  MAX(ID) FROM LBIZ_BUSINESS_SUBJECT LBS GROUP BY LBS.LOAN_ID)) LBS ON LBS.LOAN_ID = LAI.LOAN_ID
+		LEFT JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=LAI.LOAN_BELONG_ID
+		LEFT JOIN PMS_USER U ON U.USER_ID=LAI.LOAN_BELONG_ID
+		WHERE 1=1
+		<clause prepend="and" assert="!isNullOrEmpty([userId])" > U.USER_ID = '[userId]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([teamGroupId])" > STM.TEAM_GROUP_ID in([teamGroupId]) </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([applyStartDate])" > LAI.LOAN_APPLY_DATE>='[applyStartDate]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([applyEndDate])" > '[applyEndDate]'>=LAI.LOAN_APPLY_DATE </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([investStartDate])" > LAI.LOAN_INVESTIGATION_DATE>='[investStartDate]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([investEndDate])" > '[investEndDate]'>=LAI.LOAN_INVESTIGATION_DATE </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([approvalStartDate])" > LAI.LOAN_AUDIT_DATE>='[investStartDate]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([approvalEndDate])" > '[approvalEndDate]'>=LAI.LOAN_AUDIT_DATE </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanStartDate])" > LAI.LOAN_CREDIT_DATE>='[loanStartDate]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([loanEndDate])" > '[loanEndDate]'>=LAI.LOAN_CREDIT_DATE </clause>
+		ORDER BY LAI.LOAN_CREDIT_DATE
+
+	</sql>
+</banger>

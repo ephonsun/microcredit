@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoTableSync" table="AUTO_TABLE_SYNC" >
+		<property name="sourceTable" type="java.lang.String" >
+			<column name="SOURCE_TABLE" length="100" />
+		</property>
+		<property name="targetTable" type="java.lang.String" >
+			<column name="TARGET_TABLE" length="100" />
+		</property>
+	</class>
+</mapping>
+

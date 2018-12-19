@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PadClentDevice" table="PAD_CLENT_DEVICE" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" lenght="4" />
+		</id>
+		<property name="account" type="java.lang.String" >
+			<column name="ACCOUNT" lenght="255" />
+		</property>
+		<property name="deviceId" type="java.lang.String" >
+			<column name="DEVICEID" lenght="255" />
+		</property>
+		<property name="localIp" type="java.lang.String" >
+			<column name="LOCALIP" lenght="255" />
+		</property>
+		<property name="version" type="java.lang.String" >
+			<column name="VERSION" lenght="255" />
+		</property>
+		<property name="createTime" type="java.util.Date" >
+			<column name="CREATE_TIME" lenght="10" scale="6" />
+		</property>
+		<property name="lastTime" type="java.util.Date" >
+			<column name="LAST_TIME" lenght="10" scale="6" />
+		</property>
+	</class>
+</mapping>
+

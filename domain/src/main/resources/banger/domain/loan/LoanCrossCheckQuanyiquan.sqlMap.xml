@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanCrossCheckQuanyiquan" table="LOAN_CROSS_CHECK_QUANYIQUAN" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="initRightDate" type="java.util.Date" >
+			<column name="INIT_RIGHT_DATE" length="10" scale="6" />
+		</property>
+		<property name="initRight" type="java.math.BigDecimal" >
+			<column name="INIT_RIGHT" length="18" scale="2" />
+		</property>
+		<property name="initRightDesc" type="java.lang.String" >
+			<column name="INIT_RIGHT_DESC" length="600" />
+		</property>
+		<property name="periodProfit" type="java.math.BigDecimal" >
+			<column name="PERIOD_PROFIT" length="18" scale="2" />
+		</property>
+		<property name="periodInjection" type="java.math.BigDecimal" >
+			<column name="PERIOD_INJECTION" length="18" scale="2" />
+		</property>
+		<property name="appreciation" type="java.math.BigDecimal" >
+			<column name="APPRECIATION" length="18" scale="2" />
+		</property>
+		<property name="increaseDesc" type="java.lang.String" >
+			<column name="INCREASE_DESC" length="600" />
+		</property>
+		<property name="periodExtract" type="java.math.BigDecimal" >
+			<column name="PERIOD_EXTRACT" length="18" scale="2" />
+		</property>
+		<property name="depreciation" type="java.math.BigDecimal" >
+			<column name="DEPRECIATION" length="18" scale="2" />
+		</property>
+		<property name="reduceDesc" type="java.lang.String" >
+			<column name="REDUCE_DESC" length="600" />
+		</property>
+		<property name="deservedRight" type="java.math.BigDecimal" >
+			<column name="DESERVED_RIGHT" length="18" scale="2" />
+		</property>
+		<property name="actualRight" type="java.math.BigDecimal" >
+			<column name="ACTUAL_RIGHT" length="18" scale="2" />
+		</property>
+		<property name="deviation" type="java.math.BigDecimal" >
+			<column name="DEVIATION" length="18" scale="2" />
+		</property>
+		<property name="deviationRatio" type="java.math.BigDecimal" >
+			<column name="DEVIATION_RATIO" length="8" scale="2" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

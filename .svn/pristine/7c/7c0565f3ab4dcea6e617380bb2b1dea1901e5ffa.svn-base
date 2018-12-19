@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增交叉检验净利表 -->
+	<sql id="insertCrossCheckNetProfit" >
+		INSERT INTO LOAN_CROSS_CHECK_NET_PROFIT (ID,LOAN_ID,LOAN_CLASS_ID,CHECK_NET_PROFIT_RATIO1,DEVIATION_RATIO1,INFOMATION1,CHECK_NET_PROFIT_RATIO2,DEVIATION_RATIO2,INFOMATION2,CHECK_NET_PROFIT_RATIO3,DEVIATION_RATIO3,INFOMATION3,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="NULL" >[$checkNetProfitRatio1]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio1]</clause>
+		<clause prepend="," nvl="''" >[$infomation1]</clause>
+		<clause prepend="," nvl="NULL" >[$checkNetProfitRatio2]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio2]</clause>
+		<clause prepend="," nvl="''" >[$infomation2]</clause>
+		<clause prepend="," nvl="NULL" >[$checkNetProfitRatio3]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio3]</clause>
+		<clause prepend="," nvl="''" >[$infomation3]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改交叉检验净利表 -->
+	<sql id="updateCrossCheckNetProfit" >
+		UPDATE LOAN_CROSS_CHECK_NET_PROFIT 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([checkNetProfitRatio1])" >CHECK_NET_PROFIT_RATIO1 = [$checkNetProfitRatio1]</clause>
+			<clause prepend="," assert="!isNull([deviationRatio1])" >DEVIATION_RATIO1 = [$deviationRatio1]</clause>
+			<clause prepend="," assert="!isNull([infomation1])" >INFOMATION1 = [$infomation1]</clause>
+			<clause prepend="," assert="!isNull([checkNetProfitRatio2])" >CHECK_NET_PROFIT_RATIO2 = [$checkNetProfitRatio2]</clause>
+			<clause prepend="," assert="!isNull([deviationRatio2])" >DEVIATION_RATIO2 = [$deviationRatio2]</clause>
+			<clause prepend="," assert="!isNull([infomation2])" >INFOMATION2 = [$infomation2]</clause>
+			<clause prepend="," assert="!isNull([checkNetProfitRatio3])" >CHECK_NET_PROFIT_RATIO3 = [$checkNetProfitRatio3]</clause>
+			<clause prepend="," assert="!isNull([deviationRatio3])" >DEVIATION_RATIO3 = [$deviationRatio3]</clause>
+			<clause prepend="," assert="!isNull([infomation3])" >INFOMATION3 = [$infomation3]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到交叉检验净利表 -->
+	<sql id="getCrossCheckNetProfitById" >
+		SELECT * FROM LOAN_CROSS_CHECK_NET_PROFIT WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除交叉检验净利表 -->
+	<sql id="deleteCrossCheckNetProfitById" >
+		DELETE FROM LOAN_CROSS_CHECK_NET_PROFIT WHERE ID = [0]
+	</sql>
+
+	<!-- 查询交叉检验净利表 -->
+	<sql id="queryCrossCheckNetProfitList" >
+		SELECT * FROM LOAN_CROSS_CHECK_NET_PROFIT 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation1])" > INFOMATION1 = '[infomation1]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation2])" > INFOMATION2 = '[infomation2]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation3])" > INFOMATION3 = '[infomation3]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+	
+
+	<!--通过贷款id贷款类别查询交叉检验经历表-->
+	<sql id="getCrossCheckNetProfitByLoanId" >
+		SELECT * FROM LOAN_CROSS_CHECK_NET_PROFIT WHERE LOAN_ID = [0]
+	</sql>
+
+	<!-- 更新交叉检验净利表偏差字段 -->
+	<sql id="updateCroCheNetProDevRatio" >
+		UPDATE LOAN_CROSS_CHECK_NET_PROFIT
+		<set>
+			<clause prepend=","  >DEVIATION_RATIO1 = [$deviationRatio1]</clause>
+			<clause prepend=","  >DEVIATION_RATIO2 = [$deviationRatio2]</clause>
+			<clause prepend=","  >DEVIATION_RATIO3 = [$deviationRatio3]</clause>
+		</set>
+		<where>
+			LOAN_ID = [$loanId]
+		</where>
+	</sql>
+
+	<!-- 修改交叉检验毛利表(app端传入空值时赋值字段为null) -->
+	<sql id="updateNullCrossCheckNetProfit" >
+		UPDATE LOAN_CROSS_CHECK_NET_PROFIT
+		<set>
+			<clause prepend=","  >CHECK_NET_PROFIT_RATIO1 = [$checkNetProfitRatio1]</clause>
+			<clause prepend=","  >INFOMATION1 = [$infomation1]</clause>
+			<clause prepend=","  >CHECK_NET_PROFIT_RATIO2 = [$checkNetProfitRatio2]</clause>
+			<clause prepend=","  >INFOMATION2 = [$infomation2]</clause>
+			<clause prepend=","  >CHECK_NET_PROFIT_RATIO3 = [$checkNetProfitRatio3]</clause>
+			<clause prepend=","  >INFOMATION3 = [$infomation3]</clause>
+			<clause prepend=","  >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend=","  >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+
+
+</banger>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanAnalysislConsumption" table="LOAN_ANALYSISL_CONSUMPTION" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="assetsTotalAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_TOTAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsCashAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_CASH_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsInvestAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_INVEST_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsExternalClaims" type="java.math.BigDecimal" >
+			<column name="ASSETS_EXTERNAL_CLAIMS" length="18" scale="2" />
+		</property>
+		<property name="assetsPaymentAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_PAYMENT_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsFixedAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_FIXED_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetsOtherAmount" type="java.math.BigDecimal" >
+			<column name="ASSETS_OTHER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="actualInterest" type="java.math.BigDecimal" >
+			<column name="ACTUAL_INTEREST" length="18" scale="2" />
+		</property>
+		<property name="debtsTotalAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_TOTAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsConsumeAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_CONSUME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsSelfUserAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_SELF_USER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsInvestAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_INVEST_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="debtsOtherAmount" type="java.math.BigDecimal" >
+			<column name="DEBTS_OTHER_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="assetLiabilityRatio" type="java.math.BigDecimal" >
+			<column name="ASSET_LIABILITY_RATIO" length="15" scale="2" />
+		</property>
+		<property name="homeIncomeAmount" type="java.math.BigDecimal" >
+			<column name="HOME_INCOME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="otherIncomeAmount" type="java.math.BigDecimal" >
+			<column name="OTHER_INCOME_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="fixedCostDefrayAmount" type="java.math.BigDecimal" >
+			<column name="FIXED_COST_DEFRAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="texPersonalAmount" type="java.math.BigDecimal" >
+			<column name="TEX_PERSONAL_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="otherDefrayAmount" type="java.math.BigDecimal" >
+			<column name="OTHER_DEFRAY_AMOUNT" length="18" scale="2" />
+		</property>
+		<property name="grossIncome" type="java.math.BigDecimal" >
+			<column name="GROSS_INCOME" length="18" scale="2" />
+		</property>
+		<property name="monthlyAverageAvailable" type="java.math.BigDecimal" >
+			<column name="MONTHLY_AVERAGE_AVAILABLE" length="15" scale="2" />
+		</property>
+		<property name="quickRatio" type="java.math.BigDecimal" >
+			<column name="QUICK_RATIO" length="15" scale="2" />
+		</property>
+	</class>
+</mapping>
+

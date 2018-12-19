@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="connectAutoTable" name="banger.domain.config.IntoAutoTableColumnQuery">
+		<property name="tableModelName" column="TABLE_MODULE_NAME"></property>
+		<property name="fieldName" column="FIELD_NAME"></property>
+		<property name="fieldColumnDisplay" column="FIELD_COLUMN_DISPLAY"></property>
+		<property name="fieldType" column="FIELD_TYPE"></property>
+	</class>
+
+	<!-- 新增进件自定义字段表 -->
+	<sql id="insertAutoTableColumn" >
+		INSERT INTO INTO_AUTO_TABLE_COLUMN (FIELD_ID,TABLE_NAME,FIELD_COLUMN,FIELD_IS_REQUIRED,IS_ACTIVED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,FIELD_SORTNO) VALUES ([$fieldId]
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$fieldColumn]</clause>
+		<clause prepend="," nvl="0" >[$fieldIsRequired]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$fieldSortno]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件自定义字段表 -->
+	<sql id="updateAutoTableColumn" >
+		UPDATE INTO_AUTO_TABLE_COLUMN 
+		<set>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([fieldColumn])" >FIELD_COLUMN = [$fieldColumn]</clause>
+			<clause prepend="," assert="!isNull([fieldIsRequired])" >FIELD_IS_REQUIRED = [$fieldIsRequired]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([fieldSortno])" >FIELD_SORTNO = [$fieldSortno]</clause>
+		</set>
+		<where>
+			 FIELD_ID = [$fieldId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件自定义字段表 -->
+	<sql id="getAutoTableColumnById" >
+		SELECT * FROM INTO_AUTO_TABLE_COLUMN WHERE FIELD_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除进件自定义字段表 -->
+	<sql id="deleteAutoTableColumnById" >
+		DELETE FROM INTO_AUTO_TABLE_COLUMN WHERE FIELD_ID = [0]
+	</sql>
+
+	<!-- 查询进件自定义字段表 -->
+	<sql id="queryAutoTableColumnList" >
+		SELECT * FROM INTO_AUTO_TABLE_COLUMN 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldColumn])" > FIELD_COLUMN = '[fieldColumn]' </clause>
+			<clause prepend="and" assert="!isNull([fieldIsRequired])" > FIELD_IS_REQUIRED = [fieldIsRequired] </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([fieldSortno])" > FIELD_SORTNO = [fieldSortno] </clause>
+		</where>
+	</sql>
+
+	<!-- 联表查询进件信息 -->
+	<sql id="queryConnectAutoTable" result="connectAutoTable">
+		SELECT DISTINCT iatc.*, atc.FIELD_TYPE, atc.FIELD_NAME,ati.TABLE_MODULE_NAME
+		FROM INTO_AUTO_TABLE_COLUMN iatc
+		JOIN AUTO_TABLE_COLUMN atc ON iatc.FIELD_COLUMN = atc.FIELD_COLUMN
+		JOIN AUTO_TABLE_INFO ati on  iatc.TABLE_NAME=ati.TABLE_DB_NAME
+		WHERE FIELD_NAME IN (
+		SELECT atc.FIELD_NAME
+		FROM INTO_AUTO_TABLE_COLUMN iatc
+		JOIN AUTO_TABLE_COLUMN atc ON iatc.TABLE_NAME = atc.TABLE_NAME
+		)
+		order by FIELD_SORTNO
+	</sql>
+
+	<!--联表查询 根据主键-->
+	<sql id="queryConnectAutoTableById"  result="connectAutoTable">
+		SELECT DISTINCT iatc.*, atc.FIELD_TYPE, atc.FIELD_COLUMN_DISPLAY
+		FROM INTO_AUTO_TABLE_COLUMN iatc
+		JOIN AUTO_TABLE_COLUMN atc ON iatc.FIELD_COLUMN = atc.FIELD_COLUMN
+		<where>
+			<clause prepend="and" assert="!isNull([FIELD_ID])" > iatc.FIELD_ID = [fieldId] </clause>
+		</where>
+	</sql>
+	<!--查询最大排序号-->
+	<sql id="queryMaxSortNo">
+		select max(FIELD_SORTNO) from INTO_AUTO_TABLE_COLUMN where IS_ACTIVED=1
+	</sql>
+</banger>

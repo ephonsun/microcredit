@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增交叉检验销售额表 -->
+	<sql id="insertCrossCheckSale" >
+		INSERT INTO LOAN_CROSS_CHECK_SALE (ID,LOAN_ID,LOAN_CLASS_ID,CHECK_SALE_AMOUNT1,DEVIATION_RATIO1,INFOMATION1,CHECK_SALE_AMOUNT2,DEVIATION_RATIO2,INFOMATION2,CHECK_SALE_AMOUNT3,DEVIATION_RATIO3,INFOMATION3,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="NULL" >[$checkSaleAmount1]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio1]</clause>
+		<clause prepend="," nvl="''" >[$infomation1]</clause>
+		<clause prepend="," nvl="NULL" >[$checkSaleAmount2]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio2]</clause>
+		<clause prepend="," nvl="''" >[$infomation2]</clause>
+		<clause prepend="," nvl="NULL" >[$checkSaleAmount3]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio3]</clause>
+		<clause prepend="," nvl="''" >[$infomation3]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改交叉检验销售额表 -->
+	<sql id="updateCrossCheckSale" >
+		UPDATE LOAN_CROSS_CHECK_SALE 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend=","  >CHECK_SALE_AMOUNT1 = [$checkSaleAmount1]</clause>
+			<clause prepend=","  >DEVIATION_RATIO1 = [$deviationRatio1]</clause>
+			<clause prepend=","  >INFOMATION1 = [$infomation1]</clause>
+			<clause prepend=","  >CHECK_SALE_AMOUNT2 = [$checkSaleAmount2]</clause>
+			<clause prepend=","  >DEVIATION_RATIO2 = [$deviationRatio2]</clause>
+			<clause prepend=","  >INFOMATION2 = [$infomation2]</clause>
+			<clause prepend=","  >CHECK_SALE_AMOUNT3 = [$checkSaleAmount3]</clause>
+			<clause prepend=","  >DEVIATION_RATIO3 = [$deviationRatio3]</clause>
+			<clause prepend=","  >INFOMATION3 = [$infomation3]</clause>
+			<clause prepend=","  >CREATE_DATE = [$createDate]</clause>
+			<clause prepend=","  >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend=","  >CREATE_USER = [$createUser]</clause>
+			<clause prepend=","  >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到交叉检验销售额表 -->
+	<sql id="getCrossCheckSaleById" >
+		SELECT * FROM LOAN_CROSS_CHECK_SALE WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除交叉检验销售额表 -->
+	<sql id="deleteCrossCheckSaleById" >
+		DELETE FROM LOAN_CROSS_CHECK_SALE WHERE ID = [0]
+	</sql>
+
+	<!-- 查询交叉检验销售额表 -->
+	<sql id="queryCrossCheckSaleList" >
+		SELECT * FROM LOAN_CROSS_CHECK_SALE 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation1])" > INFOMATION1 = '[infomation1]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation2])" > INFOMATION2 = '[infomation2]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([infomation3])" > INFOMATION3 = '[infomation3]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+
+	<!-- 通过主键得到交叉检验销售额表 -->
+	<sql id="getCrossCheckSaleByLoanId" >
+		SELECT * FROM LOAN_CROSS_CHECK_SALE WHERE LOAN_ID = [0]
+	</sql>
+
+	<!-- 更新交叉检验销售额偏差字段 -->
+	<sql id="updateCroCheSaleDevRatio" >
+		UPDATE LOAN_CROSS_CHECK_SALE
+		<set>
+			<clause prepend=","  >DEVIATION_RATIO1 = [$deviationRatio1]</clause>
+			<clause prepend=","  >DEVIATION_RATIO2 = [$deviationRatio2]</clause>
+			<clause prepend=","  >DEVIATION_RATIO3 = [$deviationRatio3]</clause>
+		</set>
+		<where>
+			LOAN_ID = [$loanId]
+		</where>
+	</sql>
+
+</banger>

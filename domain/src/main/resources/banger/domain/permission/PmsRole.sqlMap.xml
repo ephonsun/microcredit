@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsRole" table="PMS_ROLE" >
+		<id name="roleId" type="java.lang.Integer" >
+			<column name="ROLE_ID" lenght="4" />
+		</id>
+		<property name="roleType" type="java.lang.Integer" >
+			<column name="ROLE_TYPE" lenght="4" />
+		</property>
+		<property name="roleName" type="java.lang.String" >
+			<column name="ROLE_NAME" lenght="120" />
+		</property>
+		<property name="roleIsdel" type="java.lang.Integer" >
+			<column name="ROLE_ISDEL" lenght="4" />
+		</property>
+		<property name="roleRemark" type="java.lang.String" >
+			<column name="ROLE_REMARK" lenght="600" />
+		</property>
+		<property name="roleCreateDate" type="java.util.Date" >
+			<column name="ROLE_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="roleUpdateDate" type="java.util.Date" >
+			<column name="ROLE_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="roleCreateUser" type="java.lang.Integer" >
+			<column name="ROLE_CREATE_USER" lenght="4" />
+		</property>
+		<property name="roleUpdateUser" type="java.lang.Integer" >
+			<column name="ROLE_UPDATE_USER" lenght="4" />
+		</property>
+		<property name="roleSort" type="java.lang.Integer" >
+			<column name="ROLE_SORT" lenght="4" />
+		</property>
+		<property name="roleIsDefault" type="java.lang.Integer" >
+			<column name="ROLE_IS_DEFAULT" lenght="4" />
+		</property>
+		<property name="roleCanApproval" type="java.lang.Integer" >
+			<column name="ROLE_CAN_APPROVAL" lenght="4" />
+		</property>
+		<property name="roleIsFixed" type="java.lang.Integer" >
+			<column name="ROLE_IS_FIXED" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

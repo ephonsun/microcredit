@@ -1,0 +1,113 @@
+package banger.dao.intf;
+
+import banger.domain.customer.*;
+import banger.framework.collection.DataTable;
+import banger.framework.pagesize.IPageList;
+import banger.framework.pagesize.IPageSize;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 数据访问接口
+ */
+public interface IBasicInfoDao {
+
+	/**
+	 * 新增
+	 * @param basicInfo 实体对像
+	 */
+	Integer insertBasicInfo(Customer basicInfo);
+
+	/**
+	 *修改
+	 * @param basicInfo 实体对像
+	 */
+	void updateBasicInfo(Customer basicInfo);
+
+	/**
+	 * 通过主键删除,返回影响的行数，如果用户已申请贷款，返回0
+	 * @param id 主键Id
+	 */
+	Integer deleteBasicInfoById(Integer id);
+
+	/**
+	 * 通过主键得到
+	 * @param id 主键Id
+	 */
+	Customer getCustomerDetailById(Integer id);
+
+	/**
+	 * 通过主键得到
+	 * @param id 主键Id
+	 */
+	CustBasicInfo getBasicInfoById(Integer id);
+
+	/**
+	 * 查询
+	 * @param condition 查询条件
+	 * @return
+	 */
+	List<CustBasicInfo> queryBasicInfoList(Map<String, Object> condition);
+	List<CustBasicInfoQueryForMap> queryBasicInfoListForMap(Map<String, Object> params);
+	/**
+	 * 分页查询
+	 * @param condition 查询条件
+	 * @param page 分页对像
+	 * @return
+	 */
+	IPageList<CustomerQuery> queryBasicInfoList(Map<String, Object> condition, IPageSize page);
+
+	IPageList<CustBasicInfoQuery> queryBasicInfoListForApp(Map<String, Object> condition, IPageSize page);
+
+	Integer getNewId();
+
+	/**
+	 * 更新客户的电话号码
+	 * @param telNum
+	 * @param customerId
+	 */
+	void upldateCustomerTelNumById(String telNum,Integer customerId);
+
+	void insertCustomerDataTable(DataTable datatable,String pkey);
+	
+	void updateCustomerDataTable(DataTable datatable,String pkey);
+
+	DataTable getDataTableById(String tableName, Integer id);
+
+	CustBasicInfo getCustomerForCheckRepeat(String identifyType, String identifyNum);
+
+	Boolean isUniqueCustomer(String id, String customerName, String identifyType, String identifyNum);
+	
+	/**
+	 * 通过条件查询客户id
+	 * @param customerName 客户姓名
+	 * @param identifyType 证件类型
+	 * @param identifyNum 证件号码
+	 * @return
+	 */
+	Integer getCustomerIdByCardNameType(String customerName,String identifyType,String identifyNum);
+
+	/**
+	 * 根据三要素获取客户
+	 * 2017年11月29日09:34:12
+	 * @param customerName
+	 * @param identifyType
+	 * @param identifyNum
+	 * @return
+	 */
+	CustBasicInfo getCustomerByCardNameType(String customerName,String identifyType,String identifyNum);
+
+
+
+	IPageList<CustBasicInfoQuery> queryCusListByBelongId(Map<String, Object> condition, IPageSize page);
+
+	/**
+	 * 更新客户归属
+	 * @param id
+	 * @param belongId
+	 */
+    void updateBelongId(Integer id, Integer belongId);
+
+	CustBasicInfo isUniqueCustomerNum(Map<String, Object> condition);
+}

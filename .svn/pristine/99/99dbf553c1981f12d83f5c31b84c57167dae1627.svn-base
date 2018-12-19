@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoTableDict" table="AUTO_TABLE_DICT" >
+		<id name="dictId" type="java.lang.Integer" >
+			<column name="DICT_ID" lenght="22" />
+		</id>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" lenght="22" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" lenght="22" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" lenght="30" />
+		</property>
+		<property name="tableRemark" type="java.lang.String" >
+			<column name="TABLE_REMARK" lenght="100" />
+		</property>
+		<property name="tableDisplay" type="java.lang.String" >
+			<column name="TABLE_DISPLAY" lenght="100" />
+		</property>
+	</class>
+</mapping>
+

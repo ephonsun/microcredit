@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanIndustryGradeexp" table="LOAN_INDUSTRY_GRADEEXP" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="itemName" type="java.lang.String" >
+			<column name="ITEM_NAME" length="60" />
+		</property>
+		<property name="itemColumn" type="java.lang.String" >
+			<column name="ITEM_COLUMN" length="60" />
+		</property>
+		<property name="itemGradecn" type="java.lang.String" >
+			<column name="ITEM_GRADECN" length="20" />
+		</property>
+		<property name="itemGradeen" type="java.lang.String" >
+			<column name="ITEM_GRADEEN" length="20" />
+		</property>
+		<property name="itemGradeexp" type="java.lang.String" >
+			<column name="ITEM_GRADEEXP" length="90" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+	</class>
+</mapping>
+

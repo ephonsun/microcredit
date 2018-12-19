@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="LoanRepayPlanInfoExtend" name="banger.domain.loan.LoanRepayPlanInfoExtend">
+		<property name="userName" column="USER_NAME"></property>
+	</class>
+
+	<!-- 新增贷款还信催款息表 -->
+	<sql id="insertRepayPlanInfo" >
+		INSERT INTO LOAN_REPAY_PLAN_INFO (ID,LOAN_ID,LOAN_REPAY_PLAN_DATE,LOAN_PRINCIPAL_AMOUNT,LOAN_ACCRUAL_AMOUNT,LOAN_REPAY_AMOUNT,LOAN_REPAY_ACCRUAL_AMOUNT,LOAN_REPAY_DATE,LOAN_REPAY_STATE,LOAN_IS_OVERDUE,LOAN_COLLECTION_DATE,LOAN_COLLECTION_STATE,LOAN_COLLECTION_USER_ID,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,LOAN_REPAY_BALANCE_AMOUNT,LOAN_ACCRUAL_BALANCE_AMOUNT,LOAN_ACCRUAL_DAYS,REPAYMENT_MODE,LOAN_PROCESS_TYPE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="NULL" >[$loanRepayPlanDate]</clause>
+		<clause prepend="," nvl="NULL" >[$loanPrincipalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$loanAccrualAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$loanRepayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$loanRepayAccrualAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$loanRepayDate]</clause>
+		<clause prepend="," nvl="0" >[$loanRepayState]</clause>
+		<clause prepend="," nvl="0" >[$loanIsOverdue]</clause>
+		<clause prepend="," nvl="NULL" >[$loanCollectionDate]</clause>
+		<clause prepend="," nvl="''" >[$loanCollectionState]</clause>
+		<clause prepend="," nvl="0" >[$loanCollectionUserId]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="NULL" >[$loanRepayBalanceAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$loanAccrualBalanceAmount]</clause>
+		<clause prepend="," nvl="0" >[$loanAccrualDays]</clause>
+		<clause prepend="," nvl="''" >[$repaymentMode]</clause>
+		<clause prepend="," nvl="''" >[$loanProcessType]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款还信催款息表 -->
+	<sql id="updateRepayPlanInfo" >
+		UPDATE LOAN_REPAY_PLAN_INFO
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanRepayPlanDate])" >LOAN_REPAY_PLAN_DATE = [$loanRepayPlanDate]</clause>
+			<clause prepend="," assert="!isNull([loanPrincipalAmount])" >LOAN_PRINCIPAL_AMOUNT = [$loanPrincipalAmount]</clause>
+			<clause prepend="," assert="!isNull([loanAccrualAmount])" >LOAN_ACCRUAL_AMOUNT = [$loanAccrualAmount]</clause>
+			<clause prepend="," assert="!isNull([loanRepayAmount])" >LOAN_REPAY_AMOUNT = [$loanRepayAmount]</clause>
+			<clause prepend="," assert="!isNull([loanRepayAccrualAmount])" >LOAN_REPAY_ACCRUAL_AMOUNT = [$loanRepayAccrualAmount]</clause>
+			<clause prepend="," assert="!isNull([loanRepayDate])" >LOAN_REPAY_DATE = [$loanRepayDate]</clause>
+			<clause prepend="," assert="!isNull([loanRepayState])" >LOAN_REPAY_STATE = [$loanRepayState]</clause>
+			<clause prepend="," assert="!isNull([loanIsOverdue])" >LOAN_IS_OVERDUE = [$loanIsOverdue]</clause>
+			<clause prepend="," assert="!isNull([loanCollectionDate])" >LOAN_COLLECTION_DATE = [$loanCollectionDate]</clause>
+			<clause prepend="," assert="!isNull([loanCollectionState])" >LOAN_COLLECTION_STATE = [$loanCollectionState]</clause>
+			<clause prepend="," assert="!isNull([loanCollectionUserId])" >LOAN_COLLECTION_USER_ID = [$loanCollectionUserId]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([loanRepayBalanceAmount])" >LOAN_REPAY_BALANCE_AMOUNT = [$loanRepayBalanceAmount]</clause>
+			<clause prepend="," assert="!isNull([loanAccrualBalanceAmount])" >LOAN_ACCRUAL_BALANCE_AMOUNT = [$loanAccrualBalanceAmount]</clause>
+			<clause prepend="," assert="!isNull([loanAccrualDays])" >LOAN_ACCRUAL_DAYS = [$loanAccrualDays]</clause>
+			<clause prepend="," assert="!isNull([repaymentMode])" >REPAYMENT_MODE = [$repaymentMode]</clause>
+			<clause prepend="," assert="!isNull([loanProcessType])" >LOAN_PROCESS_TYPE = [$loanProcessType]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款还信催款息表 -->
+	<sql id="getRepayPlanInfoById" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 得到贷款还信催款息表 -->
+	<sql id="getTopLoanRepayPlanInfo" >
+		SELECT * from LOAN_REPAY_PLAN_INFO lrpi where lrpi.id
+		= (
+		SELECT min(lrpi.ID
+		) from LOAN_REPAY_PLAN_INFO lrpi where lrpi.LOAN_ID = [0] and lrpi.LOAN_PROCESS_TYPE='Approval' and (lrpi.LOAN_REPAY_STATE =0 or lrpi.LOAN_REPAY_STATE is null)
+		)
+	</sql>
+
+	<!-- 得到贷款还信催款息表 -->
+	<sql id="getLoanRepayPlanInfoListByLoanId" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO WHERE LOAN_ID = [0] ORDER BY LOAN_REPAY_PLAN_DATE ASC
+	</sql>
+
+	<!-- 通过主键删除贷款还信催款息表 -->
+	<sql id="deleteRepayPlanInfoById" >
+		DELETE FROM LOAN_REPAY_PLAN_INFO WHERE ID = [0]
+	</sql>
+	<sql id="deleteRepayPlanInfoByLoanId" >
+		DELETE FROM LOAN_REPAY_PLAN_INFO WHERE LOAN_ID = [0] and LOAN_PROCESS_TYPE = '[1]'
+	</sql>
+	<sql id="deleteRepayPlanInfoByLoanIdAndMode" >
+		DELETE FROM LOAN_REPAY_PLAN_INFO WHERE LOAN_ID = [0] and LOAN_PROCESS_TYPE = '[1]' and REPAYMENT_MODE != '[2]'
+	</sql>
+	<!-- 查询贷款还信催款息表 -->
+	<sql id="queryRepayPlanInfoList" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause parent="DateSpan" params="LOAN_REPAY_PLAN_DATE,loanRepayPlanDate,loanRepayPlanDateEnd" ></clause>
+			<clause parent="DateSpan" params="LOAN_COLLECTION_DATE,loanCollectionDate,loanCollectionDateEnd" ></clause>
+			<clause prepend="," assert="!isNull([loanRepayAccrualAmount])" >LOAN_REPAY_ACCRUAL_AMOUNT = [loanRepayAccrualAmount]</clause>
+			<clause prepend="," assert="!isNull([loanRepayStatus])" >LOAN_REPAY_STATE = [loanRepayStatus]</clause>
+			<clause prepend="," assert="!isNull([loanIsOverdue])" >LOAN_IS_OVERDUE = [loanIsOverdue]</clause>
+			<clause prepend="," assert="!isNull([loanIsOverdue])" >LOAN_REPAY_DATE = [loanRepayDate]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanCollectionState])" > LOAN_COLLECTION_STATE = '[loanCollectionState]' </clause>
+			<clause prepend="and" assert="!isNull([loanCollectionUserId])" > LOAN_COLLECTION_USER_ID = [loanCollectionUserId] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+		ORDER BY LOAN_REPAY_PLAN_DATE ASC
+	</sql>
+	<sql id="getLoanRepayPlanInfoByLoanIdAndRepayDate" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO
+		where LOAN_ID = [loanId]
+			AND LOAN_REPAY_PLAN_DATE = <method name="toDate">[repayDate]</method>
+			<clause prepend="and" assert="!isNull([principalAmount])" >LOAN_REPAY_ACCRUAL_AMOUNT = [principalAmount]</clause>
+	</sql>
+
+	<sql id="queryLoanRepayPlanInfoByLoanId" result="LoanRepayPlanInfoExtend">
+		SELECT
+		P.ID,
+		P.LOAN_ID,
+		P.LOAN_REPAY_PLAN_DATE,
+		P.LOAN_PRINCIPAL_AMOUNT,
+		P.LOAN_ACCRUAL_AMOUNT,
+		P.LOAN_REPAY_AMOUNT,
+		P.LOAN_REPAY_ACCRUAL_AMOUNT,
+		P.LOAN_REPAY_DATE,
+		P.LOAN_REPAY_STATE,p.REPAYMENT_MODE,p.LOAN_ACCRUAL_BALANCE_AMOUNT,p.LOAN_REPAY_BALANCE_AMOUNT,
+		(CASE WHEN ((P.LOAN_REPAY_STATE =0 or P.LOAN_REPAY_STATE is null)AND P.LOAN_REPAY_DATE IS NULL AND P.LOAN_REPAY_PLAN_DATE <![CDATA[ > ]]> <method name="toDate">[nowDate]</method>) THEN 3
+		WHEN  ((P.LOAN_REPAY_STATE =0 or P.LOAN_REPAY_STATE is null)AND P.LOAN_REPAY_DATE IS NOT NULL AND P.LOAN_REPAY_PLAN_DATE <![CDATA[ > ]]> <method name="toDate">[nowDate]</method>) THEN 0
+		WHEN  (P.LOAN_REPAY_STATE =1 AND  P.LOAN_REPAY_DATE <![CDATA[ <= ]]> P.LOAN_REPAY_PLAN_DATE) THEN 0
+		ELSE 1 END) AS LOAN_IS_OVERDUE,
+		P.LOAN_COLLECTION_DATE,
+		P.LOAN_COLLECTION_STATE,
+		P.LOAN_COLLECTION_USER_ID,
+		P.CREATE_DATE,
+		P.UPDATE_DATE,
+		P.CREATE_USER,
+		P.UPDATE_USER,
+		P.LOAN_ACCRUAL_DAYS,
+		U.USER_NAME
+		FROM LOAN_REPAY_PLAN_INFO P LEFT JOIN PMS_USER U
+		ON P.LOAN_COLLECTION_USER_ID = U.USER_ID
+		WHERE P.LOAN_ID = [loanId]
+		<clause prepend="and" assert="!isNull([repaymentMode])" > p.REPAYMENT_MODE = '[repaymentMode]' </clause>
+		<clause prepend="and" assert="!isNull([loanProcessType])" > p.LOAN_PROCESS_TYPE = '[loanProcessType]' </clause>
+
+
+		ORDER BY P.LOAN_REPAY_PLAN_DATE ASC, P.ID ASC
+	</sql>
+
+	<sql id="checkLoanRepayPlanDateRuleAdd">
+		SELECT * FROM LOAN_REPAY_PLAN_INFO WHERE substr(char(LOAN_REPAY_PLAN_DATE),1,10) = '[loanRepayPlanDate]' AND LOAN_ID = [loanId]
+	</sql>
+
+	<sql id="getUpdaterRepayPlanInfoes">
+		SELECT * FROM LOAN_REPAY_PLAN_INFO WHERE (LOAN_REPAY_PLAN_DATE - [configValue] DAY) &lt;= current timestamp AND LOAN_COLLECTION_STATE = '' ORDER BY LOAN_REPAY_PLAN_DATE DESC
+	</sql>
+
+	<sql id="queryNextPlan" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO WHERE LOAN_REPAY_PLAN_DATE &gt; (
+		SELECT LOAN_REPAY_PLAN_DATE FROM LOAN_REPAY_PLAN_INFO WHERE ID = [id]
+		) AND LOAN_ID = [loanId] fetch first 1 rows only
+	</sql>
+
+	<!--<sql id="queryUnConllection" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause parent="DateSpan" params="LOAN_REPAY_PLAN_DATE,loanRepayPlanDate,loanRepayPlanDateEnd" ></clause>
+			<clause parent="DateSpan" params="LOAN_COLLECTION_DATE,loanCollectionDate,loanCollectionDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanCollectionState])" > LOAN_COLLECTION_STATE = '[loanCollectionState]' </clause>
+			<clause prepend="and" assert="!isNull([loanCollectionUserId])" > LOAN_COLLECTION_USER_ID = [loanCollectionUserId] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+		ORDER BY LOAN_REPAY_PLAN_DATE ASC
+	</sql>-->
+
+	<sql id="queryUnConllection" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanCollectionState])" > LOAN_COLLECTION_STATE = '[loanCollectionState]' </clause>
+		</where>
+		ORDER BY LOAN_REPAY_PLAN_DATE ASC
+	</sql>
+
+	<sql id="queryComplete" >
+		SELECT * FROM LOAN_REPAY_PLAN_INFO
+		<where>
+			LOAN_COLLECTION_DATE IS NOT NULL
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanCollectionState])" > LOAN_COLLECTION_STATE = '[loanCollectionState]' </clause>
+		</where>
+		ORDER BY LOAN_COLLECTION_DATE DESC
+	</sql>
+
+	<!--获取最新的未还款计划-->
+	<sql id="getLastLoanRepayInfo">
+		SELECT * from LOAN_REPAY_PLAN_INFO lrpi where lrpi.id = (
+			SELECT min(lrpi.ID) from LOAN_REPAY_PLAN_INFO lrpi
+			where lrpi.LOAN_ID = [loanId]  and (lrpi.LOAN_REPAY_STATE =0 or lrpi.LOAN_REPAY_STATE is null)
+		)
+	</sql>
+
+</banger>

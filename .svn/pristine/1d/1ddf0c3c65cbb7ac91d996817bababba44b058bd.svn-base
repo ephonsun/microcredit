@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>详情</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+<body style="overflow: hidden;">
+<input type="hidden" id="defaultw" value="$!lat" />
+<input type="hidden" id="defaultj" value="$!lng" />
+<input type="hidden" id="zoom" value="$!zoom" />
+<input type="hidden" id="forApp" value="$!forApp" />
+<form action="" id="form">
+    <div class="map-search-box">
+        <input type="text" id="customer" name="customer" placeholder="输入客户姓名、联系电话、地址" class="ui-text-text" />
+        <div id="btnClean" class="close-input">
+            <img src="../core/imgs/icon/close-input.png" />
+        </div>
+        <span id="btnSearch" class="ui-search-button">
+        <label class="ui-search-button-text">搜索</label>
+    </span>
+        <div id="search-result"></div>
+    </div>
+</form>
+
+<div id="allmap" style="width: 900px; height: 465px;position: relative;"></div>
+
+#*<div style="margin-bottom: 20px; width: 100%; float: left;"></div>*#
+<hr class="ui-line" style="clear: both; margin-top: 10px;" />
+<div class="ui-layout-closure">
+    <span id="btnClose" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">$!pageConst.BTN_CLOSE</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.9.0.js?v=$!webAppVersion"></script>
+##<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../track/ruitu/js/RMap5.js"></script>
+<script type="text/javascript" src="../track/ruitu/js/tagging/customerMapSearch.js"></script>
+</body>
+</html>

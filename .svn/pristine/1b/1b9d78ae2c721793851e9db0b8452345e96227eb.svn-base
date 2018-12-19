@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsUserRoles" table="PMS_USER_ROLES" >
+		<id name="purUserRolesId" type="java.lang.Integer" >
+			<column name="PUR_USER_ROLES_ID" lenght="4" />
+		</id>
+		<property name="purUserId" type="java.lang.Integer" >
+			<column name="PUR_USER_ID" lenght="4" />
+		</property>
+		<property name="purRoleId" type="java.lang.Integer" >
+			<column name="PUR_ROLE_ID" lenght="4" />
+		</property>
+		<property name="purCreateDate" type="java.util.Date" >
+			<column name="PUR_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="purUpdateDate" type="java.util.Date" >
+			<column name="PUR_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="purCreateUser" type="java.lang.Integer" >
+			<column name="PUR_CREATE_USER" lenght="4" />
+		</property>
+		<property name="purUpdateUser" type="java.lang.Integer" >
+			<column name="PUR_UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

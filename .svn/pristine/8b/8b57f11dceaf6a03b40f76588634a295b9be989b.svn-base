@@ -1,0 +1,25 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../js/core.js" type="text/javascript" ></script>
+<script src="../js/ctrl.js" type="text/javascript" ></script>
+<script src="../js/widget.js" type="text/javascript" ></script>
+<script src="../js/dao.js" type="text/javascript" ></script>
+<script src="../js/textarea.js" type="text/javascript" ></script>
+<script src="../js/ctrl.setting.js" type="text/javascript" ></script>
+<link href="../skin/css/blue.css" rel="stylesheet" type="text/css" ></link>
+</head>
+<script>
+$.json.attach("DS",{"Customer":[{"id":123,"name":"张三","sex":"男","mobile":"13356715358"},{"id":456,"name":"李田","sex":"女","mobile":"13383294738"},{"id":333,"name":"明楞","sex":"男","mobile":"1402393023"},{"id":8732,"name":"导要三","sex":"男","mobile":"183933333232"},{"id":7223,"name":"张三丰","sex":"男","mobile":"13939239333"}]});
+
+</script>
+<body>
+<table>
+    <tr>
+    	<td><textarea id="tb123" name="tb123" width="600" height="400" ></textarea></td>
+    </tr>
+</table>
+<script>$.ctrl.render()</script>
+</body>
+</html>

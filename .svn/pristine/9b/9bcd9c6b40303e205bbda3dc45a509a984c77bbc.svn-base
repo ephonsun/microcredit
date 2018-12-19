@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.customer.CustSchedule" table="CUST_SCHEDULE" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="customerId" type="java.lang.Integer" >
+			<column name="CUSTOMER_ID" length="4" />
+		</property>
+		<property name="planType" type="java.lang.String" >
+			<column name="PLAN_TYPE" length="32" />
+		</property>
+		<property name="planTime" type="java.util.Date" >
+			<column name="PLAN_TIME" length="10" scale="6" />
+		</property>
+		<property name="planRemark" type="java.lang.String" >
+			<column name="PLAN_REMARK" length="256" />
+		</property>
+		<property name="planRate" type="java.lang.String" >
+			<column name="PLAN_RATE" length="32" />
+		</property>
+		<id name="scheduleType" type="java.lang.Integer" >
+			<column name="SCHEDULE_TYPE" length="4" />
+		</id>
+		<property name="state" type="java.lang.Integer" >
+			<column name="STATE" length="4" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="delFlag" type="java.lang.Integer" >
+			<column name="DEL_FLAG" length="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="customerCreditCheckQuery" name="banger.domain.customer.CustCustomerCreditCheckQuery" >
+		<property name="userName" column="USER_NAME" ></property>            
+    </class>
+    
+    <class id="customerCreditCheckDetail" name="banger.domain.customer.CustCustomerCreditCheckQuery" >          
+    </class>    
+    
+	<!-- 新增客户征信调查表 -->
+	<sql id="insertCustCustomerCreditCheck" >
+		INSERT INTO CUST_CUSTOMER_CREDIT_CHECK (CUSTOMER_CREDIT_CHECK_ID,UPDATE_DATE,CHECK_USER_ID,CUSTOMER_NAME,IS_DEL,CARD_NO,UPDATE_USER,CHECK_REMARK,APPLY_USER_ID,APPLY_TIME,CHECK_DATE,CHECK_STATUS,CUTOMER_TYPE) VALUES ([$customerCreditCheckId]
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$checkUserId]</clause>
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="''" >[$cardNo]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="''" >[$checkRemark]</clause>
+		<clause prepend="," nvl="0" >[$applyUserId]</clause>
+		<clause prepend="," >[$applyTime]</clause>
+		<clause prepend="," >[$checkDate]</clause>
+		<clause prepend="," nvl="0" >[$checkStatus]</clause>
+		<clause prepend="," nvl="''" >[$customerType]</clause>
+		)
+	</sql>
+
+	<sql id="customerCreditCheckApply" >
+		INSERT INTO CUST_CUSTOMER_CREDIT_CHECK (CUSTOMER_CREDIT_CHECK_ID,CUSTOMER_NAME,IS_DEL,CARD_NO,APPLY_USER_ID,APPLY_TIME,CHECK_STATUS,CUTOMER_TYPE,LOAN_ID) VALUES ([$customerCreditCheckId]
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="''" >[$cardNo]</clause>
+		<clause prepend="," nvl="0" >[$applyUserId]</clause>
+		<clause prepend="," >[$applyTime]</clause>
+		<clause prepend="," nvl="0" >[$checkStatus]</clause>
+		<clause prepend="," nvl="''" >[$customerType]</clause>
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		)
+	</sql>
+
+	<!-- 修改客户征信调查表 -->
+	<sql id="updateCustCustomerCreditCheck" >
+		UPDATE CUST_CUSTOMER_CREDIT_CHECK 
+		<set>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([checkUserId])" >CHECK_USER_ID = [$checkUserId]</clause>
+			<clause prepend="," assert="!isNull([customerName])" >CUSTOMER_NAME = [$customerName]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([cardNo])" >CARD_NO = [$cardNo]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([checkRemark])" >CHECK_REMARK = [$checkRemark]</clause>
+			<clause prepend="," assert="!isNull([applyUserId])" >APPLY_USER_ID = [$applyUserId]</clause>
+			<clause prepend="," assert="!isNull([applyTime])" >APPLY_TIME = [$applyTime]</clause>
+			<clause prepend="," assert="!isNull([checkDate])" >CHECK_DATE = [$checkDate]</clause>
+			<clause prepend="," assert="!isNull([checkStatus])" >CHECK_STATUS = [$checkStatus]</clause>
+			<clause prepend="," assert="!isNull([customerId])" >CUSTOMER_ID = [$customerId]</clause>
+		</set>
+		<where>
+			 CUSTOMER_CREDIT_CHECK_ID = [$customerCreditCheckId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到客户征信调查表 -->
+	<sql id="getCustCustomerCreditCheckById" result="customerCreditCheckQuery">
+		SELECT CCC.*,U.USER_NAME
+		FROM CUST_CUSTOMER_CREDIT_CHECK CCC
+		INNER JOIN PMS_USER U ON U.USER_ID=CCC.APPLY_USER_ID
+		INNER JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=CCC.APPLY_USER_ID
+		WHERE CCC.CUSTOMER_CREDIT_CHECK_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除客户征信调查表 -->
+	<sql id="deleteCustCustomerCreditCheckById" >
+		UPDATE CUST_CUSTOMER_CREDIT_CHECK SET IS_DEL = 1 WHERE CUSTOMER_CREDIT_CHECK_ID = [0]
+	</sql>
+
+	<!-- 查询客户征信调查表 -->
+	<sql id="queryCustCustomerCreditCheckList" result="customerCreditCheckQuery">
+		SELECT CCC.*,U.USER_NAME
+		FROM CUST_CUSTOMER_CREDIT_CHECK CCC		
+		INNER JOIN PMS_USER U ON U.USER_ID=CCC.APPLY_USER_ID
+		INNER JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=CCC.APPLY_USER_ID
+		<where>
+			<clause prepend="and" assert="!isNull([teamGroupId])" >
+				STM.TEAM_GROUP_ID IN (<for in="[teamGroupId]" split=",">'{item}'</for>)
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > 	
+				(CCC.CUSTOMER_NAME LIKE '%[customerName]%' or CCC.CARD_NO LIKE '%[customerName]%')
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" > 	
+				U.USER_NAME LIKE '%[userName]%'
+			</clause>					
+			<clause prepend="and" assert="!isNull([updateUser])" > CCC.UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([applyUserId])" > CCC.APPLY_USER_ID = [applyUserId] </clause>
+			<clause prepend="and" assert="!isNull([checkUserId])" > CCC.CHECK_USER_ID = [checkUserId] </clause>
+			<clause prepend="and"> CCC.IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNull([checkStatus])" > CCC.CHECK_STATUS in ([checkStatus]) </clause>
+			<clause prepend="and" assert="!isNull([customerId])" > CCC.CUSTOMER_ID = [customerId] </clause>
+		</where>
+		ORDER BY CCC.CHECK_STATUS ASC,CCC.APPLY_TIME ASC
+	</sql>
+
+	<sql id="queryByNameAndNo">
+		SELECT * FROM CUST_CUSTOMER_CREDIT_CHECK
+		<where>
+			<clause prepend="and"> IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" >CUSTOMER_NAME='[customerName]'</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNo])" > CARD_NO = '[cardNo]' </clause>
+		</where>
+	</sql>
+
+	<sql id="getCustomerCreditCheckByLoanId" result="customerCreditCheckDetail">
+		SELECT * FROM CUST_CUSTOMER_CREDIT_CHECK
+		WHERE LOAN_ID = [0]
+	</sql>
+</banger>

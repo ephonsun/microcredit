@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+	default-lazy-init="true" default-autowire="byName"> 
+	<!--   default-autowire="byName"自动配置bean注入 可以不用显示的set -->
+	<!--   default-lazy-init="true" sping不会再去加载整个对象实例图 加快spring启动 -->
+    	<!-- sqlMaps模块总配 -->
+    <bean id="sysSqlMap" class="banger.framework.sql.mapping.SqlContext" >
+		<property name="resources">
+			<set>
+				<value>sqlMaps/SysOpeventLog.sqlMap.xml</value>
+				<value>sqlMaps/sysDataDict.sqlMap.xml</value>
+				<value>sqlMaps/sysDataDictCol.sqlMap.xml</value>
+<!--				<value>sqlMaps/sysLoanType.sqlMap.xml</value>
+				<value>sqlMaps/sysLoanTypeRelTable.sqlMap.xml</value>
+				<value>sqlMaps/sysLoanTypeTableField.sqlMap.xml</value>
+				<value>sqlMaps/sysTableInfo.sqlMap.xml</value>
+				<value>sqlMaps/sysTableColumn.sqlMap.xml</value>-->
+				<value>sqlMaps/sysBasicConfig.sqlMap.xml</value>
+				<value>sqlMaps/sysMatchProject.sqlMap.xml</value>
+				<value>sqlMaps/sysModelManagement.sqlMap.xml</value>
+				<value>sqlMaps/sysModelConfig.sqlMap.xml</value>
+				<value>sqlMaps/sysMobileInfo.sqlMap.xml</value>
+				<value>sqlMaps/sysWorkingTable.sqlMap.xml</value>
+				<value>sqlMaps/sysImportHistory.sqlMap.xml</value>
+				<value>sqlMaps/sysAppVersion.sqlMap.xml</value>
+				<value>sqlMaps/sysMobileRecord.sqlMap.xml</value>
+				<value>sqlMaps/sysSocketLog.sqlMap.xml</value>
+			</set>
+		</property>
+	</bean>
+
+	<!-- 基础配置-->
+	<bean id="basicConfigDao" class="banger.dao.impl.BasicConfigDao" scope="singleton"/>
+	
+	<bean id="dataDictColDao" class="banger.dao.impl.DataDictColDao" scope="singleton"/>
+
+	<bean id="sysSocketLogDao" class="banger.dao.impl.SysSocketLogDao" scope="singleton"></bean>
+
+    <!-- 查询数据字典 -->
+    <bean id="cdDictColByName" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="queryDataDictColListByName" />
+        <property name="value" value="DICT_VALUE" />
+        <property name="name" value="DICT_NAME" />
+    </bean>
+
+	<!-- 查询数据字典 -->
+<!--	<bean id="cdTemplateFiledType" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+		<property name="dao" ref="dataDictColDao"/>
+		<property name="sqlId" value="queryDataDictColListByName" />
+		<property name="value" value="DICT_VALUE" />
+		<property name="name" value="DICT_NAME" />
+	</bean>-->
+	
+	
+	<!-- 模型分级基础 -->
+    <bean id="cdSysModelLevel" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="sysModelLevelSelect" />
+        <property name="value" value="DATA_DICT_ID" />
+        <property name="name" value="DICT_CN_NAME" />
+    </bean>
+    
+    <!-- 模型选择 -->
+     <bean id="cdSysModelMatch" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="cdSysModelMatch" />
+        <property name="value" value="MODEL_ID" />
+        <property name="name" value="MODEL_NAME" />
+    </bean>
+	<!-- 行业分类 -->
+     <bean id="cdIndustryGuidelinesName" class="banger.framework.codetable.DataCodeTable" scope="singleton">
+    	<property name="dao" ref="dataDictColDao"/>
+        <property name="sqlId" value="industryGuidelinesSelect" />
+        <property name="value" value="DICT_COL_ID" />
+        <property name="name" value="DICT_NAME" />
+    </bean>
+</beans>

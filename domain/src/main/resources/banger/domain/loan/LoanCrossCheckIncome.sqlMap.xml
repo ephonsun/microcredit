@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanCrossCheckIncome" table="LOAN_CROSS_CHECK_INCOME" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanClassId" type="java.lang.Integer" >
+			<column name="LOAN_CLASS_ID" length="4" />
+		</property>
+		<property name="wageFlow" type="java.math.BigDecimal" >
+			<column name="WAGE_FLOW" length="18" scale="2" />
+		</property>
+		<property name="wageFlowDeviation" type="java.math.BigDecimal" >
+			<column name="WAGE_FLOW_DEVIATION" length="8" scale="2" />
+		</property>
+		<property name="incomeCert" type="java.math.BigDecimal" >
+			<column name="INCOME_CERT" length="18" scale="2" />
+		</property>
+		<property name="incomeCertDeviation" type="java.math.BigDecimal" >
+			<column name="INCOME_CERT_DEVIATION" length="8" scale="2" />
+		</property>
+		<property name="personTax" type="java.math.BigDecimal" >
+			<column name="PERSON_TAX" length="18" scale="2" />
+		</property>
+		<property name="personTaxDeviation" type="java.math.BigDecimal" >
+			<column name="PERSON_TAX_DEVIATION" length="8" scale="2" />
+		</property>
+		<property name="otherIncome" type="java.math.BigDecimal" >
+			<column name="OTHER_INCOME" length="18" scale="2" />
+		</property>
+		<property name="otherIncomeDeviation" type="java.math.BigDecimal" >
+			<column name="OTHER_INCOME_DEVIATION" length="8" scale="2" />
+		</property>
+		<property name="infomation" type="java.lang.String" >
+			<column name="INFOMATION" length="600" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

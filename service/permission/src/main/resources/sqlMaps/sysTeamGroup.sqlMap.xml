@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<banger>
+
+	<class id="teamGroupUser" name="banger.domain.permission.PmsUser" ></class>
+
+	<!-- 通过主键 -->
+	<sql id="getGroupById" result="sysTeamGroup_Query">
+		SELECT * FROM SYS_TEAM_GROUP WHERE TEAM_GROUP_ID = [0]
+	</sql>
+	
+	<!-- 新增 -->
+	<sql id="insertGroup" >
+		INSERT INTO SYS_TEAM_GROUP (TEAM_GROUP_ID,TEAM_GROUP_NAME,CREATE_USER,CREATE_DATE,DEL_FLAG)
+		VALUES ([$teamGroupId]
+			<clause prepend="," nvl="''" >[$teamGroupName]</clause>
+			<clause prepend="," nvl="0" >[$createUser]</clause>
+			<clause prepend="," >[$createDate]</clause>
+			<clause prepend="," nvl="1" >[$delFlag]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateGroup" >
+		UPDATE SYS_TEAM_GROUP
+		<set>
+		<clause prepend="," assert="!isNull([teamGroupName])" >TEAM_GROUP_NAME = [$teamGroupName]</clause>
+		<!--<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>-->
+			<!--<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>-->
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updatesDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+		</set>
+		<where>
+			TEAM_GROUP_ID = [$teamGroupId]
+		</where>
+	</sql>
+	
+	<!-- 删除 -->
+	<sql id="deleteGroupById" >
+		UPDATE SYS_TEAM_GROUP SET DEL_FLAG = 0 WHERE TEAM_GROUP_ID = [0]
+	</sql>
+	
+	<!-- 查询 -->
+	<sql id="queryGroupList" result="sysTeamGroup_Query">
+		SELECT * FROM SYS_TEAM_GROUP
+        <where>
+            <clause prepend="and"> DEL_FLAG = 1 </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([teamGroupName])" >TEAM_GROUP_NAME LIKE '%[teamGroupName]%'</clause>
+        </where>
+		order by create_date
+	</sql>
+
+	<class id="sysTeamGroup_Query" name="banger.domain.permission.SysTeamGroup_Query">
+	</class>
+	<class id="sysTeamGroup" name="banger.domain.permission.SysTeamGroup">
+	</class>
+	<!-- 查询 -->
+	<sql id="queryGroupListByName" result="sysTeamGroup_Query">
+		<!--select distinct * from (-->
+			<!--select stg.* from sys_team_member stm,sys_team_group stg,pms_user pu where-->
+			<!--pu.USER_ISDEL = 0 and stg.del_flag = 1-->
+			<!--and stm.user_id = pu.user_id and stm.team_group_id = stg.team_group_id-->
+			<!--<clause prepend="and" assert="!isNullOrEmpty([userName])" >pu.user_name LIKE '%[userName]%'</clause>-->
+			<!--<clause prepend="and" assert="!isNullOrEmpty([groupName])" >stg.TEAM_GROUP_NAME LIKE '%[groupName]%'</clause>-->
+		<!--) qt order by qt.create_date-->
+		SELECT DISTINCT G.* FROM SYS_TEAM_GROUP G LEFT JOIN SYS_TEAM_MEMBER  M ON G.TEAM_GROUP_ID = M.TEAM_GROUP_ID
+		LEFT JOIN PMS_USER U ON M.USER_ID = U.USER_ID WHERE DEL_FLAG = 1
+		<clause prepend="and" assert="!isNullOrEmpty([userName])" >U.USER_NAME LIKE '%[userName]%'</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([groupName])" >G.TEAM_GROUP_NAME LIKE '%[groupName]%'</clause>
+	</sql>
+
+	<!--  -->
+	<sql id="queryGroupListByGroupName" result="sysTeamGroup">
+		SELECT * FROM SYS_TEAM_GROUP WHERE TEAM_GROUP_NAME = '[0]' AND DEL_FLAG = 1
+	</sql>
+
+	<sql id="queryGroupListByGroupIds" result="sysTeamGroup">
+		SELECT * FROM SYS_TEAM_GROUP WHERE team_group_id in ([0]) AND DEL_FLAG = 1
+	</sql>
+
+	<!--  -->
+	<sql id="getAllGroups" result="sysTeamGroup">
+		SELECT * FROM SYS_TEAM_GROUP WHERE DEL_FLAG = 1
+	</sql>
+
+	<!-- 通过主键 -->
+	<sql id="getMemberById" result="sysTeamMember_Query">
+		SELECT * FROM SYS_TEAM_MEMBER WHERE TEAM_MEMBER_ID = [0]
+	</sql>
+
+
+	<!-- 通过主键 -->
+	<sql id="getMemberByUserId" result="sysTeamMember_Query">
+		SELECT * FROM SYS_TEAM_MEMBER WHERE USER_ID = [0]
+	</sql>
+
+	<!-- 新增 -->
+	<sql id="insertMember" >
+		INSERT INTO SYS_TEAM_MEMBER (TEAM_MEMBER_ID,TEAM_GROUP_ID,USER_ID,CREATE_USER,CREATE_DATE)
+		VALUES ([$teamMemberId]
+		<clause prepend="," nvl="0" >[$teamGroupId]</clause>
+		<clause prepend="," nvl="0" >[$userId]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," >[$createDate]</clause>
+
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateMember" >
+		UPDATE SYS_TEAM_MEMBER
+		<set>
+			<clause prepend="," assert="!isNull([teamGroupId])" >TEAM_GROUP_ID = [$teamGroupId]</clause>
+			<clause prepend="," assert="!isNull([userId])" >USER_ID = [$userId]</clause>
+			<!--<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>-->
+			<!--<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>-->
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updatesDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			TEAM_MEMBER_ID = [$teamMemberId]
+		</where>
+	</sql>
+
+	<!-- 删除 -->
+	<sql id="deleteMemberById" >
+		DELETE FROM SYS_TEAM_MEMBER WHERE TEAM_MEMBER_ID = [0]
+	</sql>
+
+	<!-- 删除 -->
+	<sql id="deleteMemberByGroupId" >
+		DELETE FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryMembersByGroupId" result="sysTeamMember_Query">
+		SELECT * FROM SYS_TEAM_MEMBER
+		<where>
+			TEAM_GROUP_ID = [0]
+		</where>
+	</sql>
+
+	<class id="sysTeamMember_Query" name="banger.domain.permission.SysTeamMember_Query">
+		<property name="userName" column="USER_NAME"></property>
+		<property name="roleId" column="PUR_ROLE_ID"></property>
+		<property name="teamName" column="TEAM_GROUP_NAME"></property>
+	</class>
+	<!-- 查询 -->
+	<sql id="queryAllMemberList" result="sysTeamMember_Query">
+		SELECT STM.*,PU.USER_NAME,PUR.PUR_ROLE_ID FROM SYS_TEAM_MEMBER STM,PMS_USER PU,PMS_USER_ROLES PUR
+		WHERE PU.USER_ISDEL = 0 AND PU.USER_ID = PUR.PUR_USER_ID
+		AND STM.USER_ID = PU.USER_ID
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="getMembersByGroupAndRoles" result="sysTeamMember_Query">
+		SELECT distinct STM.*,stg.TEAM_GROUP_NAME,PU.USER_NAME,PUR.PUR_ROLE_ID FROM SYS_TEAM_MEMBER STM
+		LEFT JOIN PMS_USER PU	ON STM.USER_ID = PU.USER_ID
+		LEFT JOIN LOAN_ALLOT_LIMIT LAL ON STM.USER_ID = LAL.USER_ID
+		LEFT JOIN  PMS_USER_ROLES PUR ON  PU.USER_ID = PUR.PUR_USER_ID
+		LEFT JOIN  SYS_TEAM_GROUP stg ON  stg.TEAM_GROUP_ID = stm.TEAM_GROUP_ID
+		WHERE PU.USER_ISDEL = 0
+		<clause prepend="and" assert="isEqual([allotConfigStatus],'1')">LAL.IS_ALLOT_LIMIT = 0</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([groupId])" >STM.TEAM_GROUP_ID in ([groupId])</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([roleIds])" >PUR.PUR_ROLE_ID in ([roleIds])</clause>
+		<clause prepend="and" assert="!isNullOrEmpty([memberUser])" >PU.USER_NAME like '%[memberUser]%'</clause>
+		order by STM.TEAM_GROUP_ID,PU.USER_NAME desc
+	</sql>
+
+	<!-- 得到团员内人员 -->
+	<sql id="getTeamGroupUserListByUserId" result="teamGroupUser" >
+		SELECT * FROM PMS_USER WHERE USER_ISDEL= 0 AND USER_STATUS = 1 AND USER_ID IN (
+			SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+				SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [0]
+			)
+		)
+	</sql>
+
+	<!-- 得到团员内，指定角色的审核人员 -->
+	<sql id="getTeamExamineUserListByUserId" result="teamGroupUser" >
+		SELECT * FROM PMS_USER WHERE USER_ISDEL= 0 AND USER_STATUS = 1 AND USER_ID IN (
+			SELECT PUR_USER_ID FROM PMS_USER_ROLES WHERE PUR_ROLE_ID = [0] AND PUR_USER_ID IN (
+				SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (
+					SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [1]
+				)
+			)
+		)
+	</sql>
+
+	<!-- 得到团员内，指定角色的审核人员 -->
+	<sql id="getExamineUserListByRoleId" result="teamGroupUser" >
+		SELECT * FROM PMS_USER WHERE USER_ISDEL= 0 AND USER_STATUS = 1 AND USER_ID IN (
+			SELECT PUR_USER_ID FROM PMS_USER_ROLES WHERE PUR_ROLE_ID = [0]
+		)
+	</sql>
+	<!--查询当前用户所在团队里所有客户经理-->
+	<sql id="getCusManageListGroupId" result="teamGroupUser" >
+		SELECT U.* FROM PMS_USER U INNER JOIN SYS_TEAM_MEMBER S ON U.USER_ID = S.USER_ID
+		INNER JOIN PMS_USER_ROLES R ON U.USER_ID = R.PUR_USER_ID
+		LEFT JOIN LOAN_ALLOT_LIMIT LAL ON S.USER_ID = LAL.USER_ID
+		WHERE R.PUR_ROLE_ID = 4
+		<clause prepend="and" assert="!isNullOrEmpty([groupId])" >S.TEAM_GROUP_ID = [groupId]</clause>
+		<clause prepend="and" assert="isEqual([allotConfigStatus],'1')">LAL.IS_ALLOT_LIMIT = 0</clause>
+	</sql>
+
+	<!--查询当前用户所在团队里所有客户经理-->
+	<sql id="getAllCusManageListGroupId" result="teamGroupUser" >
+		SELECT U.* FROM PMS_USER U INNER JOIN SYS_TEAM_MEMBER S ON U.USER_ID = S.USER_ID
+		INNER JOIN PMS_USER_ROLES R ON U.USER_ID = R.PUR_USER_ID
+		LEFT JOIN LOAN_ALLOT_LIMIT LAL ON S.USER_ID = LAL.USER_ID
+		WHERE R.PUR_ROLE_ID = 4
+		<clause prepend="and" assert="!isNullOrEmpty([groupId])" >S.TEAM_GROUP_ID in ([groupId])</clause>
+		<clause prepend="and" assert="isEqual([allotConfigStatus],'1')">LAL.IS_ALLOT_LIMIT = 0</clause>
+		ORDER BY U.USER_ID
+	</sql>
+
+	<!--查询此用户是否是别的团队的团队主管-->
+	<sql id="tdzg" result="sysTeamMember_Query">
+		SELECT * FROM SYS_TEAM_MEMBER M
+		INNER JOIN PMS_USER_ROLES U ON M.USER_ID = U.PUR_USER_ID AND U.PUR_ROLE_ID = 3
+		WHERE M.USER_ID = [userId]
+	</sql>
+
+	<sql id="queryMenberListByGroupId" result="sysTeamMember_Query">
+		SELECT * FROM SYS_TEAM_MEMBER WHERE
+		TEAM_GROUP_ID = [groupId]
+	</sql>
+
+	<class id="pmsUserRoles_" name="banger.domain.permission.PmsUserRoles" ></class>
+
+	<sql id="queryManageExsitInGroup" result="pmsUserRoles_">
+		SELECT * FROM PMS_USER_ROLES WHERE PUR_ROLE_ID = 3 AND PUR_USER_ID = [userId]
+	</sql>
+
+	<sql id="queryGroupIdByUserId">
+		SELECT TEAM_GROUP_ID FROM SYS_TEAM_MEMBER WHERE USER_ID = [userId] fetch first 1 rows only
+	</sql>
+
+	<!-- 根据用户id删除团队成员删除 -->
+	<sql id="deleteMemberByUserId" >
+		DELETE FROM SYS_TEAM_MEMBER WHERE USER_ID = [0]
+	</sql>
+
+</banger>

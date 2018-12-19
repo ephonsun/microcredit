@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="CACHE_DICT_COL" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertDataDictCol" />
+		<flushOnExecute statement="updateDataDictCol" />
+		<flushOnExecute statement="deleteDataDictColById" />
+		<flushOnExecute statement="updateDataDictColNoById" />
+		<flushOnExecute statement="industryGuidelinesSelect" />
+	</cache>
+
+	<!-- 新增数据字典字段表 -->
+	<sql id="insertDataDictCol" >
+		INSERT INTO SYS_DATA_DICT_COL (DICT_COL_ID,ORDER_NO,DATA_DICT_NAME,CREATE_USER,CREATE_DATE,DATA_DICT_ID,DICT_NAME,DICT_CODE,UPDATE_DATE,UPDATE_USER,DEL_FLAG,DICT_VALUE,IS_FIXED) VALUES ([$dictColId]
+		<clause prepend="," nvl="0" >[$orderNo]</clause>
+		<clause prepend="," nvl="''" >[$dataDictName]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$dataDictId]</clause>
+		<clause prepend="," nvl="''" >[$dictName]</clause>
+		<clause prepend="," nvl="''" >[$dictCode]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="0" >[$delFlag]</clause>
+		<clause prepend="," nvl="''" >[$dictValue]</clause>
+		<clause prepend="," nvl="0" >[$isFixed]</clause>
+		)
+	</sql>
+
+	<!-- 修改数据字典字段表 -->
+	<sql id="updateDataDictCol" >
+		UPDATE SYS_DATA_DICT_COL 
+		<set>
+			<clause prepend="," assert="!isNull([orderNo])" >ORDER_NO = [$orderNo]</clause>
+			<clause prepend="," assert="!isNull([dataDictName])" >DATA_DICT_NAME = [$dataDictName]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([dataDictId])" >DATA_DICT_ID = [$dataDictId]</clause>
+			<clause prepend="," assert="!isNull([dictName])" >DICT_NAME = [$dictName]</clause>
+			<clause prepend="," assert="!isNull([dictCode])" >DICT_CODE = [$dictCode]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+			<clause prepend="," assert="!isNull([dictValue])" >DICT_VALUE = [$dictValue]</clause>
+			<clause prepend="," assert="!isNull([isFixed])" >IS_FIXED = [$isFixed]</clause>
+		</set>
+		<where>
+			 DICT_COL_ID = [$dictColId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到数据字典字段表 -->
+	<sql id="getDataDictColById" >
+		SELECT * FROM SYS_DATA_DICT_COL WHERE DICT_COL_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除数据字典字段表 -->
+	<sql id="deleteDataDictColById" >
+		UPDATE SYS_DATA_DICT_COL 
+		<set>
+			<clause prepend="," assert="!isNull([delFlag])" >DEL_FLAG = [$delFlag]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 DICT_COL_ID = [$dictColId] 
+		</where>
+	</sql>
+	
+	<!-- 通过主键更新数据字典排序 -->
+	<sql id="updateDataDictColNoById" >
+		UPDATE SYS_DATA_DICT_COL 
+		<set>
+			<clause prepend="," assert="!isNull([orderNo])" >ORDER_NO = [$orderNo]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 DICT_COL_ID = [$dictColId] 
+		</where>
+	</sql>
+
+	<!-- 查询数据字典字段表 -->
+	<sql id="queryDataDictColList" >
+		SELECT * FROM SYS_DATA_DICT_COL 
+		<where>
+			<clause prepend="and" assert="!isNull([orderNo])" > ORDER_NO = [orderNo] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dataDictName])" > DATA_DICT_NAME = '[dataDictName]' </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([dataDictId])" > DATA_DICT_ID = [dataDictId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictName])" > DICT_NAME = '[dictName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictCode])" > DICT_CODE = '[dictCode]' </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNull([delFlag])" > DEL_FLAG = [delFlag] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictValue])" > DICT_VALUE = '[dictValue]' </clause>
+		</where>
+		ORDER BY ORDER_NO
+	</sql>
+	
+	<sql id="queryDataDictColCount" >
+		SELECT COUNT(*) FROM SYS_DATA_DICT_COL 
+		<where>
+			<clause prepend="and" assert="!isNull([dataDictId])" > DATA_DICT_ID = [dataDictId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictName])" > DICT_NAME = '[dictName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([dictCode])" > DICT_CODE = '[dictCode]' </clause>
+			<clause prepend="and" assert="!isNull([delFlag])" > DEL_FLAG = [delFlag] </clause>
+			<clause prepend="and" assert="!isNull([dictColId])"> <![CDATA[ DICT_COL_ID <> [dictColId] ]]></clause>
+		</where>
+	</sql>
+	
+	<sql id="getDataDictColMaxNo" >
+		SELECT MAX(ORDER_NO) FROM SYS_DATA_DICT_COL WHERE DATA_DICT_ID = [0] 
+	</sql>
+	
+	<sql id="queryDataDictColListByName" cache="CACHE_DICT_COL" >
+		SELECT * FROM SYS_DATA_DICT_COL WHERE DEL_FLAG = 0 AND DATA_DICT_NAME = '[0]' ORDER BY ORDER_NO
+	</sql>
+	<!-- 行业指引 -->
+	<sql id="industryGuidelinesSelect">
+		SELECT DICT_COL_ID,DICT_NAME FROM SYS_DATA_DICT_COL
+		WHERE DATA_DICT_NAME = 'CD_INDUSTRY_GUIDELINES'
+	</sql>
+</banger>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertTableDict" >
+		INSERT INTO AUTO_TABLE_DICT (DICT_ID,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,TABLE_NAME,TABLE_REMARK,TABLE_DISPLAY) VALUES ([$dictId]
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$tableRemark]</clause>
+		<clause prepend="," nvl="''" >[$tableDisplay]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateTableDict" >
+		UPDATE AUTO_TABLE_DICT 
+		<set>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([tableRemark])" >TABLE_REMARK = [$tableRemark]</clause>
+			<clause prepend="," assert="!isNull([tableDisplay])" >TABLE_DISPLAY = [$tableDisplay]</clause>
+		</set>
+		<where>
+			 DICT_ID = [$dictId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getTableDictById" >
+		SELECT * FROM AUTO_TABLE_DICT WHERE DICT_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteTableDictById" >
+		DELETE FROM AUTO_TABLE_DICT WHERE DICT_ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryTableDictList" >
+		SELECT * FROM AUTO_TABLE_DICT 
+		<where>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableRemark])" > TABLE_REMARK = '[tableRemark]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableDisplay])" > TABLE_DISPLAY = '[tableDisplay]' </clause>
+		</where>
+	</sql>
+
+</banger>

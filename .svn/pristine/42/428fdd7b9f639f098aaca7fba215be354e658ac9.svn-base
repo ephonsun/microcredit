@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>客户列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<form id="form" action="" onsubmit="return false;">
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields" >
+                <tbody>
+                    <tr>
+                        <td class="field" width="5%">
+                            <label>客户类型：</label>
+                        </td>
+                        <td width="20%">
+                            <select id="customerLevel" name="customerLevel">
+                            <option></option>
+                            #options("cdDictColByName","","CD_CUSTOMER_LEVEL")
+                           </select>
+                        </td>
+                        <td class="field" width="5%">
+                            <label>客户：</label>
+                        </td>
+                        <td width="20%">
+                            <div class="ui-text">
+                                <input type="text" id="customer" name="customer" placeholder="姓名、电话或证件号码" class="ui-text-text" />
+                            </div>
+                        </td>
+                        <td class="field" width="5%">
+                            <label>归属人：</label>
+                        </td>
+                        <td width="20%">
+                            <div class="ui-text">
+                                <input type="text" id="belongUserName" name="belongUserName"  class="ui-text-text" />
+                            </div>
+                        </td>
+                        <td class="field" width="5%">
+                            查询范围：
+                        </td>
+                        <td width="20%">
+                            <input id="selectFlag" name="selectFlag" type="checkbox" #if($!selectMy == '1') checked="checked" #end/> 我的
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="ui-layout-search-foot">
+            <div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+    	            <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+<input type="hidden" id="userId" value="$!userId" />
+<input type="hidden" id="allotFlag" name="allotFlag" value="$!allotFlag" />
+<div class="ui-layout-statistics">
+    所有客户 (<label class="statistics" id="lblStatistics">0</label>)
+</div>
+<div class="ui-layout-action">
+    #if($funcPermit.hasFuncCode("customerAdd"))
+        <span id="btnAdd" class="ui-button fl">
+            <label class="ui-button-text">$!pageConst.BTN_NEW</label>
+        </span>
+    #end
+    <span id="btnRefresh" class="ui-button fr ml5">
+        <label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+    </span>
+    <span id="btnShowMap" class="ui-button fr ml5">
+        <label class="ui-button-text">查看地图</label>
+    </span>
+</div>
+<table id="grid"></table>
+<script>
+    var selectMy = '0';
+    var selectFlag = '';
+    #if($funcPermit.hasFuncCode("customerEdit"))
+    var customerEdit = true;
+    #else
+    var customerEdit = false;
+    #end
+    #if($funcPermit.hasFuncCode("customerDel"))
+    var customerDel = true;
+    #else
+    var customerDel = false;
+    #end
+
+    #if($!selectMy == '1')
+        selectFlag = 'on';
+        selectMy = '1';
+    #end
+</script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.abnormal.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.bizEx.js"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../customer/js/customer/customerListPage.js"></script>
+</body>
+</html>

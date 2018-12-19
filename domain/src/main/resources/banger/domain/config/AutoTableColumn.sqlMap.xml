@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.AutoTableColumn" table="AUTO_TABLE_COLUMN" >
+		<id name="fieldId" type="java.lang.Integer" >
+			<column name="FIELD_ID" length="4" />
+		</id>
+		<property name="tableId" type="java.lang.Integer" >
+			<column name="TABLE_ID" length="4" />
+		</property>
+		<property name="tableName" type="java.lang.String" >
+			<column name="TABLE_NAME" length="40" />
+		</property>
+		<property name="fieldName" type="java.lang.String" >
+			<column name="FIELD_NAME" length="60" />
+		</property>
+		<property name="fieldType" type="java.lang.String" >
+			<column name="FIELD_TYPE" length="30" />
+		</property>
+		<property name="fieldNumberUnit" type="java.lang.String" >
+			<column name="FIELD_NUMBER_UNIT" length="20" />
+		</property>
+		<property name="fieldConstraintRule" type="java.lang.String" >
+			<column name="FIELD_CONSTRAINT_RULE" length="100" />
+		</property>
+		<property name="fieldColumn" type="java.lang.String" >
+			<column name="FIELD_COLUMN" length="40" />
+		</property>
+		<property name="fieldColumnDisplay" type="java.lang.String" >
+			<column name="FIELD_COLUMN_DISPLAY" length="100" />
+		</property>
+		<property name="fieldAppIsShow" type="java.lang.Integer" >
+			<column name="FIELD_APP_IS_SHOW" length="4" />
+		</property>
+		<property name="fieldWebIsShow" type="java.lang.Integer" >
+			<column name="FIELD_WEB_IS_SHOW" length="4" />
+		</property>
+		<property name="fieldIsQuery" type="java.lang.Integer" >
+			<column name="FIELD_IS_QUERY" length="4" />
+		</property>
+		<property name="fieldIsRequired" type="java.lang.Integer" >
+			<column name="FIELD_IS_REQUIRED" length="4" />
+		</property>
+		<property name="fieldSortno" type="java.lang.Integer" >
+			<column name="FIELD_SORTNO" length="4" />
+		</property>
+		<property name="fieldDictName" type="java.lang.String" >
+			<column name="FIELD_DICT_NAME" length="64" />
+		</property>
+		<property name="fieldLength" type="java.lang.Integer" >
+			<column name="FIELD_LENGTH" length="4" />
+		</property>
+		<property name="isActived" type="java.lang.Integer" >
+			<column name="IS_ACTIVED" length="4" />
+		</property>
+		<property name="isFixed" type="java.lang.Integer" >
+			<column name="IS_FIXED" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="columnModule" type="java.lang.String" >
+			<column name="COLUMN_MODULE" length="32" />
+		</property>
+		<property name="popupUrl" type="java.lang.String" >
+			<column name="POPUP_URL" length="100" />
+		</property>
+		<property name="defaultValue" type="java.lang.String" >
+			<column name="DEFAULT_VALUE" length="150" />
+		</property>
+	</class>
+</mapping>
+

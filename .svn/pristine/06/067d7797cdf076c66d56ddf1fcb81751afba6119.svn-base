@@ -1,0 +1,78 @@
+<p align="center" style="color:#1b1b1b;font-size:large;margin:12px">贷款明细报表</p>
+<p align="center"style="color:#1b1b1b;font-size:small;margin:25px">制表人：$!loginUser &nbsp;&nbsp;&nbsp; 制表时间：$!time</p>
+<div class="flexgrid-box" style="height: auto">
+<div class="flexgrid">
+    <table>
+        <thead>
+        <tr>
+            <th>贷款阶段</th>
+            <th>放款日期</th>
+            <th>客户姓名</th>
+            <th>决议金额</th>
+            <th>放款金额</th>
+            <th>贷款期限</th>
+            <th>贷款利率</th>
+            <th>还款方式</th>
+            <th>担保方式</th>
+            <th>客户经理-申请</th>
+            <th>客户经理-调查</th>
+            <th>产品名称</th>
+            <th>贷款类型</th>
+            <th>新增/转贷</th>
+            <th>是否涉农</th>
+            <th>客户类型</th>
+            <th>所属行业</th>
+            <th>经营范围</th>
+            <th>是否转介</th>
+            <th>转介人员</th>
+            <th>转介支行</th>
+            <th>合同号</th>
+            <th>贷款账号</th>
+            <th>合同开始时间</th>
+            <th>合同结束时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        #if($list.size()==0)
+        <tr>
+            <td colspan="100%">
+        <p style="color:#4d4d4d;font-size:12px;margin:20px;text-align: center">查询无数据</p>
+            </td>
+        </tr>
+        #else
+            #foreach($body in $!list)
+            <tr>
+                <td>$!body.loanStatus</td>
+                <td>$!body.creditDate</td>
+                <td>$!body.customerName</td>
+                <td>$!body.approvalMoney</td>
+                <td>$!body.creditMoney</td>
+                <td>$!body.loanLimit</td>
+                <td>$!body.loanRatio</td>
+                <td>$!body.repayWay</td>
+                <td>$!body.guarantorWay</td>
+                <td>$!body.applyUserName</td>
+                <td>$!body.investigateUserName</td>
+                <td>$!body.productName</td>
+                <td>$!body.loanType</td>
+                <td>$!body.isNew</td>
+                <td>$!body.isAgriculture</td>
+                <td>$!body.customerLevel</td>
+                <td>$!body.industryCode</td>
+                <td>$!body.businessScope</td>
+                <td>$!body.isReferred</td>
+                <td>$!body.referredUser</td>
+                <td>$!body.referredDept</td>
+                <td>$!body.loanContractNum</td>
+                <td>$!body.loanAccountNo</td>
+                <td>$!body.loanContractBegin</td>
+                <td>$!body.loanContractEnd</td>
+            </tr>
+            #end
+        #end
+        </tbody>
+    </table>
+</div>
+</div>
+
+##<p align="center"style="color:#1b1b1b;font-size:small;margin:25px">制表人：$!loginUser &nbsp;&nbsp;&nbsp; 制表时间：$!time</p>

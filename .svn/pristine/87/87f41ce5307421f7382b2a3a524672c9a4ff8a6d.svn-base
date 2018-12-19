@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增贷款评分明细表 -->
+	<sql id="insertScoreDetailInfo" >
+		INSERT INTO LOAN_SCORE_DETAIL_INFO (ID,LOAN_ID,FIELD_ID,FIELD_NAME,FIELD_TYPE,FIELD_COLUMN,FIELD_VALUE,FIELD_SCORE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="''" >[$fieldName]</clause>
+		<clause prepend="," nvl="''" >[$fieldType]</clause>
+		<clause prepend="," nvl="''" >[$fieldColumn]</clause>
+		<clause prepend="," nvl="''" >[$fieldValue]</clause>
+		<clause prepend="," nvl="NULL" >[$fieldScore]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款评分明细表 -->
+	<sql id="updateScoreDetailInfo" >
+		UPDATE LOAN_SCORE_DETAIL_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([fieldName])" >FIELD_NAME = [$fieldName]</clause>
+			<clause prepend="," assert="!isNull([fieldColumn])" >FIELD_COLUMN = [$fieldColumn]</clause>
+			<clause prepend="," assert="!isNull([fieldValue])" >FIELD_VALUE = [$fieldValue]</clause>
+			<clause prepend="," assert="!isNull([fieldScore])" >FIELD_SCORE = [$fieldScore]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款评分明细表 -->
+	<sql id="getScoreDetailInfoById" >
+		SELECT * FROM LOAN_SCORE_DETAIL_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款评分明细表 -->
+	<sql id="deleteScoreDetailInfoById" >
+		DELETE FROM LOAN_SCORE_DETAIL_INFO WHERE ID = [0]
+	</sql>
+	<!-- 通过贷款主键删除贷款评分明细表 -->
+	<sql id="deleteScoreDetailInfoByLoanId" >
+		DELETE FROM LOAN_SCORE_DETAIL_INFO WHERE LOAN_ID = [0]
+	</sql>
+
+	<!-- 查询贷款评分明细表 -->
+	<sql id="queryScoreDetailInfoList" >
+		SELECT * FROM LOAN_SCORE_DETAIL_INFO 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > FIELD_NAME = '[fieldName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldColumn])" > FIELD_COLUMN = '[fieldColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldValue])" > FIELD_VALUE = '[fieldValue]' </clause>
+		</where>
+	</sql>
+
+</banger>

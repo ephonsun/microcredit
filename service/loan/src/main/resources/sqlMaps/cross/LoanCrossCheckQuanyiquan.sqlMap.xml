@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增交叉检验权益表 -->
+	<sql id="insertCrossCheckQuanyiquan" >
+		INSERT INTO LOAN_CROSS_CHECK_QUANYIQUAN (ID,LOAN_ID,LOAN_CLASS_ID,INIT_RIGHT_DATE,INIT_RIGHT,INIT_RIGHT_DESC,PERIOD_PROFIT,PERIOD_INJECTION,APPRECIATION,INCREASE_DESC,PERIOD_EXTRACT,DEPRECIATION,REDUCE_DESC,DESERVED_RIGHT,ACTUAL_RIGHT,DEVIATION,DEVIATION_RATIO,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="NULL" >[$initRightDate]</clause>
+		<clause prepend="," nvl="NULL" >[$initRight]</clause>
+		<clause prepend="," nvl="''" >[$initRightDesc]</clause>
+		<clause prepend="," nvl="NULL" >[$periodProfit]</clause>
+		<clause prepend="," nvl="NULL" >[$periodInjection]</clause>
+		<clause prepend="," nvl="NULL" >[$appreciation]</clause>
+		<clause prepend="," nvl="''" >[$increaseDesc]</clause>
+		<clause prepend="," nvl="NULL" >[$periodExtract]</clause>
+		<clause prepend="," nvl="NULL" >[$depreciation]</clause>
+		<clause prepend="," nvl="''" >[$reduceDesc]</clause>
+		<clause prepend="," nvl="NULL" >[$deservedRight]</clause>
+		<clause prepend="," nvl="NULL" >[$actualRight]</clause>
+		<clause prepend="," nvl="NULL" >[$deviation]</clause>
+		<clause prepend="," nvl="NULL" >[$deviationRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改交叉检验权益表 -->
+	<sql id="updateCrossCheckQuanyiquan" >
+		UPDATE LOAN_CROSS_CHECK_QUANYIQUAN 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend=","  >INIT_RIGHT_DATE = [$initRightDate]</clause>
+			<clause prepend=","  >INIT_RIGHT = [$initRight]</clause>
+			<clause prepend="," >INIT_RIGHT_DESC = [$initRightDesc]</clause>
+			<clause prepend=","  >PERIOD_PROFIT = [$periodProfit]</clause>
+			<clause prepend=","  >PERIOD_INJECTION = [$periodInjection]</clause>
+			<clause prepend=","  >APPRECIATION = [$appreciation]</clause>
+			<clause prepend=","  >INCREASE_DESC = [$increaseDesc]</clause>
+			<clause prepend=","  >PERIOD_EXTRACT = [$periodExtract]</clause>
+			<clause prepend=","  >DEPRECIATION = [$depreciation]</clause>
+			<clause prepend=","  >REDUCE_DESC = [$reduceDesc]</clause>
+			<clause prepend=","  >DESERVED_RIGHT = [$deservedRight]</clause>
+			<clause prepend=","  >ACTUAL_RIGHT = [$actualRight]</clause>
+			<clause prepend=","  >DEVIATION = [$deviation]</clause>
+			<clause prepend=","  >DEVIATION_RATIO = [$deviationRatio]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到交叉检验权益表 -->
+	<sql id="getCrossCheckQuanyiquanById" >
+		SELECT * FROM LOAN_CROSS_CHECK_QUANYIQUAN WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除交叉检验权益表 -->
+	<sql id="deleteCrossCheckQuanyiquanById" >
+		DELETE FROM LOAN_CROSS_CHECK_QUANYIQUAN WHERE ID = [0]
+	</sql>
+
+	<!-- 查询交叉检验权益表 -->
+	<sql id="queryCrossCheckQuanyiquanList" >
+		SELECT * FROM LOAN_CROSS_CHECK_QUANYIQUAN 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause parent="DateSpan" params="INIT_RIGHT_DATE,initRightDate,initRightDateEnd" ></clause>
+		<clause prepend="and" assert="!isNullOrEmpty([initRightDesc])" > INIT_RIGHT_DESC = '[initRightDesc]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([increaseDesc])" > INCREASE_DESC = '[increaseDesc]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([reduceDesc])" > REDUCE_DESC = '[reduceDesc]' </clause>
+		<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+		<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+
+	<!-- 通过贷款id和classId得到单个交叉检验权益表 -->
+	<sql id="getCrossCheckQuanyiquanByLoanId" >
+		SELECT * FROM LOAN_CROSS_CHECK_QUANYIQUAN WHERE LOAN_ID = [0]
+	</sql>
+
+	<!-- 更新交叉检验权益表偏差字段 -->
+	<sql id="updateCroCheQuanyiquanDevRatio" >
+		UPDATE LOAN_CROSS_CHECK_QUANYIQUAN
+		<set>
+			<clause prepend=","  >PERIOD_PROFIT = [$periodProfit]</clause>
+			<clause prepend=","  >DESERVED_RIGHT = [$deservedRight]</clause>
+			<clause prepend=","  >ACTUAL_RIGHT = [$actualRight]</clause>
+			<clause prepend=","  >DEVIATION = [$deviation]</clause>
+			<clause prepend=","  >DEVIATION_RATIO = [$deviationRatio]</clause>
+		</set>
+		<where>
+			LOAN_ID = [$loanId]
+		</where>
+	</sql>
+
+</banger>

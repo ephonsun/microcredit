@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>二维码配置</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style>
+        .nameLab{
+            display: inline-block;
+            margin-left:0.7rem;
+            font-size:0.42rem;
+            font-family:FZLTH--GB1-4;
+            color:#333333;
+            float:left;
+        }
+        .personDiv{
+            display: inline-block;
+            margin-left:0.8rem;
+            width:7.8rem;
+            height:1.2rem;
+            text-align:center;
+        }
+
+    </style>
+</head>
+
+<body>
+<form enctype="multipart/form-data" method="post" id="img">
+    <table class="ui-form-fields">
+        <input type="hidden" id="qrId" value="$!qrId">
+##        <ul>
+##            <li ><label class="nameLab">二维码访问路径：</label><div class="personDiv"><input type="text"  name="accessPath" id="accessPath" placeholder="http://192.168.1.84:8082/api/getIndexPage.html"/></div></li>
+##            <li><label class="nameLab">二维码Loge：</label><div class="personDiv"><input type="file" name="imaPath" id="imaPath"/></div> </li>
+##        </ul>
+        <tbody>
+        <tr>
+            <td width="10%">
+                <label >二维码访问路径：</label>
+            </td>
+            <td width="30%">
+                <div class="ui-text">
+                    <input type="text" id="accessPath" class="ui-text-text" value="$!accessPath" />
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">（示例：http://192.168.1.84:8082/api/getIndexPage.html）</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                <label >二维码Logo：</label>
+            </td>
+            <td width="5%">
+                <label class="gray" title="添加附件"></label>
+                <input type="file" name="imageInput" id="imageInput"/>
+            </td>
+##            <td width="5%">
+##                            <img src="$!imageBase64" style="height: 200px;width: 320px"
+##                     onError="this.src='../html5/intoApply/s1_2.png'" alt=""/>
+##            </td>
+        </tr>
+##        <tr>
+##            <td width="10%">
+##                <label >二维码：</label>
+##            </td>
+##            <td width="5%">
+##                <img src="$!base64" style="height: 200px;width: 320px"
+##                     onError="this.src='../html5/intoApply/s1_2.png'" alt=""/>
+####                #if()
+####                #end
+####                <input type="file" name="fileImageInput" id="fileImageInput"/>
+##            </td>
+##        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >生成二维码</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">关闭</label>
+    </span>
+</div>
+<table id="passExpiration"></table>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../permission/js/qrCodeSetting.js?v=$!webAppVersion"></script>
+</body>
+</html>

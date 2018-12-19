@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>身份证核实</title>
+    <style>
+        body{font-size: 0.14rem;/*实际相当于14px*/}
+        body,*{
+            padding:0;
+            margin:0;
+        }
+        .headDiv{
+			width:100%;
+			height:1.6rem;
+			background:#109add;
+			text-align:center;
+			line-height:1.6rem;
+			}
+			
+		
+		.headDiv label{
+			font-size:0.5rem;
+			font-family:FZLTHJW--GB1-0;
+			text-align:center;
+			color:#FFF;
+			margin-right:1.2rem;
+			}
+			
+		.bodyDiv{
+			width:100%;
+			height:15.8rem;
+			background:#fff;
+			text-align:center;
+			}
+			
+		   .nextDiv{
+			   width:100%;
+			   text-align:center;
+			   margin-top:1rem;
+			 
+			   }
+		  .nextStep{
+			  width:9.96rem;
+			  height:1.44rem;
+			  text-align:center;
+			  line-height:1.44rem;
+			  font-family:FZLTHJW--GB1-0;
+			  font-size:0.54rem;
+			  -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+			  border-radius:0.2rem;
+			  background:#dfdfdf;
+			  color:#b3b3b3;
+			  border:0px ;
+			  }
+			 .headSpan{
+				 float:left;
+			     display:-moz-inline-box;
+				 height:1.6rem;
+				 display:inline-block;
+				 background: url(../html5/intoApply/backIcon.png)  no-repeat 0.1rem 0.45rem;
+				 width:1.6rem;
+				 line-height:1.6rem;
+				
+				 }
+			 .div_1{
+				 width:100%;
+				 height:6.5rem;
+				
+				  -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+				 }
+			.div_2{
+				 width:100%;
+				 height:6.5rem;
+				 margin-top:1rem;
+				  -webkit-box-sizing: border-box;
+            	  -moz-box-sizing: border-box;
+            	  box-sizing: border-box;
+				 } 
+			
+			.image_1{
+				margin-top:1rem;
+				/*width:8.4rem;*/
+				height:5.08rem;
+				}
+			 .image_2{
+				/*width:8.4rem;*/
+				height:5.08rem;
+				 }
+			
+			 .p1{
+				 font-size:0.5rem;
+				 font-family:FZLTHJW--GB1-0;
+				 text-align:center;	
+				 margin-top:0.3rem; 
+				 }
+				 
+			  .p2{
+				 font-size:0.5rem;
+				 font-family:FZLTHJW--GB1-0;
+				 text-align:center;	 
+				 margin-top:0.3rem; 
+				 }
+			 
+    </style>
+    <link rel="stylesheet" href="../html5/layer/need/layer.css">
+</head>
+<body>
+	<div class="headDiv"><span id="backstep" class="headSpan"></span><label>身份证核实</label></div>
+    <div class="bodyDiv">
+		 <div class="div_1">
+         	<label for="image"><img src="../html5/intoApply/s1_2.png" id="image_1" class="image_1" ></label>
+            <p class="p1">上传身份证人像面照片</p>
+         </div>      
+         <div class="div_2">
+         	<label for="image2"><img src="../html5/intoApply/s1_3.png" id="image_2" class="image_2"></label>
+            <p class="p2">上传身份证国徽面照片</p>
+         </div>       	
+  		 <div class="nextDiv"><button id="next" class="nextStep" disabled="true" type="button">下一步</button></div>
+        <input type="text" name="imag" id="imag" style="display:none"/>
+        <input type="text" name="imag2" id="imag2" style="display:none"/ >
+        <input type="text" name="imagType" id="imagType" style="display:none"/>
+        <input type="text" name="imagName" id="imagName" style="display:none"/ >
+        <input type="text" name="imag2Type" id="imag2Type" style="display:none"/>
+        <input type="text" name="imag2Name" id="imag2Name" style="display:none"/ >
+        <input type="text" name="fileName" id="fileName" style="display:none"/>
+        <input type="text" name="userAccount" id="userAccount" value="$!userAccount" style="display:none"/>
+    </div>
+	<form action="" enctype="multipart/form-data" method="post" id="img">
+        <input type="file" name="image" id="image" style="display:none"/>
+        <input type="file" name="image" id="image2" style="display:none"/>
+	</form>
+    <canvas id="phone1" style="display: none;"></canvas>
+    <canvas id="phone2" style="display: none;"></canvas>
+</body>
+<script type="text/javascript" charset="UTF-8" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/adaptive.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/layer/layer.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/ajaxfileupload.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/exif.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../html5/js/idCardOcr.js"></script>
+
+<script>
+	adpative(document, window);
+	var phone=$!phone;
+</script>
+
+</html>

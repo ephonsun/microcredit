@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.customer.MarketCustomerGroup" table="MARKET_CUSTOMER_GROUP" >
+		<property name="customerId" type="java.lang.Integer" >
+			<column name="CUSTOMER_ID" lenght="22" />
+		</property>
+		<property name="teamGroupId" type="java.lang.Integer" >
+			<column name="TEAM_GROUP_ID" lenght="22" />
+		</property>
+		<property name="isDel" type="java.lang.Integer" >
+			<column name="IS_DEL" lenght="22" />
+		</property>
+		<property name="signDate" type="java.util.Date" >
+			<column name="SIGN_DATE" lenght="11" scale="6" />
+		</property>
+		<property name="signUserId" type="java.lang.Integer" >
+			<column name="SIGN_USER_ID" lenght="22" />
+		</property>
+	</class>
+</mapping>
+

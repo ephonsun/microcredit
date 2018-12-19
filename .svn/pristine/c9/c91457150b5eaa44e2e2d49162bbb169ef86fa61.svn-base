@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增评分模型信息表 -->
+	<sql id="insertScoreInfo" >
+		INSERT INTO MODE_SCORE_INFO (MODE_ID,MODE_NAME,IS_ACTIVED,IS_DEL,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$modeId]
+		<clause prepend="," nvl="''" >[$modeName]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改评分模型信息表 -->
+	<sql id="updateScoreInfo" >
+		UPDATE MODE_SCORE_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([modeName])" >MODE_NAME = [$modeName]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 MODE_ID = [$modeId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到评分模型信息表 -->
+	<sql id="getScoreInfoById" >
+		SELECT * FROM MODE_SCORE_INFO WHERE MODE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除评分模型信息表 -->
+	<sql id="deleteScoreInfoById" >
+		UPDATE MODE_SCORE_INFO SET IS_DEL = 1 WHERE MODE_ID = [0]
+	</sql>
+
+	<!-- 查询评分模型信息表 -->
+	<sql id="queryScoreInfoList" >
+		SELECT * FROM MODE_SCORE_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([modeName])" > MODE_NAME = '[modeName]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > REMARK = '[remark]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+	<!--查询可以复制的模型-->
+	<sql id="queryModelScoreInfoCopy">
+		SELECT * FROM MODE_SCORE_INFO WHERE MODE_ID != [modeId] AND IS_DEL = 0
+	</sql>
+</banger>

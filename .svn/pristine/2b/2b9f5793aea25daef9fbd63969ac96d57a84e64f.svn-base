@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.task.TskTaskInfo" table="TSK_TASK_INFO" >
+		<id name="taskId" type="java.lang.Integer" >
+			<column name="TASK_ID" length="4" />
+		</id>
+		<property name="taskTitle" type="java.lang.String" >
+			<column name="TASK_TITLE" length="164" />
+		</property>
+		<property name="startDate" type="java.util.Date" >
+			<column name="START_DATE" length="10" scale="6" />
+		</property>
+		<property name="endDate" type="java.util.Date" >
+			<column name="END_DATE" length="10" scale="6" />
+		</property>
+		<property name="taskMold" type="java.lang.Integer" >
+			<column name="TASK_MOLD" length="4" />
+		</property>
+		<property name="taskType" type="java.lang.Integer" >
+			<column name="TASK_TYPE" length="4" />
+		</property>
+		<property name="taskTarget" type="java.lang.Integer" >
+			<column name="TASK_TARGET" length="4" />
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="REMARK" length="900" />
+		</property>
+		<property name="assignUserId" type="java.lang.Integer" >
+			<column name="ASSIGN_USER_ID" length="4" />
+		</property>
+		<property name="finishDate" type="java.util.Date" >
+			<column name="FINISH_DATE" length="10" scale="6" />
+		</property>
+		<property name="taskStatus" type="java.lang.Integer" >
+			<column name="TASK_STATUS" length="4" />
+		</property>
+		<property name="taskFinish" type="java.lang.Integer" >
+			<column name="TASK_FINISH" length="4" />
+		</property>
+		<property name="taskAssign" type="java.lang.Integer" >
+			<column name="TASK_ASSIGN" length="4" />
+		</property>
+		<property name="isDel" type="java.lang.Integer" >
+			<column name="IS_DEL" length="4" />
+		</property>
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+		<property name="teamGroupId" type="java.lang.Integer" >
+			<column name="TEAM_GROUP_ID" length="4" />
+		</property>
+		<property name="tskLevel" type="java.lang.Integer" >
+			<column name="TSK_LEVEL" length="4" />
+		</property>
+	</class>
+</mapping>
+

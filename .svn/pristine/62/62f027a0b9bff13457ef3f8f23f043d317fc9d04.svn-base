@@ -1,0 +1,51 @@
+<div id="loanRepayPlanTabs" class="ui-tabs" style="height: 100%;">
+    <div class="ui-tabs-head">
+        <div class="ui-tabs-items">
+            <ul >
+            </ul>
+        </div>
+    </div>
+    <div isbody="1" class="ui-tabs-iframes">
+        <div class="ui-tabs-iframe">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var repayItems = [];
+
+            var repayPlan = {
+                display: '还款计划',
+                url:'../loanRepayPlanInfo/getLoanRepayPlanInfoPage.html?loanId=$!loanId&showApply=$!showApply&module=$!module',
+                loadType: 'tab.click',
+                loadReady: function (item, page) {
+                    includeJs("../loan/js/repayPlan/loanRepayPlanInfo.js?v=$!webAppVersion");
+                }
+            };
+            var repayment = {
+                display: '还款记录',
+                url:'../loanRepayPlanInfo/getRepaymentListPage.html?loanId=$!loanId&showApply=$!showApply&module=$!module',
+                loadType: 'tab.click',
+                refreshOnClick:true,
+                loadReady: function (item, page) {
+                }
+            };
+
+            repayItems.push(repayPlan);
+            repayItems.push(repayment);
+
+            $('#loanRepayPlanTabs').tabs({
+                items: repayItems
+            });
+
+        });
+
+
+    </script>
+
+
+
+
+
+

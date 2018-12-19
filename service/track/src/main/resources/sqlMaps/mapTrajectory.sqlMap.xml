@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="Map_Query" name="banger.domain.app.AppScreenTrajectory">
+		<property name="traLongitude"  column="TRA_LONGITUDE"></property>
+		<property name="traLatitude"  column="TRA_LATITUDE"></property>
+		<property name="deviceId"  column="DEVICE_ID"></property>
+		<property name="userName" column="USER_NAME"></property>
+	</class>
+
+	<!-- 新增地图经纬度座标轨迹 -->
+	<sql id="insertTrajectory" >
+		INSERT INTO MAP_TRAJECTORY (TRA_ID,TRA_LONGITUDE,TRA_LATITUDE,DEVICE_ID,CLIENT_TIME,CREATE_DATE,CREATE_USER) VALUES ([$traId]
+		<clause prepend="," nvl="NULL" >[$traLongitude]</clause>
+		<clause prepend="," nvl="NULL" >[$traLatitude]</clause>
+		<clause prepend="," nvl="''" >[$deviceId]</clause>
+		<clause prepend="," nvl="NULL" >[$clientTime]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改地图经纬度座标轨迹 -->
+	<sql id="updateTrajectory" >
+		UPDATE MAP_TRAJECTORY 
+		<set>
+			<clause prepend="," assert="!isNull([traLongitude])" >TRA_LONGITUDE = [$traLongitude]</clause>
+			<clause prepend="," assert="!isNull([traLatitude])" >TRA_LATITUDE = [$traLatitude]</clause>
+			<clause prepend="," assert="!isNull([deviceId])" >DEVICE_ID = [$deviceId]</clause>
+			<clause prepend="," assert="!isNull([clientTime])" >CLIENT_TIME = [$clientTime]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+		</set>
+		<where>
+			 TRA_ID = [$traId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到地图经纬度座标轨迹 -->
+	<sql id="getTrajectoryById" >
+		SELECT * FROM MAP_TRAJECTORY WHERE TRA_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除地图经纬度座标轨迹 -->
+	<sql id="deleteTrajectoryById" >
+		DELETE FROM MAP_TRAJECTORY WHERE TRA_ID = [0]
+	</sql>
+
+	<!-- 查询地图经纬度座标轨迹 -->
+	<sql id="queryTrajectoryList" >
+		SELECT * FROM MAP_TRAJECTORY 
+		<where>
+			<clause parent="NumberSpan" params="TRA_LONGITUDE,traLongitude,traLongitudeEnd" ></clause>
+			<clause parent="NumberSpan" params="TRA_LATITUDE,traLatitude,traLatitudeEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([deviceId])" > DEVICE_ID = '[deviceId]' </clause>
+			<clause parent="DateTimeSpan" params="CLIENT_TIME,clientTime,clientTimeEnd" ></clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="isNull([createUser])" > CREATE_USER = -1 </clause>
+			order by CLIENT_TIME desc
+		</where>
+	</sql>
+
+
+	<!--得到地图信息-->
+	<sql id="getMapInfo" result="Map_Query">
+		SELECT A.*,pu.user_name as USER_NAME FROM map_trajectory A JOIN
+		(
+		SELECT MIN(client_time) AS client_time,CREATE_USER FROM map_trajectory where  client_time > '[0]' GROUP BY CREATE_USER
+		) B ON (A.client_time=B.client_time AND A.CREATE_USER=B.CREATE_USER)   left join pms_user pu on A.create_user = pu.user_id
+	</sql>
+
+
+</banger>

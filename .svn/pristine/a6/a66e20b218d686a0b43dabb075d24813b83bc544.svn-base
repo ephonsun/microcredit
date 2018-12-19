@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<cache id="TableColumnSyncCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+	</cache>
+
+	<!-- 新增数据字段同步表 -->
+	<sql id="insertTableColumnSync" >
+		INSERT INTO AUTO_TABLE_COLUMN_SYNC (TABLE_DISPLAY,TABLE_COLUMN_DISPLAY,SOURCE_TABLE,SOURCE_TABLE_COLUMN,TARGET_TABLE,TARGET_TABLE_COLUMN,ACTION_NAME) VALUES ([$tableDisplay]
+		<clause prepend="," nvl="''" >[$tableColumnDisplay]</clause>
+		<clause prepend="," nvl="''" >[$sourceTable]</clause>
+		<clause prepend="," nvl="''" >[$sourceTableColumn]</clause>
+		<clause prepend="," nvl="''" >[$targetTable]</clause>
+		<clause prepend="," nvl="''" >[$targetTableColumn]</clause>
+		<clause prepend="," nvl="''" >[$actionName]</clause>
+		)
+	</sql>
+
+	<!-- 修改数据字段同步表 -->
+	<sql id="updateTableColumnSync" >
+		UPDATE AUTO_TABLE_COLUMN_SYNC 
+		<set>
+			<clause prepend="," assert="!isNull([tableColumnDisplay])" >TABLE_COLUMN_DISPLAY = [$tableColumnDisplay]</clause>
+			<clause prepend="," assert="!isNull([sourceTable])" >SOURCE_TABLE = [$sourceTable]</clause>
+			<clause prepend="," assert="!isNull([sourceTableColumn])" >SOURCE_TABLE_COLUMN = [$sourceTableColumn]</clause>
+			<clause prepend="," assert="!isNull([targetTable])" >TARGET_TABLE = [$targetTable]</clause>
+			<clause prepend="," assert="!isNull([targetTableColumn])" >TARGET_TABLE_COLUMN = [$targetTableColumn]</clause>
+			<clause prepend="," assert="!isNull([actionName])" >ACTION_NAME = [$actionName]</clause>
+		</set>
+		<where>
+			 SOURCE_TABLE = [$sourceTable] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到数据字段同步表 -->
+	<sql id="getTableColumnSyncById" >
+		SELECT * FROM AUTO_TABLE_COLUMN_SYNC WHERE SOURCE_TABLE = '[0]'
+	</sql>
+
+	<!-- 通过主键删除数据字段同步表 -->
+	<sql id="deleteTableColumnSyncById" >
+		DELETE FROM AUTO_TABLE_COLUMN_SYNC WHERE SOURCE_TABLE = '[0]'
+	</sql>
+
+	<!-- 查询数据字段同步表 -->
+	<sql id="queryTableColumnSyncList" >
+		SELECT * FROM AUTO_TABLE_COLUMN_SYNC 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([tableColumnDisplay])" > TABLE_COLUMN_DISPLAY = '[tableColumnDisplay]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([sourceTable])" > SOURCE_TABLE = '[sourceTable]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([sourceTableColumn])" > SOURCE_TABLE_COLUMN = '[sourceTableColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([targetTable])" > TARGET_TABLE = '[targetTable]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([targetTableColumn])" > TARGET_TABLE_COLUMN = '[targetTableColumn]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([actionName])" > ACTION_NAME = '[actionName]' </clause>
+		</where>
+	</sql>
+	
+	<!-- 得到数据字段同步表 -->
+	<sql id="getAllAutoTableColumnSyncList" cache="TableColumnSyncCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN_SYNC WHERE ACTION_NAME = '[0]'
+	</sql>
+	
+	
+
+</banger>

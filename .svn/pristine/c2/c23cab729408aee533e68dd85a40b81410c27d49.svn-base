@@ -1,0 +1,4 @@
+.save-search-box{ position:absolute; left: 370px; z-index:100000; width:420px; height:200px; border:1px solid #b1b1b1; background-color:#fff; padding:0px; overflow:hidden;}
+/*.save-search-box .search-inner{ border:1px solid #b1b1b1; background-color:#fff; padding:42px;}*/
+/*.save-search-box .search-inner .name{ float:left; line-height:24px; padding-right:10px;}*/
+/*.save-search-box .search-inner input{ float:left; width:300px; height:22px; line-height:22px; border:1px solid #b1b1b1;}*/

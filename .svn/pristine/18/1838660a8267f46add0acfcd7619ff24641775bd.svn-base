@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="modelQuery" name="banger.domain.config.ModeTemplateFieldExtend" >
+		<property name="fieldId" column="FIELD_ID" ></property>
+		<property name="isActived" column="IS_ACTIVED" ></property>
+		<property name="fieldDisplay" column="FIELD_DISPLAY" ></property>
+		<property name="fieldName" column="FIELD_NAME" ></property>
+	</class>
+
+	<class id="intoQuery" name="banger.domain.config.IntoTemplatesFieldExtend" >
+		<property name="fieldId" column="FIELD_ID" ></property>
+		<property name="isActived" column="IS_ACTIVED" ></property>
+		<property name="fieldDisplay" column="FIELD_DISPLAY" ></property>
+		<property name="fieldName" column="FIELD_NAME" ></property>
+	</class>
+	<cache id="tableColumnCache" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertTableColumn" />
+		<flushOnExecute statement="updateTableColumn" />
+	 </cache>
+
+	<!-- 新增自定义字段表 -->
+	<sql id="insertTableColumn" >
+		INSERT INTO AUTO_TABLE_COLUMN (FIELD_ID,TABLE_ID,TABLE_NAME,FIELD_NAME,FIELD_TYPE,FIELD_NUMBER_UNIT,FIELD_CONSTRAINT_RULE,FIELD_COLUMN,FIELD_COLUMN_DISPLAY,FIELD_APP_IS_SHOW,FIELD_WEB_IS_SHOW,FIELD_IS_QUERY,FIELD_IS_REQUIRED,FIELD_SORTNO,FIELD_DICT_NAME,FIELD_LENGTH,IS_ACTIVED,IS_FIXED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,IS_DEFAULT,COLUMN_MODULE) VALUES ([$fieldId]
+		<clause prepend="," nvl="0" >[$tableId]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$fieldName]</clause>
+		<clause prepend="," nvl="''" >[$fieldType]</clause>
+		<clause prepend="," nvl="''" >[$fieldNumberUnit]</clause>
+		<clause prepend="," nvl="''" >[$fieldConstraintRule]</clause>
+		<clause prepend="," nvl="''" >[$fieldColumn]</clause>
+		<clause prepend="," nvl="''" >[$fieldColumnDisplay]</clause>
+		<clause prepend="," nvl="0" >[$fieldAppIsShow]</clause>
+		<clause prepend="," nvl="0" >[$fieldWebIsShow]</clause>
+		<clause prepend="," nvl="0" >[$fieldIsQuery]</clause>
+		<clause prepend="," nvl="0" >[$fieldIsRequired]</clause>
+		<clause prepend="," nvl="0" >[$fieldSortno]</clause>
+		<clause prepend="," nvl="''" >[$fieldDictName]</clause>
+		<clause prepend="," nvl="0" >[$fieldLength]</clause>
+		<clause prepend="," nvl="0" >[$isActived]</clause>
+		<clause prepend="," nvl="0" >[$isFixed]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="1" >[$isDefault]</clause>
+		<clause prepend="," nvl="''" >[$columnModule]</clause>
+		)
+	</sql>
+
+	<!-- 修改自定义字段表 -->
+	<sql id="updateTableColumn" >
+		UPDATE AUTO_TABLE_COLUMN 
+		<set>
+			<clause prepend="," assert="!isNull([tableId])" >TABLE_ID = [$tableId]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([fieldName])" >FIELD_NAME = [$fieldName]</clause>
+			<clause prepend="," assert="!isNull([fieldType])" >FIELD_TYPE = [$fieldType]</clause>
+			<clause prepend="," assert="!isNull([fieldNumberUnit])" >FIELD_NUMBER_UNIT = [$fieldNumberUnit]</clause>
+			<clause prepend="," assert="!isNull([fieldConstraintRule])" >FIELD_CONSTRAINT_RULE = [$fieldConstraintRule]</clause>
+			<clause prepend="," assert="!isNull([fieldColumn])" >FIELD_COLUMN = [$fieldColumn]</clause>
+			<clause prepend="," assert="!isNull([fieldColumnDisplay])" >FIELD_COLUMN_DISPLAY = [$fieldColumnDisplay]</clause>
+			<clause prepend="," assert="!isNull([fieldAppIsShow])" >FIELD_APP_IS_SHOW = [$fieldAppIsShow]</clause>
+			<clause prepend="," assert="!isNull([fieldWebIsShow])" >FIELD_WEB_IS_SHOW = [$fieldWebIsShow]</clause>
+			<clause prepend="," assert="!isNull([fieldIsQuery])" >FIELD_IS_QUERY = [$fieldIsQuery]</clause>
+			<clause prepend="," assert="!isNull([fieldIsRequired])" >FIELD_IS_REQUIRED = [$fieldIsRequired]</clause>
+			<clause prepend="," assert="!isNull([fieldSortno])" >FIELD_SORTNO = [$fieldSortno]</clause>
+			<clause prepend="," assert="!isNull([fieldDictName])" >FIELD_DICT_NAME = [$fieldDictName]</clause>
+			<clause prepend="," assert="!isNull([fieldLength])" >FIELD_LENGTH = [$fieldLength]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([isFixed])" >IS_FIXED = [$isFixed]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([columnModule])" >COLUMN_MODULE = [$columnModule]</clause>
+			<clause prepend="," assert="!isNull([defaultValue])" >DEFAULT_VALUE = [$defaultValue]</clause>
+		</set>
+		<where>
+			 FIELD_ID = [$fieldId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getTableColumnById" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE FIELD_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteTableColumnById" >
+		DELETE FROM AUTO_TABLE_COLUMN WHERE FIELD_ID = [0]
+	</sql>
+	
+	<!-- 得到所有自定义列 -->
+	<sql id="getAllTableColumnList" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN
+	</sql>
+	
+	<!-- 得到所有自定义列 -->
+	<sql id="getTableColumnListByTableName" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE TABLE_NAME = '[0]'
+	</sql>
+
+	<!-- 得到所有自定义列 -->
+	<sql id="getTableColumnByTableAndColumn" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE TABLE_NAME = '[0]' AND FIELD_COLUMN = '[1]'
+	</sql>
+	
+	<sql id="getAllActivedTableColumnList" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE IS_ACTIVED = 1 ORDER BY FIELD_SORTNO
+	</sql>
+	
+	<!-- 得到审核字段 -->
+	<sql id="getConditionFieldList" >
+		SELECT C.* FROM AUTO_TABLE_COLUMN C 
+		INNER JOIN LOAN_TYPE_TABLE_FIELD F ON C.FIELD_ID = F.FIELD_ID AND FIELD_IS_CONDITION = 1 
+		WHERE C.IS_ACTIVED = 1 AND C.FIELD_TYPE IN ('Select','Number','Decimal','Float')
+		<clause prepend="and" assert="!isNullOrEmpty([0])" > F.LOAN_TYPE_ID = [0] </clause>
+	</sql>
+	
+	<!-- 得到条件字段 -->
+	<sql id="getFieldSortListByTableIds" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE IS_ACTIVED = 1 AND TABLE_ID IN (<for in="[0]" split=",">{item}</for>) order by field_sortno
+	</sql>
+	
+	<!-- 得到条件字段 -->
+	<sql id="getFieldSortListByTableNames" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE IS_ACTIVED = 1 AND TABLE_NAME IN (<for in="[0]" split=",">'{item}'</for>) ORDER BY FIELD_SORTNO
+	</sql>
+
+	<!-- 得到条件字段 -->
+	<sql id="getFieldSortListByLoanType" >
+		SELECT
+		atc.FIELD_ID,
+		atc.TABLE_ID,
+		atc.TABLE_NAME,
+		atc.FIELD_NAME,
+		atc.FIELD_TYPE,
+		atc.FIELD_NUMBER_UNIT,
+		atc.FIELD_CONSTRAINT_RULE,
+		atc.FIELD_COLUMN,
+		atc.FIELD_COLUMN_DISPLAY,
+		atc.FIELD_IS_QUERY,
+		atc.FIELD_SORTNO,
+		atc.FIELD_DICT_NAME,
+		atc.FIELD_LENGTH,
+		atc.POPUP_URL,
+		atc.IS_ACTIVED,
+		atc.IS_FIXED,
+		atc.CREATE_DATE,
+		atc.UPDATE_DATE,
+		atc.CREATE_USER,
+		atc.UPDATE_USER,
+		CASE
+		WHEN lttf.ID IS NULL
+		THEN atc.FIELD_IS_REQUIRED
+		ELSE lttf.FIELD_IS_REQUIRED
+		END AS FIELD_IS_REQUIRED,
+		CASE
+		WHEN lttf.ID IS NULL
+		THEN atc.FIELD_APP_IS_SHOW
+		ELSE lttf.FIELD_APP_IS_SHOW
+		END AS FIELD_APP_IS_SHOW,
+		CASE
+		WHEN lttf.ID IS NULL
+		THEN atc.FIELD_WEB_IS_SHOW
+		ELSE lttf.FIELD_WEB_IS_SHOW
+		END AS FIELD_WEB_IS_SHOW,
+		atc.DEFAULT_VALUE
+		FROM
+		AUTO_TABLE_COLUMN atc
+		LEFT JOIN
+		LOAN_TYPE_TABLE_FIELD lttf
+		ON
+		lttf.FIELD_ID = atc.FIELD_ID
+		<clause prepend="and" assert="!isNull([loanTypeId])" > lttf.LOAN_TYPE_ID = [loanTypeId] </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([precType])" > lttf.LOAN_PREC_TYPE = '[precType]' </clause>
+		<clause prepend="and" assert="!isNull([tableId])" > lttf.TABLE_ID = [tableId] </clause>
+		WHERE
+		atc.IS_ACTIVED = 1
+		ORDER BY
+		atc.TABLE_ID,atc.FIELD_SORTNO
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryTableColumnList" >
+		SELECT * FROM AUTO_TABLE_COLUMN 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNull([fieldIsQuery])" > FIELD_IS_QUERY = [fieldIsQuery] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldNumberUnit])" > FIELD_NUMBER_UNIT = '[fieldNumberUnit]' </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([isFixed])" > IS_FIXED = [isFixed] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldColumnDisplay])" > FIELD_COLUMN_DISPLAY = '[fieldColumnDisplay]' </clause>
+			<clause prepend="and" assert="!isNull([fieldAppIsShow])" > FIELD_APP_IS_SHOW = [fieldAppIsShow] </clause>
+			<clause prepend="and" assert="!isNull([fieldWebIsShow])" > FIELD_WEB_IS_SHOW = [fieldWebIsShow] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldName])" > FIELD_NAME = '[fieldName]' </clause>
+			<clause prepend="and" assert="!isNull([fieldIsRequired])" > FIELD_IS_REQUIRED = [fieldIsRequired] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldType])" > FIELD_TYPE = '[fieldType]' </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldColumn])" > FIELD_COLUMN = '[fieldColumn]' </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([fieldConstraintRule])" > FIELD_CONSTRAINT_RULE = '[fieldConstraintRule]' </clause>
+			<clause prepend="and" assert="!isNull([tableId])" > TABLE_ID = [tableId] </clause>
+		</where>
+		ORDER BY FIELD_SORTNO
+	</sql>
+	
+	<!-- 根据条件查询并排序 -->
+	<sql id="queryTableColumnByConditionOrder" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN
+		<where>
+			<clause prepend="and" > TABLE_ID = '[tableId]' </clause>
+		</where>
+		ORDER BY FIELD_SORTNO
+	</sql>
+	
+	<!-- 根据表名查询并排序 -->
+	<sql id="getFieldListByTableName" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE TABLE_NAME = '[0]' ORDER BY FIELD_SORTNO
+	</sql>
+
+	<!-- 根据表名查询并排序 数值 可统计的-->
+	<sql id="getNumberFieldByTableName" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN WHERE TABLE_NAME = '[0]' AND FIELD_TYPE IN ('Decimal','Number','Ratio') ORDER BY FIELD_SORTNO
+	</sql>
+	<!--   -->
+	<!--查询评分项-->
+	<sql id="queryModelTemplateInfoColumn" result="modelQuery">
+		<!--SELECT-->
+		<!--CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_ID ELSE F.FIELD_ID END FIELD_ID,-->
+		<!--CASE WHEN F.FIELD_ID IS NULL THEN C.IS_ACTIVED ELSE 1 END IS_ACTIVED,-->
+		<!--CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_COLUMN_DISPLAY ELSE F.FIELD_DISPLAY END FIELD_DISPLAY,-->
+		<!--CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_NAME ELSE F.FIELD_NAME END FIELD_NAME-->
+		<!--FROM AUTO_TABLE_COLUMN C LEFT JOIN MODE_TEMPLATE_FIELD F ON C.FIELD_ID = F.FIELD_ID-->
+		SELECT
+		CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_ID ELSE F.FIELD_ID END FIELD_ID,
+		CASE WHEN F.FIELD_ID IS NULL THEN 0 ELSE F.IS_ACTIVED END IS_ACTIVED,
+		CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_COLUMN_DISPLAY ELSE F.FIELD_DISPLAY END FIELD_DISPLAY,
+		CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_NAME ELSE F.FIELD_NAME END FIELD_NAME
+		FROM AUTO_TABLE_COLUMN C LEFT JOIN MODE_TEMPLATE_FIELD F ON F.TABLE_NAME = C.TABLE_NAME AND F.TALBE_COLUMN = C.FIELD_COLUMN
+		WHERE
+		C.TABLE_NAME = '[tableName]' AND
+		C.IS_ACTIVED = 1 AND C.FIELD_TYPE IN (<for in="[condition]" split=",">'{item}'</for>)
+		ORDER BY C.FIELD_SORTNO
+	</sql>
+
+	<!--查询评分项-->
+	<sql id="queryIntoTemplatesInfoColumn" result="intoQuery">
+		SELECT
+		CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_ID ELSE F.FIELD_ID END FIELD_ID,
+		CASE WHEN F.FIELD_ID IS NULL THEN 0 ELSE F.IS_ACTIVED END IS_ACTIVED,
+		CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_COLUMN_DISPLAY ELSE F.FIELD_DISPLAY END FIELD_DISPLAY,
+		CASE WHEN F.FIELD_ID IS NULL THEN C.FIELD_NAME ELSE F.FIELD_NAME END FIELD_NAME,
+		CASE WHEN F.FIELD_ID IS NULL THEN 0 ELSE F.IS_MUST END IS_MUST
+		FROM AUTO_TABLE_COLUMN C LEFT JOIN INTO_TEMPLATES_FIELD F ON F.TABLE_NAME = C.TABLE_NAME AND F.TALBE_COLUMN = C.FIELD_COLUMN
+		WHERE
+		C.TABLE_NAME = '[tableName]' AND
+		C.IS_ACTIVED = 1 AND C.FIELD_TYPE IN (<for in="[condition]" split=",">'{item}'</for>)
+		ORDER BY C.FIELD_SORTNO
+	</sql>
+
+	<sql id="queryTargetTabInfo">
+		SELECT  *
+		FROM AUTO_TABLE_COLUMN
+		WHERE TABLE_NAME IN( 'LBIZ_FAMILY_INFO','LBIZ_SPOUSE_INFO','LBIZ_PERSONAL_INFO')
+	</sql>
+	<!--&lt;!&ndash;通过tableId查询表信息;倒序排列&ndash;&gt;-->
+	<sql id="getTableColumnByTableId" cache="tableColumnCache" >
+		SELECT * FROM AUTO_TABLE_COLUMN
+		<where>
+			<clause prepend="and" > TABLE_ID = '[tableId]' </clause>
+		</where>
+		ORDER BY FIELD_SORTNO
+		DESC
+	</sql>
+	<sql id="queryTableColumnNum" >
+		select count(*) as field_sortno from SYSIBM.syscolumns where tbname='[tableName]' and name ='[fieldColumn]'
+	</sql>
+	<!--查询自定义数据包括表名描述-->
+	<sql id="getAllTableColumnQueryList" result="AllTableColumnQuery">
+     select atc.*,ati.TABLE_DISPLAY_NAME from AUTO_TABLE_COLUMN atc left join  AUTO_TABLE_INFO ati on atc.TABLE_ID  = ati.TABLE_ID order by atc.TABLE_ID
+	</sql>
+	<class id="AllTableColumnQuery" name="banger.domain.config.AutoTableColumnQuery" >
+		<property name="tableDisplayName" column="TABLE_DISPLAY_NAME" ></property>
+
+	</class>
+
+	<!--统计导入的客户表中客户id是否有重复,过滤重复记录-->
+	<class id="autoTableCountCustid" name="banger.domain.config.AutoTableCountCustid">
+		<property name="count" column="COUNT"></property>
+		<property name="custId" column="CUST_ID"></property>
+	</class>
+	<sql id="countCustId" result="autoTableCountCustid">
+		SELECT COUNT(CUST_ID) AS COUNT,CUST_ID AS CUST_ID FROM BANK_CUSTOMER_INFO GROUP BY CUST_ID
+	</sql>
+
+	<!--更新客户导入表中错误标志-->
+	<sql id="updateErrorFlag">
+		UPDATE BANK_CUSTOMER_INFO SET ERROR_FLAG=1 WHERE CUST_ID IN (<for in="[0]" split=",">{item}</for>)
+	</sql>
+
+	<sql id="updateCustId">
+		UPDATE BANK_CUSTOMER_INFO B SET B.CUST_ID
+		=
+		(SELECT CBI.ID FROM CUST_BASIC_INFO CBI
+		WHERE
+		B.CUSTOMER_NAME = CBI.CUSTOMER_NAME AND B.IDENTIFY_NUM = CBI.IDENTIFY_NUM)
+	</sql>
+
+</banger>

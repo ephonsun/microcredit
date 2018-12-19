@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>合同模版导入</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<div class="ui-legend">
+    <label>导入合同</label>
+</div>
+<input type="hidden" id="localFilename" value="" />
+<input type="hidden" id="id" value="$!templateFile.id" />
+<input type="hidden" id="fileName" value="$!templateFile.fileName" />
+<input type="hidden" id="filePath" value="$!templateFile.filePath" />
+<input type="hidden" id="htmlPath" value="$!htmlPath" />
+
+<form id="baseForm">
+    <table class="ui-form-fields">
+        <tbody>
+            <tr>
+                <td colspan="8">
+
+                    #if($templateFile.id)
+                        #set($uploadDiv="none" )
+                        #set($fileDiv="block" )
+                    #else
+                        #set($uploadDiv="block" )
+                        #set($fileDiv="none" )
+                    #end
+                    <div class="ui-div-file" id="uploadSpan" style="display: $!uploadDiv"  >
+                        <span id="chooseFile" class="ui-button mr10">
+                            <label class="ui-button-text" onClick="" >选择合同</label>
+                        </span>
+                        <input type="file" id="file" name="uploadFile" class="file" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="width: 70px; height: 25px; line-height:22px;" onchange="checkFileType(this);"/>
+                    </div>
+
+                    <div id="fileList" style="display: $!fileDiv">
+                        <label><a style="color:#000000;" href="javascript:downloadContractFile();" id="uploadFileName">$!templateFile.oldFileName</a></label>
+                        <strong ><a style="color: #ff0000;font-size: 13px;" href="javascript:removeContractFile();">×</a></strong>
+                    </div>
+
+##                    ，如果已保存过模板，则再次导入保存会替换原有模板
+                    <span class="c999">（支持Offic2007版Word和Excel文件格式）</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="field" width="7%">
+                    <label class="ui-star">合同类型：</label>
+                </td>
+                <td width="18%">
+                    <select id="templateTypeId" name="templateTypeId">
+                        <option></option>
+                        #options("cdContractTemplateType","$!templateFile.templateTypeId","")
+                    </select>
+                </td>
+                <td class="field" width="7%">
+                    <label class="ui-star">合同名称：</label>
+                </td>
+                <td width="18%">
+                    <div class="ui-text">
+                        <input type="text" id="oldFileName" name="oldFileName" class="ui-text-text" value="$!templateFile.oldFileName"  maxlength="50" />
+                    </div>
+                </td>
+                <td colspan="4">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line"/>
+<div style="width: 100%;height: 400px;border:1px solid #d7d7d7;overflow:auto;" id="fileView">
+
+</div>
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+    <span id="btnSave" class="ui-closure-button">
+        <label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+
+<script type="text/javascript" src="../core/js/banger.file.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-form.js"></script>
+
+
+<script type="text/javascript">
+    // 页面加载完成时...
+    $(function(){
+
+        // 初始化下拉单选框
+        layout.initForms();
+        $('select').selectbox();
+
+        var htmlPath = $("#htmlPath").val();
+
+        if(null!=htmlPath&&""!=htmlPath){
+            jQuery.ajax({
+                type: 'post',
+                url: '../contract/getHtmlViewPage.html?htmlPath='+htmlPath,
+                async:false,
+                data: { },
+                success: function (data) {
+                    $("#fileView").html(data);
+                }
+            });
+        }
+
+        banger.verify('#templateTypeId', {name : 'required', tips : '请选择合同类型！'});
+        banger.verify('#oldFileName', {name : 'required', tips : '请填写合同名称！'});
+
+
+
+        $("#chooseFile").click(function() {
+//            $("#file").click();
+        })
+
+        // 关闭页卡
+        $('#btnCancel').click(function() {
+            showCancelConfirmForEdit(function(){
+                tabs.close(tabs.getSelfId(window));
+            })
+        });
+
+        $("#btnSave").click(function() {
+
+            var bool=banger.verify("#baseForm");
+            if(!bool){
+                return false;
+            }
+
+            //上传文件预览 有文件预览 无文件判断是否需要上传文件
+//            var localFilename = $('#localFilename').val();
+            var fileName = $('#fileName').val();
+            var filePath = $('#filePath').val();
+
+//            if(null!=localFilename&&""!=localFilename){
+//                setFile();
+//                saveUploadFile(1);
+//            }
+
+            if(null==fileName||""==fileName||null==filePath||""==filePath){
+                showConfirm({
+                    icon: 'warning',
+                    content: "请选择文件！"
+                });
+                return;
+            }
+
+            var postJson = {};
+            postJson['templateTypeId'] = $("#templateTypeId").val();
+            postJson['oldFileName'] = $("#oldFileName").val();
+            postJson['fileName'] = $("#fileName").val();
+            postJson['filePath'] = $("#filePath").val();
+            postJson['id'] = $("#id").val();
+            jQuery.ajax({
+                type : "post",
+                url : "../contract/saveContractFile.html?",
+                data : postJson,
+                async : false,
+                success : function(result) {
+                    result = $.parseJSON(result);
+                    if(!result.success){
+                        showConfirm({
+                            icon: 'warning',
+                            content: result.cause
+                        });
+                    }else{
+                        showConfirm({
+                            icon: 'succeed',
+                            content: '保存成功!'
+                        });
+
+                        $("#id").val(result.value);
+
+                        // 回刷父页
+                        var win = tabs.getIframeWindow(tabs.getSelfPid(window));
+                        if( win && win.refresh){
+                            win.refresh();
+                        }
+
+                        tabs.close(tabs.getSelfId(window));
+
+                    }
+                }
+            });
+        })
+
+
+
+    })
+
+    //-------------------------------------------------------
+
+    //崋值方法(就是将文本框的值赋值file对象)
+    function setFile()
+    {
+        //将text1中的值复制到剪贴板中
+        window.clipboardData.setData('text',document.getElementById("localFilename").value);
+        //创建Shell(需要添加到信任站点或解除未签名的ActiveX控件的禁用
+        var WshShell = new ActiveXObject("WScript.Shell");
+        //拿到焦点
+        document.getElementById("file").focus();
+        //Ctrl + A 操作
+        WshShell.sendKeys("^a");
+        //Ctrl + V 操作(sendKeys对于中文赋值操作显得无力,所以只能模拟键盘操作)
+        WshShell.sendKeys("^v");
+    }
+
+    /*判断上传文件类型*/
+    function checkFileType(id){
+        var value=id.value;
+        if (value){
+            var suffix = value.split(".")[value.split(".").length-1];
+            if(suffix!="docx"&&suffix!="xls"&&suffix!="xlsx"){
+                showConfirm({
+                    icon: 'warning',
+                    content: '文件格式必须是word2007(.docx)和excel2007(.xls/.xlsx)。<br>您上传的文件类型为(.'+suffix+')，请重新上传!'
+                });
+            }else {
+                var localFilename = file.val(id);
+                if(null!=localFilename&&''!=localFilename&&""!=localFilename){
+                    value = localFilename;
+                }
+                $('#localFilename').val(value);
+                $('#oldFileName').val(getFileName(value));
+
+                //显示上传文件
+                $('#uploadFileName').text(getFileNameAndSuffix(value));
+                $('#uploadSpan').hide();
+                $('#fileList').show();
+
+                // 上传文件 保存 预览
+                saveUploadFile(1);
+            }
+        }else {
+            showConfirm({
+                icon: 'warning',
+                content: "请选择文件！"
+            });
+        }
+    }
+
+    //上传文件
+    function saveUploadFile(flag){
+        //var filename = $('#file').val();
+        var filename = $('#localFilename').val();
+
+        if(filename!=""){
+
+            ajaxFileUpload({
+                url:"../contract/uploadContractFile.html?fullFilename="+encodeURI(encodeURI(filename))+"&flag="+flag+"&random="+Math.random()*10000,//+"&contId="+contId+"&fileType="+fileType,
+                id:'file',
+                dataType:'json',
+                type : 'post',
+                async: false ,
+                callback:function(a){
+                    var responseText = $.parseJSON(a.responseText)
+                    var success = responseText.success;
+                    if(success){
+                        var value = responseText.value;
+                        var filePath = value.filePath;
+                        var fileName = value.fileName;
+                        var htmlPath = value.htmlPath;
+
+                        $("#fileName").val(fileName);
+                        $("#filePath").val(filePath);
+
+                        if(htmlPath){
+                            jQuery.ajax({
+                                type: 'post',
+                                url: '../contract/getHtmlViewPage.html?htmlPath='+htmlPath,
+                                async:false,
+                                data: { },
+                                success: function (data) {
+                                    $("#fileView").html(data);
+                                }
+                            });
+                        }
+
+                    }else{
+                        showConfirm({
+                            icon: 'warning',
+                            content: responseText.cause
+                        });
+//                        window.location.reload();
+//                        return false;
+                    }
+                }
+            });
+
+        }
+        else{
+            showConfirm({
+                icon: 'warning',
+                content: "请选择文件！"
+            });
+        }
+    }
+
+
+    function getFileName(str){
+       var task = str.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");
+        return task;
+    }
+
+    function getFileNameAndSuffix(filepath) {
+        if (filepath != "") {
+            var names = filepath.split("\\");
+            return names[names.length - 1];
+        }
+    }
+
+    function removeContractFile(){
+
+        $('#uploadSpan').show();
+        $('#fileList').hide();
+
+        $('#localFilename').val("");
+        $('#uploadFileName').text("");
+        $("#fileView").html("");
+        //
+        $('#filePath').val("");
+        $('#fileName').val("");
+    }
+
+    function downloadContractFile(){
+        var id = $("#id").val();
+        if(null!=id&&""!=id){
+            window.location="../contract/downloadContractFile.html?id=" + id;
+        }
+    }
+
+</script>
+</body>
+</html>

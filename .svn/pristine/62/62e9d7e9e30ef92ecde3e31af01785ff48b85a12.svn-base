@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+/*========================================
+ 描述：登录界面样式
+ 作者：丁伟 2013.11.26
+ 修改：
+========================================*/
+html {  }
+
+body { background:#dbedf8 url(../imgs/login/body.png) no-repeat center center; color:#333; font-size:12px; font-family:'microsoft yahei'; }
+
+.main { min-width:960px; }
+.login-main { background:url(../imgs/login/body-login.png) no-repeat center 112px; }
+.main-inner { width:960px; margin:0 auto; padding:40px 0 40px 0; }
+.head { height:42px; overflow:hidden; text-align:center; }
+.head a { display:inline-block; }
+.head img { border:0; }
+.body { margin:0 auto; }
+.foot { margin-top:170px; text-align:center; }
+
+/* 登录 */
+.login-form { width:302px; margin-top:136px; }
+.login-failed { height:24px; margin-bottom:10px; overflow:hidden; line-height:24px; color:#f00; }
+.login-text { width:264px; border:1px solid #b6c4d8; border-radius:5px; background:#f7faff url(../imgs/login/text.gif) no-repeat; margin-bottom:30px; padding-left:36px; }
+.login-text input { width:264px; height:36px; border:0; background:none; line-height:36px; font-size:14px; }
+.login-account { background-position:0 0; }
+.login-password { background-position:0 -36px; }
+.login-button { cursor:pointer; display:block; width:300px; height:40px; border:1px solid #df8918; border-radius:5px; background:url(../imgs/login/button.gif) repeat-x 0 0; overflow:hidden; text-align:center; color:#9d3607; font-size:16px; font-weight:700; }
+.login-button-hover { background-position:0 -40px; }
+.login-button-active { background-position:0 -80px; }
+
+.pointsTip{
+ margin: 0 auto;
+ margin-top: 100px;
+ width: 430px;
+}
+.password-form{
+ margin-top:30px;
+ width:300px;
+}
+.p-text{
+ width: 290px;
+ border: 1px solid #b6c4d8;
+ border-radius: 5px;
+ margin-bottom: 10px;
+ padding-left: 3px;
+}
+.p-text input{
+ width: 215px;
+ height: 36px;
+ border: 0;
+ background: none;
+ line-height: 36px;
+ font-size: 14px;
+}
+
+.w200 { width:200px; }
+/* 密码强度框样式 */
+table.pwd-strength-box {
+ width:100%;
+}
+table.pwd-strength-box tr td{
+ height:14px;
+ line-height:14px;
+ border-right:solid 1px #fff;
+ background-color:#ededed; padding:0;
+}
+.errorTip{
+ display:inline-block;
+ width:90px;
+ margin-left:5px;
+}

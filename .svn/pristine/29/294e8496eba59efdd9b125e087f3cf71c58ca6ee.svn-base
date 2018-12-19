@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="SysWorkingTable" name="banger.domain.system.SysWorkingTable">
+        <property name="apply" column="APPLY" ></property>
+        <property name="allot" column="ALLOT" ></property>
+        <property name="intoAllot" column="INTOALLOT" ></property>
+        <property name="authorized" column="AUTHORIZED" ></property>
+        <property name="credit" column="CREDIT" ></property>
+        <property name="investigate" column="INVESTIGATE" ></property>
+        <property name="approval" column="APPROVAL" ></property>
+        <property name="contract" column="CONTRACT" ></property>
+        <property name="loan" column="LOAN" ></property>
+        <property name="afterLoan" column="AFTERLOAN" ></property>
+        <property name="collectionReminder" column="COLLECTION_REMINDER" ></property>
+        <property name="collectionBad" column="COLLECTION_BAD" ></property>
+        <property name="monitor" column="MONITOR" ></property>
+        <property name="custSchedule" column="CUSTSCHEDULE" ></property>
+    </class>
+
+    <sql id="queryManageCount" result="SysWorkingTable">
+        SELECT
+        COUNT (CASE WHEN LOAN_PROCESS_TYPE = 'Apply' THEN LOAN_PROCESS_TYPE END) APPLY,
+        COUNT (CASE WHEN LOAN_PROCESS_TYPE = 'Authorized' THEN LOAN_PROCESS_TYPE END) AUTHORIZED,
+        (
+        SELECT COUNT(1) FROM LOAN_APPLY_INFO lai
+        WHERE
+        lai.IS_DEL = 0 AND lai.LOAN_PROCESS_TYPE = 'Allot'
+        AND (
+        <clause assert="!isNullOrEmpty([belongId])" > lai.LOAN_BELONG_ID = [belongId] or</clause>
+        lai.LOAN_BELONG_ID IN
+        (
+        SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>) )
+        )
+        AND lai.LOAN_REFUSE_USER = 0
+        ) ALLOT,
+        COUNT (CASE WHEN LOAN_PROCESS_TYPE = 'Investigate' THEN LOAN_PROCESS_TYPE END) INVESTIGATE,
+        (
+        SELECT COUNT(1) FROM LOAN_APPLY_INFO lai
+        where lai.IS_DEL = 0 and lai.LOAN_PROCESS_TYPE = 'Approval'
+        and lai.LOAN_REFUSE_USER = 0 and
+        (
+        <clause assert="!isNullOrEmpty([belongId])" > lai.LOAN_BELONG_ID = [belongId] or</clause>
+        lai.LOAN_BELONG_ID IN
+        (
+        SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>)
+        )
+        )) APPROVAL,
+        COUNT (CASE WHEN LOAN_PROCESS_TYPE = 'Contract' THEN LOAN_PROCESS_TYPE END) CONTRACT,
+        (
+        SELECT COUNT(1) FROM LOAN_APPLY_INFO lai
+        WHERE
+        lai.IS_DEL = 0 AND lai.LOAN_PROCESS_TYPE = 'Loan'
+        AND (
+        <clause assert="!isNullOrEmpty([belongId])" > lai.LOAN_BELONG_ID = [belongId] or</clause>
+        lai.LOAN_BELONG_ID IN
+        (
+        SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>) )
+        )
+        AND lai.LOAN_REFUSE_USER = 0
+        ) LOAN,
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        (
+        SELECT
+        icai.*,
+        icg.SIGN_DATE AS SIGN_DATES
+        FROM
+        INTO_CUST_APPLY_INFO icai
+        INNER JOIN
+        INTO_CUSTOMER_GROUP icg
+        ON
+        icai.APPLY_ID = icg.CUSTOMER_ID
+        WHERE
+        icg.TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>)
+        AND icai.IS_DEL = 0
+        AND icai.LOAN_ID = 0
+        AND icg.IS_DEL = 0
+        AND icai.SIGN_SATE = 2 ) ) INTOALLOT,
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        (
+        SELECT
+        CCC.*,
+        U.USER_NAME
+        FROM
+        CUST_CUSTOMER_CREDIT_CHECK CCC
+        INNER JOIN
+        PMS_USER U
+        ON
+        U.USER_ID=CCC.APPLY_USER_ID
+        INNER JOIN
+        SYS_TEAM_MEMBER STM
+        ON
+        STM.USER_ID=CCC.APPLY_USER_ID
+        WHERE
+        STM.TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>)
+        AND CCC.IS_DEL = 0
+        AND CCC.CHECK_STATUS IN (1) ) ) CREDIT,
+        <clause assert="!isNull([afterLoan])" >
+        COUNT (CASE WHEN LOAN_PROCESS_TYPE = 'AfterLoan' THEN LOAN_PROCESS_TYPE END) AFTERLOAN,
+        </clause>
+    <!--COUNT (CASE WHEN LOAN_COLLECTION_STATE = 'Collection' THEN LOAN_COLLECTION_STATE END) "COLLECTION",-->
+        (
+            SELECT COUNT(1) FROM LOAN_APPLY_INFO lai
+            WHERE
+            lai.IS_DEL = 0 AND lai.LOAN_PROCESS_TYPE = 'AfterLoan'
+            AND (
+            <clause assert="!isNullOrEmpty([belongId])" > lai.LOAN_BELONG_ID = [belongId] or</clause>
+            lai.LOAN_BELONG_ID IN
+            (
+                SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>) )
+            )
+            AND lai.LOAN_REFUSE_USER = 0
+        ) "COLLECTION_REMINDER",
+        (
+        SELECT COUNT(1) FROM LOAN_APPLY_INFO lai
+        WHERE
+        lai.IS_DEL = 0 AND lai.LOAN_PROCESS_TYPE = 'AfterLoan'
+        AND (
+        <clause assert="!isNullOrEmpty([belongId])" > lai.LOAN_BELONG_ID = [belongId] or</clause>
+        lai.LOAN_BELONG_ID IN
+        (
+        SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN (<for in="[groupId]" split=",">'{item}'</for>) )
+        )
+        AND lai.LOAN_REFUSE_USER = 0
+        AND lai.LOAN_COLLECTION_STATE = 'Collection'
+        AND lai.OVERDUE_LIMIT <![CDATA[ > ]]> 0
+        ) "COLLECTION_BAD",
+        COUNT (CASE WHEN LOAN_MONITOR_STATE = 'Monitor' AND LOAN_PROCESS_TYPE = 'AfterLoan'
+                    THEN LOAN_MONITOR_STATE
+               END) MONITOR
+        FROM LOAN_APPLY_INFO
+        <where>
+            IS_DEL = 0 AND LOAN_REFUSE_USER = 0
+            <clause prepend="and" assert="isNotEmpty([belongId],[groupId])" >
+                (
+                <clause assert="!isNullOrEmpty([belongId])" > LOAN_BELONG_ID = [belongId] </clause>
+                <clause assert="!isNullOrEmpty([belongId])" >
+                    <clause  assert="!isNullOrEmpty([groupId])" > or </clause>
+                </clause>
+                <clause  assert="!isNullOrEmpty([groupId])" >
+                    LOAN_BELONG_ID IN (
+                    SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN	([groupId])
+                    )
+                </clause>
+                )
+            </clause>
+        </where>
+    </sql>
+<!--查询单独审批-->
+    <sql id="queryApprovalCount">
+        SELECT
+        COUNT(1)
+        FROM
+        LOAN_APPLY_INFO lai
+        LEFT JOIN
+        LOAN_CURRENT_AUDIT_STATUS l
+        ON
+        l.LOAN_ID = lai.LOAN_ID
+        WHERE
+        lai.IS_DEL = 0
+        AND lai.LOAN_PROCESS_TYPE = 'Approval'
+        AND l.audit_user_id = [belongId]
+        AND l.is_valid=1
+        AND l.AUDIT_RESULT=0
+        AND lai.LOAN_REFUSE_USER = 0
+    </sql>
+    <!--查合同签订笔数 -->
+    <sql id="querySignCount">
+        SELECT
+        COUNT(1)
+        FROM
+        LOAN_APPLY_INFO
+        WHERE
+        IS_DEL = 0
+        AND LOAN_PROCESS_TYPE = 'Sign'
+        AND LOAN_REFUSE_USER = 0
+        AND CONTRACT_CHECK_USER = [contractCheckUser]
+    </sql>
+
+    <!-- 查询客户的日程条数 -->
+    <sql id="queryCustScheduleWorkingTable"  result="SysWorkingTable">
+        SELECT COUNT(1) CUSTSCHEDULE
+        FROM CUST_SCHEDULE SC
+        INNER JOIN CUST_BASIC_INFO CUST ON CUST.ID=SC.CUSTOMER_ID
+        <clause assert="!isNull([teamGroupIds])" > INNER JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=SC.CREATE_USER </clause><!--分配给团队的-->
+        <where>
+            <clause prepend="and"> SC.DEL_FLAG = 0 </clause>
+            <clause prepend="and" assert="!isNull([createUser])">
+                (  SC.CREATE_USER = [createUser]
+                <clause prepend="or" assert="!isNull([teamGroupIds])" > STM.TEAM_GROUP_ID in ([teamGroupIds])</clause>
+                )
+            </clause>
+
+            <clause prepend="and" assert="!isNull([customerId])" > SC.CUSTOMER_ID = [customerId] </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([planType])" > SC.PLAN_TYPE = [planType] </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([planRate])" > SC.PLAN_RATE = [planRate] </clause>
+            <clause prepend="and" assert="!isNull([state])" > SC.STATE = [state] </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([customerName])" >
+                (CUST.CUSTOMER_NAME LIKE '%[customerName]%' OR  CUST.PHONE_NUMBER LIKE '%[customerName]%'
+                OR CUST.IDENTIFY_NUM LIKE UPPER('%[customerName]%')
+                )
+            </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([customerLevel])" > CUST.CUSTOMER_LEVEL='[customerLevel]'</clause>
+            <clause prepend="and" assert="!isNull([userId])" > SC.CREATE_USER = [userId] </clause>
+
+            <clause prepend="and" assert="isEqual([isOverDate],'1')" > TO_CHAR(SC.PLAN_TIME,'yyyy-MM-dd HH:mm') >='[nowDate]' </clause>
+            <clause prepend="and" assert="isEqual([isOverDate],'2')" > '[nowDate]' > TO_CHAR(SC.PLAN_TIME,'yyyy-MM-dd HH:mm')</clause>
+            <clause prepend="and" assert="!isNullOrEmpty([startDate])" > TO_CHAR(SC.PLAN_TIME,'yyyy-MM-dd HH:mm ') >='[startDate]' </clause>
+            <clause prepend="and" assert="!isNullOrEmpty([endDate])" > '[endDate]' >= TO_CHAR(SC.PLAN_TIME,'yyyy-MM-dd HH:mm')</clause>
+            AND
+            PLAN_TIME <![CDATA[>=]]><method name="beginDate">[today]</method> AND
+            PLAN_TIME <![CDATA[<]]><method name="endDate">[today]</method>
+        </where>
+    </sql>
+    <!--查询未完成贷款任务-->
+    <sql id="queryTaskListNum" result="taskInfoQuery">
+        <clause assert="!isNull([assignUserId])" >
+            SELECT DISTINCT
+            TS.TASK_ID,
+            TS.TASK_TITLE,
+            TS.START_DATE,
+            TS.END_DATE,
+            TS.TASK_MOLD,
+            TS.TASK_TYPE,
+            CASE WHEN TS.TSK_LEVEL !=3 THEN TMTA.ASSIGN_NUM  ELSE TS.TASK_TARGET END TASK_TARGET,
+            TS.REMARK,
+            TS.ASSIGN_USER_ID,
+            TS.FINISH_DATE,
+            TS.TASK_STATUS,
+            CASE WHEN TS.TSK_LEVEL !=3 THEN TMTA.FINISH_NUM  ELSE TS.TASK_FINISH END TASK_FINISH,
+            TS.TASK_ASSIGN,
+            TS.IS_DEL,
+            TS.CREATE_DATE,
+            TS.UPDATE_DATE,
+            TS.CREATE_USER,
+            TS.UPDATE_USER,
+            TS.TEAM_GROUP_ID,
+            TS.TSK_LEVEL,
+            U.USER_NAME
+            FROM TSK_TASK_INFO  TS
+            LEFT JOIN PMS_USER U ON  U.USER_ID=TS.CREATE_USER
+            LEFT JOIN TSK_TEAM_MEMBER_TASK_ASSIGN TMTA ON TMTA.TASK_ID=TS.TASK_ID
+            WHERE TS.IS_DEL = 0
+            <clause prepend="and" assert="isEqual([taskStatus],'1')" > TMTA.TASK_FINISH_STATUS != 2  </clause>
+            <clause prepend="and" assert="isEqual([taskStatus],'2')" > TMTA.TASK_FINISH_STATUS = 2 and TMTA.TASK_FINISH_STATUS IS NOT NULL </clause>
+        </clause><!--分配给客户经理的-->
+        <clause assert="!isNull([teamGroupId])" >
+            SELECT distinct  TS.*,U.USER_NAME
+            FROM TSK_TASK_INFO  TS
+            LEFT JOIN PMS_USER U ON  U.USER_ID=TS.CREATE_USER
+            LEFT JOIN TSK_GROUP_TASK_ASSIGN TTA ON 	TTA.TASK_ID=TS.TASK_ID
+            WHERE TS.IS_DEL = 0
+            <clause prepend="and" assert="isEqual([taskStatus],'1')" > TS.TASK_STATUS != 2  </clause>
+            <clause prepend="and" assert="isEqual([taskStatus],'2')" > TS.TASK_STATUS = 2 and TS.TASK_STATUS IS NOT NULL </clause>
+        </clause><!--分配给团队的-->
+
+
+        <clause prepend="and" assert="isNull([createUser])" > TS.IS_DEL = 1 </clause><!--用户id一定要传，不传直接返回空-->
+        <clause prepend="and" assert="!isNull([createUser])">
+            ( TS.CREATE_USER = [createUser]
+            <clause prepend="or" assert="!isNull([assignUserId])" > ( TMTA.MEMBER_USER_ID=[assignUserId] and TMTA.IS_DEL = 0)</clause><!--分配给客户经理的-->
+            <!--or TMTA.MEMBER_USER_ID = [userId]-->
+            <clause prepend="or" assert="!isNull([teamGroupId])" > ( TTA.TEAM_GROUP_ID in ([teamGroupId]) and TTA.IS_DEL = 0 )</clause>
+            )
+        </clause>
+
+        <clause prepend="and" assert="!isNull([taskFinish])" > TS.TASK_FINISH = [taskFinish] </clause>
+        <clause prepend="and" assert="!isNullOrEmpty([taskTitle])" > TS.TASK_TITLE like '%[taskTitle]%' </clause>
+        <clause prepend="and" assert="!isNull([taskTarget])" > TS.TASK_TARGET = [taskTarget] </clause>
+        <clause prepend="and" assert="!isNull([taskType])" > TS.TASK_TYPE = [taskType] </clause>
+
+        <clause prepend="and" assert="!isNull([taskAssign])" > TS.TASK_ASSIGN = [taskAssign] </clause>
+
+        <clause prepend="and" assert="isEqual([isOverDate],'1')" > TS.END_DATE <![CDATA[ >= ]]> <method name="toDate">[nowDate]</method> </clause>
+        <clause prepend="and" assert="isEqual([isOverDate],'2')" > TS.END_DATE <![CDATA[ < ]]> <method name="toDate">[nowDate]</method> </clause>
+
+        <clause prepend="and" assert="!isNullOrEmpty([startDate])" > TS.START_DATE <![CDATA[ >= ]]> <method name="beginDate">[startDate]</method> </clause>
+        <clause prepend="and" assert="!isNullOrEmpty([endDate])" > TS.START_DATE <![CDATA[ < ]]> <method name="endDate">[endDate]</method> </clause>
+        <clause prepend="or"  assert="!isNullOrEmpty([tskLevel])" > TS.TSK_LEVEL = [tskLevel] </clause>
+
+        ORDER BY TS.TASK_STATUS,TS.END_DATE
+    </sql>
+    <sql id="queryScheduleCount">
+        SELECT COUNT(1) CUSTSCHEDULE FROM CUST_SCHEDULE
+        <where> SCHEDULE_TYPE=0 and STATE=1 and
+        PLAN_TIME <![CDATA[>=]]><method name="beginDate">[today]</method> AND
+        PLAN_TIME <![CDATA[<]]><method name="endDate">[today]</method>
+        </where>
+    </sql>
+</banger>

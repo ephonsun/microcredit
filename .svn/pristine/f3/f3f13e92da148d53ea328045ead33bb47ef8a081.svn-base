@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>初审规则</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public.css" />
+</head>
+
+<body>
+<div class="ui-layout-statistics" >
+    初审规则 (<label id="lblStatisticsSR" class="statistics" >0</label>)个
+</div>
+<input type="hidden" id="loginUserName" name="loginUserName" value="$!loginUserName"/>
+    <div class="ui-layout-action" >
+		 <span id="btnAdd" class="ui-button fl">
+            <label class="ui-button-text">$!pageConst.BTN_NEW</label>
+        </span>
+        <span id="btnRefresh" class="ui-button fr" >
+			<label class="ui-button-text" >刷新</label>
+		</span>
+    </div>
+<table id="trialRuleinfo" ></table>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js" ></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.autotips.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js" ></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js" ></script>
+<script type="text/javascript" src="../config/js/into/TrialRuleInfoList.js"></script>
+</body>
+</html>

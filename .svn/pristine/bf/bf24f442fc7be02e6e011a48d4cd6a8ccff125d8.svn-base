@@ -1,0 +1,28 @@
+
+#*营业收入*#
+
+#if($columnName=='BUSINESS_INCOME_AMOUNT' && $loanClassId==1)
+    #outIncomeAmount($!liBt,'营业收入',"BUSINESS_INCOME_AMOUNT",$!totalLibt,$!loanId,$!createDate,$!createDateEnd,"")
+#elseif($columnName=='OTHER_INCOME_AMOUNT' && $loanClassId==1)
+    #outIncomeAmount($!liOt,'其他收入',"OTHER_INCOME_AMOUNT",$!totalLiot,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_OTHER_INCOME")
+#elseif($columnName=='FIXED_COST_DEFRAY_AMOUNT' && $loanClassId==1)
+    #outIncomeAmount($!liFt,'固定成本支出',"FIXED_COST_DEFRAY_AMOUNT",$!totalLift,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_FIXED_COST_DEFRAY")
+#elseif($columnName=='TEX_DEFRAY_AMOUNT' && $loanClassId==1)
+    #outIncomeAmount($!liTt,'所得税支出',"TEX_DEFRAY_AMOUNT",$!totalLitt,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_TEX_DEFRAY")
+#elseif($columnName=='OTHER_DEFRAY_AMOUNT' && $loanClassId==1)
+    #outIncomeAmount($!liOdt,'其他支出',"OTHER_DEFRAY_AMOUNT",$!totalLiodt,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_OTHER_DEFRAY")
+#elseif($columnName=='HOME_INCOME_AMOUNT' && $loanClassId==2)
+    #conOutIncomeAmount($!liBt,'家庭收入',"HOME_INCOME_AMOUNT",$!totalLibt,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_HOME_INCOME")
+#elseif($columnName=='OTHER_INCOME_AMOUNT' && $loanClassId==2)
+    #conOutIncomeAmount($!liOt,'其他收入',"OTHER_INCOME_AMOUNT",$!totalLiot,$!loanId,$!createDate,$!createDateEnd,"")
+#elseif($columnName=='FIXED_DEFRAY_AMOUNT' && $loanClassId==2)
+    #conOutIncomeAmount($!liFt,'固定成本支出',"FIXED_DEFRAY_AMOUNT",$!totalLift,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_FIXED_DEFRAY")
+#elseif($columnName=='TEX_PERSONAL_AMOUNT' && $loanClassId==2)
+    #conOutIncomeAmount($!liTt,'所得税支出',"TEX_PERSONAL_AMOUNT",$!totalLitt,$!loanId,$!createDate,$!createDateEnd,"CD_PROFIT_TEX_DEFRAY")
+#elseif($columnName=='OTHER_DEFRAY_AMOUNT' && $loanClassId==2)
+    #conOutIncomeAmount($!liOdt,'其他支出',"OTHER_DEFRAY_AMOUNT",$!totalLiodt,$!loanId,$!createDate,$!createDateEnd,"")
+
+#end
+
+
+

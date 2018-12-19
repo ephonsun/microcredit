@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.config.ModeScoreField" table="MODE_SCORE_FIELD" >
+		<id name="optionId" type="java.lang.Integer" >
+			<column name="OPTION_ID" length="4" />
+		</id>
+		<property name="modeId" type="java.lang.Integer" >
+			<column name="MODE_ID" length="4" />
+		</property>
+		<property name="templateId" type="java.lang.Integer" >
+			<column name="TEMPLATE_ID" length="4" />
+		</property>
+		<property name="fieldId" type="java.lang.Integer" >
+			<column name="FIELD_ID" length="4" />
+		</property>
+	</class>
+</mapping>
+

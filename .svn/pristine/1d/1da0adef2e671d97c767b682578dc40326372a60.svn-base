@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新增明细</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+<form id="addMingxi-form">
+
+    <input type="hidden" id="columnName" name="columnName" value="$!columnName"/>
+    <input type="hidden" name="endCreateDateEnd" value="$!createDateEnd"/>
+    <input type="hidden" name="startCreateDate" value="$!createDate"/>
+    <input type="hidden" id="loanId" name="loanId" value="$!loanId"/>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%" >
+                <label class="ui-star">项目：</label>
+            </td>
+
+            <td width="20%" >
+
+                    #if($!columnName=='BUSINESS_INCOME_AMOUNT')
+                    <div class="ui-text divcss9">
+                        <input type="text" id="itemName" class="ui-text-text" name="itemName" maxlength="40" value=""/>
+                    </div>
+                    #else
+
+                        <select id="itemName" name="itemName" valid="required" class="ui-text divcss9">
+
+                        <option></option>
+
+                        #if($!columnName=='FIXED_COST_DEFRAY_AMOUNT'){//固定成本支出（经营类）
+
+                            #datadict("","CD_PROFIT_FIXED_COST_DEFRAY")
+                                }#elseif($!columnName=='OTHER_INCOME_AMOUNT'){//其他收入
+                            #datadict("","CD_PROFIT_OTHER_INCOME")
+                                }#elseif($!columnName=='TEX_DEFRAY_AMOUNT'){//所得税支出
+                            #datadict("","CD_PROFIT_TEX_DEFRAY")
+                                }#elseif($!columnName=='OTHER_DEFRAY_AMOUNT'){//其他支出
+                            #datadict("","CD_PROFIT_OTHER_DEFRAY")
+                                }
+                        #end
+
+                    </select>
+                        #end
+
+            </td>
+            <td class="field" width="5%" >
+                <label class="ui" >平均值：</label>
+            </td>
+            <td width="20%">
+                <div class="ui-text divcss9">
+                    <input type="text" id="averageAmount" class="ui-text-text" name="averageAmount" maxlength="13" value=""/>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui">备注：</label>
+            </td>
+            <td colspan="3">
+                <div class="ui-textarea" style="width:91.5%">
+                    <textarea class="ui-textarea-text" name="remark"  id="remark" maxlength="500" value=""></textarea>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 55px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+#*#if($funcPermit.hasFuncCode("intentionalCustomerAdd"))*#
+    <span id="btnSave" class="ui-closure-button">
+			<label class="ui-closure-button-text">$!pageConst.BTN_SAVE</label>
+		</span>
+#*#end*#
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/profitLoss/addMingxi.js?v=$!webAppVersion"></script>
+</body>
+</html>

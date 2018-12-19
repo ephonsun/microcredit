@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.IntoQrcodeSave" table="INTO_QRCODE_SAVE" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="userAccount" type="java.lang.String" >
+			<column name="USER_ACCOUNT" length="60" />
+		</property>
+		<property name="qrPath" type="java.lang.String" >
+			<column name="QR_PATH" length="120" />
+		</property>
+		<property name="qrName" type="java.lang.String" >
+			<column name="QR_NAME" length="120" />
+		</property>
+		<property name="qrSize" type="java.lang.String" >
+			<column name="QR_SIZE" length="60" />
+		</property>
+	</class>
+</mapping>
+

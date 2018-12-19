@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>行业指引维护</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<!-- // 搜索栏 -->
+<form id="form">
+    <div class="ui-layout-search">
+        <div class="ui-layout-search-body">
+            <table class="ui-form-fields">
+                <tbody>
+                <tr>
+                    <td class="field" width="7%">
+                        <label>行业分类：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields">
+                            <tbody>
+                            <tr>
+                                <td width="200">
+                                    <div>
+                                        <select id="dictNameSelect" name="dictNameSelect" >
+                                            <option></option>
+                                            #options("cdIndustryGuidelinesName","${dictColId}","${dictName}")
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>标题：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields">
+                            <tbody>
+                            <tr>
+                                <td width="200">
+                                    <div class="ui-text">
+                                        <input type="text" id="title" class="ui-text-text" value="" />
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="field" width="7%">
+                        <label>创建者：</label>
+                    </td>
+                    <td width="18%">
+                        <table class="ui-form-fields">
+                            <tbody>
+                            <tr>
+                                <td width="200">
+                                    <div class="ui-text">
+                                        <input type="text" id="builder" class="ui-text-text" value="" />
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td width="7%"></td>
+                    <td width="18%"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="ui-layout-search-foot">
+            <div class="buttons">
+                    <span id="btnSearch" class="ui-search-button">
+                        <label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+                    </span>
+                <span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- // 统计栏 -->
+<div>
+    <!-- // 操作栏 -->
+    <div class="ui-layout-action">
+        <span id="btnNew" onclick="addIndustryGuidelines();" class="ui-button fl" >
+            <label class="ui-button-text">新增</label>
+        </span>
+    </div>
+    <table id="industryGuidelinesGrid"></table>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript" src="../biz/js/banger.tree.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.treeselectbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js"></script>
+<script type="text/javascript" src="../system/js/industryGuidelines.js"></script>
+</body>
+</html>

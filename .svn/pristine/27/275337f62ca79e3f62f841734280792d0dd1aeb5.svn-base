@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增 -->
+	<sql id="insertDataPermit" >
+		INSERT INTO PMS_DATA_PERMIT (PDP_ID,PDP_TYPE,PDP_NAME,PDP_REMARK,PDP_CREATE_DATE,PDP_UPDATE_DATE,PDP_CREATE_USER,PDP_UPDATE_USER) VALUES ([$pdpId]
+		<clause prepend="," nvl="''" >[$pdpType]</clause>
+		<clause prepend="," nvl="''" >[$pdpName]</clause>
+		<clause prepend="," nvl="''" >[$pdpRemark]</clause>
+		<clause prepend="," >[$pdpCreateDate]</clause>
+		<clause prepend="," >[$pdpUpdateDate]</clause>
+		<clause prepend="," nvl="0" >[$pdpCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$pdpUpdateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改 -->
+	<sql id="updateDataPermit" >
+		UPDATE PMS_DATA_PERMIT 
+		<set>
+			<clause prepend="," assert="!isNull([pdpType])" >PDP_TYPE = [$pdpType]</clause>
+			<clause prepend="," assert="!isNull([pdpName])" >PDP_NAME = [$pdpName]</clause>
+			<clause prepend="," assert="!isNull([pdpRemark])" >PDP_REMARK = [$pdpRemark]</clause>
+			<clause prepend="," assert="!isNull([pdpCreateDate])" >PDP_CREATE_DATE = [$pdpCreateDate]</clause>
+			<clause prepend="," assert="!isNull([pdpUpdateDate])" >PDP_UPDATE_DATE = [$pdpUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([pdpCreateUser])" >PDP_CREATE_USER = [$pdpCreateUser]</clause>
+			<clause prepend="," assert="!isNull([pdpUpdateUser])" >PDP_UPDATE_USER = [$pdpUpdateUser]</clause>
+		</set>
+		<where>
+			 PDP_ID = [$pdpId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到 -->
+	<sql id="getDataPermitById" >
+		SELECT * FROM PMS_DATA_PERMIT WHERE PDP_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除 -->
+	<sql id="deleteDataPermitById" >
+		DELETE FROM PMS_DATA_PERMIT WHERE PDP_ID = [0]
+	</sql>
+
+	<!-- 查询 -->
+	<sql id="queryDataPermitList" >
+        select dp.* from PMS_DATA_PERMIT dp
+        <clause assert="!isNullOrEmpty([roleIds])" >
+        left join PMS_ROLE_DATA_PERMIT rdp on rdp.PRDP_PERMIT_ID = dp.PDP_ID
+        </clause>
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([roleIds])" > rdp.PRDP_ROLE_ID in ([roleIds]) </clause>
+		</where>
+	</sql>
+
+    <sql id="queryDataPermitListByRoleId">
+        select p.* from PMS_DATA_PERMIT p
+        left join PMS_ROLE_DATA_PERMIT rp on rp.PRDP_PERMIT_ID = p.PDP_ID
+        <where>
+            <clause prepend="and"> rp.PRDP_ROLE_ID = [$0]</clause>
+        </where>
+    </sql>
+
+    <!--查询是否有相应数据权限-->
+    <sql id="getDataPermitsCount">
+        select count(*) from PMS_DATA_PERMIT p
+        left join PMS_ROLE_DATA_PERMIT rp on rp.PRDP_PERMIT_ID = p.PDP_ID
+        left join PMS_USER_ROLES ur on ur.PUR_ROLE_ID = rp.PRDP_ROLE_ID
+        left join PMS_ROLE r on r.role_id = ur.PUR_ROLE_ID
+        <where>
+            <clause prepend="and">r.role_isdel = 0</clause>
+            <clause prepend="and">ur.PUR_USER_ID = [$userId]</clause>
+            <clause prepend="and">p.pdp_type = [$dataPermitType] </clause>
+        </where>
+    </sql>
+
+</banger>

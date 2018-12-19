@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增配置平台 -->
+	<sql id="insertSu" >
+		INSERT INTO PMS_SU (ID,SU,SN,PW) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$su]</clause>
+		<clause prepend="," nvl="''" >[$sn]</clause>
+		<clause prepend="," nvl="''" >[$pw]</clause>
+		)
+	</sql>
+
+	<!-- 修改配置平台 -->
+	<sql id="updateSu" >
+		UPDATE PMS_SU 
+		<set>
+			<clause prepend="," assert="!isNull([su])" >SU = [$su]</clause>
+			<clause prepend="," assert="!isNull([sn])" >SU = [$sn]</clause>
+			<clause prepend="," assert="!isNull([pw])" >PW = [$pw]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到配置平台 -->
+	<sql id="getSuById" >
+		SELECT * FROM PMS_SU WHERE ID = [0]
+	</sql>
+
+	<!-- 通过帐号得到对像 -->
+	<sql id="getSuByAccount" >
+		SELECT * FROM PMS_SU WHERE SU = [$account]
+	</sql>
+
+	<!-- 通过主键删除配置平台 -->
+	<sql id="deleteSuById" >
+		DELETE FROM PMS_SU WHERE ID = [0]
+	</sql>
+
+	<!-- 查询配置平台 -->
+	<sql id="querySuList" >
+		SELECT * FROM PMS_SU 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([su])" > SU = '[su]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([pw])" > PW = '[pw]' </clause>
+		</where>
+	</sql>
+
+</banger>

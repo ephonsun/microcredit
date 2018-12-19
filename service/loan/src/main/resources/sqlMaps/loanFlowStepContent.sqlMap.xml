@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增调查流程步骤内容表 -->
+	<sql id="insertFlowStepContent" >
+		INSERT INTO LOAN_FLOW_STEP_CONTENT (ID,FLOW_ID,SUBSTANCE,SORT_NO,CREATE_USER,UPDATE_USER,CREATE_DATE,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$flowId]</clause>
+		<clause prepend="," nvl="''" >[$substance]</clause>
+		<clause prepend="," nvl="0" >[$sortNo]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改调查流程步骤内容表 -->
+	<sql id="updateFlowStepContent" >
+		UPDATE LOAN_FLOW_STEP_CONTENT 
+		<set>
+			<clause prepend="," assert="!isNull([flowId])" >FLOW_ID = [$flowId]</clause>
+			<clause prepend="," assert="!isNull([substance])" >SUBSTANCE = [$substance]</clause>
+			<clause prepend="," assert="!isNull([sortNo])" >SORT_NO = [$sortNo]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到调查流程步骤内容表 -->
+	<sql id="getFlowStepContentById" >
+		SELECT * FROM LOAN_FLOW_STEP_CONTENT WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除调查流程步骤内容表 -->
+	<sql id="deleteFlowStepContentById" >
+		DELETE FROM LOAN_FLOW_STEP_CONTENT WHERE ID = [0]
+	</sql>
+
+	<!-- 查询调查流程步骤内容表 -->
+	<sql id="queryFlowStepContentList" >
+		SELECT * FROM LOAN_FLOW_STEP_CONTENT 
+		<where>
+			<clause prepend="and" assert="!isNull([flowId])" > FLOW_ID = [flowId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([substance])" > SUBSTANCE = '[substance]' </clause>
+			<clause prepend="and" assert="!isNull([sortNo])" > SORT_NO = [sortNo] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+		ORDER BY SORT_NO
+	</sql>
+
+</banger>

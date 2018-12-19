@@ -1,0 +1,59 @@
+package banger.util.constant;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *担保合同与押品关系同步接口（担保合同中间表）
+ */
+public class Socket_99CHNCMI2042_1 extends BaseXmlBeanEnum {
+
+    public Socket_99CHNCMI2042_1(String elementName, String elementColumnName, String elementLength, String elementNotNull, Map<String, String> elementOptions, String elementDefaultValue) {
+        super(elementName, elementColumnName, elementLength, elementNotNull, elementOptions, elementDefaultValue);
+    }
+
+    public static List<BaseXmlBeanEnum> getAllElement() {
+        List<BaseXmlBeanEnum> list = null;
+        try {
+            list = BaseXmlBeanEnum.getEnumList(Socket_99CHNCMI2042_1.class);
+        }catch (Exception e){
+        }
+        return list;
+    }
+
+    public static String getSocketCode() {
+        return Socket_99CHNCMI2042_1.class.getName().split("_")[1];
+    }
+
+    public static BaseXmlBeanEnum getElementByName(String elementName) throws Exception{
+        BaseXmlBeanEnum baseXmlBeanEnum = (BaseXmlBeanEnum) BaseXmlBeanEnum.getEnum(BaseXmlBeanEnum.class, elementName);
+        return  baseXmlBeanEnum;
+    }
+
+    public static final BaseXmlBeanEnum opt = new Socket_99CHNCMI2042_1("opt","操作类型","1","1",null,"A");
+    public static final BaseXmlBeanEnum guaranty_id = new Socket_99CHNCMI2042_1("guaranty_id","担保人.担保编码","32","1",null,"");
+    public static final BaseXmlBeanEnum gage_name = new Socket_99CHNCMI2042_1("gage_name","担保人.姓名","120","1",null,"");
+    public static final BaseXmlBeanEnum ser_no = new Socket_99CHNCMI2042_1("ser_no","担保人.客户编码","32","1",null,"");
+    public static final BaseXmlBeanEnum gage_way = new Socket_99CHNCMI2042_1("gage_way","保证担保合同.担保方式","5","0",null,"");
+    public static final BaseXmlBeanEnum gage_type = new Socket_99CHNCMI2042_1("gage_type","押品类型","5","1",null,"10009");
+    public static final BaseXmlBeanEnum if_max_guar = new Socket_99CHNCMI2042_1("if_max_guar","是否最高额担保","1","0",null,"");
+    public static final BaseXmlBeanEnum guar_cont_no = new Socket_99CHNCMI2042_1("guar_cont_no","担保合同号","30","1",null,"");
+    public static final BaseXmlBeanEnum guar_cont_state = new Socket_99CHNCMI2042_1("guar_cont_state","担保合同状态","3","0",null,"");
+    public static final BaseXmlBeanEnum status_code = new Socket_99CHNCMI2042_1("status_code","STATUS_CODE","5","0",null,"");
+    public static final BaseXmlBeanEnum currency = new Socket_99CHNCMI2042_1("currency","币种","3","0",null,"CNY");
+    public static final BaseXmlBeanEnum guaranty_amt = new Socket_99CHNCMI2042_1("guaranty_amt","审批决议.决议金额","18","0",null,"");
+    public static final BaseXmlBeanEnum guar_no = new Socket_99CHNCMI2042_1("guar_no","担保人.客户编码","30","1",null,"");
+    public static final BaseXmlBeanEnum cer_no = new Socket_99CHNCMI2042_1("cer_no","担保人.证件号码","20","1",null,"");
+    public static final BaseXmlBeanEnum cer_type = new Socket_99CHNCMI2042_1("cer_type","担保人.证件类型","2","1",
+            new HashMap<String, String>(){{
+                put("1","10");put("2","31");put("3","11");put("4","12");
+                put("5","12");put("6","13");put("7","14");put("8","30");
+                put("9","34");put("10","32");put("11","1X");
+            }},"");
+    public static final BaseXmlBeanEnum cus_name = new Socket_99CHNCMI2042_1("cus_name","担保人.姓名","60","1",null,"");
+    public static final BaseXmlBeanEnum used_amt = new Socket_99CHNCMI2042_1("used_amt","审批决议.决议金额","18","0",null,"");
+
+
+
+}

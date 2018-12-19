@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>密码过期时间</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+</head>
+
+<body>
+<form id="form">
+    <table class="ui-form-fields">
+        <input type="hidden" id="mmgq_id" value="$!expirationId">
+        <tbody>
+        <tr>
+            <td width="8%">
+                <label >密码过期开关：</label>
+            </td>
+            <td width="15%">
+                <div >
+                    <select id="mmgq_kg">
+                        <option value="1" #if($!isActived==1)selected #end>开启</option>
+                        <option value="0" #if($!isActived==0)selected #end>关闭</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="8%">
+                <label >密码过期时间：</label>
+            </td>
+            <td width="15%">
+                <div class="ui-text">
+                    <input type="text" id="mmgq_day" class="ui-text-text" value="$!expirationDay" />
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">（单位：天）</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">关闭</label>
+    </span>
+</div>
+<table id="passExpiration"></table>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../permission/js/passExpiration.js?v=$!webAppVersion"></script>
+</body>
+</html>

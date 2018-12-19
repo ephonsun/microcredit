@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>分配客户</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../permission/css/public.css" />
+
+</head>
+
+<body>
+<form id="form" style="height: 230px; overflow-y: auto;">
+    <input type="hidden" id="loanId" name="loanId" value="$!loanId" />
+    <input type="hidden" id="processId" name="processId" value="$!processId" />
+    <input type="hidden" id="flowId" name="flowId" value="$!flowId" />
+    <input type="hidden" id="paramId" name="paramId" value="$!paramId" />
+    <input type="hidden" id="next" name="next" value="$!next" />
+    <input type="hidden" id="thisProcessId" name="thisProcessId" value="$!thisProcessId" />
+
+    <input type="hidden" id="approvalOpinion" name="approvalOpinion" value="$!approvalOpinion" />
+    <input type="hidden" id="loanMode" name="loanMode" value="$!loanMode" />
+    <input type="hidden" id="repaymentMode" name="repaymentMode" value="$!repaymentMode" />
+    <input type="hidden" id="resultAmount" name="resultAmount" value="$!resultAmount" />
+    <input type="hidden" id="resultLimit" name="resultLimit" value="$!resultLimit" />
+    <input type="hidden" id="resultRatio" name="resultRatio" value="$!resultRatio" />
+    <input type="hidden" id="repaymentDate" name="repaymentDate" value="$!repaymentDate" />
+
+
+    <table class="ui-form-fields">
+        <tbody>
+        #foreach($review in $!reviews)
+        <tr><td width="5%" colspan="2">
+            <div style="float: left;">$!review.roleName</div>
+            <div style="float: right;">需要人数$!review.reviewCount</div></td></tr>
+        <tr>
+            <td class="field" width="5%">
+                <label class="ui-star">审批人：</label>
+            </td>
+            <td>
+                #if ($!review.loanExamineType == 'SELECT_USER')
+                <div class="ui-text w200">
+                    <input type="text" id="selectUsers$velocityCount" name="users" class="ui-text-text" value=""/>
+                    <i class="ui-text-icon ui-text-select"></i>
+                </div>
+                #else
+                    已随意指定人员
+                #end
+            </td>
+        </tr>
+        #end
+        <tr><td class="field" width="5%" colspan="2"></td></tr>
+        </tbody>
+    </table>
+</form>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+		<span id="btnConfirm" class="ui-closure-button">
+			<label class="ui-closure-button-text">$!pageConst.BTN_SURE</label>
+		</span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+	 		<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+		</span>
+</div>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.json2.js"></script>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.checkbox.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/approval/selectUser.js?v=$!webAppVersion"></script>
+<script type="text/javascript" >
+var reviews = $!reviews;
+</script>
+</body>
+</html>

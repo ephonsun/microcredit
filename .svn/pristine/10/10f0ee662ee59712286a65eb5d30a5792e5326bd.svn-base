@@ -1,0 +1,43 @@
+﻿@charset "utf-8";
+/* 积分 */
+.integral-score span{ display:inline-block; font-weight:400; padding-left:100px;}
+.integral-rowspan{ background-color:#fff !important;}
+
+
+/* flexgrid */
+.flexgrid-box{ border:1px solid #B6C4D8; background-color:#fff; overflow:hidden; height: auto}
+.flexgrid-box .flexgrid{ width:100%; *padding-bottom:18px; overflow-x:auto !important; overflow-y:hidden !important;}
+.flexgrid-box .flexgrid table thead tr{ background:#E8ECF5 repeat-x 0 -10px;}
+.flexgrid-box .flexgrid table thead tr th{ white-space:nowrap; border-bottom:1px solid #D1D1D1; border-right:1px solid #D1D1D1; height:15px; line-height:15px; padding:7px 10px;}
+.flexgrid-box .flexgrid table thead tr th.colspan{ border-bottom:solid 1px #d1d1d1; text-align:center;}
+.flexgrid-box .flexgrid table tbody tr td{ white-space:nowrap; border-right:1px dotted #D1D1D1; border-bottom:1px dotted #D1D1D1; height:13px; line-height:13px; padding:7px 10px;}
+.flexgrid-box .flexgrid table tbody tr:hover{ background-color:#B5E1FA;}
+
+/* 个人业绩 */
+.performance-box h3.title{ font-size:18px; font-weight:700; text-align:center;}
+.performance-date{ text-align:right; padding:10px 0;}
+.permission-info{ padding-bottom:10px;}
+.permission-info h5{ height:18px; line-height:18px; font-weight:700; font-size:16px; border-bottom:solid 1px #000; margin-bottom:10px; overflow:hidden;}
+.permission-info h5 i{ float:right; width:18px; height:18px; background-image:url(../imgs/minus_plus.jpg); background-repeat:no-repeat; background-position:0 -56px; cursor:pointer;}
+.permission-info h5 i:hover{ background-position:0 -84px;}
+.permission-info .permission-box{ display:none;}
+.permission-current h5 i{ background-position:0 0;}
+.permission-current h5 i:hover{ background-position:0 -28px;}
+.permission-current .permission-box{ display:block;}
+
+.performance-list .title{ border-bottom:solid 1px #000; height:30px; line-height:30px; overflow:hidden;}
+.performance-list .title strong{ float:left; font-size:14px;}
+.performance-list .title span{ float:right;}
+
+/* 个人绩效 */
+.getyear{ text-align:center;}
+.getyear a{ display:inline-block; width:34px; height:34px; background-image:url(../imgs/calendar_btn.jpg); background-position:no-repeat; vertical-align:middle;}
+.getyear a.pre{ background-position:0 0;}
+.getyear a.pre:hover{ background-position:0 -34px;}
+.getyear a.next{ background-position:-33px 0;}
+.getyear a.next:hover{ background-position:-33px -34px;}
+.getyear strong{ display:inline-block; font-size:16px; vertical-align:middle; padding:0 10px;}
+
+.performance-grid{ height:450px; overflow-x:hidden; overflow-y:auto;}
+.performance-grid table{ width:100%;}
+.performance-grid table tr td{ text-align:center;}

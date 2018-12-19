@@ -1,0 +1,100 @@
+#文件存储根目录
+file_root_path=/weidai/micro/
+
+
+#导入产品用户机构时，源文件存放路径
+ftp_server_ip_2 = 127.0.0.1
+ftp_server_user_name_2 = zhangqw
+ftp_server_user_password_2 = 111111
+ftp_server_port_2 = 21
+resource_file_path_2 =
+
+
+#授权用户数
+user_count=50
+#定时任务开关
+quartz_job_enable =true
+
+#是否开启安全字符校验
+sqlScriptFilter =false
+
+file_upload_port = 41414
+
+file_upload_speed = 50
+
+#一审、二审是否可以是同一人
+loan.approval.same=false
+
+#百度地图ngnix 地址替换
+map.app.use.www=true
+ngnix.map.ip.port=
+### 192.168.1.44:8066
+ngnix.map.source=/track/baidu/js/baiduMap.js
+
+#web（app)是否使用瑞图
+map.use.ruitu=true
+##瑞图经纬度转中文的私服地址
+ruitu.service.url=http://125.0.167.121:8080
+#ruitu.service.url=http://125.0.182.162:8888
+
+
+
+#中山农商 市信贷接口 配置
+#客户信息 文件名 字段
+lend.cust.info=loancustomer.del|个人信息.客户编码&20&,个人信息.主管机构&6&06044,个人信息.证件类型&2&1,个人信息.证件号码&20&,个人信息.客户类型2&2,个人信息.客户姓名&60&,个人信息.户籍地址&60&广东省中山市,\
+  个人信息.联系电话&16&,个人信息.主管客户经理&10&张洁,个人信息.性别&2&1,个人性质&2&3,个人信息.户籍&60&广东中山,家庭情况.住宅属性&2&1,个人信息.出生日期&8&19700101,个人信息.学历&2&9,个人信息.婚姻状况&2&8,\
+  个人信息.工作单位&60&未说明,个人信息.单位电话&16&,个人信息.居住地址邮编&6&,个人信息.职务&2&14,个人信息.职称&2&1,总资产&16&,总负债&16&,家庭总人口数&10&,家庭月均收入&16&,人均收入&16&,家庭月均支出&16&,\
+  个人信息.住宅电话&16&,贷款卡号码&20&,贷款卡状态&2&,最高学位&2&6,个人信息.联系电话&16&,电子邮箱&30&,个人信息.居住地址邮编&6&,个人信息.职业&2&11,个人信息.所属行业&2&11,个人信息.单位地址&60&,\
+  个人信息.居住地址邮编&6&,个人信息.工作起始年份&4&2017,个人信息.居住地址&60&广东省中山市,个人信息.居住地址邮编&6&528400,家庭情况.居住状况&2&8,个人信息.本地居住年限&10&1,劳动人数&10&,\
+  个人信息.子女数量&10&,是否需借款人抚养&2&,是否缴纳公积金&2&2,执业资格&40&,夫妻在本市名下有无住房&2&1,业务日期&8&
+#配偶信息 文件名 字段
+lend.cust.spouse=loanspouse.del|个人信息.客户编码&20&,配偶信息.姓名&20&,个人信息.户籍地址&60&,配偶信息.性别&2&2,配偶信息.证件类型&2&1,配偶信息.证件号码&20&,配偶信息.联系电话&20&,\
+  配偶信息.联系电话&20&,配偶信息.工作单位&60&未说明,配偶信息.职务&2&1,配偶信息.职称&2&1,配偶信息.学历&2&10,业务日期&8&
+#担保人信息 文件名 字段
+lend.cust.guarantor=loanguarantor.del|贷款账号&20&,担保人.姓名&60&,担保人.证件类型&2&1,担保人.证件号码&20&,审批决议.决议金额&20&,业务日期&8&
+#1全量同步|2增量同步
+lend.sync.type=2
+#文件存放路径
+lend.file.localpath=/CityCredit/yyyyMMdd/
+#分隔符标记
+lend.file.delimiter=,
+#本地文件编码
+lend.file.local.encode=UTF-8
+#转换编码
+lend.file.target.encode=GBK
+#ftp serverIp  125.0.167.136
+lend.ftp.ip=125.0.167.136
+#ftp name  tiny
+lend.ftp.name=tiny
+#ftp password  tiny
+lend.ftp.password=tiny
+#ftp filepath  /home/cms/data/tydata/yyyyMMdd
+lend.ftp.filepath=/home/cms/data/tydata/yyyyMMdd
+
+
+#省信贷系统socket地址
+socket.ip=125.0.167.122
+socket.port=30001
+#socket.ip=125.0.182.162
+#socket.port=40002
+
+
+
+#贷款人.名称
+lender.name=中山农村商业银行股份有限公司
+#贷款人.法人代表
+lender.rep=马英文
+#贷款人.住所地
+lender.address=中山市东区中山三路26号之一
+#贷款人.统一社会信用代码
+lender.usci=914420006633583105
+
+
+tp.url=http://localhost:80/api/v1/getLoanMsg.html
+
+
+#FTP_SERVER_ID	125.0.167.136	FTP地址
+#FTP_USER_NAME	tiny	FTP用户
+#FTP_PASSWORD	tiny	FTP密码
+#FTP_FILE_PATH	/home/cms/data/tydata	FTP路径
+#FTP_ALL_LOAN	0	市信贷ftp配置，同步参数：1全量数据同步 0增量数据同步（当1全量数据同步后 自动更改为0增量)

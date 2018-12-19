@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>跨团队列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+<body>
+<table id="taskGrid3"><p align="center" style="color: #3b97d7;font-size: large"></p></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script>
+         var postJson = getPostFields();
+         $('#taskGrid3').flexigrid({
+             height: 280,
+             url: '../loanStat/queryCrossLoanStatList.html',
+             params: postJson,
+             fields: [
+                 { display: '时间段', field: 'time', width: 120 ,align: 'center'},
+                 { display: '团队', field: 'groupName', width: 80 ,align: 'center'},
+                 { display: '贷款总数(笔)', field: 'loanTotalNum', width: 80 ,align: 'center'},
+                 { display: '成功放贷(笔)', field: 'loanSuccessNum', width: 80 ,align: 'center'},
+                 { display: '贷款通过率(%)', field: 'loanPercent', width: 100 ,align: 'center'},
+                 { display: '贷款总金额(万元)', field: 'loanTotalMoneyW', width: 100 ,align: 'center'},
+                 { display: '贷款平均金额(万元)', field: 'loanAvgW', width: 120 ,align: 'center'},
+                 { display: '已结清(笔)', field: 'loanHasClearance', width: 70 ,align: 'center'},
+                 { display: '审批拒绝(笔)', field: 'approvalRefuse', width: 100 ,align: 'center'},
+                 { display: '其他拒绝(笔)', field: 'otherRefuse', width: 70 ,align: 'center'}
+             ]
+         });
+    </script>
+</body>
+</html>

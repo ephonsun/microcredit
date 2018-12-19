@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增损益情况经营类收入支出明细月份项 -->
+	<sql id="insertProfitBizIncomeMonth" >
+		INSERT INTO LOAN_PROFIT_BIZ_INCOME_MONTH (ID,INCOME_ID,YEAR_VAL,MONTH_VAL,MONTH_AMOUNT) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$incomeId]</clause>
+		<clause prepend="," nvl="0" >[$yearVal]</clause>
+		<clause prepend="," nvl="0" >[$monthVal]</clause>
+		<clause prepend="," nvl="NULL" >[$monthAmount]</clause>
+		)
+	</sql>
+
+	<!-- 修改损益情况经营类收入支出明细月份项 -->
+	<sql id="updateProfitBizIncomeMonth" >
+		UPDATE LOAN_PROFIT_BIZ_INCOME_MONTH
+		<set>
+			<clause prepend="," assert="!isNull([incomeId])" >INCOME_ID = [$incomeId]</clause>
+			<clause prepend="," assert="!isNull([yearVal])" >YEAR_VAL = [$yearVal]</clause>
+			<clause prepend="," assert="!isNull([monthVal])" >MONTH_VAL = [$monthVal]</clause>
+			<clause prepend="," assert="!isNull([monthAmount])" >MONTH_AMOUNT = [$monthAmount]</clause>
+		</set>
+		<where>
+			ID = [$id]
+		</where>
+	</sql>
+
+	<!-- 通过主键得到损益情况经营类收入支出明细月份项 -->
+	<sql id="getProfitBizIncomeMonthById" >
+		SELECT * FROM LOAN_PROFIT_BIZ_INCOME_MONTH WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除损益情况经营类收入支出明细月份项 -->
+	<sql id="deleteProfitBizIncomeMonthById" >
+		DELETE FROM LOAN_PROFIT_BIZ_INCOME_MONTH WHERE ID = [0]
+	</sql>
+
+	<!-- 通过收入明细主键删除损益情况经营类收入支出明细月份项 -->
+	<sql id="deleteProfitBizIncomeItemMonthByItemId" >
+		DELETE FROM LOAN_PROFIT_BIZ_INCOME_MONTH WHERE INCOME_ID = [0]
+	</sql>
+
+	<!-- 查询损益情况经营类收入支出明细月份项 -->
+	<sql id="queryProfitBizIncomeMonthList" >
+		SELECT * FROM LOAN_PROFIT_BIZ_INCOME_MONTH
+		<where>
+			<clause prepend="and" assert="!isNull([incomeId])" > INCOME_ID = [incomeId] </clause>
+			<clause prepend="and" assert="!isNull([yearVal])" > YEAR_VAL = [yearVal] </clause>
+			<clause prepend="and" assert="!isNull([monthVal])" > MONTH_VAL = [monthVal] </clause>
+		</where>
+		order by YEAR_VAL asc, MONTH_VAL asc
+	</sql>
+	<!--根据贷款id查询年月-->
+	<sql id="queryYearAndMonthByLoanId">
+		SELECT LM.YEAR_VAL,LM.MONTH_VAL FROM LOAN_PROFIT_BIZ_INCOME_MONTH LM
+		WHERE LM.INCOME_ID IN (SELECT LI.ID FROM
+		LOAN_PROFIT_BIZ_INCOME_ITEM LI  WHERE LI.LOAN_ID=[0]) GROUP BY LM.YEAR_VAL,LM.MONTH_VAL
+	</sql>
+
+	<!--根据明细id删除年月项-->
+	<sql id="deleteProfitBizIncomeMonthByIncomeIdAndYM">
+		DELETE FROM LOAN_PROFIT_BIZ_INCOME_MONTH WHERE INCOME_ID = [0] AND YEAR_VAL =[1] AND MONTH_VAL=[2]
+	</sql>
+
+	<!-- 根据incomeId查询损益情况经营类收入支出明细月份项 -->
+	<sql id="getProfitBizIncomeMonthByIncomeId" >
+		SELECT * FROM LOAN_PROFIT_BIZ_INCOME_MONTH WHERE INCOME_ID = [0] order by YEAR_VAL asc, MONTH_VAL asc
+	</sql>
+
+
+
+</banger>

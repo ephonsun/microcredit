@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsSu" table="PMS_SU" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="su" type="java.lang.String" >
+			<column name="SU" length="30" />
+		</property>
+		<property name="sn" type="java.lang.String" >
+			<column name="SN" length="60" />
+		</property>
+		<property name="pw" type="java.lang.String" >
+			<column name="PW" length="60" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增损益情况毛利率明细表 -->
+	<sql id="insertProfitLossRatioItem" >
+		INSERT INTO LOAN_PROFIT_LOSS_RATIO_ITEM (ID,LOAN_ID,LOAN_CLASS_ID,COLUMN_NAME,TABLE_NAME,PRODUCT_CATEGORY,SALE_PRICE,COST_PRICE,CROSS_PROFIT,PROFIT_RATIO,SALE_RATIO,WEIGHTING_PROFIT_RATIO,REMARK,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="''" >[$columnName]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$productCategory]</clause>
+		<clause prepend="," nvl="NULL" >[$salePrice]</clause>
+		<clause prepend="," nvl="NULL" >[$costPrice]</clause>
+		<clause prepend="," nvl="NULL" >[$crossProfit]</clause>
+		<clause prepend="," nvl="NULL" >[$profitRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$saleRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$weightingProfitRatio]</clause>
+		<clause prepend="," nvl="''" >[$remark]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改损益情况毛利率明细表 -->
+	<sql id="updateProfitLossRatioItem" >
+		UPDATE LOAN_PROFIT_LOSS_RATIO_ITEM 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([columnName])" >COLUMN_NAME = [$columnName]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([productCategory])" >PRODUCT_CATEGORY = [$productCategory]</clause>
+			<clause prepend="," assert="!isNull([salePrice])" >SALE_PRICE = [$salePrice]</clause>
+			<clause prepend="," assert="!isNull([costPrice])" >COST_PRICE = [$costPrice]</clause>
+			<clause prepend="," assert="!isNull([crossProfit])" >CROSS_PROFIT = [$crossProfit]</clause>
+			<clause prepend="," >PROFIT_RATIO = [$profitRatio]</clause>
+			<clause prepend="," assert="!isNull([saleRatio])" >SALE_RATIO = [$saleRatio]</clause>
+			<clause prepend=","  >WEIGHTING_PROFIT_RATIO = [$weightingProfitRatio]</clause>
+			<clause prepend="," assert="!isNull([remark])" >REMARK = [$remark]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到损益情况毛利率明细表 -->
+	<sql id="getProfitLossRatioItemById" >
+		SELECT * FROM LOAN_PROFIT_LOSS_RATIO_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除损益情况毛利率明细表 -->
+	<sql id="deleteProfitLossRatioItemById" >
+		DELETE FROM LOAN_PROFIT_LOSS_RATIO_ITEM WHERE ID = [0]
+	</sql>
+
+	<!-- 查询损益情况毛利率明细表 -->
+	<sql id="queryProfitLossRatioItemList" >
+		SELECT * FROM LOAN_PROFIT_LOSS_RATIO_ITEM 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([columnName])" > COLUMN_NAME = '[columnName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([productCategory])" > PRODUCT_CATEGORY = '[productCategory]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([remark])" > REMARK = '[remark]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+	<!--根据贷款id分页查询毛利率列表-->
+	<sql id="queryGrossProfitMarginList">
+		SELECT * FROM LOAN_PROFIT_LOSS_RATIO_ITEM
+		WHERE LOAN_ID=[0] AND COLUMN_NAME='[1]'
+	</sql>
+
+</banger>

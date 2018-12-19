@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.system.SysOpeventLog" table="SYS_OPEVENT_LOG" >
+		<id name="opeventId" type="java.lang.Integer" >
+			<column name="OPEVENT_ID" lenght="4" />
+		</id>
+		<property name="opeventUserId" type="java.lang.Integer" >
+			<column name="OPEVENT_USER_ID" lenght="4" />
+		</property>
+		<property name="opeventModule" type="java.lang.String" >
+			<column name="OPEVENT_MODULE" lenght="60" />
+		</property>
+		<property name="opeventAction" type="java.lang.String" >
+			<column name="OPEVENT_ACTION" lenght="120" />
+		</property>
+		<property name="opeventDate" type="java.util.Date" >
+			<column name="OPEVENT_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="opeventIp" type="java.lang.String" >
+			<column name="OPEVENT_IP" lenght="30" />
+		</property>
+	</class>
+</mapping>
+

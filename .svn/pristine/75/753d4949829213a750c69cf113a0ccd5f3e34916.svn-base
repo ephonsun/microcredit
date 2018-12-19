@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+    <class id="LoanUserTaskQuery" name="banger.domain.task.LoanUserTask" >
+        <property name="loanAmount" column="LOAN_AMOUNT" ></property>
+		<property name="loanTotal" column="LOAN_TOTAL" ></property>
+		<property name="userId" column="USER_ID" ></property>
+		<property name="groupId" column="GROUP_ID" ></property>
+    </class>
+
+	<!-- 统计个人贷款金额 -->
+	<sql id="getUserTaskAmountByCondtion" result="LoanUserTaskQuery">
+		SELECT SUM(LOAN_CREDIT_AMOUNT) AS LOAN_AMOUNT,COUNT(*) AS LOAN_TOTAL,LOAN_INVESTIGATION_USER_ID AS USES_ID FROM LOAN_APPLY_INFO
+		WHERE IS_DEL=0 AND LOAN_REFUSE_USER=0 AND (LOAN_PROCESS_TYPE='AfterLoan' OR  LOAN_PROCESS_TYPE='Clearance')
+		<clause prepend="and" assert="!isNull([userId])" > LOAN_INVESTIGATION_USER_ID = [userId] </clause>
+		<clause prepend="and" assert="!isNull([groupId])" > LOAN_AFTER_GROUP_ID = [groupId] </clause>
+		<clause parent="DateSpan" params="LOAN_CREDIT_DATE,beginDate,endDate" ></clause>
+		GROUP BY LOAN_INVESTIGATION_USER_ID
+	</sql>
+
+	<!-- 统计团队贷款金额 -->
+	<sql id="getGroupTaskAmountByCondtion" result="LoanUserTaskQuery">
+		SELECT SUM(LOAN_CREDIT_AMOUNT) AS LOAN_AMOUNT,COUNT(*) AS LOAN_TOTAL,LOAN_AFTER_GROUP_ID AS GROUP_ID FROM LOAN_APPLY_INFO
+		WHERE IS_DEL=0 AND LOAN_REFUSE_USER=0 AND (LOAN_PROCESS_TYPE='AfterLoan' OR  LOAN_PROCESS_TYPE='Clearance')
+		<clause prepend="and" assert="!isNull([groupId])" > LOAN_AFTER_GROUP_ID = [groupId] </clause>
+		<clause parent="DateSpan" params="LOAN_CREDIT_DATE,beginDate,endDate" ></clause>
+		GROUP BY LOAN_AFTER_GROUP_ID
+	</sql>
+
+</banger>

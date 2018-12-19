@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件二维码存储表 -->
+	<sql id="insertQrcodeSave" >
+		INSERT INTO INTO_QRCODE_SAVE (ID,USER_ACCOUNT,QR_PATH,QR_NAME,QR_SIZE) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$userAccount]</clause>
+		<clause prepend="," nvl="''" >[$qrPath]</clause>
+		<clause prepend="," nvl="''" >[$qrName]</clause>
+		<clause prepend="," nvl="''" >[$qrSize]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件二维码存储表 -->
+	<sql id="updateQrcodeSave" >
+		UPDATE INTO_QRCODE_SAVE 
+		<set>
+			<clause prepend="," assert="!isNull([userAccount])" >USER_ACCOUNT = [$userAccount]</clause>
+			<clause prepend="," assert="!isNull([qrPath])" >QR_PATH = [$qrPath]</clause>
+			<clause prepend="," assert="!isNull([qrName])" >QR_NAME = [$qrName]</clause>
+			<clause prepend="," assert="!isNull([qrSize])" >QR_SIZE = [$qrSize]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件二维码存储表 -->
+	<sql id="getQrcodeSaveById" >
+		SELECT * FROM INTO_QRCODE_SAVE WHERE ID = [0]
+	</sql>
+
+
+	<!-- 通过客户经理账号得到进件二维码存储表 -->
+	<sql id="queryQrcode" >
+		SELECT * FROM INTO_QRCODE_SAVE
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([userAccount])" > USER_ACCOUNT = '[userAccount]' </clause>
+		</where>
+	</sql>
+
+	<!-- 清空表 -->
+	<sql id="deleteQrcodeSave" >
+		delete from INTO_QRCODE_SAVE
+	</sql>
+
+	<!-- 查询进件二维码存储表 -->
+	<sql id="queryQrcodeSaveList" >
+		SELECT * FROM INTO_QRCODE_SAVE 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([userAccount])" > USER_ACCOUNT = '[userAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([qrPath])" > QR_PATH = '[qrPath]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([qrName])" > QR_NAME = '[qrName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([qrSize])" > QR_SIZE = '[qrSize]' </clause>
+		</where>
+	</sql>
+
+</banger>

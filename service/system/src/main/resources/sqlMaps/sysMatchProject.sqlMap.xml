@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增匹配项目表 -->
+	<sql id="insertMatchProject" >
+		INSERT INTO SYS_MATCH_PROJECT (PROJECT_ID,PROJECT_NAME,MODEL_ID,MODEL_NAME,CREATE_USER,CREATE_DATE,UPDATE_USER,UPDATE_DATE) VALUES ([$projectId]
+		<clause prepend="," nvl="''" >[$projectName]</clause>
+		<clause prepend="," nvl="0" >[$modelId]</clause>
+		<clause prepend="," nvl="''" >[$modelName]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改匹配项目表 -->
+	<sql id="updateMatchProject" >
+		UPDATE SYS_MATCH_PROJECT 
+		<set>
+			<clause prepend="," assert="!isNull([projectName])" >PROJECT_NAME = [$projectName]</clause>
+			<clause prepend="," assert="!isNull([modelId])" >MODEL_ID = [$modelId]</clause>
+			<clause prepend="," assert="!isNull([modelName])" >MODEL_NAME = [$modelName]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 PROJECT_ID = [$projectId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到匹配项目表 -->
+	<sql id="getMatchProjectById" >
+		SELECT * FROM SYS_MATCH_PROJECT WHERE PROJECT_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除匹配项目表 -->
+	<sql id="deleteMatchProjectById" >
+		DELETE FROM SYS_MATCH_PROJECT WHERE PROJECT_ID = [0]
+	</sql>
+
+	<!-- 查询匹配项目表 -->
+	<sql id="queryMatchProjectList" >
+		SELECT * FROM SYS_MATCH_PROJECT 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([projectName])" > PROJECT_NAME = '[projectName]' </clause>
+			<clause prepend="and" assert="!isNull([modelId])" > MODEL_ID = [modelId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([modelName])" > MODEL_NAME = '[modelName]' </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>贷款任务列表</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+	<form id="form" action="" onsubmit="return false;">
+        <input type="hidden" id="roleId" name="roleId" value="$!roleId" />
+        <input type="hidden" id="groupId" name="groupId" value="$!groupId" />
+		<input type="hidden" id="userId" name="userId" value="$!userId" />
+		<input type="hidden" id="assignBtn" name="assignBtn" value="$!assignBtn" />
+    	<div class="ui-layout-search">
+        	<div class="ui-layout-search-body">
+        		<table class="ui-form-fields" >
+                    <tbody>
+                        <tr>
+                            <td class="field" width="7%">
+                                <label>任务名称：</label>
+                            </td>
+                            <td width="18%">
+                                <div class="ui-text">
+                                    <input type="text" id="taskTitle" name="taskTitle"  class="ui-text-text" value="$!task.taskTitle"/>
+                                </div>
+                            </td>
+    						<td class="field" width="7%">
+                                <label>任务期限：</label>
+                            </td>
+                            <td width="18%">
+                            	<table class="ui-form-fields-cell">
+                                    <tbody>
+                                        <tr>
+                                            <td width="150">
+                                                <div class="ui-text">
+                                                    <input type="text" id="txtStartDate" class="ui-text-text" name="startDate" value="$!task.startDate"/>
+                                                    <i class="ui-text-icon ui-text-date"></i>
+                                                </div>
+                                            </td>
+                                            <td width="20">-</td>
+                                            <td width="150">
+                                                <div class="ui-text">
+                                                    <input type="text" id="txtEndDate" class="ui-text-text" name="endDate" value="$!task.endDate"/>
+                                                    <i class="ui-text-icon ui-text-date"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="field" width="7%">
+                                <label>任务状态：</label>
+                            </td>
+                            <td width="18%">
+                        		<select id="taskStatus" name="taskStatus">
+                            		<option></option>
+                                    #if($!task.taskStatus)
+                                        <option value="1" selected>未完成</option>
+                                        <option value="2">已完成</option>
+                                        #else
+                                            <option value="1">未完成</option>
+                                            <option value="2">已完成</option>
+                                    #end
+                                </select>
+                            </td>
+                        	<td class="field" width="7%">
+                                <label>是否过期：</label>
+                            </td>
+                        	<td width="18%">
+                        		<select id="isOverDate" name="isOverDate" value="$!task.isOverDate">
+                            		<option></option>
+                            		<option value="1">未过期</option>
+									<option value="2">已过期</option>
+                        		</select>                        		
+                    		</td>
+                        </tr>
+##                        <tr>
+##							<td class="field" width="5%">
+##        						<label>查询范围：</label>
+##        					</td>
+##                            <td width="20%">
+##								<input type="checkbox" id="myTask" #if($!myTaskCheck) checked #end/>&nbsp;&nbsp;我的
+##							</td>
+##                            <td width="20%" colspan="3">&nbsp;</td>
+##                        </tr>
+                    </tbody>
+                </table>
+        	</div>
+        	<div class="ui-layout-search-foot">
+        		<div class="buttons">
+        			<span id="btnClean" class="ui-search-button ui-search-button-clean">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_RESET</label>
+    	            </span>
+    	            <span id="btnSearch" class="ui-search-button">
+    	            	<label class="ui-search-button-text">$!pageConst.BTN_SEARCH</label>
+    	            </span>
+        		</div>
+        	</div>
+        </div>
+	</form>
+    <div class="ui-layout-statistics">
+    	所有任务 (<label class="statistics" id="lblStatistics">0</label>)个
+    </div>
+    <div class="ui-layout-action">
+        #if($funcPermit.hasFuncCode("addTask"))
+            #if($!roleId==2 || $!roleId==3) #*10.13 夏俊确认，所有配置权限的人都可以具有菜单权限,不具有新建权限，不具有查看团队任务列表权限,由角色决定*#
+            <span id="btnAdd" class="ui-button fl">
+                <label class="ui-button-text">$!pageConst.BTN_NEW</label>
+            </span>
+           #end
+        #end	
+        <span id="btnRefresh" class="ui-button fr">
+        	<label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+        </span>
+    </div>
+    <table id="taskGrid"></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+	<!-- //页面业务逻辑脚本 -->
+	<script type="text/javascript" src="../task/js/taskList.js?v=$!webAppVersion"></script>
+    <script>
+        var selectMy = '0';
+        var selectFlag = '';
+        #*#if($!myTaskCheck)
+            selectFlag = '1';
+            selectMy = '1';
+        #end*#
+    </script>
+</body>
+</html>

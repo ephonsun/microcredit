@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增初审规则明细表 -->
+	<sql id="insertTrialRuleDetail" >
+		INSERT INTO INTO_TRIAL_RULE_DETAIL (OPTION_ID,RULE_ID,TEMPLATE_ID,FIELD_ID,PASS_OPTION,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$optionId]
+		<clause prepend="," nvl="0" >[$ruleId]</clause>
+		<clause prepend="," nvl="0" >[$templateId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="''" >[$passOption]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改初审规则明细表 -->
+	<sql id="updateTrialRuleDetail" >
+		UPDATE INTO_TRIAL_RULE_DETAIL 
+		<set>
+			<clause prepend="," assert="!isNull([ruleId])" >RULE_ID = [$ruleId]</clause>
+			<clause prepend="," assert="!isNull([templateId])" >TEMPLATE_ID = [$templateId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([passOption])" >PASS_OPTION = [$passOption]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 OPTION_ID = [$optionId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到初审规则明细表 -->
+	<sql id="getTrialRuleDetailById" result="intoTrialRuleDetail_Query">
+		SELECT itrd.*,atc.FIELD_TYPE,itrp.OPTION_PARAM1,itrp.OPTION_PARAM2,itrp.OPTION_PARAM3,itrp.OPTION_PARAM4,iti.TABLE_NAME,
+		itf.FIELD_NAME,atc.FIELD_DICT_NAME
+		FROM INTO_TRIAL_RULE_DETAIL itrd
+		LEFT JOIN into_templates_info iti ON itrd.TEMPLATE_ID = iti.TEMPLATE_ID
+		LEFT JOIN into_templates_field itf ON itrd.FIELD_ID = itf.FIELD_ID
+		LEFT JOIN into_trial_rule_params itrp ON itrd.TEMPLATE_ID = itrp.TEMPLATE_ID and itrd.FIELD_ID=itrp.FIELD_ID
+		LEFT JOIN auto_table_column atc ON itf.TABLE_NAME= atc.TABLE_NAME and itf.TALBE_COLUMN= atc.FIELD_COLUMN and atc.FIELD_TYPE IN ('Select','MultipleSelect','YesNo','Number','Float','Ratio')
+		WHERE itrd.OPTION_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除初审规则明细表 -->
+	<sql id="deleteTrialRuleDetailById" >
+		DELETE FROM INTO_TRIAL_RULE_DETAIL WHERE OPTION_ID = [0]
+	</sql>
+
+	<class id="intoTrialRuleDetail_Query" name="banger.domain.config.IntoTrialRuleDetailQuery">
+		<property name="tableName" column="TABLE_NAME"></property>
+		<property name="fieldName" column="FIELD_NAME"></property>
+		<property name="optionParam1" column="OPTION_PARAM1"></property>
+		<property name="optionParam2" column="OPTION_PARAM2"></property>
+		<property name="optionParam3" column="OPTION_PARAM3"></property>
+		<property name="optionParam4" column="OPTION_PARAM4"></property>
+		<property name="fieldType" column="FIELD_TYPE"></property>
+		<property name="fieldDicisName" column="FIELD_DICT_NAME"></property>
+	</class>
+
+	<!-- 查询初审规则明细表 -->
+	<sql id="queryTrialRuleDetailList" result="intoTrialRuleDetail_Query">
+		SELECT itrd.*,atc.FIELD_TYPE,itrp.OPTION_PARAM1,itrp.OPTION_PARAM2,itrp.OPTION_PARAM3,itrp.OPTION_PARAM4,iti.TABLE_NAME,
+		itf.FIELD_NAME,atc.FIELD_DICT_NAME
+		FROM INTO_TRIAL_RULE_DETAIL itrd
+		LEFT JOIN into_templates_info iti ON itrd.TEMPLATE_ID = iti.TEMPLATE_ID
+		LEFT JOIN into_templates_field itf ON itrd.FIELD_ID = itf.FIELD_ID
+		LEFT JOIN into_trial_rule_params itrp ON itrd.TEMPLATE_ID = itrp.TEMPLATE_ID and itrd.FIELD_ID=itrp.FIELD_ID
+		LEFT JOIN auto_table_column atc ON itf.TABLE_NAME= atc.TABLE_NAME and itf.TALBE_COLUMN= atc.FIELD_COLUMN and atc.FIELD_TYPE IN ('Select','MultipleSelect','YesNo','Number','Float','Ratio')
+		<where>
+			<clause prepend="and" assert="!isNull([ruleId])" > itrd.RULE_ID = [ruleId] </clause>
+			<clause prepend="and" assert="!isNull([templateId])" > itrd.TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > itrd.FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([passOption])" > itrd.PASS_OPTION = '[passOption]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > itrd.CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > itrd.UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<!-- 查询初审规则明细表 -->
+	<sql id="checkTrialRuleDetaiOnly" result="intoTrialRuleDetail_Query">
+		SELECT *
+		FROM INTO_TRIAL_RULE_DETAIL itrd
+		<where>
+			<clause prepend="and" assert="!isNull([optionId])" ><![CDATA[itrd.OPTION_ID <> [optionId] ]]>   </clause>
+			<clause prepend="and" assert="!isNull([ruleId])" > itrd.RULE_ID = [ruleId] </clause>
+			<clause prepend="and" assert="!isNull([templateId])" > itrd.TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > itrd.FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([passOption])" > itrd.PASS_OPTION = '[passOption]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > itrd.CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > itrd.UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

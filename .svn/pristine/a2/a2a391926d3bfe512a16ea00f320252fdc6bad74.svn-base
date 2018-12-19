@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.tmp.TmpLoanInfo" table="TMP_LOAN_INFO" >
+		<property name="loanAccount" type="java.lang.String" >
+			<column name="LOAN_ACCOUNT" length="200" />
+		</property>
+		<property name="contractNo" type="java.lang.String" >
+			<column name="CONTRACT_NO" length="200" />
+		</property>
+		<property name="repaymentAccount" type="java.lang.String" >
+			<column name="REPAYMENT_ACCOUNT" length="200" />
+		</property>
+		<property name="incomeAccount" type="java.lang.String" >
+			<column name="INCOME_ACCOUNT" length="200" />
+		</property>
+		<property name="iouNo" type="java.lang.String" >
+			<column name="IOU_NO" length="200" />
+		</property>
+		<property name="contractCnNo" type="java.lang.String" >
+			<column name="CONTRACT_CN_NO" length="200" />
+		</property>
+		<property name="limitYear" type="java.lang.Integer" >
+			<column name="LIMIT_YEAR" length="4" />
+		</property>
+		<property name="beginDate" type="java.lang.String" >
+			<column name="BEGIN_DATE" length="8" />
+		</property>
+		<property name="endDate" type="java.lang.String" >
+			<column name="END_DATE" length="8" />
+		</property>
+		<property name="loanMoney" type="java.math.BigDecimal" >
+			<column name="LOAN_MONEY" length="20" scale="2" />
+		</property>
+	</class>
+</mapping>
+

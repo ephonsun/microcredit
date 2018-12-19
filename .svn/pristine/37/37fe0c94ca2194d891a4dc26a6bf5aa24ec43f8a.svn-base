@@ -1,0 +1,38 @@
+#if($!flag=="1")##查看
+    #set($fieldFlag=2)
+#elseif($customer.id)
+    #set($fieldFlag=0)
+#else
+    #set($fieldFlag=0)
+#end
+<input type="hidden" id="loanId" name="loanId" value="$!loanId"/>
+<input type="hidden" id="flag" name="flag" value="$!flag"/>
+<input type="hidden" id="loanTypeId_hide" name="loanTypeId_hide" value="$!loanTypeId"/>
+
+<form id="baseForm">
+    <div id="applyTemplate">
+    </div>
+</form>
+
+<hr class="ui-line"/>
+<div class="ui-layout-closure">
+    #if($fieldFlag!=1)
+        #if($funcPermit.hasFuncCode("loanApplyAdd") || $funcPermit.hasFuncCode("loanApplyEdit"))
+            <span id="btnSaveApply" class="ui-closure-button">
+                    <label class="ui-closure-button-text">保存</label>
+            </span>
+        #end
+        #if(!$loanId)
+            #if($funcPermit.hasFuncCode("loanApplyAdd"))
+            <span id="btnSaveApplyContine" class="ui-closure-button ml5">
+                    <label class="ui-closure-button-text">保存并新建</label>
+                </span>
+            #end
+        #end
+    #end
+    <span id="btnCancelApply" class="ui-closure-button ui-closure-button-cancel ml5">
+            <label class="ui-closure-button-text">取消</label>
+        </span>
+</div>
+
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<cache id="CACHE_FORM_SETTING" type="OSCACHE" >
+		<flushInterval hours="24" />
+		<flushOnExecute statement="insertFormSettings" />
+		<flushOnExecute statement="updateFormSettings" />
+		<flushOnExecute statement="deleteFormSettingsById" />
+	</cache>
+	<!-- 新增表单关联设置表 -->
+	<sql id="insertFormSettings" >
+		INSERT INTO SYS_FORM_SETTINGS (ID,CONTROL_FORM,CONTROL_FORM_NAME,CONTROL_ITEM,CONTROL_ITEM_NAME,CONTROL_VALUE,CONTROL_VALUE_NAME,HIDDEN_FORM,HIDDEN_FORM_NAME,CONTROL_ITEM_COLUMN,CREATE_USER,CREATE_DATE,UPDATE_USER,UPDATE_DATE) VALUES ([$id]
+		<clause prepend="," nvl="''" >[$controlForm]</clause>
+		<clause prepend="," nvl="''" >[$controlFormName]</clause>
+		<clause prepend="," nvl="''" >[$controlItem]</clause>
+		<clause prepend="," nvl="''" >[$controlItemName]</clause>
+		<clause prepend="," nvl="''" >[$controlValue]</clause>
+		<clause prepend="," nvl="''" >[$controlValueName]</clause>
+		<clause prepend="," nvl="''" >[$hiddenForm]</clause>
+		<clause prepend="," nvl="''" >[$hiddenFormName]</clause>
+		<clause prepend="," nvl="''" >[$controlItemColumn]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改表单关联设置表 -->
+	<sql id="updateFormSettings" >
+		UPDATE SYS_FORM_SETTINGS 
+		<set>
+			<clause prepend="," assert="!isNull([controlForm])" >CONTROL_FORM = [$controlForm]</clause>
+			<clause prepend="," assert="!isNull([controlFormName])" >CONTROL_FORM_NAME = [$controlFormName]</clause>
+			<clause prepend="," assert="!isNull([controlItem])" >CONTROL_ITEM = [$controlItem]</clause>
+			<clause prepend="," assert="!isNull([controlItemName])" >CONTROL_ITEM_NAME = [$controlItemName]</clause>
+			<clause prepend="," assert="!isNull([controlValue])" >CONTROL_VALUE = [$controlValue]</clause>
+			<clause prepend="," assert="!isNull([controlValueName])" >CONTROL_VALUE_NAME = [$controlValueName]</clause>
+			<clause prepend="," assert="!isNull([hiddenForm])" >HIDDEN_FORM = [$hiddenForm]</clause>
+			<clause prepend="," assert="!isNull([hiddenFormName])" >HIDDEN_FORM_NAME = [$hiddenFormName]</clause>
+			<clause prepend="," assert="!isNull([controlItemColumn])" >CONTROL_ITEM_COLUMN = [$controlItemColumn]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到表单关联设置表 -->
+	<sql id="getFormSettingsById" cache="CACHE_FORM_SETTING">
+		SELECT * FROM SYS_FORM_SETTINGS WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除表单关联设置表 -->
+	<sql id="deleteFormSettingsById" >
+		DELETE FROM SYS_FORM_SETTINGS WHERE ID = [0]
+	</sql>
+
+	<!-- 查询表单关联设置表 -->
+	<sql id="queryFormSettingsList">
+		SELECT * FROM SYS_FORM_SETTINGS 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([controlForm])" > CONTROL_FORM = '[controlForm]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([controlFormName])" > CONTROL_FORM_NAME = '[controlFormName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([controlItem])" > CONTROL_ITEM = '[controlItem]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([controlItemName])" > CONTROL_ITEM_NAME = '[controlItemName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([controlValue])" > CONTROL_VALUE = '[controlValue]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([controlValueName])" > CONTROL_VALUE_NAME = '[controlValueName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([hiddenForm])" > HIDDEN_FORM = '[hiddenForm]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([hiddenFormName])" > HIDDEN_FORM_NAME = '[hiddenFormName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([controlItemColumn])" > CONTROL_ITEM_COLUMN = '[controlItemColumn]' </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+		</where>
+	</sql>
+
+	<sql id="updateDisplayNameByTableName">
+		UPDATE SYS_FORM_SETTINGS SET CONTROL_FORM_NAME = '[0]' WHERE CONTROL_FORM = '[1]'
+	</sql>
+
+</banger>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsRoleMenu" table="PMS_ROLE_MENU" >
+		<id name="prmRoleMenuId" type="java.lang.Integer" >
+			<column name="PRM_ROLE_MENU_ID" lenght="4" />
+		</id>
+		<property name="prmRoleId" type="java.lang.Integer" >
+			<column name="PRM_ROLE_ID" lenght="4" />
+		</property>
+		<property name="prmMenuId" type="java.lang.String" >
+			<column name="PRM_MENU_ID" lenght="120" />
+		</property>
+		<property name="prmCreateDate" type="java.util.Date" >
+			<column name="PRM_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="prmUpdateDate" type="java.util.Date" >
+			<column name="PRM_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="prmCreateUser" type="java.lang.Integer" >
+			<column name="PRM_CREATE_USER" lenght="4" />
+		</property>
+		<property name="prmUpdateUser" type="java.lang.Integer" >
+			<column name="PRM_UPDATE_USER" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsDeptArea" table="PMS_DEPT_AREA" >
+		<id name="pdaId" type="java.lang.Integer" >
+			<column name="PDA_ID" lenght="4" />
+		</id>
+		<property name="areaId" type="java.lang.Integer" >
+			<column name="AREA_ID" lenght="4" />
+		</property>
+		<property name="areaDeptId" type="java.lang.Integer" >
+			<column name="AREA_DEPT_ID" lenght="4" />
+		</property>
+	</class>
+</mapping>
+

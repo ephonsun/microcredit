@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+	<class id="LoanMonitorInfoExtend" name="banger.domain.loan.LoanMonitorInfoExtend">
+		<property name="dictName" column="DICT_NAME"></property>
+		<property name="userName" column="USER_NAME"></property>
+		<property name="reType" column="LOAN_REVISIT_TYPE"></property>
+	</class>
+
+	<class id="LoanMonitorInfo_Query" name="banger.domain.loan.LoanMonitorInfo_Query" >
+		<property name="userName" column="USER_NAME"></property>
+	</class>
+
+	<!-- 新增贷款监控信息表 -->
+	<sql id="insertMonitorInfo" >
+		INSERT INTO LOAN_MONITOR_INFO (ID,LOAN_ID,LOAN_MONITOR_DATE,LOAN_MONITOR_TYPE,LOAN_MONITOR_USER_ID,LOAN_COMPLETE_DATE,LOAN_REVISIT_TYPE,LOAN_RESULT_CONTENT,LOAN_MONITOR_STATE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," >[$loanMonitorDate]</clause>
+		<clause prepend="," nvl="''" >[$loanMonitorType]</clause>
+		<clause prepend="," nvl="0" >[$loanMonitorUserId]</clause>
+		<clause prepend="," >[$loanCompleteDate]</clause>
+		<clause prepend="," nvl="''" >[$loanRevisitType]</clause>
+		<clause prepend="," nvl="''" >[$loanResultContent]</clause>
+		<clause prepend="," nvl="''" >[$loanMonitorState]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改贷款监控信息表 -->
+	<sql id="updateMonitorInfo" >
+		UPDATE LOAN_MONITOR_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanMonitorDate])" >LOAN_MONITOR_DATE = [$loanMonitorDate]</clause>
+			<clause prepend="," assert="!isNull([loanMonitorType])" >LOAN_MONITOR_TYPE = [$loanMonitorType]</clause>
+			<clause prepend="," assert="!isNull([loanMonitorUserId])" >LOAN_MONITOR_USER_ID = [$loanMonitorUserId]</clause>
+			<clause prepend="," assert="!isNull([loanCompleteDate])" >LOAN_COMPLETE_DATE = [$loanCompleteDate]</clause>
+			<clause prepend="," assert="!isNull([loanRevisitType])" >LOAN_REVISIT_TYPE = [$loanRevisitType]</clause>
+			<clause prepend="," assert="!isNull([loanResultContent])" >LOAN_RESULT_CONTENT = [$loanResultContent]</clause>
+			<clause prepend="," assert="!isNull([loanMonitorState])" >LOAN_MONITOR_STATE = [$loanMonitorState]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到贷款监控信息表 -->
+	<sql id="getMonitorInfoById" >
+		SELECT * FROM LOAN_MONITOR_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除贷款监控信息表 -->
+	<sql id="deleteMonitorInfoById" >
+		DELETE FROM LOAN_MONITOR_INFO WHERE ID = [0]
+	</sql>
+
+	<!-- 查询贷款监控信息表 -->
+	<sql id="queryMonitorInfoList" >
+		SELECT * FROM LOAN_MONITOR_INFO 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause parent="DateSpan" params="LOAN_MONITOR_DATE,loanMonitorDate,loanMonitorDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanMonitorType])" > LOAN_MONITOR_TYPE = '[loanMonitorType]' </clause>
+			<clause prepend="and" assert="!isNull([loanMonitorUserId])" > LOAN_MONITOR_USER_ID = [loanMonitorUserId] </clause>
+			<clause parent="DateSpan" params="LOAN_COMPLETE_DATE,loanCompleteDate,loanCompleteDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanRevisitType])" > LOAN_REVISIT_TYPE = '[loanRevisitType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanResultContent])" > LOAN_RESULT_CONTENT = '[loanResultContent]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanMonitorState])" > LOAN_MONITOR_STATE = '[loanMonitorState]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+	<sql id="getLoanMonitorInfoRevisit" result="loanMonitorRevistDict">
+		SELECT C.DICT_NAME,C.DATA_DICT_ID FROM SYS_DATA_DICT_COL C INNER JOIN SYS_DATA_DICT D
+		ON C.DATA_DICT_ID = D.DATA_DICT_ID
+		WHERE DICT_CN_NAME = '联系方式'
+	</sql>
+
+	<!-- 得到监控中的记录 -->
+	<sql id="getTopLoanMonitorInfo" >
+		SELECT * FROM LOAN_MONITOR_INFO WHERE LOAN_ID = [0] AND LOAN_MONITOR_STATE = 'Monitor' ORDER BY LOAN_MONITOR_DATE ASC
+	</sql>
+
+	<!-- 得到监控中的记录 -->
+	<sql id="getLoanMonitorInfoListByLoanId" result="LoanMonitorInfo_Query" >
+		SELECT M.*,U.USER_NAME FROM LOAN_MONITOR_INFO M
+		LEFT JOIN PMS_USER U ON U.USER_ID = M.LOAN_MONITOR_USER_ID
+		WHERE M.LOAN_ID = [0] AND M.LOAN_MONITOR_STATE = 'MonitorComplete'
+	</sql>
+
+	<sql id="getMonitorInfoExtend" result="LoanMonitorInfoExtend">
+		SELECT M.*,U.USER_NAME FROM LOAN_MONITOR_INFO M
+		LEFT JOIN PMS_USER U
+		ON M.LOAN_MONITOR_USER_ID = U.USER_ID
+		WHERE M.LOAN_ID = [loanId]
+		ORDER BY LOAN_MONITOR_DATE
+	</sql>
+
+	<!-- 根据id查询 -->
+	<sql id="getMonitorInfoExtendById" result="LoanMonitorInfoExtend">
+		SELECT M.*,U.USER_NAME FROM LOAN_MONITOR_INFO M
+		INNER JOIN PMS_USER U
+		ON M.LOAN_MONITOR_USER_ID = U.USER_ID
+		WHERE M.ID = [id]
+	</sql>
+
+	<!--监控批处理 首次监控 -->
+	<sql id="monitorBatchProcessFirst">
+		Insert into LOAN_MONITOR_INFO
+		(ID,LOAN_ID,LOAN_MONITOR_DATE,LOAN_MONITOR_TYPE,LOAN_MONITOR_USER_ID,LOAN_COMPLETE_DATE,LOAN_REVISIT_TYPE,LOAN_RESULT_CONTENT,LOAN_MONITOR_STATE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER)
+		SELECT
+		(nextval for SEQ_LOAN_MONITOR_INFO) as ID,
+		I.LOAN_ID,
+		(I.LOAN_CREDIT_DATE + [configValue] day) as LOAN_MONITOR_DATE,
+		'firstMonitor' as LOAN_MONITOR_TYPE,
+		0 as LOAN_MONITOR_USER_ID,
+		NULL as LOAN_COMPLETE_DATE,
+		'' as LOAN_REVISIT_TYPE,
+		NULL as LOAN_RESULT_CONTENT,
+		'Monitor' AS LOAN_MONITOR_STATE,
+		current timestamp as CREATE_DATE,
+		current timestamp as UPDATE_DATE,
+		1 as CREATE_USER,
+		1 as UPDATE_USER
+		FROM LOAN_APPLY_INFO I
+		WHERE I.LOAN_PROCESS_TYPE = 'AfterLoan' AND I.LOAN_ID NOT IN (SELECT LOAN_ID FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_TYPE = 'firstMonitor')
+		AND (I.LOAN_CREDIT_DATE <![CDATA[<]]> <method name="toDate">[firstMonitorDate]</method>) AND I.LOAN_AFTER_STATE IN ('1','2')
+		and
+		I.LOAN_ID NOT IN (
+		SELECT distinct LOAN_ID FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE ='Monitor' AND LOAN_MONITOR_TYPE <![CDATA[<>]]> 'temporaryMonitor'
+		)
+	</sql>
+
+
+	<!-- 常规监控 正常-->
+	<sql id="monitorBatchProcessNormal">
+		Insert into LOAN_MONITOR_INFO
+		(ID,LOAN_ID,LOAN_MONITOR_DATE,LOAN_MONITOR_TYPE,LOAN_MONITOR_USER_ID,LOAN_COMPLETE_DATE,LOAN_REVISIT_TYPE,LOAN_RESULT_CONTENT,LOAN_MONITOR_STATE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER)
+		SELECT
+		(nextval for SEQ_LOAN_MONITOR_INFO) AS ID,
+		M.LOAN_ID,
+		(M.LOAN_COMPLETE_DATE + [configValue] day) AS LOAN_MONITOR_DATE,
+		'normalMonitor' AS LOAN_MONITOR_TYPE,
+		0 as LOAN_MONITOR_USER_ID,
+		NULL AS LOAN_COMPLETE_DATE,
+		NULL AS LOAN_REVISIT_TYPE,
+		NULL AS LOAN_RESULT_CONTENT,
+		'Monitor' AS LOAN_MONITOR_STATE,
+		current timestamp AS CREATE_DATE,
+		current timestamp AS UPDATE_DATE,
+		1 AS CREATE_USER,
+		1 AS UPDATE_USER
+		FROM LOAN_APPLY_INFO I
+		INNER JOIN (
+		SELECT * FROM LOAN_MONITOR_INFO WHERE
+		ID IN
+		(SELECT MAX(ID) FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE ='MonitorComplete' and LOAN_MONITOR_TYPE <![CDATA[<>]]> 'temporaryMonitor' GROUP BY LOAN_ID)) M
+		ON I.LOAN_ID = M.LOAN_ID and M.LOAN_MONITOR_STATE ='MonitorComplete' and (M.LOAN_COMPLETE_DATE <![CDATA[<]]> <method name="toDate">[normalMonitorDate]</method>) AND I.LOAN_PROCESS_TYPE = 'AfterLoan'
+		AND I.LOAN_AFTER_STATE = '1'
+		where
+		I.LOAN_ID NOT IN (
+		SELECT distinct LOAN_ID FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE ='Monitor'  AND LOAN_MONITOR_TYPE <![CDATA[<>]]> 'temporaryMonitor'
+		)
+	</sql>
+
+	<!--常规监控 关注 -->
+	<sql id="monitorBatchProcessConcern">
+		Insert into LOAN_MONITOR_INFO
+		(ID,LOAN_ID,LOAN_MONITOR_DATE,LOAN_MONITOR_TYPE,LOAN_MONITOR_USER_ID,LOAN_COMPLETE_DATE,LOAN_REVISIT_TYPE,LOAN_RESULT_CONTENT,LOAN_MONITOR_STATE,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER)
+		SELECT
+		(nextval for SEQ_LOAN_MONITOR_INFO) AS ID,
+		M.LOAN_ID,
+		(M.LOAN_COMPLETE_DATE + [configValue] day) AS LOAN_MONITOR_DATE,
+		'normalMonitor' AS LOAN_MONITOR_TYPE,
+		0 as LOAN_MONITOR_USER_ID,
+		NULL AS LOAN_COMPLETE_DATE,
+		NULL AS LOAN_REVISIT_TYPE,
+		NULL AS LOAN_RESULT_CONTENT,
+		'Monitor' AS LOAN_MONITOR_STATE,
+		current timestamp AS CREATE_DATE,
+		current timestamp AS UPDATE_DATE,
+		1 AS CREATE_USER,
+		1 AS UPDATE_USER
+		FROM LOAN_APPLY_INFO I
+		INNER JOIN (
+		SELECT * FROM LOAN_MONITOR_INFO WHERE
+		ID IN
+		(SELECT MAX(ID) FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE ='MonitorComplete' and LOAN_MONITOR_TYPE <![CDATA[<>]]> 'temporaryMonitor' GROUP BY LOAN_ID)) M
+		ON I.LOAN_ID = M.LOAN_ID and M.LOAN_MONITOR_STATE ='MonitorComplete' and (M.LOAN_COMPLETE_DATE  <![CDATA[<]]> <method name="toDate">[concernMonitorDate]</method>) AND I.LOAN_PROCESS_TYPE = 'AfterLoan'
+		AND I.LOAN_AFTER_STATE = '2' where
+		I.LOAN_ID NOT IN (
+		SELECT distinct LOAN_ID FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE ='Monitor'  AND LOAN_MONITOR_TYPE <![CDATA[<>]]> 'temporaryMonitor'
+		)
+	</sql>
+
+	<!--
+	<sql id="UpdateLoanApply">
+		UPDATE
+		LOAN_APPLY_INFO I
+		SET
+		(
+		I.LOAN_MONITOR_STATE,
+		I.LOAN_MONITOR_TYPE,
+		I.LOAN_MONITOR_DATE
+		)
+		=
+		(
+		SELECT
+		'Monitor',
+		M.LOAN_MONITOR_TYPE,
+		M.LOAN_MONITOR_DATE
+		FROM
+		LOAN_MONITOR_INFO M
+		WHERE
+		I.LOAN_ID = M.LOAN_ID
+		AND M.LOAN_MONITOR_STATE = 'Monitor' )
+		WHERE
+		I.LOAN_MONITOR_STATE != 'Monitor'
+		AND I.LOAN_ID IN
+		(
+		SELECT
+		M.LOAN_ID
+		FROM
+		LOAN_APPLY_INFO I
+		INNER JOIN
+		LOAN_MONITOR_INFO M
+		ON
+		I.LOAN_ID = M.LOAN_ID
+		WHERE
+		M.LOAN_MONITOR_STATE ='Monitor')
+	</sql>
+	-->
+
+	<sql id="UpdateLoanApply">
+		<![CDATA[UPDATE LOAN_APPLY_INFO I
+			SET (
+				I.LOAN_MONITOR_STATE,I.LOAN_MONITOR_TYPE,I.LOAN_MONITOR_DATE
+				)
+			  = (
+						SELECT 'Monitor',M.LOAN_MONITOR_TYPE,M.LOAN_MONITOR_DATE FROM (
+				SELECT LOAN_ID,MIN(LOAN_MONITOR_TYPE) AS LOAN_MONITOR_TYPE,MIN(LOAN_MONITOR_DATE) AS LOAN_MONITOR_DATE FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE = 'Monitor' AND LOAN_MONITOR_TYPE <> 'temporaryMonitor' GROUP BY LOAN_ID
+				   ) M WHERE I.LOAN_ID = M.LOAN_ID
+			)
+        ]]>
+	</sql>
+
+	<sql id="queryMonitorDate">
+		SELECT * FROM LOAN_MONITOR_INFO
+		WHERE LOAN_MONITOR_DATE = (SELECT MIN(LOAN_MONITOR_DATE) FROM LOAN_MONITOR_INFO WHERE LOAN_MONITOR_STATE = 'Monitor' AND LOAN_ID = [0])
+	</sql>
+
+	<!--更新客户经理分配受限表-->
+	<sql id="updateLoanAllotLimit">
+		INSERT INTO LOAN_ALLOT_LIMIT
+		(USER_ID,IS_ALLOT_LIMIT,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER)
+		SELECT
+		PU.USER_ID AS USER_ID,
+		0 AS IS_ALLOT_LIMIT,
+		current timestamp AS CREATE_DATE,
+		current timestamp AS UPDATE_DATE,
+		1 AS CREATE_USER,
+		1 AS UPDATE_USER
+		FROM PMS_USER PU
+		WHERE PU.USER_ID NOT IN
+		(SELECT USER_ID FROM LOAN_ALLOT_LIMIT)
+	</sql>
+
+	<!--设置客户经理受限状态默认值，默认为0，不受限-->
+	<sql id="setDefaultLimitState">
+		UPDATE LOAN_ALLOT_LIMIT SET IS_ALLOT_LIMIT = 0
+	</sql>
+
+	<!--更新客户经理分配受限状态-->
+	<sql id="updateLoanAllotLimitState">
+		UPDATE LOAN_ALLOT_LIMIT SET IS_ALLOT_LIMIT = 1
+		WHERE USER_ID IN (
+		SELECT LOAN_BELONG_ID
+		FROM LOAN_APPLY_INFO
+		WHERE LOAN_MONITOR_TYPE = 'firstMonitor'
+		AND LOAN_MONITOR_STATE = 'Monitor'
+		AND LOAN_PROCESS_TYPE <![CDATA[<>]]> 'Clearance'
+		AND (LOAN_CREDIT_DATE <![CDATA[<]]> <method name="toDate">[firstMonitorOutDate]</method>)
+		)
+	</sql>
+
+</banger>

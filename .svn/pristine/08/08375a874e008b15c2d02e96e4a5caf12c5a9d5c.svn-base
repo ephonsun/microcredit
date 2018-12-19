@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.IntoQrcodeSetting" table="INTO_QRCODE_SETTING" >
+		<id name="qrId" type="java.lang.Integer" >
+			<column name="QR_ID" length="4" />
+		</id>
+		<property name="accessPath" type="java.lang.String" >
+			<column name="ACCESS_PATH" length="120" />
+		</property>
+		<property name="imaPath" type="java.lang.String" >
+			<column name="IMA_PATH" length="120" />
+		</property>
+		<property name="imaName" type="java.lang.String" >
+			<column name="IMA_NAME" length="120" />
+		</property>
+		<property name="imaSize" type="java.lang.Integer" >
+			<column name="IMA_SIZE" length="4" />
+		</property>
+	</class>
+</mapping>
+

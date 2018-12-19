@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增主键ID -->
+	<sql id="insertAnalysislBusiness" >
+		INSERT INTO LOAN_ANALYSISL_BUSINESS (ID,LOAN_CLASS_ID,LOAN_ID,ACCOUNTS_TECEIVABLE_TURNOVER,ACTUAL_INTEREST,ASSET_LIABILITY_RATIO,ASSET_TURNOVER,ASSET_TURNOVER_DAYS,ASSETS_CASH_AMOUNT,ASSETS_FIXED_AMOUNT,ASSETS_FLOW_AMOUNT,ASSETS_NON_OPERATING_AMOUNT,ASSETS_OPERATING_AMOUNT,ASSETS_OTHER_AMOUNT,ASSETS_PAYMENT_AMOUNT,ASSETS_RECEIVABLE_AMOUNT,ASSETS_STOCK_AMOUNT,ASSETS_TOTAL_AMOUNT,BUSINESS_INCOME_AMOUNT,CASH_RATIO,DEBTS_BIZ_OTHER_AMOUNT,DEBTS_FLOW_AMOUNT,DEBTS_LONG_AMOUNT,DEBTS_PAYABLE_AMOUNT,DEBTS_RECEIVED_AMOUNT,DEBTS_SHORT_AMOUNT,DEBTS_TOTAL_AMOUNT,FIXED_COST_DEFRAY_AMOUNT,FLOW_RATIO,GROSS_PROFI_RATE,GROSS_PROFIT,INVENTORY_TURNOVER,INVENTORY_TURNOVER_DAYS,MONTHLY_AVERAGE_AVAILABLE,NET_INTEREST_RATE,OFF_ASSETS_AMOUNT,OFF_DEBTS_AMOUNT,OTHER_DEFRAY_AMOUNT,OTHER_INCOME_AMOUNT,QUICK_RATIO,RETURN_ON_EQUITY,SALES_OUTSTANDING_DAYS,SALES_RATIO,TEX_DEFRAY_AMOUNT,TOTAL_NET_PROFIT,TOTAL_SALES,VARIABLE_COST_EXPENDITURE) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="NULL" >[$accountsTeceivableTurnover]</clause>
+		<clause prepend="," nvl="NULL" >[$actualInterest]</clause>
+		<clause prepend="," nvl="NULL" >[$assetLiabilityRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$assetTurnover]</clause>
+		<clause prepend="," nvl="NULL" >[$assetTurnoverDays]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsCashAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsFixedAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsFlowAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsNonOperatingAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsOperatingAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsOtherAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsPaymentAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsReceivableAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsStockAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsTotalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$businessIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$cashRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsBizOtherAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsFlowAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsLongAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsPayableAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsReceivedAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsShortAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsTotalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$fixedCostDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$flowRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$grossProfiRate]</clause>
+		<clause prepend="," nvl="NULL" >[$grossProfit]</clause>
+		<clause prepend="," nvl="NULL" >[$inventoryTurnover]</clause>
+		<clause prepend="," nvl="NULL" >[$inventoryTurnoverDays]</clause>
+		<clause prepend="," nvl="NULL" >[$monthlyAverageAvailable]</clause>
+		<clause prepend="," nvl="NULL" >[$netInterestRate]</clause>
+		<clause prepend="," nvl="NULL" >[$offAssetsAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$offDebtsAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$otherDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$otherIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$quickRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$returnOnEquity]</clause>
+		<clause prepend="," nvl="NULL" >[$salesOutstandingDays]</clause>
+		<clause prepend="," nvl="NULL" >[$salesRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$texDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$totalNetProfit]</clause>
+		<clause prepend="," nvl="NULL" >[$totalSales]</clause>
+		<clause prepend="," nvl="NULL" >[$variableCostExpenditure]</clause>
+		)
+	</sql>
+
+	<!-- 修改主键ID -->
+	<sql id="updateAnalysislBusiness" >
+		UPDATE LOAN_ANALYSISL_BUSINESS 
+		<set>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([accountsTeceivableTurnover])" >ACCOUNTS_TECEIVABLE_TURNOVER = [$accountsTeceivableTurnover]</clause>
+			<clause prepend="," assert="!isNull([actualInterest])" >ACTUAL_INTEREST = [$actualInterest]</clause>
+			<clause prepend="," assert="!isNull([assetLiabilityRatio])" >ASSET_LIABILITY_RATIO = [$assetLiabilityRatio]</clause>
+			<clause prepend="," assert="!isNull([assetTurnover])" >ASSET_TURNOVER = [$assetTurnover]</clause>
+			<clause prepend="," assert="!isNull([assetTurnoverDays])" >ASSET_TURNOVER_DAYS = [$assetTurnoverDays]</clause>
+			<clause prepend="," assert="!isNull([assetsCashAmount])" >ASSETS_CASH_AMOUNT = [$assetsCashAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsFixedAmount])" >ASSETS_FIXED_AMOUNT = [$assetsFixedAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsFlowAmount])" >ASSETS_FLOW_AMOUNT = [$assetsFlowAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsNonOperatingAmount])" >ASSETS_NON_OPERATING_AMOUNT = [$assetsNonOperatingAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsOperatingAmount])" >ASSETS_OPERATING_AMOUNT = [$assetsOperatingAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsOtherAmount])" >ASSETS_OTHER_AMOUNT = [$assetsOtherAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsPaymentAmount])" >ASSETS_PAYMENT_AMOUNT = [$assetsPaymentAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsReceivableAmount])" >ASSETS_RECEIVABLE_AMOUNT = [$assetsReceivableAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsStockAmount])" >ASSETS_STOCK_AMOUNT = [$assetsStockAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsTotalAmount])" >ASSETS_TOTAL_AMOUNT = [$assetsTotalAmount]</clause>
+			<clause prepend="," assert="!isNull([businessIncomeAmount])" >BUSINESS_INCOME_AMOUNT = [$businessIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([cashRatio])" >CASH_RATIO = [$cashRatio]</clause>
+			<clause prepend="," assert="!isNull([debtsBizOtherAmount])" >DEBTS_BIZ_OTHER_AMOUNT = [$debtsBizOtherAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsFlowAmount])" >DEBTS_FLOW_AMOUNT = [$debtsFlowAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsLongAmount])" >DEBTS_LONG_AMOUNT = [$debtsLongAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsPayableAmount])" >DEBTS_PAYABLE_AMOUNT = [$debtsPayableAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsReceivedAmount])" >DEBTS_RECEIVED_AMOUNT = [$debtsReceivedAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsShortAmount])" >DEBTS_SHORT_AMOUNT = [$debtsShortAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsTotalAmount])" >DEBTS_TOTAL_AMOUNT = [$debtsTotalAmount]</clause>
+			<clause prepend="," assert="!isNull([fixedCostDefrayAmount])" >FIXED_COST_DEFRAY_AMOUNT = [$fixedCostDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([flowRatio])" >FLOW_RATIO = [$flowRatio]</clause>
+			<clause prepend="," assert="!isNull([grossProfiRate])" >GROSS_PROFI_RATE = [$grossProfiRate]</clause>
+			<clause prepend="," assert="!isNull([grossProfit])" >GROSS_PROFIT = [$grossProfit]</clause>
+			<clause prepend="," assert="!isNull([inventoryTurnover])" >INVENTORY_TURNOVER = [$inventoryTurnover]</clause>
+			<clause prepend="," assert="!isNull([inventoryTurnoverDays])" >INVENTORY_TURNOVER_DAYS = [$inventoryTurnoverDays]</clause>
+			<clause prepend="," assert="!isNull([monthlyAverageAvailable])" >MONTHLY_AVERAGE_AVAILABLE = [$monthlyAverageAvailable]</clause>
+			<clause prepend="," assert="!isNull([netInterestRate])" >NET_INTEREST_RATE = [$netInterestRate]</clause>
+			<clause prepend="," assert="!isNull([offAssetsAmount])" >OFF_ASSETS_AMOUNT = [$offAssetsAmount]</clause>
+			<clause prepend="," assert="!isNull([offDebtsAmount])" >OFF_DEBTS_AMOUNT = [$offDebtsAmount]</clause>
+			<clause prepend="," assert="!isNull([otherDefrayAmount])" >OTHER_DEFRAY_AMOUNT = [$otherDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([otherIncomeAmount])" >OTHER_INCOME_AMOUNT = [$otherIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([quickRatio])" >QUICK_RATIO = [$quickRatio]</clause>
+			<clause prepend="," assert="!isNull([returnOnEquity])" >RETURN_ON_EQUITY = [$returnOnEquity]</clause>
+			<clause prepend="," assert="!isNull([salesOutstandingDays])" >SALES_OUTSTANDING_DAYS = [$salesOutstandingDays]</clause>
+			<clause prepend="," assert="!isNull([salesRatio])" >SALES_RATIO = [$salesRatio]</clause>
+			<clause prepend="," assert="!isNull([texDefrayAmount])" >TEX_DEFRAY_AMOUNT = [$texDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([totalNetProfit])" >TOTAL_NET_PROFIT = [$totalNetProfit]</clause>
+			<clause prepend="," assert="!isNull([totalSales])" >TOTAL_SALES = [$totalSales]</clause>
+			<clause prepend="," assert="!isNull([variableCostExpenditure])" >VARIABLE_COST_EXPENDITURE = [$variableCostExpenditure]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到主键ID -->
+	<sql id="getAnalysislBusinessById" >
+		SELECT * FROM LOAN_ANALYSISL_BUSINESS WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除主键ID -->
+	<sql id="deleteAnalysislBusinessById" >
+		DELETE FROM LOAN_ANALYSISL_BUSINESS WHERE ID = [0]
+	</sql>
+
+	<!-- 查询主键ID -->
+	<sql id="queryAnalysislBusinessList" >
+		SELECT * FROM LOAN_ANALYSISL_BUSINESS 
+		<where>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.tmp.TmpLoanRepaymentPlan" table="TMP_LOAN_REPAYMENT_PLAN" >
+		<property name="loanAccount" type="java.lang.String" >
+			<column name="LOAN_ACCOUNT" length="200" />
+		</property>
+		<property name="loanRepayPlanDate" type="java.lang.String" >
+			<column name="LOAN_REPAY_PLAN_DATE" length="8" />
+		</property>
+		<property name="loanPrincipalAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_PRINCIPAL_AMOUNT" length="20" scale="2" />
+		</property>
+		<property name="loanAccrualAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_ACCRUAL_AMOUNT" length="20" scale="2" />
+		</property>
+		<property name="loanRepayAmount" type="java.math.BigDecimal" >
+			<column name="LOAN_REPAY_AMOUNT" length="20" scale="2" />
+		</property>
+		<property name="loanCollectionDate" type="java.lang.String" >
+			<column name="LOAN_COLLECTION_DATE" length="8" />
+		</property>
+		<property name="loanCollectionState" type="java.lang.String" >
+			<column name="LOAN_COLLECTION_STATE" length="30" />
+		</property>
+	</class>
+</mapping>
+

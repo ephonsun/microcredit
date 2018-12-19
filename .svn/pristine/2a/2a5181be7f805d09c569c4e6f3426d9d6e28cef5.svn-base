@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="AppScreenCount" name="banger.domain.app.AppScreenCount">
+		<property name="userId" column="USER_ID"></property>
+		<property name="processType" column="LOAN_PROCESS_TYPE"></property>
+		<property name="num" column="NUM"></property>
+		<property name="money" column="MONEY"></property>
+	</class>
+	<class id="AppScreenLoan" name="banger.domain.app.AppScreenLoan">
+		<property name="loanTypeName" column="LOAN_TYPE_NAME"></property>
+		<property name="allNum" column="ALL_NUM"></property>
+		<property name="allMoney" column="ALL_MONEY"></property>
+		<property name="money" column="MONEY"></property>
+	</class>
+
+	<!--查询有交易记录的贷款-->
+	<sql id="getTotalLoanInfo" result="AppScreenLoan">
+		select
+		(select count(*) from loan_apply_info where LOAN_PROCESS_TYPE='AfterLoan') as ALL_NUM ,
+		(select sum(LOAN_RESULT_AMOUNT)  from loan_apply_info where LOAN_PROCESS_TYPE='AfterLoan') as ALL_MONEY,
+		lty.LOAN_TYPE_NAME ,
+		sum(lai.LOAN_RESULT_AMOUNT) as MONEY
+		from
+		loan_apply_info lai
+		left join
+		loan_type lty
+		on
+		lai.loan_type_id=lty.type_id
+		where
+		lai.LOAN_PROCESS_TYPE='AfterLoan'
+		group by
+		lty.LOAN_TYPE_NAME
+	</sql>
+
+
+	<!--查询当年交易记录的贷款-->
+	<sql id="getWhenLoan" result="AppScreenLoan">
+		<![CDATA[
+		select
+		(select count(*) from loan_apply_info where LOAN_PROCESS_TYPE='AfterLoan' and LOAN_CREDIT_DATE> '[0]') as ALL_NUM ,
+		(select sum(LOAN_RESULT_AMOUNT)  from loan_apply_info where LOAN_PROCESS_TYPE='AfterLoan' and LOAN_CREDIT_DATE> '[0]') as ALL_MONEY,
+		lty.LOAN_TYPE_NAME ,
+		sum(lai.LOAN_RESULT_AMOUNT) as MONEY
+		from
+		loan_apply_info lai
+		left join
+		loan_type lty
+		on
+		lai.loan_type_id=lty.type_id
+		where
+		lai.LOAN_PROCESS_TYPE='AfterLoan'
+		and lai.LOAN_CREDIT_DATE >= '[0]'
+		and lai.LOAN_CREDIT_DATE < '[1]'
+		group by
+		lty.LOAN_TYPE_NAME
+		]]>
+	</sql>
+
+
+	<sql id="getLoanPhaseInfo" result="AppScreenCount">
+		select LOAN_PROCESS_TYPE ,count(LOAN_PROCESS_TYPE) as NUM from loan_apply_info    group by LOAN_PROCESS_TYPE
+	</sql>
+
+
+	<sql id="getLoanTrend" result="AppScreenCount">
+		<![CDATA[
+		select
+		count(*) as NUM,
+		sum(LOAN_CREDIT_AMOUNT) as MONEY
+		from loan_apply_info
+		where
+		LOAN_PROCESS_TYPE='AfterLoan'
+		and
+		LOAN_CREDIT_DATE>='[beginTime]'
+		and
+		LOAN_CREDIT_DATE< '[endTime]'
+		]]>
+	</sql>
+
+	<sql id="getTopLoanMonthInfo" result="AppScreenCount">
+		<![CDATA[
+		select
+		LOAN_BELONG_ID as USER_ID,
+		COALESCE(sum(LOAN_CREDIT_AMOUNT),0) as MONEY
+		from
+		loan_apply_info where LOAN_BELONG_ID>0
+		and
+		LOAN_CREDIT_DATE>='[0]'
+		and
+		 LOAN_CREDIT_DATE < '[1]'
+		and
+		LOAN_PROCESS_TYPE='AfterLoan'
+		group by
+		LOAN_BELONG_ID
+		order by
+		MONEY
+		desc
+		]]>
+	</sql>
+
+</banger>

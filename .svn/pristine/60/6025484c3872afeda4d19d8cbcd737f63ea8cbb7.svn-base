@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>合同模版</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+</head>
+
+<body>
+<div class="ui-layout-action">
+    <span id="btnAdd" class="ui-button fl">
+        <label class="ui-button-text">导入合同模版</label>
+    </span>
+    <span id="btnRefresh" class="ui-button fr">
+        <label class="ui-button-text">$!pageConst.BTN_REFRESH</label>
+    </span>
+</div>
+<table id="grid"></table>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+
+<script type="text/javascript">
+    // 页面加载完成时...
+    $(function(){
+        $('#grid').flexigrid({
+            height: 500,
+            url: '../contract/queryContractFileList.html',
+            usePage: false,
+            fields: [
+                { display: '合同类型', field: 'templateTypeName', width: 200 ,align : 'center' },
+                { display: '合同名称', field: 'oldFileName', width: 300 ,align : 'center' }
+            ],
+            action: {
+                display: '操作',
+                width: 100,
+                align : 'center',
+                buttons: [
+                    {
+                        display: '编辑',
+                        onClick: function(tr, data){
+                            tabs.add({
+                                id :'addTemplateFile'+data.id,
+                                pid:tabs.getSelfId(window),
+                                name:'addTemplateFile'+data.id,
+                                title:'编辑合同模版',
+                                url : '../contract/getTemplateFilePage.html?id='+data.id,
+                                lock:false
+                            });
+
+                        }
+                    },
+                    {
+                        display: '删除',
+                        onClick: function(tr, data){
+                            deleteFile(data);
+                        }
+                    }
+                ]
+            }
+        });
+
+        $("#btnAdd").click(function() {
+            tabs.add({
+                id :'addTemplateFile',
+                pid:tabs.getSelfId(window),
+                name:'addTemplateFile',
+                title:'导入合同模版',
+                url : '../contract/getTemplateFilePage.html',
+                lock:false
+            });
+        })
+
+
+        $("#btnRefresh").click(function() {
+            refresh();
+        })
+
+
+    })
+
+    function refresh() {
+        $('#grid').flexReload();
+    }
+
+
+    function deleteFile(data){
+        showConfirm({
+            icon:'confirm',
+            content:'您确定要删除“'+ data.cols.oldFileName+ '”吗？',
+            ok:function(){
+                var postJson = {};
+                postJson['id'] = data.id;
+                jQuery.ajax({
+                    type:'POST',
+                    dataType:'json',
+                    url:'../contract/deleteContractFileById.html',
+                    data:postJson,
+                    success: function(re){
+                        if(re.success){
+                            showConfirm({
+                                icon: 'succeed',
+                                content: '删除成功'
+                            });
+                            refresh();
+                        }else{
+                            showConfirm({
+                                icon: 'warning',
+                                content: re.cause
+                            });
+                        }
+                    }
+                });
+            },
+            cancel: function() {}
+        });
+    }
+
+</script>
+</body>
+</html>

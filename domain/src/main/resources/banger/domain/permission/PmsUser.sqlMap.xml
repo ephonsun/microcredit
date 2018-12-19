@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.permission.PmsUser" table="PMS_USER" >
+		<id name="userId" type="java.lang.Integer" >
+			<column name="USER_ID" lenght="4" />
+		</id>
+		<property name="userDeptId" type="java.lang.Integer" >
+			<column name="USER_DEPT_ID" lenght="4" />
+		</property>
+		<property name="userAccount" type="java.lang.String" >
+			<column name="USER_ACCOUNT" lenght="120" />
+		</property>
+		<property name="userPassword" type="java.lang.String" >
+			<column name="USER_PASSWORD" lenght="60" />
+		</property>
+		<property name="userCode" type="java.lang.String" >
+			<column name="USER_CODE" lenght="120" />
+		</property>
+		<property name="userCode2" type="java.lang.String" >
+			<column name="USER_CODE2" lenght="120" />
+		</property>
+		<property name="userPasswordReset" type="java.lang.Integer" >
+			<column name="USER_PASSWORD_RESET" lenght="4" />
+		</property>
+		<property name="userPasswordDate" type="java.util.Date" >
+			<column name="USER_PASSWORD_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="userLoginDate" type="java.util.Date" >
+			<column name="USER_LOGIN_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="userLoginIp" type="java.lang.String" >
+			<column name="USER_LOGIN_IP" lenght="30" />
+		</property>
+		<property name="userName" type="java.lang.String" >
+			<column name="USER_NAME" lenght="120" />
+		</property>
+		<property name="userIsdel" type="java.lang.Integer" >
+			<column name="USER_ISDEL" lenght="4" />
+		</property>
+		<property name="userRemark" type="java.lang.String" >
+			<column name="USER_REMARK" lenght="600" />
+		</property>
+		<property name="userStatus" type="java.lang.Integer" >
+			<column name="USER_STATUS" lenght="4" />
+		</property>
+		<property name="userCreateDate" type="java.util.Date" >
+			<column name="USER_CREATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="userUpdateDate" type="java.util.Date" >
+			<column name="USER_UPDATE_DATE" lenght="10" scale="6" />
+		</property>
+		<property name="userCreateUser" type="java.lang.Integer" >
+			<column name="USER_CREATE_USER" lenght="4" />
+		</property>
+		<property name="userUpdateUser" type="java.lang.Integer" >
+			<column name="USER_UPDATE_USER" lenght="4" />
+		</property>
+        <property name="userPasswordStrength" type="java.lang.Integer" >
+            <column name="USER_PASSWORD_STRENGTH" lenght="4" />
+        </property>
+		<property name="userPhoneNumber" type="java.lang.String" >
+			<column name="USER_PHONE_NUMBER" lenght="150" />
+		</property>
+		<property name="userGroupPermit" type="java.lang.String" >
+			<column name="USER_GROUP_PERMIT" lenght="150" />
+		</property>
+		<property name="userPassAmount" type="java.math.BigDecimal" >
+			<column name="USER_PASS_AMOUNT" length="18" scale="2" />
+		</property>
+	</class>
+</mapping>
+

@@ -1,0 +1,22 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../js/core.js" type="text/javascript" ></script>
+<script src="../js/ctrl.js" type="text/javascript" ></script>
+<script src="../js/design.js" type="text/javascript" ></script>
+<script src="../js/widget.js" type="text/javascript" ></script>
+<script src="../js/dao.js" type="text/javascript" ></script>
+<script src="../js/toolbar.js" type="text/javascript" ></script>
+<script src="../js/ctrl.setting.js" type="text/javascript" ></script>
+<link href="../skin/css/blue.css" rel="stylesheet" type="text/css"  />
+
+<script>
+$.json.attach("CD",{"RMToolBar":[{"id":1,"name":"主页","icon":"../image/home.png"},{"id":2,"name":"目录","icon":"../image/category.png"},{"id":3,"name":"提交","icon":"../image/check.png"},{"id":4,"name":"停止","icon":"../image/busy.png"}]});
+</script>
+</head>
+<body style="background-color:#f6f6f6">
+<toolbar data="table:CD.RMToolBar" style="line-height:32px;" ></toolbar>
+<script>$.ctrl.render();</script>
+</body>
+</html>

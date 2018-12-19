@@ -1,0 +1,34 @@
+<table>
+    #foreach($col in $columnInfos)
+    <tr>
+        #set($index = ${velocityCount} - 1)
+        <td>
+            <div  width="400px">
+            <select name="leftColumns" disabled >
+                #foreach($head in $headList)
+                    #if($col.columnName==$head)
+                        <option value="$!head" selected >$!head</option>
+                    #else
+                        <option value="$!head" >$!head</option>
+                    #end
+                #end
+            </select>
+            </div>
+        </td>
+        #if($index==0)
+            <td rowspan="$!columnInfos.size()" ><div  width="100px"></div></td>
+            <td rowspan="$!columnInfos.size()" ><div  width="100px"><img src='../core/imgs/daohang.png'></div></td>
+            <td rowspan="$!columnInfos.size()" ><div  width="100px"></div></td>
+        #end
+        <td>
+            <div width="400px" >
+            <select name="rightFields" id="FieldName">
+                <option value ="deptCode" #if($col.fieldName=="deptCode") selected #end >机构编码</option>
+                <option value="deptName" #if($col.fieldName=="deptName") selected #end >机构名称</option>
+                <option value ="parentDeptCode" #if($col.fieldName=="parentDeptCode") selected #end >上级机构编码</option>
+            </select>
+            </div>
+        </td>
+    </tr>
+    #end
+</table>

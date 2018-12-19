@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>工作台</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+	<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+    <style type="text/css">
+        .system-infor { margin-bottom:10px; }
+        .system-infor li { height:30px; padding:0 10px; line-height:30px; overflow:hidden; }
+    </style>
+</head>
+
+<body>
+    #if($!admin)
+    <h4 class="ui-legend">
+        <label>$!sysDateAndWeek</label>
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$!clusterServerIp</label>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$!webAppVersion</label>
+    </h4>
+   #* <h4 class="ui-legend">
+        <label>文件下载:</label>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0);" id="downTray" class="logout">下载托盘</a>
+        </label>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0);" id="downHelp" class="logout">帮助手册</a>
+        </label>
+    </h4>*#
+    #if($!webSize < 2)
+        <h4 class="ui-legend">
+            <label>系统警告</label>
+        </h4>
+        <ul class="system-infor">
+            <li>
+                <label id="" class=""><strong style="color: red">应用服务器可用空间低于2G，请及时清理，以保证系统正常运行！</strong></label>
+            </li>
+        </ul>
+    #end
+
+    <h4 class="ui-legend">
+        <label>系统使用状况</label>
+    </h4>
+    <ul class="system-infor">
+        <li>
+            <span class="fl">总用户数</span>
+            <span class="fr fwb c00a94d"><label>$!userTotolNum</label> 人</span>
+        </li>
+##        <li>
+##            <span class="fl">当前在线用户数</span>
+##            <span class="fr fwb c00a94d"><label>$!maxMemory</label> M</span>
+##        </li>
+##        <li>
+##            <span class="fl">运行天数</span>
+##            <span class="fr fwb c00a94d"><label>$!webSize</label> G</span>
+##        </li>
+    </ul>
+    <h4 class="ui-legend">
+        <label>系统磁盘使用情况</label>
+    </h4>
+    <ul class="system-infor">
+    	<li>
+            <span class="fl">初始的总内存</span>
+            <span class="fr fwb c00a94d"><label>$!initMemory</label> M</span>
+        </li>
+        <li>
+            <span class="fl">已使用的内存</span>
+            <span class="fr fwb c00a94d"><label>$!usedMemory</label> M</span>
+        </li>
+        <li>
+            <span class="fl">最大可用内存</span>
+            <span class="fr fwb c00a94d"><label>$!maxMemory</label> M</span>
+        </li>
+        <li>
+            <span class="fl">应用服务器剩余空间</span>
+            <span class="fr fwb c00a94d"><label>$!webSize</label> G</span>
+        </li>
+    </ul>
+    #end
+    <input type="hidden" name="timess" value="$!timess">
+    ##	普通用户
+    <input type="hidden" name="time" value="$!time">
+    #if(!$!admin)
+    <h4 class="ui-legend">
+        <label>$!sysDateAndWeek</label>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$!clusterServerIp</label>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V$!webAppVersion</label>
+    </h4>
+    #end
+        #if($!tuandui || $!jingli || $!shenpi || $!houtai || $!shouquan || ($!zhuguan && $!shenpi))
+        <h4 class="ui-legend">
+            <label>待处理贷款</label>
+        </h4>
+        <br>
+        <ul class="system-infor">
+            <li>
+                #if($!jingli)
+                    <span><strong>申请</strong><label id="apply" class="ui-link statistics"">&nbsp;($!workingTable.apply)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!tuandui)
+                    <span><strong>分配</strong><label id="allot" class="ui-link statistics"">&nbsp;($!workingTable.allot)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong>进件分配</strong><label id="intoAllot" class="ui-link statistics"">&nbsp;($!workingTable.intoAllot)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!jingli)
+                    <span><strong>调查</strong><label id="investigate" class="ui-link statistics"">&nbsp;($!workingTable.investigate)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong>贷款合同</strong><label id="contract" class="ui-link statistics"">&nbsp;($!workingTable.contract)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!shenpi||$!tuandui)
+                    <span><strong>审批</strong><label id="approval" class="ui-link statistics"">&nbsp;($!approvalCount)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!jingli||$!tuandui||$!houtai)
+                    <span><strong>合同签订</strong><label id="sign" class="ui-link statistics"">&nbsp;($!signCount)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!houtai)
+                    <span><strong>放款</strong><label id="loan" class="ui-link statistics"">&nbsp;($!workingTable.loan)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong>征信待查</strong><label id="credit" class="ui-link statistics"">&nbsp;($!workingTable.credit)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!jingli)
+                    <span><strong>监控</strong><label id="monitor" class="ui-link statistics"">&nbsp;($!workingTable.monitor)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+##                    <span><strong>未催收</strong><label id="collection" class="ui-link statistics"">&nbsp;($!workingTable.collection)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong>还款提醒</strong><label id="collectionReminder" class="ui-link statistics"">&nbsp;($!workingTable.collectionReminder)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong>逾期贷款</strong><label id="collectionBad" class="ui-link statistics"">&nbsp;($!workingTable.collectionBad)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+                #if($!shouquan)
+                    <span><strong>待授权</strong><label id="authorized" class="ui-link statistics"">&nbsp;($!workingTable.authorized)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+            </li>
+        </ul>
+        <br>
+        #end
+        #if($!tuandui || $!zhuguan)
+        <h4 class="ui-legend">
+            <label>最新贷款统计</label>
+        </h4>
+        <br>
+        <ul class="system-infor">
+            <li>
+                <span><strong>申请</strong><label id="l_apply" class="ui-link statistics"">&nbsp;($!workingTable.apply)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span><strong>分配</strong><label id="l_allot" class="ui-link statistics"">&nbsp;($!workingTable.allot)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span><strong>调查</strong><label id="l_investigate" class="ui-link statistics"">&nbsp;($!workingTable.investigate)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span><strong>审批</strong><label id="l_approval" class="ui-link statistics"">&nbsp;($!workingTable.approval)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span><strong>放款</strong><label id="l_loan" class="ui-link statistics"">&nbsp;($!workingTable.loan)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span><strong>贷后</strong><label id="l_afterLoan" class="ui-link statistics"">&nbsp;#if(
+                $!workingTable.afterLoan)($!workingTable.afterLoan)#else(0)#end</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </li>
+        </ul>
+        <br><br>
+        #end
+        #if($!jingli)
+        <h4 class="ui-legend">
+            <label>日程提醒</label>
+        </h4>
+        <br>
+        <ul class="system-infor">
+            <li>
+                <span><strong>今日日程安排</strong><label id="custSchedule" class="ui-link statistics"">&nbsp;($!workingTable_cus.custSchedule)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span><strong>今日其他日程安排</strong><label id="otherSchedule" class="ui-link statistics"">&nbsp;($!otherSchedule)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            </li>
+        </ul>
+        <br>
+        #end
+    ##    任务先屏蔽
+##        #if($!zhuguan || $!jingli || $!tuandui)
+        #if($!jingli)
+        <h4 class="ui-legend">
+            <label>任务提醒</label>
+        </h4>
+        <br>
+        <ul class="system-infor">
+            <li>
+                <span><strong>未完成任务</strong><label id="task" class="ui-link statistics"">&nbsp;($!taskNum)</label></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </li>
+        </ul>
+        #end
+
+
+</body>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js"></script>
+<script type="text/javascript" src="../desktop/js/workBench.js"></script>
+</html>

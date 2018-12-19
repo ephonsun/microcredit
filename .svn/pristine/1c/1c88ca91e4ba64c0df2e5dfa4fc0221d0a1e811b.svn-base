@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增审批流程表信息定义表 -->
+	<sql id="insertApproveInfoDef" >
+		INSERT INTO WF_APPROVE_INFO_DEF (FLOW_ID,FLOW_NAME,CLASS_ID,IS_CONDITION,IS_DEL,IS_ACTIVED,IS_FIEXED,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER,AUDIT_VERSION) VALUES ([$flowId]
+		<clause prepend="," nvl="''" >[$flowName]</clause>
+		<clause prepend="," nvl="0" >[$classId]</clause>
+		<clause prepend="," nvl="0" >[$isCondition]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="1" >[$isActived]</clause>
+		<clause prepend="," nvl="0" >[$isFiexed]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		<clause prepend="," >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		<clause prepend="," nvl="''" >[$auditVersion]</clause>
+		)
+	</sql>
+
+	<!-- 修改审批流程表信息定义表 -->
+	<sql id="updateApproveInfoDef" >
+		UPDATE WF_APPROVE_INFO_DEF 
+		<set>
+			<clause prepend="," assert="!isNull([flowName])" >FLOW_NAME = [$flowName]</clause>
+			<clause prepend="," assert="!isNull([classId])" >CLASS_ID = [$classId]</clause>
+			<clause prepend="," assert="!isNull([isCondition])" >IS_CONDITION = [$isCondition]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([isActived])" >IS_ACTIVED = [$isActived]</clause>
+			<clause prepend="," assert="!isNull([isFiexed])" >IS_FIEXED = [$isFiexed]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+			<clause prepend="," assert="!isNull([auditVersion])" >AUDIT_VERSION = [$auditVersion]</clause>
+		</set>
+		<where>
+			 FLOW_ID = [$flowId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到审批流程表信息定义表 -->
+	<sql id="getApproveInfoDefById" >
+		SELECT * FROM WF_APPROVE_INFO_DEF WHERE FLOW_ID = [0]
+	</sql>
+
+	<!-- 通过classId得到审批流程表信息定义表 -->
+	<sql id="getApproveInfoDefByClassId" >
+		SELECT * FROM WF_APPROVE_INFO_DEF WHERE IS_DEL = 0 AND IS_ACTIVED = 1 AND CLASS_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除审批流程表信息定义表 -->
+	<sql id="deleteApproveInfoDefById" >
+		UPDATE WF_APPROVE_INFO_DEF SET IS_DEL = 1 WHERE FLOW_ID = [0]
+	</sql>
+	
+	<!-- 通过主键更新版本号 -->
+	<sql id="updateVersionById">
+		UPDATE WF_APPROVE_INFO_DEF SET AUDIT_VERSION = [0] WHERE FLOW_ID = [1]
+	</sql>
+
+	<!-- 查询审批流程表信息定义表 -->
+	<sql id="queryApproveInfoDefList" >
+		SELECT * FROM WF_APPROVE_INFO_DEF 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([flowName])" > FLOW_NAME = '[flowName]' </clause>
+			<clause prepend="and" assert="!isNull([classId])" > CLASS_ID = [classId] </clause>
+			<clause prepend="and" assert="!isNull([isCondition])" > IS_CONDITION = [isCondition] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([isActived])" > IS_ACTIVED = [isActived] </clause>
+			<clause prepend="and" assert="!isNull([isFiexed])" > IS_FIEXED = [isFiexed] </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+</banger>

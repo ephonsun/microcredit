@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<class id="ProdIntentCustomerResult" name="banger.domain.product.ProdIntentCustomer_Query">
+		<property name="picCreateUserName" column="PIC_CREATE_USER_NAME"></property>
+	</class>
+
+	<!-- 新增意向客户列表 -->
+	<sql id="insertIntentCustomer" >
+		INSERT INTO PROD_INTENT_CUSTOMER (PIC_ID,PIC_ADDRESS,PIC_ISDEL,PIC_CERTIFICATE_NUM,PIC_UPDATE_USER,PIC_PHONE,PIC_UPDATE_DATE,PIC_CERTIFICATE_TYPE,PIC_NAME,PIC_CREATE_DATE,PIC_GENDER,PIC_REMARK,PIC_CREATE_USER,PIC_PRODUCT_ID,PIC_PRODUCT_NAME) VALUES ([$picId]
+		<clause prepend="," nvl="''" >[$picAddress]</clause>
+		<clause prepend="," nvl="0" >[$picIsdel]</clause>
+		<clause prepend="," nvl="''" >[$picCertificateNum]</clause>
+		<clause prepend="," nvl="0" >[$picUpdateUser]</clause>
+		<clause prepend="," nvl="''" >[$picPhone]</clause>
+		<clause prepend="," nvl="NULL" >[$picUpdateDate]</clause>
+		<clause prepend="," nvl="''" >[$picCertificateType]</clause>
+		<clause prepend="," nvl="''" >[$picName]</clause>
+		<clause prepend="," nvl="NULL" >[$picCreateDate]</clause>
+		<clause prepend="," nvl="''" >[$picGender]</clause>
+		<clause prepend="," nvl="''" >[$picRemark]</clause>
+		<clause prepend="," nvl="0" >[$picCreateUser]</clause>
+		<clause prepend="," nvl="0" >[$picProductId]</clause>
+		<clause prepend="," nvl="''" >[$picProductName]</clause>
+		)
+	</sql>
+
+	<!-- 修改意向客户列表 -->
+	<sql id="updateIntentCustomer" >
+		UPDATE PROD_INTENT_CUSTOMER 
+		<set>
+			<clause prepend="," assert="!isNull([picAddress])" >PIC_ADDRESS = [$picAddress]</clause>
+			<clause prepend="," assert="!isNull([picIsdel])" >PIC_ISDEL = [$picIsdel]</clause>
+			<clause prepend="," assert="!isNull([picCertificateNum])" >PIC_CERTIFICATE_NUM = [$picCertificateNum]</clause>
+			<clause prepend="," assert="!isNull([picUpdateUser])" >PIC_UPDATE_USER = [$picUpdateUser]</clause>
+			<clause prepend="," assert="!isNull([picPhone])" >PIC_PHONE = [$picPhone]</clause>
+			<clause prepend="," assert="!isNull([picUpdateDate])" >PIC_UPDATE_DATE = [$picUpdateDate]</clause>
+			<clause prepend="," assert="!isNull([picCertificateType])" >PIC_CERTIFICATE_TYPE = [$picCertificateType]</clause>
+			<clause prepend="," assert="!isNull([picName])" >PIC_NAME = [$picName]</clause>
+			<clause prepend="," assert="!isNull([picCreateDate])" >PIC_CREATE_DATE = [$picCreateDate]</clause>
+			<clause prepend="," assert="!isNull([picGender])" >PIC_GENDER = [$picGender]</clause>
+			<clause prepend="," assert="!isNull([picRemark])" >PIC_REMARK = [$picRemark]</clause>
+			<clause prepend="," assert="!isNull([picCreateUser])" >PIC_CREATE_USER = [$picCreateUser]</clause>
+			<clause prepend="," assert="!isNull([picProductId])" >PIC_PRODUCT_ID = [$picProductId]</clause>
+			<clause prepend="," assert="!isNull([picProductName])" >PIC_PRODUCT_NAME = [$picProductName]</clause>
+		</set>
+		<where>
+			 PIC_ID = [$picId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到意向客户列表 -->
+	<sql id="getIntentCustomerById" >
+		SELECT * FROM PROD_INTENT_CUSTOMER WHERE PIC_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除意向客户列表 -->
+	<sql id="deleteIntentCustomerById" >
+		UPDATE PROD_INTENT_CUSTOMER SET PIC_ISDEL = 1 WHERE PIC_ID = [0]
+	</sql>
+	
+	<!-- 通过产品ID删除意向客户列表 -->
+	<sql id="deleteIntentCustomerByProdId" >
+		UPDATE PROD_INTENT_CUSTOMER SET PIC_ISDEL = 1 WHERE PIC_PRODUCT_ID = [0]
+	</sql>
+
+	<clause id="getUserIdByGroupIds" >
+    	(SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN ([0]))
+    </clause>
+
+	<!-- 查询意向客户列表 -->
+	<sql id="queryIntentCustomerList" result="ProdIntentCustomerResult">
+		SELECT 
+			PIC.*,PU.USER_NAME AS PIC_CREATE_USER_NAME
+			FROM PROD_INTENT_CUSTOMER PIC 
+			LEFT JOIN PMS_USER PU ON PIC.PIC_CREATE_USER = PU.USER_ID
+		<where>
+			<clause prepend="and" assert="!isNull([picIsdel])" > PIC.PIC_ISDEL = [picIsdel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([groupIds])" > PIC.PIC_CREATE_USER IN (SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN ([groupIds]))</clause>
+			<clause prepend="and" assert="!isNull([picCreateUser])" > PIC.PIC_CREATE_USER = [picCreateUser] </clause>
+			<clause prepend="and" assert="!isNull([picProductId])" > PIC.PIC_PRODUCT_ID = [picProductId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picRemark])" > PIC.PIC_REMARK LIKE '%[picRemark]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCreateUserName])" > PU.USER_NAME LIKE '%[picCreateUserName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picProductName])" > PIC.PIC_PRODUCT_NAME LIKE '%[picProductName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerInfo])" >( PIC.PIC_CERTIFICATE_NUM LIKE '%[customerInfo]%' OR PIC.PIC_PHONE LIKE '%[customerInfo]%' OR PIC.PIC_NAME LIKE '%[customerInfo]%' )</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCertificateType])" > PIC.PIC_CERTIFICATE_TYPE = '[picCertificateType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCertificateNum])" > PIC.PIC_CERTIFICATE_NUM = '[picCertificateNum]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picName])" > PIC_NAME = '[picName]' </clause>
+		</where>
+		ORDER BY PIC.PIC_CREATE_DATE DESC
+	</sql>
+
+	<!-- 查询意向客户列表所有 -->
+	<sql id="queryIntentCustomerListAll" result="ProdIntentCustomerResult">
+		SELECT
+		PIC.*,PU.USER_NAME AS PIC_CREATE_USER_NAME
+		FROM PROD_INTENT_CUSTOMER PIC
+		LEFT JOIN PMS_USER PU ON PIC.PIC_CREATE_USER = PU.USER_ID
+		<where>
+			<clause prepend="and" assert="!isNull([picIsdel])" > PIC.PIC_ISDEL = [picIsdel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([groupIds])" > PIC.PIC_CREATE_USER IN (SELECT USER_ID FROM SYS_TEAM_MEMBER WHERE TEAM_GROUP_ID IN ([groupIds]))</clause>
+			<!--<clause prepend="and" assert="!isNull([picCreateUser])" > PIC.PIC_CREATE_USER = [picCreateUser] </clause>-->
+			<clause prepend="and" assert="!isNull([picProductId])" > PIC.PIC_PRODUCT_ID = [picProductId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picRemark])" > PIC.PIC_REMARK LIKE '%[picRemark]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCreateUserName])" > PU.USER_NAME LIKE '%[picCreateUserName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picProductName])" > PIC.PIC_PRODUCT_NAME LIKE '%[picProductName]%' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerInfo])" >( PIC.PIC_CERTIFICATE_NUM LIKE '%[customerInfo]%' OR PIC.PIC_PHONE LIKE '%[customerInfo]%' OR PIC.PIC_NAME LIKE '%[customerInfo]%' )</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCertific ateType])" > PIC.PIC_CERTIFICATE_TYPE = '[picCertificateType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCertificateNum])" > PIC.PIC_CERTIFICATE_NUM = '[picCertificateNum]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picName])" > PIC_NAME = '[picName]' </clause>
+			<!--无论如何都查出自己的意向客户-->
+			or (PIC.PIC_CREATE_USER = [picCreateUser] AND PIC.PIC_ISDEL = 0)
+		</where>
+		ORDER BY PIC.PIC_CREATE_DATE DESC
+	</sql>
+	
+	<sql id="queryIntentCustomerCount" >
+		SELECT COUNT(*) FROM PROD_INTENT_CUSTOMER 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([picAddress])" > PIC_ADDRESS = '[picAddress]' </clause>
+			<clause prepend="and" assert="!isNull([picIsdel])" > PIC_ISDEL = [picIsdel] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCertificateNum])" > PIC_CERTIFICATE_NUM = '[picCertificateNum]' </clause>
+			<clause prepend="and" assert="!isNull([picUpdateUser])" > PIC_UPDATE_USER = [picUpdateUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picPhone])" > PIC_PHONE = '[picPhone]' </clause>
+			<clause parent="DateSpan" params="PIC_UPDATE_DATE,picUpdateDate,picUpdateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picCertificateType])" > PIC_CERTIFICATE_TYPE = '[picCertificateType]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picName])" > PIC_NAME = '[picName]' </clause>
+			<clause parent="DateSpan" params="PIC_CREATE_DATE,picCreateDate,picCreateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picGender])" > PIC_GENDER = '[picGender]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picRemark])" > PIC_REMARK = '[picRemark]' </clause>
+			<clause prepend="and" assert="!isNull([picCreateUser])" > PIC_CREATE_USER = [picCreateUser] </clause>
+			<clause prepend="and" assert="!isNull([picProductId])" > PIC_PRODUCT_ID = [picProductId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([picProductName])" >PIC_PRODUCT_NAME = '[$picProductName]'</clause>
+		</where>
+	</sql>
+
+</banger>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增消费贷财务分析详情总表 -->
+	<sql id="insertAnalysislConsumption" >
+		INSERT INTO LOAN_ANALYSISL_CONSUMPTION (ID,LOAN_ID,LOAN_CLASS_ID,ASSETS_TOTAL_AMOUNT,ASSETS_CASH_AMOUNT,ASSETS_INVEST_AMOUNT,ASSETS_EXTERNAL_CLAIMS,ASSETS_PAYMENT_AMOUNT,ASSETS_FIXED_AMOUNT,ASSETS_OTHER_AMOUNT,ACTUAL_INTEREST,DEBTS_TOTAL_AMOUNT,DEBTS_CONSUME_AMOUNT,DEBTS_SELF_USER_AMOUNT,DEBTS_INVEST_AMOUNT,DEBTS_OTHER_AMOUNT,ASSET_LIABILITY_RATIO,HOME_INCOME_AMOUNT,OTHER_INCOME_AMOUNT,FIXED_COST_DEFRAY_AMOUNT,TEX_PERSONAL_AMOUNT,OTHER_DEFRAY_AMOUNT,GROSS_INCOME,MONTHLY_AVERAGE_AVAILABLE,QUICK_RATIO) VALUES ([$id]
+		<clause prepend="," nvl="0" >[$loanId]</clause>
+		<clause prepend="," nvl="0" >[$loanClassId]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsTotalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsCashAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsInvestAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsExternalClaims]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsPaymentAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsFixedAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetsOtherAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$actualInterest]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsTotalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsConsumeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsSelfUserAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsInvestAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$debtsOtherAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$assetLiabilityRatio]</clause>
+		<clause prepend="," nvl="NULL" >[$homeIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$otherIncomeAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$fixedCostDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$texPersonalAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$otherDefrayAmount]</clause>
+		<clause prepend="," nvl="NULL" >[$grossIncome]</clause>
+		<clause prepend="," nvl="NULL" >[$monthlyAverageAvailable]</clause>
+		<clause prepend="," nvl="NULL" >[$quickRatio]</clause>
+		)
+	</sql>
+
+	<!-- 修改消费贷财务分析详情总表 -->
+	<sql id="updateAnalysislConsumption" >
+		UPDATE LOAN_ANALYSISL_CONSUMPTION 
+		<set>
+			<clause prepend="," assert="!isNull([loanId])" >LOAN_ID = [$loanId]</clause>
+			<clause prepend="," assert="!isNull([loanClassId])" >LOAN_CLASS_ID = [$loanClassId]</clause>
+			<clause prepend="," assert="!isNull([assetsTotalAmount])" >ASSETS_TOTAL_AMOUNT = [$assetsTotalAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsCashAmount])" >ASSETS_CASH_AMOUNT = [$assetsCashAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsInvestAmount])" >ASSETS_INVEST_AMOUNT = [$assetsInvestAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsExternalClaims])" >ASSETS_EXTERNAL_CLAIMS = [$assetsExternalClaims]</clause>
+			<clause prepend="," assert="!isNull([assetsPaymentAmount])" >ASSETS_PAYMENT_AMOUNT = [$assetsPaymentAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsFixedAmount])" >ASSETS_FIXED_AMOUNT = [$assetsFixedAmount]</clause>
+			<clause prepend="," assert="!isNull([assetsOtherAmount])" >ASSETS_OTHER_AMOUNT = [$assetsOtherAmount]</clause>
+			<clause prepend="," assert="!isNull([actualInterest])" >ACTUAL_INTEREST = [$actualInterest]</clause>
+			<clause prepend="," assert="!isNull([debtsTotalAmount])" >DEBTS_TOTAL_AMOUNT = [$debtsTotalAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsConsumeAmount])" >DEBTS_CONSUME_AMOUNT = [$debtsConsumeAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsSelfUserAmount])" >DEBTS_SELF_USER_AMOUNT = [$debtsSelfUserAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsInvestAmount])" >DEBTS_INVEST_AMOUNT = [$debtsInvestAmount]</clause>
+			<clause prepend="," assert="!isNull([debtsOtherAmount])" >DEBTS_OTHER_AMOUNT = [$debtsOtherAmount]</clause>
+			<clause prepend="," assert="!isNull([assetLiabilityRatio])" >ASSET_LIABILITY_RATIO = [$assetLiabilityRatio]</clause>
+			<clause prepend="," assert="!isNull([homeIncomeAmount])" >HOME_INCOME_AMOUNT = [$homeIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([otherIncomeAmount])" >OTHER_INCOME_AMOUNT = [$otherIncomeAmount]</clause>
+			<clause prepend="," assert="!isNull([fixedCostDefrayAmount])" >FIXED_COST_DEFRAY_AMOUNT = [$fixedCostDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([texPersonalAmount])" >TEX_PERSONAL_AMOUNT = [$texPersonalAmount]</clause>
+			<clause prepend="," assert="!isNull([otherDefrayAmount])" >OTHER_DEFRAY_AMOUNT = [$otherDefrayAmount]</clause>
+			<clause prepend="," assert="!isNull([grossIncome])" >GROSS_INCOME = [$grossIncome]</clause>
+			<clause prepend="," assert="!isNull([monthlyAverageAvailable])" >MONTHLY_AVERAGE_AVAILABLE = [$monthlyAverageAvailable]</clause>
+			<clause prepend="," assert="!isNull([quickRatio])" >QUICK_RATIO = [$quickRatio]</clause>
+		</set>
+		<where>
+			 ID = [$id] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到消费贷财务分析详情总表 -->
+	<sql id="getAnalysislConsumptionById" >
+		SELECT * FROM LOAN_ANALYSISL_CONSUMPTION WHERE ID = [0]
+	</sql>
+
+	<!-- 通过主键删除消费贷财务分析详情总表 -->
+	<sql id="deleteAnalysislConsumptionById" >
+		DELETE FROM LOAN_ANALYSISL_CONSUMPTION WHERE ID = [0]
+	</sql>
+
+	<!-- 查询消费贷财务分析详情总表 -->
+	<sql id="queryAnalysislConsumptionList" >
+		SELECT * FROM LOAN_ANALYSISL_CONSUMPTION 
+		<where>
+			<clause prepend="and" assert="!isNull([loanId])" > LOAN_ID = [loanId] </clause>
+			<clause prepend="and" assert="!isNull([loanClassId])" > LOAN_CLASS_ID = [loanClassId] </clause>
+		</where>
+	</sql>
+
+</banger>

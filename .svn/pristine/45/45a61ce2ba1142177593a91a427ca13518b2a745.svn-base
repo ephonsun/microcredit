@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+    <class id="customerBlackQuery" name="banger.domain.customer.CustCustomerBlackQuery" >
+        <property name="userName" column="USER_NAME" ></property>
+    </class>
+
+	<!-- 新增客户黑名单表 -->
+	<sql id="insertCustCustomerBlack" >
+		INSERT INTO CUST_CUSTOMER_BLACK (CUSTOMER_BLACK_ID,CUSTOMER_ID,APPROVE_USER_ID,IS_DEL,APPROVE_STATUS,CARD_TYPE,APPROVE_DATE,CREATE_USER,CARD_NO,CUSTOMER_NAME,CREATE_DATE) VALUES ([$customerBlackId]
+		<clause prepend="," nvl="0" >[$customerId]</clause>
+		<clause prepend="," nvl="0" >[$approveUserId]</clause>
+		<clause prepend="," nvl="0" >[$isDel]</clause>
+		<clause prepend="," nvl="0" >[$approveStatus]</clause>
+		<clause prepend="," nvl="''" >[$cardType]</clause>
+		<clause prepend="," >[$approveDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="''" >[$cardNo]</clause>
+		<clause prepend="," nvl="''" >[$customerName]</clause>
+		<clause prepend="," >[$createDate]</clause>
+		)
+	</sql>
+
+	<!-- 修改客户黑名单表 -->
+	<sql id="updateCustCustomerBlack" >
+		UPDATE CUST_CUSTOMER_BLACK 
+		<set>
+			<clause prepend="," assert="!isNull([customerId])" >CUSTOMER_ID = [$customerId]</clause>
+			<clause prepend="," assert="!isNull([approveUserId])" >APPROVE_USER_ID = [$approveUserId]</clause>
+			<clause prepend="," assert="!isNull([isDel])" >IS_DEL = [$isDel]</clause>
+			<clause prepend="," assert="!isNull([approveStatus])" >APPROVE_STATUS = [$approveStatus]</clause>
+			<clause prepend="," assert="!isNull([cardType])" >CARD_TYPE = [$cardType]</clause>
+			<clause prepend="," assert="!isNull([approveDate])" >APPROVE_DATE = [$approveDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([cardNo])" >CARD_NO = [$cardNo]</clause>
+			<clause prepend="," assert="!isNull([customerName])" >CUSTOMER_NAME = [$customerName]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+		</set>
+		<where>
+			 CUSTOMER_BLACK_ID = [$customerBlackId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到客户黑名单表 -->
+	<sql id="getCustCustomerBlackById" >
+		SELECT * FROM CUST_CUSTOMER_BLACK WHERE CUSTOMER_BLACK_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除客户黑名单表 -->
+	<sql id="deleteCustCustomerBlackById" >
+		UPDATE CUST_CUSTOMER_BLACK SET IS_DEL = 1 WHERE CUSTOMER_BLACK_ID = [0]
+	</sql>
+
+	<!-- 查询客户黑名单表 -->
+	<sql id="queryCustCustomerBlackList" >
+		SELECT * FROM CUST_CUSTOMER_BLACK 
+		<where>
+			<clause prepend="and" assert="!isNull([customerId])" > CUSTOMER_ID = [customerId] </clause>
+			<clause prepend="and" assert="!isNull([approveUserId])" > APPROVE_USER_ID = [approveUserId] </clause>
+			<clause prepend="and" assert="!isNull([isDel])" > IS_DEL = [isDel] </clause>
+			<clause prepend="and" assert="!isNull([approveStatus])" > APPROVE_STATUS = [approveStatus] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardType])" > CARD_TYPE = '[cardType]' </clause>
+			<clause parent="DateSpan" params="APPROVE_DATE,approveDate,approveDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([cardNo])" > CARD_NO = '[cardNo]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > CUSTOMER_NAME = '[customerName]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+		</where>
+	</sql>
+
+	<!-- 查询客户黑名单 -->
+	<sql id="queryCustomerBlackApproveList" result="customerBlackQuery">
+		SELECT CCB.*,U.USER_NAME
+		FROM CUST_CUSTOMER_BLACK CCB		
+		INNER JOIN PMS_USER U ON U.USER_ID=CCB.CREATE_USER
+		INNER JOIN SYS_TEAM_MEMBER STM ON STM.USER_ID=CCB.CREATE_USER
+		<where>
+			<clause prepend="and"> CCB.IS_DEL = 0 </clause>
+			<clause prepend="and" assert="!isNull([approveStatus])" > CCB.APPROVE_STATUS = [approveStatus] </clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CCB.CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([teamGroupId])" >STM.TEAM_GROUP_ID=[teamGroupId]</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([customerName])" > 	
+				(CCB.CUSTOMER_NAME LIKE '%[customerName]%' OR CCB.CARD_NO LIKE UPPER('%[customerName]%')  )
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([userName])" > 	
+				U.USER_NAME LIKE '%[userName]%'
+			</clause>					
+			<clause prepend="and" assert="!isNullOrEmpty([startDate])">
+				CCB.CREATE_DATE <![CDATA[>=]]><method name="beginDate">[startDate]</method>
+			</clause>
+			<clause prepend="and" assert="!isNullOrEmpty([endDate])">
+				CCB.CREATE_DATE <![CDATA[<]]><method name="endDate">[endDate]</method>
+			</clause>	
+		</where>
+		ORDER BY CCB.CREATE_DATE ASC,CCB.APPROVE_STATUS ASC
+	</sql>
+
+	<!-- 查询待审和审合通过，并且未删除的黑名单记录 -->
+	<sql id="getCustomerBlackCount" >
+		SELECT COUNT(*) FROM CUST_CUSTOMER_BLACK WHERE IS_DEL = 0 AND APPROVE_STATUS IN (1,2)
+		<clause prepend="and" assert="!isNullOrEmpty([cardType])" > CARD_TYPE = '[cardType]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([cardNo])" > CARD_NO = '[cardNo]' </clause>
+		<clause prepend="and" assert="!isNullOrEmpty([customerName])" > CUSTOMER_NAME = '[customerName]' </clause>
+	</sql>
+
+</banger>

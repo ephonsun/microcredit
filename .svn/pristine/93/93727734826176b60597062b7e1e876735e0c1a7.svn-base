@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>编辑监控</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../uploadify/uploadify.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .webuploader-pick {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            background: #00b7ee;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+        .webuploader-container {
+            position: relative;
+        }
+        .webuploader-element-invisible {
+            position: absolute !important;
+            clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+            clip: rect(1px,1px,1px,1px);
+        }
+        .webuploader-pick-hover {
+            background: #00a2d4;
+        }
+
+        .webuploader-pick-disable {
+            opacity: 0.6;
+            pointer-events:none;
+        }
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <input type="hidden" name="loanId" id="loanId" value="$!loanMonitorInfo.loanId">
+    <input type="hidden" name="monitorId" id="monitorId" value="$!loanMonitorInfo.id">
+    <table class="ui-form-fields">
+        <tbody>
+        <tr>
+            <td class="field" width="5%">
+                <label >日期：</label>
+            </td>
+            <td width="20%">
+                <div class="field">
+                    <label> $!date.format('yyyy-MM-dd',$!loanMonitorInfo.loanMonitorDate)</label>
+                </div>
+            </td>
+            <td class="field" width="5%">
+                <label >监控类型：</label>
+            </td>
+            <td width="20%">
+                <div class="field">
+                    <label>$!loanMonitorInfo.loanMonitorType</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label >回访类型：</label>
+            </td>
+            <td width="20%">
+                <label>$!revisitType</label>
+            </td>
+            <td class="field" width="5%">
+                <label >状态：</label>
+            </td>
+            <td width="20%">
+                #if($!loanMonitorInfo.loanMonitorState == "MonitorComplete")
+                    <laber>已完成</laber>
+                #else
+                    <laber>未完成</laber>
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td class="field" width="5%">
+                <label>结果：</label>
+            </td>
+            <td>
+                <div style="padding: 0 10px;">
+                    <label id="loanResultContent" name="loanResultContent" style="white-space: pre-wrap;">$!loanMonitorInfo.loanResultContent</label>
+                </div>
+#*
+                <label id="loanResultContent" name="loanResultContent">$!loanMonitorInfo.loanResultContent</label>
+*#
+            </td>
+        </tr>
+        <td class="field" width="5%"></td>
+        <td width="20%" colspan="2">
+        </td>
+        </tr>
+        <tr>
+            <td class="field" width="7%">
+                <label>附件：</label>
+            </td>
+            <td  colspan="3">
+                #foreach($file in $!fileList)
+                    <div>
+                        <a class="stateColor" href="#" onclick="javascript:downloadFile($!file.id);" class="file_$!file.id">$!file.fileName</a>
+                    </div>
+                #end
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+<div style="margin-top: 60px"></div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+    <span id="btnClose" class="ui-closure-button ui-closure-button-cancel ml5">
+        <label class="ui-closure-button-text">关闭</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.datepicker.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.validator.js?v=$!webAppVersion"></script>
+<!-- //初始化脚本 -->
+<script type="text/javascript" src="../biz/js/banger.layout.js"></script>
+<!-- //页面业务逻辑脚本 -->
+<script type="text/javascript" src="../loan/js/loanMonitorInfoUpdate.js?v=$!webAppVersion"></script>
+##百度上传控件
+<script type="text/javascript" src="../system/WebUploader/webuploader.min.js"></script>
+<script >
+    $('select').selectbox();
+    $('#btnClose').click(function() {
+        var dialog = getDialog('viewMonitorInfo');
+        setTimeout(function() {
+            dialog.close();
+        }, 0);
+    });
+</script>
+</body>
+</html>

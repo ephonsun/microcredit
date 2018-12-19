@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 查询还款计划(接口同步临时表) -->
+	<sql id="queryLoanRepaymentPlanList" >
+		SELECT * FROM TMP_LOAN_REPAYMENT_PLAN 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([loanAccount])" > LOAN_ACCOUNT = '[loanAccount]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanRepayPlanDate])" > LOAN_REPAY_PLAN_DATE = '[loanRepayPlanDate]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanCollectionDate])" > LOAN_COLLECTION_DATE = '[loanCollectionDate]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([loanCollectionState])" > LOAN_COLLECTION_STATE = '[loanCollectionState]' </clause>
+		</where>
+	</sql>
+
+
+	<!-- 查询还款计划(接口同步临时表) -->
+	<sql id="queryRepaymentPlanByLoanAccount" >
+		SELECT * FROM TMP_LOAN_REPAYMENT_PLAN WHERE LOAN_ACCOUNT = '[0]'
+	</sql>
+
+</banger>

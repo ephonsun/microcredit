@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>地图参数</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .ttd{
+            text-align: right;
+        }
+        .gnspan{
+            font-size: 14px
+        }
+    </style>
+</head>
+
+<body>
+<form id="form">
+    <span class="gnspan" ><strong>地图参数</strong></span>
+    <table class="ui-form-fields">
+        <tbody>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;强制定位</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>强制定位：</label>
+            </td>
+            <td width="15%">
+                <div>
+                <select id="qzdw" name="$!qzdw.basicConfigId" >
+                    <option value ="1"  #if($!qzdw.configStatus == '开启')  selected="selected" #end >开启</option>
+                    <option value ="2"  #if($!qzdw.configStatus == '关闭')  selected="selected" #end >关闭</option>
+                </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">开启后，在拍照定位失败后，可以选择取消，在没有定位的情况下也可以拍照</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="7%" >
+                <label><strong>&nbsp;&nbsp;•&nbsp;经纬度</strong></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>采集周期：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="jwdcjzq" name="$!jwdcjzq.basicConfigId" >
+                        <option value ="30"  #if($!jwdcjzq.configValue == 30)  selected="selected" #end >30秒</option>
+                        <option value ="60"  #if($!jwdcjzq.configValue == 60)  selected="selected" #end >1分钟</option>
+                        <option value ="120"  #if($!jwdcjzq.configValue == 120)  selected="selected" #end >2分钟</option>
+                        <option value ="300"  #if($!jwdcjzq.configValue == 300)  selected="selected" #end >5分钟</option>
+                        <option value ="600"  #if($!jwdcjzq.configValue == 600)  selected="selected" #end >10分钟</option>
+                        <option value ="1800"  #if($!jwdcjzq.configValue == 1800)  selected="selected" #end >30分钟</option>
+                        <option value ="3600"  #if($!jwdcjzq.configValue == 3600)  selected="selected" #end >1小时</option>
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999"> 设置APP定位采集周期，默认为30秒 </span>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>上传周期：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="jwdsqzq" name="$!jwdsqzq.basicConfigId" >
+                        <option value ="30"  #if($!jwdsqzq.configValue == 30)  selected="selected" #end >30秒</option>
+                        <option value ="120"  #if($!jwdsqzq.configValue == 120)  selected="selected" #end >2分钟</option>
+                        <option value ="300"  #if($!jwdsqzq.configValue == 300)  selected="selected" #end >5分钟</option>
+                        <option value ="600"  #if($!jwdsqzq.configValue == 600)  selected="selected" #end >10分钟</option>
+                        <option value ="1800"  #if($!jwdsqzq.configValue == 1800)  selected="selected" #end >30分钟</option>
+                        <option value ="3600"  #if($!jwdsqzq.configValue == 3600)  selected="selected" #end >1小时</option>
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">设置APP定位上传周期，默认为5分钟</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" class="ttd">
+                <label>有效时间：</label>
+            </td>
+            <td width="15%">
+                <div>
+                    <select id="jwdyxsj" name="$!jwdyxsj.basicConfigId">
+                        <option value ="300"  #if($!jwdyxsj.configValue == 300)  selected="selected" #end >5分钟</option>
+                        <option value ="600"  #if($!jwdyxsj.configValue == 600)  selected="selected" #end >10分钟</option>
+                        <option value ="900"  #if($!jwdyxsj.configValue == 900)  selected="selected" #end >15分钟</option>
+                        <option value ="1800"  #if($!jwdyxsj.configValue == 1800)  selected="selected" #end >30分钟</option>
+                        <option value ="3600"  #if($!jwdyxsj.configValue == 3600)  selected="selected" #end >1小时</option>
+                    </select>
+                </div>
+            </td>
+            <td width="60%">
+                <span class="c999">设置定位有效时长，默认为5分钟</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+   <table id="functionSwitch"></table>
+    <script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+	<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../system/js/mapParamsSet.js?v=$!webAppVersion"></script>
+    <script type="text/javascript" src="../system/js/sysBasicConfigUpdate.js?v=$!webAppVersion"></script>
+</body>
+</html>

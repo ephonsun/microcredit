@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>接口报文调试</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css" />
+</head>
+
+<body>
+<span class="ui-closure-button ml5" onclick="btnSocketPost()">
+        <label class="ui-closure-button-text">发送</label>
+    </span>
+    <span class="ui-closure-button ml5" onclick="btnFormatXml()">
+        <label class="ui-closure-button-text">格式化</label>
+    </span>
+    <span class="ui-closure-button ml5" onclick="btnReset()">
+        <label class="ui-closure-button-text">清空</label>
+    </span>
+
+<div class="mt10" style="height: 450px;width: 100%">
+    <div class="ui-textarea" style="width: 48%;position: absolute;overflow: auto;">
+        <textarea id="postString" class="ui-textarea-text" style="height: 450px;"></textarea>
+    </div>
+    <div class="ui-textarea" style="width: 48%;float: right;overflow: auto;">
+        <textarea id="returnString" class="ui-textarea-text" style="height: 450px;" readonly></textarea>
+    </div>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js"></script>
+<script type="text/javascript" src="../biz/js/banger.biz.js"></script>
+<script type="text/javascript">
+
+    function btnSocketPost() {
+        var postString = $('#postString').val();
+        var postJson = {};
+        if(postString){
+            postJson['postString'] = postString;
+        }else{
+            showConfirm({
+                icon: 'warning',
+                content: '请输入发送报文!'
+            });
+            return false;
+        }
+        jQuery.ajax({
+            type : 'POST',
+            dataType: 'json',
+            url: '../monitor/doSocketPost.html',
+            data : postJson,
+            success : function(data) {
+                if(data.success){
+                    $('#returnString').val(data.value);
+                }else{
+                    showConfirm({
+                        icon: 'warning',
+                        content: data.cause
+                    });
+                }
+            }
+        });
+
+    }
+
+    function btnFormatXml() {
+        $('#returnString').html("");
+        var postJson = {};
+        var postString = $('#postString').val();
+        if(postString){
+            postJson['postString'] = postString;
+        }else{
+            showConfirm({
+                icon: 'warning',
+                content: '请输入发送报文!'
+            });
+            return false;
+        }
+        jQuery.ajax({
+            type : 'POST',
+            dataType: 'json',
+            url: '../monitor/doFormatXml.html',
+            data : postJson,
+            success : function(data) {
+                if(data.success){
+                    $('#postString').val(data.value);
+                }else{
+                    showConfirm({
+                        icon: 'warning',
+                        content: data.cause
+                    });
+                }
+            }
+        });
+    }
+
+    function btnReset(){
+        $('#postString').val("");
+        $('#returnString').val("");
+    }
+
+</script>
+</body>
+</html>

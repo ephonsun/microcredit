@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增进件管理模板信息表 -->
+	<sql id="insertTemplatesInfo" >
+		INSERT INTO INTO_TEMPLATES_INFO (TEMPLATE_ID,TEMPLATE_NAME,TABLE_NAME,TEMPLATE_MODULE,TEMPLATE_COMMENT,CREATE_DATE,UPDATE_DATE,CREATE_USER,UPDATE_USER) VALUES ([$templateId]
+		<clause prepend="," nvl="''" >[$templateName]</clause>
+		<clause prepend="," nvl="''" >[$tableName]</clause>
+		<clause prepend="," nvl="''" >[$templateModule]</clause>
+		<clause prepend="," nvl="''" >[$templateComment]</clause>
+		<clause prepend="," nvl="NULL" >[$createDate]</clause>
+		<clause prepend="," nvl="NULL" >[$updateDate]</clause>
+		<clause prepend="," nvl="0" >[$createUser]</clause>
+		<clause prepend="," nvl="0" >[$updateUser]</clause>
+		)
+	</sql>
+
+	<!-- 修改进件管理模板信息表 -->
+	<sql id="updateTemplatesInfo" >
+		UPDATE INTO_TEMPLATES_INFO 
+		<set>
+			<clause prepend="," assert="!isNull([templateName])" >TEMPLATE_NAME = [$templateName]</clause>
+			<clause prepend="," assert="!isNull([tableName])" >TABLE_NAME = [$tableName]</clause>
+			<clause prepend="," assert="!isNull([templateModule])" >TEMPLATE_MODULE = [$templateModule]</clause>
+			<clause prepend="," assert="!isNull([templateComment])" >TEMPLATE_COMMENT = [$templateComment]</clause>
+			<clause prepend="," assert="!isNull([createDate])" >CREATE_DATE = [$createDate]</clause>
+			<clause prepend="," assert="!isNull([updateDate])" >UPDATE_DATE = [$updateDate]</clause>
+			<clause prepend="," assert="!isNull([createUser])" >CREATE_USER = [$createUser]</clause>
+			<clause prepend="," assert="!isNull([updateUser])" >UPDATE_USER = [$updateUser]</clause>
+		</set>
+		<where>
+			 TEMPLATE_ID = [$templateId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到进件管理模板信息表 -->
+	<sql id="getTemplatesInfoById" >
+		SELECT * FROM INTO_TEMPLATES_INFO WHERE TEMPLATE_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除进件管理模板信息表 -->
+	<sql id="deleteTemplatesInfoById" >
+		DELETE FROM INTO_TEMPLATES_INFO WHERE TEMPLATE_ID = [0]
+	</sql>
+
+	<!-- 查询进件管理模板信息表 -->
+	<sql id="queryTemplatesInfoList" >
+		SELECT * FROM INTO_TEMPLATES_INFO 
+		<where>
+			<clause prepend="and" assert="!isNullOrEmpty([templateName])" > TEMPLATE_NAME = '[templateName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([tableName])" > TABLE_NAME = '[tableName]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateModule])" > TEMPLATE_MODULE = '[templateModule]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([templateComment])" > TEMPLATE_COMMENT = '[templateComment]' </clause>
+			<clause parent="DateSpan" params="CREATE_DATE,createDate,createDateEnd" ></clause>
+			<clause parent="DateSpan" params="UPDATE_DATE,updateDate,updateDateEnd" ></clause>
+			<clause prepend="and" assert="!isNull([createUser])" > CREATE_USER = [createUser] </clause>
+			<clause prepend="and" assert="!isNull([updateUser])" > UPDATE_USER = [updateUser] </clause>
+		</where>
+	</sql>
+
+
+	<!--将没有子项的项排除-->
+	<sql id="queryTemplatesInfoListModel">
+		SELECT * FROM INTO_TEMPLATES_INFO WHERE TEMPLATE_ID IN (
+		SELECT M.TEMPLATE_ID FROM INTO_TEMPLATES_INFO M
+		INNER JOIN AUTO_TABLE_COLUMN C ON M.TEMPLATE_ID = C.TABLE_ID AND C.FIELD_TYPE IN ('Select','MultipleSelect','YesNo','Number','Decimal','Float','Ratio')
+		GROUP BY M.TEMPLATE_ID)
+		<!--资产负责,损益情况 暂时禁用-->
+		AND TEMPLATE_NAME != 'LOAN_ASSETS_INFO' AND TEMPLATE_NAME != 'LOAN_PROFIT_LOSS_INFO'
+		ORDER BY TEMPLATE_ID
+	</sql>
+
+</banger>

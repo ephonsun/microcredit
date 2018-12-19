@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanTrustedPayment" table="LBIZ_TRUSTED_PAYMENY" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<id name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</id>
+		<property name="loanProcessType" type="java.lang.String" >
+			<column name="LOAN_PROCESS_TYPE" length="64" />
+		</property>
+
+		<property name="paymentId" type="java.lang.String" >
+			<column name="PAYMENT_ID" length="150" />
+		</property>
+		<property name="paymentStatus" type="java.lang.String" >
+			<column name="PAYMENT_STATUS" length="3" />
+		</property>
+		<property name="isBankAccount" type="java.lang.String" >
+			<column name="IS_BANK_ACCOUNT" length="3" />
+		</property>
+		<property name="counterpartyAccount" type="java.lang.String" >
+			<column name="COUNTERPARTY_ACCOUNT" length="150" />
+		</property>
+		<property name="counterpartyCardNumber" type="java.lang.String" >
+			<column name="COUNTERPARTY_CARD_NUMBER" length="150" />
+		</property>
+		<property name="counterpartyName" type="java.lang.String" >
+			<column name="COUNTERPARTY_NAME" length="150" />
+		</property>
+		<property name="counterpartyBankName" type="java.lang.String" >
+			<column name="COUNTERPARTY_BANK_NAME" length="150" />
+		</property>
+		<property name="counterpartyBankNumber" type="java.lang.String" >
+			<column name="COUNTERPARTY_BANK_NUMBER" length="150" />
+		</property>
+		<property name="paymentAmount" type="java.math.BigDecimal" >
+			<column name="PAYMENT_AMOUNT" length="18" scale="2" />
+		</property>
+
+
+		<property name="createDate" type="java.util.Date" >
+			<column name="CREATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="updateDate" type="java.util.Date" >
+			<column name="UPDATE_DATE" length="10" scale="6" />
+		</property>
+		<property name="createUser" type="java.lang.Integer" >
+			<column name="CREATE_USER" length="4" />
+		</property>
+		<property name="updateUser" type="java.lang.Integer" >
+			<column name="UPDATE_USER" length="4" />
+		</property>
+	</class>
+</mapping>
+

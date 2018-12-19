@@ -1,0 +1,86 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../js/jquery/jquery-1.7.js" type="text/javascript" ></script>
+<script src="../js/core.js" type="text/javascript" ></script>
+<script src="../js/ctrl.js" type="text/javascript" ></script>
+<script src="../js/widget.js" type="text/javascript" ></script>
+<script src="../js/dao.js" type="text/javascript" ></script>
+<script src="../js/menu.js" type="text/javascript" ></script>
+<script src="../js/listbox.js" type="text/javascript" ></script>
+<script src="../js/combobox.js" type="text/javascript" ></script>
+<script src="../js/textbox.js" type="text/javascript" ></script>
+<script src="../js/numspin.js" type="text/javascript" ></script>
+<script src="../js/datebox.js" type="text/javascript" ></script>
+<script src="../js/gridbox.js" type="text/javascript" ></script>
+<script src="../js/checkbox.js" type="text/javascript" ></script>
+<script src="../js/propertygrid.js" type="text/javascript" ></script>
+<script src="../js/forms.js" type="text/javascript" ></script>
+<script src="../js/gridview.js" type="text/javascript" ></script>
+<script src="../js/ctrl.setting.js" type="text/javascript" ></script>
+<script src="../js/window.js" type="text/javascript" ></script>
+<script src="../js/button.js" type="text/javascript" ></script>
+<script src="../js/design.js" type="text/javascript" ></script>
+<script src="../js/design.setting.js" type="text/javascript" ></script>
+<link href="../skin/css/blue.css" rel="stylesheet" type="text/css" />
+
+<script>
+
+$.json.attach("DS",{"Customer":[{"id":123,"name":"张三","birthday":new Date(1980,12,8),"money":10332323.33,"hobby":"01,02","married":1},{"id":456,"name":"李田","birthday":new Date(1977,1,3),"money":329200.00,"hobby":"03","married":1},{"id":333,"name":"明楞","birthday":new Date(1990,1,2),"money":500,"hobby":"04","married":1},{"id":8732,"name":"导要三","birthday":new Date(2000,5,28),"money":82392.33,"hobby":"02","married":0},{"id":7223,"name":"张三丰","birthday":new Date(2011,10,4),"money":234333,"hobby":"02,03","married":0}
+]});
+$.json.attach("MAP",{"Hobbies":{"01":"户外活动","02":"电子竞技","03":"卡拉OK","04":"打牌"}});
+$.json.attach("CD",{"Items":[{"id":"01","name":"选择项一"},{"id":"02","name":"选择项二"},{"id":"03","name":"选择项三"},{"id":"04","name":"选择项四"}]});
+$.json.attach("CD",{"YesNo":[{"id":1,"name":"√"}]});
+
+nff.design.setMode("layout");
+nff.design.setDrag(false);
+
+function editProperties(args){				//编辑控件属性
+	with(args){
+		var prop = $("#property").ctrl();
+		prop.dao = ctrl.getPropertyDao();
+		prop.dataBinding();
+	}
+}
+
+</script>
+</head>
+<body>
+<forms layout="table" columns="4" data="table:DS.Customer" events="onSelected:editProperties" >
+    <field label="姓名" field="name" editor="textbox" ></field>
+    <field label="称谓" field="title" editor="textbox" ></field>
+    <field label="称谓" field="title" editor="textbox" ></field>
+    
+    <field rows="4" >
+		<div style="vertical-align:middle;text-align:center;" ><img src="../image/women.png" ></div>
+    </field>
+    
+    <field label="客户编号" field="code" editor="textbox" ></field>
+    <field label="客户类型" field="type" editor="combobox" ></field>
+    <field label="所属行业" field="industry" editor="combobox" ></field>
+    
+    <field label="身份证" field="idcode" editor="textbox" columns="2" ></field>
+    <field label="生日" field="birthday" editor="datebox" ></field>
+    
+    <field label="单位" field="company" editor="textbox" columns="2" ></field>
+    <field label="年龄" field="age" >99岁</field>
+    
+    <field label="省份" field="prov" editor="combobox" onchange="changeProv" ></field>
+    <field label="城市" field="city" editor="combobox" ></field>
+	<field label="区/县" field="county" editor="combobox" ></field>
+    <field label="联系地址" field="address" editor="textbox" cols="2" ></field>
+</forms>
+<div>&nbsp;</div>
+<gridview width="100%" data="table:DS.Customer" drag="true" check="true" events="onSelected:editProperties" >
+    <column field="name" text="姓名" type="string" width="280" editor="textbox" ></column>
+    <column field="birthday" text="出生日期" type="date" format="yyyy年MM月dd日" width="200" editor="datebox" ></column>
+    <column field="hobby" text="爱好" type="string" data="map:MAP.Hobbies" popupWidth="300" itemWidth="100" editor="combobox" ></column>
+    <column field="money" text="资产" type="number" format="xxx,xxx.xx" align="right" editor="numspin" delta="0.1" ></column>
+    <column field="married" text="已婚" type="number" width="80" align="center" data="table:CD.YesNo" editor="checkbox" checkvalue="1" uncheckvalue="0" ></column>
+</gridview>
+<div>&nbsp;</div>
+
+<propertygrid id="property" width="300" ></propertygrid>
+<script>$.ctrl.render()</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+	<class name="banger.domain.loan.LoanActionHistory" table="LOAN_ACTION_HISTORY" >
+		<id name="id" type="java.lang.Integer" >
+			<column name="ID" length="4" />
+		</id>
+		<property name="loanId" type="java.lang.Integer" >
+			<column name="LOAN_ID" length="4" />
+		</property>
+		<property name="loanProcessType" type="java.lang.String" >
+			<column name="LOAN_PROCESS_TYPE" length="30" />
+		</property>
+		<property name="actionName" type="java.lang.String" >
+			<column name="ACTION_NAME" length="60" />
+		</property>
+		<property name="actionContent" type="java.lang.String" >
+			<column name="ACTION_CONTENT" length="300" />
+		</property>
+		<property name="actionDate" type="java.util.Date" >
+			<column name="ACTION_DATE" length="10" scale="6" />
+		</property>
+		<property name="actionUserAccount" type="java.lang.String" >
+			<column name="ACTION_USER_ACCOUNT" length="60" />
+		</property>
+		<property name="actionUserName" type="java.lang.String" >
+			<column name="ACTION_USER_NAME" length="60" />
+		</property>
+	</class>
+</mapping>
+

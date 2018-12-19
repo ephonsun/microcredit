@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<banger>
+
+	<!-- 新增评分模型评分项参数表 -->
+	<sql id="insertScoreFieldParams" >
+		INSERT INTO MODE_SCORE_FIELD_PARAMS (PARAM_ID,MODE_ID,TEMPLATE_ID,FIELD_ID,OPTION_ID,OPTION_PARAM1,OPTION_PARAM2,OPTION_PARAM3,OPTION_PARAM4,PARAM_SCORE) VALUES ([$paramId]
+		<clause prepend="," nvl="0" >[$modeId]</clause>
+		<clause prepend="," nvl="0" >[$templateId]</clause>
+		<clause prepend="," nvl="0" >[$fieldId]</clause>
+		<clause prepend="," nvl="0" >[$optionId]</clause>
+		<clause prepend="," nvl="''" >[$optionParam1]</clause>
+		<clause prepend="," nvl="''" >[$optionParam2]</clause>
+		<clause prepend="," nvl="''" >[$optionParam3]</clause>
+		<clause prepend="," nvl="''" >[$optionParam4]</clause>
+		<clause prepend="," nvl="NULL" >[$paramScore]</clause>
+		)
+	</sql>
+
+	<!-- 修改评分模型评分项参数表 -->
+	<sql id="updateScoreFieldParams" >
+		UPDATE MODE_SCORE_FIELD_PARAMS 
+		<set>
+			<clause prepend="," assert="!isNull([modeId])" >MODE_ID = [$modeId]</clause>
+			<clause prepend="," assert="!isNull([templateId])" >TEMPLATE_ID = [$templateId]</clause>
+			<clause prepend="," assert="!isNull([fieldId])" >FIELD_ID = [$fieldId]</clause>
+			<clause prepend="," assert="!isNull([optionId])" >OPTION_ID = [$optionId]</clause>
+			<clause prepend="," assert="!isNull([optionParam1])" >OPTION_PARAM1 = [$optionParam1]</clause>
+			<clause prepend="," assert="!isNull([optionParam2])" >OPTION_PARAM2 = [$optionParam2]</clause>
+			<clause prepend="," assert="!isNull([optionParam3])" >OPTION_PARAM3 = [$optionParam3]</clause>
+			<clause prepend="," assert="!isNull([optionParam4])" >OPTION_PARAM4 = [$optionParam4]</clause>
+			<clause prepend="," assert="!isNull([paramScore])" >PARAM_SCORE = [$paramScore]</clause>
+		</set>
+		<where>
+			 PARAM_ID = [$paramId] 
+		</where>
+	</sql>
+
+	<!-- 通过主键得到评分模型评分项参数表 -->
+	<sql id="getScoreFieldParamsById" >
+		SELECT * FROM MODE_SCORE_FIELD_PARAMS WHERE PARAM_ID = [0]
+	</sql>
+
+	<!-- 通过主键删除评分模型评分项参数表 -->
+	<sql id="deleteScoreFieldParamsById" >
+		DELETE FROM MODE_SCORE_FIELD_PARAMS WHERE PARAM_ID = [0]
+	</sql>
+
+	<!-- 查询评分模型评分项参数表 -->
+	<sql id="queryScoreFieldParamsList" >
+		SELECT * FROM MODE_SCORE_FIELD_PARAMS 
+		<where>
+			<clause prepend="and" assert="!isNull([modeId])" > MODE_ID = [modeId] </clause>
+			<clause prepend="and" assert="!isNull([templateId])" > TEMPLATE_ID = [templateId] </clause>
+			<clause prepend="and" assert="!isNull([fieldId])" > FIELD_ID = [fieldId] </clause>
+			<clause prepend="and" assert="!isNull([optionId])" > OPTION_ID = [optionId] </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam1])" > OPTION_PARAM1 = '[optionParam1]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam2])" > OPTION_PARAM2 = '[optionParam2]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam3])" > OPTION_PARAM3 = '[optionParam3]' </clause>
+			<clause prepend="and" assert="!isNullOrEmpty([optionParam4])" > OPTION_PARAM4 = '[optionParam4]' </clause>
+		</where>
+		order by PARAM_ID
+	</sql>
+
+	<sql id="deleteScoreFieldParamsByOptionId">
+		DELETE FROM MODE_SCORE_FIELD_PARAMS WHERE OPTION_ID = [optionId]
+	</sql>
+
+	<sql id="deleteScoreFieldParamsByModeId">
+		DELETE FROM MODE_SCORE_FIELD_PARAMS WHERE MODE_ID = [modeId]
+	</sql>
+</banger>

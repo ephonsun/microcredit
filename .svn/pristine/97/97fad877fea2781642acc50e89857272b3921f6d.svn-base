@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>设置评分项</title>
+    <link type="text/css" rel="stylesheet" href="../core/css/global.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../core/css/ui.css?v=$!webAppVersion" />
+    <link type="text/css" rel="stylesheet" href="../config/css/public2.css?v=$!webAppVersion" />
+    <style type="text/css">
+        .column2-left-body { border:1px solid #b6c4d8;overflow:hidden; height: 480px }
+        .d-titles { cursor:move; height:30px; background:url(images/header.gif) repeat-x 0 0; border-bottom:1px solid #b6c4d8; padding: 0 30px 0 10px; overflow:hidden; text-overflow:ellipsis; line-height:30px; font-weight:600; background: #E8ECF5 }
+    </style>
+</head>
+<body>
+<div class="ui-layout-column2 clearfix" id="uii">
+    <div class="column2-left">
+        <div class="column2-left-body">
+            <div class="body-inner">
+                <th class="d-header">
+                    <div class="d-titles">模块</div>
+                </th>
+                <ul id="ulDataDicts" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    #if($!modelTemplateInfoJson)
+        <div class="column2-right">
+            <!-- // 操作栏 -->
+            <div class="flexgrid-box" style="position:absolute; overflow:auto;height: 480px">
+                <div class="flexgrid">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="width:273px;">评分项</th>
+                            <th style="width:273px;">显示名称</th>
+                        </tr>
+                        </thead>
+                        <tbody id="datagrid">
+##                        内容
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    #end
+</div>
+<hr class="ui-line" />
+<div class="ui-layout-closure">
+	<span id="btnSave" class="ui-closure-button">
+    	<label class="ui-closure-button-text" >$!pageConst.BTN_SAVE</label>
+    </span>
+    <span id="btnCancel" class="ui-closure-button ui-closure-button-cancel ml5">
+    	<label class="ui-closure-button-text">$!pageConst.BTN_CANCEL</label>
+    </span>
+</div>
+<script type="text/javascript" src="../core/js/third/jQuery/jquery-1.8.3.min.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/core/banger.core.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/banger.ui.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.form.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/tools/banger.dialog.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.selectbox.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.ztree.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger/ui/controls/banger.flexigrid.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../core/js/banger.biz.js?v=$!webAppVersion"></script>
+<script type="text/javascript" src="../config/js/model/modelTemplateInfoSet.js?v=$!webAppVersion"></script>
+<script type="text/javascript">
+    var modelTemplateInfoJson = '$!modelTemplateInfoJson';
+</script>
+</body>
+</html>

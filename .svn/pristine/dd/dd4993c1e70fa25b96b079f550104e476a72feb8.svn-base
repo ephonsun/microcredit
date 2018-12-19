@@ -1,0 +1,63 @@
+package banger.util.constant;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *9.1.3.6. 保证人-99CHNCMI2009
+ */
+public class Socket_99CHNCMI2009 extends BaseXmlBeanEnum {
+
+    public Socket_99CHNCMI2009(String elementName, String elementColumnName, String elementLength, String elementNotNull, Map<String, String> elementOptions, String elementDefaultValue) {
+        super(elementName, elementColumnName, elementLength, elementNotNull, elementOptions, elementDefaultValue);
+    }
+
+    public static List<BaseXmlBeanEnum> getAllElement() {
+        List<BaseXmlBeanEnum> list = null;
+        try {
+            list = BaseXmlBeanEnum.getEnumList(Socket_99CHNCMI2009.class);
+        }catch (Exception e){
+        }
+        return list;
+    }
+
+    public static String getSocketCode() {
+        return Socket_99CHNCMI2009.class.getName().split("_")[1];
+    }
+
+    public static BaseXmlBeanEnum getElementByName(String elementName) throws Exception{
+        BaseXmlBeanEnum baseXmlBeanEnum = (BaseXmlBeanEnum) BaseXmlBeanEnum.getEnum(BaseXmlBeanEnum.class, elementName);
+        return  baseXmlBeanEnum;
+    }
+    public static final BaseXmlBeanEnum opt = new Socket_99CHNCMI2009("opt","操作类型","1","1",null,"A");
+    public static final BaseXmlBeanEnum guaranty_id = new Socket_99CHNCMI2009("guaranty_id","担保人.担保编码","17","1",null,"");
+    public static final BaseXmlBeanEnum cus_typ = new Socket_99CHNCMI2009("cus_typ","担保人.担保人类型","5","1",null,"");
+    public static final BaseXmlBeanEnum cus_id = new Socket_99CHNCMI2009("cus_id","担保人.客户编码","17","1",null,"");
+    public static final BaseXmlBeanEnum cus_name = new Socket_99CHNCMI2009("cus_name","担保人.姓名","60","1",null,"");
+    public static final BaseXmlBeanEnum cer_type = new Socket_99CHNCMI2009("cer_type","担保人.证件类型","2","1",
+            new HashMap<String, String>(){{
+                put("1","10");put("2","31");put("3","11");put("4","12");
+                put("5","12");put("6","13");put("7","14");put("8","30");
+                put("9","34");put("10","32");put("11","1X");
+            }},"");
+    public static final BaseXmlBeanEnum cer_no = new Socket_99CHNCMI2009("cer_no","担保人.证件号码","20","1",null,"");
+    public static final BaseXmlBeanEnum com_loan_card = new Socket_99CHNCMI2009("com_loan_card","担保人.贷款卡号","16","0",null,"");
+    //    30001---保证-担任担保                  30002---保证-多人分保                  30003---多人联保
+    public static final BaseXmlBeanEnum guaranty_type = new Socket_99CHNCMI2009("guaranty_type","保证担保合同.担保方式","5","1", null,"");
+    public static final BaseXmlBeanEnum guarantee_type = new Socket_99CHNCMI2009("guarantee_type","保证担保合同.保证方式","5","0",null,"");
+    public static final BaseXmlBeanEnum relation_lender = new Socket_99CHNCMI2009("relation_lender","担保人.与借款人关系","5","0",null,"");
+    public static final BaseXmlBeanEnum currency = new Socket_99CHNCMI2009("currency","贷款合同.币种","3","1",null,"CNY");
+    public static final BaseXmlBeanEnum guarantee_amt = new Socket_99CHNCMI2009("guarantee_amt","审批决议.决议金额","18","1",null,"");
+    public static final BaseXmlBeanEnum remark = new Socket_99CHNCMI2009("remark","担保人.备注","120","0",null,"");
+    public static final BaseXmlBeanEnum status_code = new Socket_99CHNCMI2009("status_code","状态代码","5","0",null,"");
+//    public static final BaseXmlBeanEnum input_id = new Socket_99CHNCMI2009("input_id","登记人","20","0",null,"");
+    public static final BaseXmlBeanEnum input_id = new Socket_99CHNCMI2009("input_id","省信贷合同要素.出帐负责人","20","0",null,"");
+    public static final BaseXmlBeanEnum input_br_id = new Socket_99CHNCMI2009("input_br_id","省信贷合同要素.主管机构","20","0",null,"06044");
+    public static final BaseXmlBeanEnum input_date = new Socket_99CHNCMI2009("input_date","登记日期","10","0",null,"");
+    public static final BaseXmlBeanEnum orig_guaranty_id = new Socket_99CHNCMI2009("orig_guaranty_id","orig_guaranty_id","32","0",null,"");
+    public static final BaseXmlBeanEnum guar_limit_amt = new Socket_99CHNCMI2009("guar_limit_amt","guar_limit_amt","18","0",null,"");
+
+
+
+}
